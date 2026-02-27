@@ -1,0 +1,69 @@
+﻿
+> self-pay@0.1.0 lint
+> eslint
+
+
+C:\Users\USER\Desktop\SOF\sof\app\components\layout\Footer.tsx
+   18:13  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   18:51  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  171:15  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  171:92  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\USER\Desktop\SOF\sof\app\components\sections\Statistics.tsx
+  66:39  warning  The ref value 'sectionRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'sectionRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+C:\Users\USER\Desktop\SOF\sof\app\components\sections\Testimonials.tsx
+  73:23  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  73:42  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\USER\Desktop\SOF\sof\app\components\ui\AgeSelection.tsx
+  43:61  warning  'onClose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\USER\Desktop\SOF\sof\app\components\ui\AnimatedSection.tsx
+  31:32  warning  The ref value 'ref.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'ref.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+C:\Users\USER\Desktop\SOF\sof\app\components\ui\AuthButton.tsx
+  42:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\USER\Desktop\SOF\sof\app\contact\page.tsx
+   8:8   warning  'Link' is defined but never used                                 @typescript-eslint/no-unused-vars
+  44:32  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\USER\Desktop\SOF\sof\app\contexts\UserContext.tsx
+   12:20  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+   23:57  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+   50:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\USER\Desktop\SOF\sof\app\contexts\UserContext.tsx:50:9
+  48 |     if (savedUser) {
+  49 |       try {
+> 50 |         setCurrentUser(JSON.parse(savedUser));
+     |         ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  51 |       } catch (e) {
+  52 |         localStorage.removeItem(CURRENT_USER_KEY);
+  53 |       }  react-hooks/set-state-in-effect
+   51:16  warning  'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  112:67  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+
+C:\Users\USER\Desktop\SOF\sof\app\courses\[id]\modules\[moduleId]\page.tsx
+  17:9  warning  'router' is assigned a value but never used                                                              @typescript-eslint/no-unused-vars
+  83:3  error    Do not assign to the variable `module`. See: https://nextjs.org/docs/messages/no-assign-module-variable  @next/next/no-assign-module-variable
+
+C:\Users\USER\Desktop\SOF\sof\app\courses\[id]\page.tsx
+  18:9  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\USER\Desktop\SOF\sof\app\data\courses.ts
+  3:3  warning  'CapitalIcon' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\USER\Desktop\SOF\sof\app\page.tsx
+  11:19  warning  'Course' is defined but never used  @typescript-eslint/no-unused-vars
+  92:42  warning  'index' is defined but never used   @typescript-eslint/no-unused-vars
+
+Γ£û 23 problems (12 errors, 11 warnings)
+

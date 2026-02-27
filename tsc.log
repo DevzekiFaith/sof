@@ -1,0 +1,10 @@
+﻿app/courses/[id]/modules/[moduleId]/page.tsx(4,45): error TS2307: Cannot find module '../../../data/courses' or its corresponding type declarations.
+app/courses/[id]/modules/[moduleId]/page.tsx(13,42): error TS2307: Cannot find module '../../../data/courses' or its corresponding type declarations.
+app/courses/[id]/modules/[moduleId]/page.tsx(234,43): error TS7006: Parameter 'objective' implicitly has an 'any' type.
+app/courses/[id]/modules/[moduleId]/page.tsx(234,54): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/courses/[id]/modules/[moduleId]/page.tsx(252,50): error TS7006: Parameter 'paragraph' implicitly has an 'any' type.
+app/courses/[id]/modules/[moduleId]/page.tsx(252,61): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/courses/[id]/modules/[moduleId]/page.tsx(267,43): error TS7006: Parameter 'activity' implicitly has an 'any' type.
+app/courses/[id]/modules/[moduleId]/page.tsx(267,53): error TS7006: Parameter 'index' implicitly has an 'any' type.
+app/courses/[id]/modules/[moduleId]/page.tsx(291,42): error TS7006: Parameter 'resource' implicitly has an 'any' type.
+app/courses/[id]/modules/[moduleId]/page.tsx(291,52): error TS7006: Parameter 'index' implicitly has an 'any' type.
