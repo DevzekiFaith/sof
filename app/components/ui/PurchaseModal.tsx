@@ -34,13 +34,13 @@ export default function PurchaseModal({
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <AnimatedSection>
-        <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden">
-          <div className="p-6 sm:p-8 border-b border-gray-200 flex items-start justify-between gap-4">
+        <div className="bg-[#181818] rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-[#282828]">
+          <div className="p-6 sm:p-8 border-b border-[#282828] flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white">
                 {mode === "course" ? "Buy this course" : "Get School Pass (Quarterly)"}
               </h2>
-              <p className="text-gray-600 mt-2">
+              <p className="text-[#b3b3b3] mt-2">
                 {mode === "course"
                   ? `Unlock the full structured experience for “${courseTitle}”.`
                   : "Unlock all courses + all module detail pages for 90 days."}
@@ -48,7 +48,7 @@ export default function PurchaseModal({
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+              className="text-[#b3b3b3] hover:text-white text-2xl leading-none"
               aria-label="Close"
             >
               ×
@@ -57,16 +57,16 @@ export default function PurchaseModal({
 
           <div className="p-6 sm:p-8 space-y-5">
             {!currentUser ? (
-              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
-                <p className="text-yellow-900 font-semibold">Please sign in first.</p>
-                <p className="text-yellow-800 text-sm mt-1">
+              <div className="p-4 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-xl">
+                <p className="text-[#1ed760] font-semibold">Please sign in first.</p>
+                <p className="text-[#b3b3b3] text-sm mt-1">
                   Purchases are tied to your account (stored locally on this device).
                 </p>
               </div>
             ) : alreadyHasAccess ? (
-              <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                <p className="text-amber-900 font-semibold">You already have access.</p>
-                <p className="text-amber-800 text-sm mt-1">
+              <div className="p-4 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-xl">
+                <p className="text-[#1ed760] font-semibold">You already have access.</p>
+                <p className="text-[#b3b3b3] text-sm mt-1">
                   {pass.isActive
                     ? `Your School Pass is active until ${new Date(pass.expiresAt!).toLocaleDateString()}.`
                     : "This course is already owned by your account."}
@@ -74,16 +74,16 @@ export default function PurchaseModal({
               </div>
             ) : (
               <div className="space-y-3">
-                <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                <div className="p-4 bg-[#121212] border border-[#282828] rounded-xl">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-gray-900">
+                    <span className="font-bold text-white">
                       {mode === "course" ? courseTitle : "School Pass (Quarterly)"}
                     </span>
-                    <span className="font-bold text-gray-900">
+                    <span className="font-bold text-[#1ed760]">
                       ${mode === "course" ? coursePriceUSD.toFixed(2) : quarterlyPriceUSD.toFixed(2)}
                     </span>
                   </div>
-                  <ul className="text-sm text-gray-700 mt-3 space-y-1">
+                  <ul className="text-sm text-[#b3b3b3] mt-3 space-y-1">
                     <li>- Module detail pages (notes + activities + resources)</li>
                     <li>- Structured learning path</li>
                     <li>- Future: certificates (optional)</li>

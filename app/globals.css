@@ -1,13 +1,36 @@
 @import "tailwindcss";
 
+/* ── Dark mode via .dark class on <html> ──────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Theme tokens (Spotify Aesthetic) ──────────────────────────────── */
 :root {
-  --background: #fdfdfd;
-  --foreground: #0f172a;
+  --background: #121212;
+  --foreground: #ffffff;
+  --surface: #181818;
+  --surface-2: #282828;
+  --border: #333333;
+  --text-muted: #b3b3b3;
+  --primary: #1ed760;
+}
+
+.dark {
+  --background: #121212;
+  --foreground: #ffffff;
+  --surface: #181818;
+  --surface-2: #282828;
+  --border: #333333;
+  --text-muted: #b3b3b3;
+  --primary: #1ed760;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-spotify-green: var(--primary);
+  --color-spotify-surface: var(--surface);
+  --color-spotify-surface-2: var(--surface-2);
+  --color-spotify-black: #000000;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -15,31 +38,32 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-/* Glassmorphism utility */
+/* ── Glassmorphism ───────────────────────────────────────────────── */
 .glass {
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
+.dark .glass {
+  background: rgba(18, 18, 26, 0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+}
 
-/* Text Gradients */
+/* ── Text Gradients ──────────────────────────────────────────────── */
 .text-gradient-primary {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  background-image: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
 }
-
 .text-gradient-dark {
   background-clip: text;
   -webkit-background-clip: text;
@@ -47,7 +71,7 @@ body {
   background-image: linear-gradient(135deg, #0F172A 0%, #334155 100%);
 }
 
-/* Fluid Hover Scales */
+/* ── Hover Lift ──────────────────────────────────────────────────── */
 .hover-lift {
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
@@ -56,54 +80,101 @@ body {
   box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
 }
 
+/* ── Keyframes ───────────────────────────────────────────────────── */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes slide-up {
   from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes scale-in {
   from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  to   { opacity: 1; transform: scale(1); }
 }
-
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(234, 88, 12, 0.5); }
+  0%, 100% { box-shadow: 0 0 20px rgba(30, 215, 96, 0.3); }
+  50%       { box-shadow: 0 0 40px rgba(29, 185, 84, 0.5); }
 }
-
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
   100% { transform: translateY(0px); }
 }
-
-.animate-fade-in { animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.animate-slide-up { animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.animate-scale-in { animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.animate-pulse-slow { animation: pulse-glow 4s ease-in-out infinite; }
-.animate-float { animation: float 6s ease-in-out infinite; }
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes pop-in {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes xp-float {
+  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+  20%  { opacity: 1; transform: translateY(-8px) scale(1.1); }
+  80%  { opacity: 1; transform: translateY(-24px) scale(1); }
+  100% { opacity: 0; transform: translateY(-40px) scale(0.9); }
+}
+@keyframes streak-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.2); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes stage-complete {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.05); }
+  60%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* ── Animation utilities ─────────────────────────────────────────── */
+.animate-fade-in      { animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-slide-up     { animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-scale-in     { animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-pulse-slow   { animation: pulse-glow 4s ease-in-out infinite; }
+.animate-float        { animation: float 6s ease-in-out infinite; }
+.animate-slide-in-right { animation: slide-in-right 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-pop-in       { animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.animate-xp-float     { animation: xp-float 1.6s ease-out forwards; }
+.animate-streak-pulse { animation: streak-pulse 0.6s ease-in-out; }
+.animate-stage-complete { animation: stage-complete 0.4s ease-out; }
+
+/* ── Shimmer skeleton ────────────────────────────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.4) 50%, transparent 75%);
+  background-size: 200% auto;
+  animation: shimmer 1.5s linear infinite;
 }
-::-webkit-scrollbar-track {
-  background: #fdfdfd;
+
+/* ── XP Bar ──────────────────────────────────────────────────────── */
+.xp-bar {
+  background: linear-gradient(90deg, #1ed760, #1db954);
+  border-radius: 999px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+
+/* ── Smooth scrolling ────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+/* ── Custom scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+.dark ::-webkit-scrollbar-thumb { background: #334155; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* ── Checkbox animation ──────────────────────────────────────────── */
+.activity-check {
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.activity-check.checked {
+  background: #1ed760;
+  border-color: #1ed760;
+  transform: scale(1.1);
 }

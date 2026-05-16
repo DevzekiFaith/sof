@@ -9,24 +9,22 @@ import Button from "../../components/ui/Button";
 import AnimatedSection from "../../components/ui/AnimatedSection";
 import { ChevronRightIcon } from "../../components/Icons";
 import Link from "next/link";
-import { useState } from "react";
-import PurchaseModal from "../../components/ui/PurchaseModal";
 import { useUser } from "../../contexts/UserContext";
+import { Rocket, Play, BookOpen } from "lucide-react";
+import Logo from "../../components/Logo";
 
 export default function CourseDetailPage() {
   const params = useParams();
   const router = useRouter();
   const course = getCourseById(params.id as string);
   const { currentUser, hasCourseAccess, getQuarterlyPass } = useUser();
-  const [purchaseOpen, setPurchaseOpen] = useState(false);
-  const [purchaseMode, setPurchaseMode] = useState<"course" | "quarterly">("course");
 
   if (!course) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Course Not Found</h1>
-          <Link href="/" className="text-amber-600 hover:text-orange-700 font-semibold">
+          <h1 className="text-4xl font-bold text-white mb-4">Course Not Found</h1>
+          <Link href="/" className="text-[#1ed760] hover:text-white font-semibold transition-colors">
             Return to Home
           </Link>
         </div>
@@ -42,54 +40,59 @@ export default function CourseDetailPage() {
   const unlocked = currentUser ? hasCourseAccess(course.id) : false;
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header
-        variant="course"
-        backLink={{ href: "/", text: "← Back to Courses" }}
-      />
-
-      <PurchaseModal
-        isOpen={purchaseOpen}
-        onClose={() => setPurchaseOpen(false)}
-        courseId={course.id}
-        courseTitle={course.title}
-        coursePriceUSD={coursePrice}
-        quarterlyPriceUSD={QUARTERLY_PASS_PRICE_USD}
-        mode={purchaseMode}
-      />
+    <div className="min-h-screen bg-[#121212] text-white">
+      <header className="h-16 flex-shrink-0 bg-[#000000] flex items-center justify-between px-4 sm:px-6 z-30 border-b border-[#282828]">
+        <Link href="/" className="transition-transform hover:scale-105">
+          <Logo />
+        </Link>
+        <Link 
+          href="/" 
+          className="text-sm font-bold text-[#b3b3b3] hover:text-white transition-colors"
+        >
+          ← Back to Courses
+        </Link>
+      </header>
 
       {/* Course Detail */}
       <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
         <div className="max-w-4xl mx-auto">
           <AnimatedSection>
             <div className="mb-8 sm:mb-12">
-              <div className={`inline-block p-4 sm:p-6 rounded-2xl bg-gradient-to-br ${course.bgGradient} mb-6 sm:mb-8 transition-transform duration-300 hover:scale-110 hover:rotate-3`}>
-                <IconComponent className={`${course.iconColor} w-12 h-12 sm:w-16 sm:h-16 transition-transform duration-300`} />
+              <div className={`inline-flex items-center justify-center rounded-2xl bg-gradient-to-br ${course.bgGradient} mb-6 sm:mb-8 transition-transform duration-300 hover:scale-110 hover:rotate-3 relative overflow-hidden w-20 h-20 sm:w-28 sm:h-28 shadow-lg shadow-black/50`}>
+                {course.imageUrl ? (
+                  <img src={course.imageUrl} alt={course.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
+                ) : (
+                  <IconComponent className={`${course.iconColor} w-12 h-12 sm:w-16 sm:h-16 transition-transform duration-300 relative z-10`} />
+                )}
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-white mb-4 sm:mb-6 leading-tight tracking-tight">
                 {course.title}
               </h1>
             </div>
           </AnimatedSection>
 
           <AnimatedSection delay={100}>
-            <p className="text-xl sm:text-2xl md:text-3xl text-gray-600 leading-relaxed mb-6 sm:mb-8">
+            <p className="text-xl sm:text-2xl md:text-3xl text-[#b3b3b3] leading-relaxed mb-6 sm:mb-8">
               {course.fullDescription}
             </p>
           </AnimatedSection>
 
           <AnimatedSection delay={200}>
             <div className="flex flex-wrap gap-3 sm:gap-4 mb-6 sm:mb-8">
-              <div className="px-4 sm:px-6 py-2 sm:py-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-300 transform hover:scale-105">
-                <span className="text-xs sm:text-sm text-gray-600 font-semibold">Age Range: </span>
-                <span className="text-base sm:text-lg font-bold text-gray-900">{course.ageRange}</span>
+              <div className="px-4 sm:px-6 py-2 sm:py-3 bg-[#282828] rounded-lg hover:bg-[#333] transition-colors duration-300 transform hover:scale-105">
+                <span className="text-xs sm:text-sm text-[#b3b3b3] font-semibold">Age Range: </span>
+                <span className="text-base sm:text-lg font-bold text-white">{course.ageRange}</span>
               </div>
               {course.duration && (
-                <div className="px-4 sm:px-6 py-2 sm:py-3 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-300 transform hover:scale-105">
-                  <span className="text-xs sm:text-sm text-gray-600 font-semibold">Duration: </span>
-                  <span className="text-base sm:text-lg font-bold text-gray-900">{course.duration}</span>
+                <div className="px-4 sm:px-6 py-2 sm:py-3 bg-[#282828] rounded-lg hover:bg-[#333] transition-colors duration-300 transform hover:scale-105">
+                  <span className="text-xs sm:text-sm text-[#b3b3b3] font-semibold">Duration: </span>
+                  <span className="text-base sm:text-lg font-bold text-white">{course.duration}</span>
                 </div>
               )}
+              <Link href="/#pricing" className="px-4 sm:px-6 py-2 sm:py-3 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-lg hover:bg-[#1ed760]/20 transition-colors duration-300 transform hover:scale-105 group">
+                <span className="text-xs sm:text-sm text-[#1ed760] font-semibold">Price: </span>
+                <span className="text-base sm:text-lg font-bold text-[#1ed760] group-hover:underline">${coursePrice}</span>
+              </Link>
             </div>
           </AnimatedSection>
 
@@ -102,69 +105,59 @@ export default function CourseDetailPage() {
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto"
                 >
-                  <Button variant="primary" size="md" className="w-full">
-                    🚀 Start Learning Now
+                  <Button variant="primary" size="md" className="w-full flex items-center justify-center gap-2">
+                    <Rocket size={20} /> Start Learning Now
                   </Button>
                 </a>
               ) : (
-                <Button variant="primary" size="md" className="w-full sm:w-auto">
-                  Enroll Now
-                </Button>
+                <Link href={unlocked ? `/learn/${course.id}` : "/checkout?plan=pro"} className="w-full sm:w-auto">
+                  <Button variant="primary" size="md" className="w-full">
+                    {unlocked ? "Continue Learning" : "Enroll Now"}
+                  </Button>
+                </Link>
               )}
             </div>
           </AnimatedSection>
 
           {/* Purchase CTA */}
           <AnimatedSection delay={350}>
-            <div className="mt-6 p-6 border-2 border-gray-200 rounded-2xl bg-gradient-to-br from-white to-gray-50">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="mt-6 p-6 border border-[#282828] rounded-2xl bg-[#181818] shadow-2xl">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                 <div>
-                  <div className="text-xl font-bold text-gray-900">
-                    Unlock the structured course experience
+                  <div className="text-2xl font-bold text-white mb-2">
+                    Unlock the full experience
                   </div>
-                  <div className="text-gray-600 mt-1">
-                    Module detail pages, activities, resources & downloads.
-                  </div>
+                  <p className="text-[#b3b3b3] mb-4">
+                    Get lifetime access to modules, activities, and expert-curated resources.
+                  </p>
                   {pass.isActive && (
-                    <div className="text-sm text-orange-700 mt-2 font-semibold">
-                      School Pass active until {new Date(pass.expiresAt!).toLocaleDateString()}.
+                    <div className="text-sm text-[#1ed760] font-semibold">
+                      Pro Pass active until {new Date(pass.expiresAt!).toLocaleDateString()}.
                     </div>
                   )}
                   {unlocked && !pass.isActive && (
-                    <div className="text-sm text-orange-700 mt-2 font-semibold">
-                      You own this course.
+                    <div className="text-sm text-[#1ed760] font-semibold">
+                      You already have access to this course.
                     </div>
                   )}
                   {!currentUser && (
-                    <div className="text-sm text-yellow-700 mt-2 font-semibold">
-                      Sign in to purchase and unlock content (stored locally on this device).
+                    <div className="text-sm text-[#1ed760] font-semibold">
+                      Sign in to unlock permanent access.
                     </div>
                   )}
                 </div>
 
-                <div className="flex flex-col gap-3 sm:min-w-[260px]">
-                  <Button
-                    variant="primary"
-                    size="md"
-                    className="w-full"
-                    onClick={() => {
-                      setPurchaseMode("course");
-                      setPurchaseOpen(true);
-                    }}
-                  >
-                    Buy this course — ${coursePrice.toFixed(2)}
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size="md"
-                    className="w-full"
-                    onClick={() => {
-                      setPurchaseMode("quarterly");
-                      setPurchaseOpen(true);
-                    }}
-                  >
-                    School Pass (Quarterly) — ${QUARTERLY_PASS_PRICE_USD.toFixed(2)}
-                  </Button>
+                <div className="flex flex-col gap-3 sm:min-w-[280px]">
+                  <Link href="/checkout?plan=pro" className="w-full">
+                    <button className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform shadow-lg shadow-[#1ed760]/20">
+                      Get Pro — Only $19
+                    </button>
+                  </Link>
+                  <Link href="/#pricing" className="w-full">
+                    <button className="w-full py-3 bg-[#282828] text-white font-bold rounded-full border border-[#333] hover:bg-[#333] transition-colors">
+                      View All Plans
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -172,28 +165,45 @@ export default function CourseDetailPage() {
 
           {modules.length > 0 && course.detailedModules && course.detailedModules.length === modules.length && (
             <AnimatedSection delay={400}>
-              <div className="mb-8 sm:mb-12">
-                <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 sm:mb-8">
-                  Course Modules
-                </h2>
-                <div className="space-y-3 sm:space-y-4">
-                  {modules.map((module: string, index: number) => (
-                    <AnimatedSection key={index} delay={index * 50}>
-                      <Link href={`/courses/${course.id}/modules/${index + 1}`}>
-                        <div className="p-4 sm:p-6 border-2 border-gray-200 rounded-lg hover:border-black hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group">
-                          <div className="flex items-center gap-3 sm:gap-4">
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black text-white rounded-lg flex items-center justify-center font-bold text-lg sm:text-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+              <div className="mb-8 sm:mb-12 mt-16">
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-3xl font-bold text-white tracking-tight">Course Modules</h2>
+                  <span className="text-sm text-[#b3b3b3] font-medium">{modules.length} modules</span>
+                </div>
+                <div className="space-y-1">
+                  {modules.map((moduleName: string, index: number) => {
+                    const moduleDetail = course.detailedModules?.[index];
+                    const ModuleIcon = moduleDetail?.icon;
+                    
+                    return (
+                      <AnimatedSection key={index} delay={index * 50}>
+                        <Link href={`/courses/${course.id}/modules/${index + 1}`}>
+                          <div className="flex items-center gap-4 p-3 rounded-md hover:bg-white/10 transition-all group">
+                            <div className="w-8 text-center text-[#b3b3b3] text-sm font-medium group-hover:hidden">
                               {index + 1}
                             </div>
-                            <div className="flex-1">
-                              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 group-hover:text-black transition-colors">{module}</h3>
-                              <p className="text-gray-600 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Click to explore this module →</p>
+                            <div className="w-8 text-center text-[#1ed760] hidden group-hover:block">
+                              <Play size={16} fill="currentColor" />
+                            </div>
+                            <div className="w-10 h-10 bg-[#282828] rounded flex items-center justify-center flex-shrink-0 border border-[#333]">
+                               {ModuleIcon ? (
+                                 <ModuleIcon className="w-5 h-5 text-[#1ed760]" />
+                               ) : (
+                                 <BookOpen className="w-5 h-5 text-[#b3b3b3]" />
+                               )}
+                            </div>
+                            <div className="flex-1 truncate">
+                              <h3 className="text-base font-bold text-white truncate group-hover:text-[#1ed760] transition-colors">{moduleName}</h3>
+                              <p className="text-xs text-[#b3b3b3] truncate">{moduleDetail?.description || "Master this module's core concepts"}</p>
+                            </div>
+                            <div className="hidden sm:block text-xs text-[#b3b3b3] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                               View module →
                             </div>
                           </div>
-                        </div>
-                      </Link>
-                    </AnimatedSection>
-                  ))}
+                        </Link>
+                      </AnimatedSection>
+                    );
+                  })}
                 </div>
               </div>
             </AnimatedSection>
@@ -201,21 +211,21 @@ export default function CourseDetailPage() {
 
           {modules.length > 0 && (!course.detailedModules || course.detailedModules.length !== modules.length) && (
             <AnimatedSection delay={400}>
-              <div className="mb-8 sm:mb-12">
-                <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 sm:mb-8">
+              <div className="mb-8 sm:mb-12 mt-16">
+                <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
                   Course Modules
                 </h2>
-                <div className="space-y-3 sm:space-y-4">
+                <div className="space-y-4">
                   {modules.map((module: string, index: number) => (
                     <AnimatedSection key={index} delay={index * 50}>
-                      <div className="p-4 sm:p-6 border-2 border-gray-200 rounded-lg bg-gray-50 cursor-not-allowed">
-                        <div className="flex items-center gap-3 sm:gap-4">
-                          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-400 text-white rounded-lg flex items-center justify-center font-bold text-lg sm:text-xl flex-shrink-0">
+                      <div className="p-6 bg-[#181818] border border-[#282828] rounded-xl cursor-not-allowed opacity-60">
+                        <div className="flex items-center gap-6">
+                          <div className="w-12 h-12 bg-[#282828] text-[#535353] rounded-lg flex items-center justify-center font-bold text-xl flex-shrink-0 border border-[#333]">
                             {index + 1}
                           </div>
                           <div className="flex-1">
-                            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-600">{module}</h3>
-                            <p className="text-gray-500 mt-2">Detailed content coming soon...</p>
+                            <h3 className="text-2xl sm:text-3xl font-bold text-[#b3b3b3]">{module}</h3>
+                            <p className="text-[#535353] mt-1 text-sm font-medium">Detailed content coming soon...</p>
                           </div>
                         </div>
                       </div>
@@ -228,18 +238,18 @@ export default function CourseDetailPage() {
 
           {outcomes.length > 0 && (
             <AnimatedSection delay={500}>
-              <div>
-                <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 sm:mb-8">
-                  Learning Outcomes
+              <div className="mt-16">
+                <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
+                  What You&apos;ll Master
                 </h2>
-                <ul className="space-y-3 sm:space-y-4">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {outcomes.map((outcome: string, index: number) => (
                     <AnimatedSection key={index} delay={index * 50}>
-                      <li className="flex items-start gap-3 sm:gap-4 group">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-black rounded-full flex items-center justify-center flex-shrink-0 mt-1 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
-                          <ChevronRightIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white transition-transform duration-300 group-hover:translate-x-1" />
+                      <li className="flex items-start gap-4 bg-[#181818] p-5 rounded-xl border border-[#282828] group hover:border-[#535353] transition-colors">
+                        <div className="w-8 h-8 bg-[#1ed760]/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <ChevronRightIcon className="w-4 h-4 text-[#1ed760] transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
-                        <p className="text-lg sm:text-xl text-gray-700 font-medium group-hover:text-gray-900 transition-colors">{outcome}</p>
+                        <p className="text-lg text-[#b3b3b3] font-medium group-hover:text-white transition-colors">{outcome}</p>
                       </li>
                     </AnimatedSection>
                   ))}
@@ -250,8 +260,7 @@ export default function CourseDetailPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <Footer />
+    <Footer />
     </div>
   );
 }

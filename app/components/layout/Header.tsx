@@ -5,6 +5,7 @@ import Link from "next/link";
 import Logo from "../Logo";
 import AuthButton from "../ui/AuthButton";
 import { useUser } from "../../contexts/UserContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import { MenuIcon } from "../Icons";
 
 interface HeaderProps {
@@ -23,6 +24,7 @@ export default function Header({
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { currentUser } = useUser();
+  const { isDark, toggleTheme } = useTheme();
 
   // Simple header for pages like About and Contact
   if (variant === "simple") {
@@ -42,9 +44,12 @@ export default function Header({
             <Link href="/about" className="text-gray-700 hover:text-black font-bold transition-colors text-base sm:text-lg">
               About
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-black font-bold transition-colors text-base sm:text-lg">
+            <Link href="/contact" className="text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white font-bold transition-colors text-base sm:text-lg">
               Contact
             </Link>
+            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              {isDark ? "🌙" : "☀️"}
+            </button>
           </div>
         </nav>
       </header>
@@ -59,12 +64,17 @@ export default function Header({
           <Link href="/" className="transition-transform hover:scale-105 duration-300">
             <Logo />
           </Link>
-          <Link
-            href={backLink.href}
-            className="text-gray-700 hover:text-black font-bold transition-colors text-sm sm:text-base"
-          >
-            {backLink.text}
-          </Link>
+          <div className="flex items-center gap-4">
+            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              {isDark ? "🌙" : "☀️"}
+            </button>
+            <Link
+              href={backLink.href}
+              className="text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white font-bold transition-colors text-sm sm:text-base"
+            >
+              {backLink.text}
+            </Link>
+          </div>
         </nav>
       </header>
     );
@@ -109,13 +119,21 @@ export default function Header({
               <AuthButton />
             </>
           )}
+          <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors hidden md:block">
+            {isDark ? "🌙" : "☀️"}
+          </button>
         </div>
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden text-gray-700 hover:text-black transition-colors"
-        >
-          <MenuIcon />
-        </button>
+        <div className="md:hidden flex items-center gap-3">
+          <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            {isDark ? "🌙" : "☀️"}
+          </button>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
+          >
+            <MenuIcon />
+          </button>
+        </div>
       </nav>
       {mobileMenuOpen && (
         <div className="md:hidden border-t-2 border-gray-200 bg-white">

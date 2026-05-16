@@ -9,8 +9,7 @@ import Button from "../../../../components/ui/Button";
 import AnimatedSection from "../../../../components/ui/AnimatedSection";
 import Link from "next/link";
 import { useUser } from "../../../../contexts/UserContext";
-import PurchaseModal from "../../../../components/ui/PurchaseModal";
-import { QUARTERLY_PASS_PRICE_USD } from "../../../../data/courses";
+import { FileText, Download, ChevronLeft, ChevronRight, Clock, Target as TargetIcon } from "lucide-react";
 
 export default function ModuleDetailPage() {
   const params = useParams();
@@ -18,17 +17,15 @@ export default function ModuleDetailPage() {
   const courseId = params.id as string;
   const moduleId = parseInt(params.moduleId as string);
   const { currentUser, hasCourseAccess } = useUser();
-  const [purchaseOpen, setPurchaseOpen] = useState(false);
-  const [purchaseMode, setPurchaseMode] = useState<"course" | "quarterly">("course");
 
   const course = getCourseById(courseId);
 
   if (!course) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Course Not Found</h1>
-          <Link href="/" className="text-amber-600 hover:text-orange-700 font-semibold">
+          <h1 className="text-4xl font-bold text-white mb-4">Course Not Found</h1>
+          <Link href="/" className="text-[#1ed760] hover:text-white font-semibold transition-colors">
             Return to Home
           </Link>
         </div>
@@ -39,10 +36,10 @@ export default function ModuleDetailPage() {
   // Check if moduleId is valid
   if (!moduleId || isNaN(moduleId) || moduleId < 1) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Invalid Module</h1>
-          <Link href={`/courses/${courseId}`} className="text-amber-600 hover:text-orange-700 font-semibold">
+          <h1 className="text-4xl font-bold text-white mb-4">Invalid Module</h1>
+          <Link href={`/courses/${courseId}`} className="text-[#1ed760] hover:text-white font-semibold transition-colors">
             Return to Course
           </Link>
         </div>
@@ -54,11 +51,11 @@ export default function ModuleDetailPage() {
   const totalModules = course?.detailedModules?.length || 0;
   if (totalModules === 0) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Course Content Loading</h1>
-          <p className="text-gray-600 mb-4">The detailed modules for this course are being prepared.</p>
-          <Link href={`/courses/${courseId}`} className="text-amber-600 hover:text-orange-700 font-semibold">
+          <h1 className="text-4xl font-bold text-white mb-4">Course Content Loading</h1>
+          <p className="text-[#a7a7a7] mb-4">The detailed modules for this course are being prepared.</p>
+          <Link href={`/courses/${courseId}`} className="text-[#1ed760] hover:text-white font-semibold transition-colors">
             Return to Course Overview
           </Link>
         </div>
@@ -68,11 +65,11 @@ export default function ModuleDetailPage() {
 
   if (moduleId > totalModules) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Module Not Available</h1>
-          <p className="text-gray-600 mb-4">This module number exceeds the total modules in this course.</p>
-          <Link href={`/courses/${courseId}`} className="text-amber-600 hover:text-orange-700 font-semibold">
+          <h1 className="text-4xl font-bold text-white mb-4">Module Not Available</h1>
+          <p className="text-[#a7a7a7] mb-4">This module number exceeds the total modules in this course.</p>
+          <Link href={`/courses/${courseId}`} className="text-[#1ed760] hover:text-white font-semibold transition-colors">
             Return to Course
           </Link>
         </div>
@@ -84,11 +81,11 @@ export default function ModuleDetailPage() {
 
   if (!courseModule) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Module Not Found</h1>
-          <p className="text-gray-600 mb-4">This module is currently being developed.</p>
-          <Link href={`/courses/${courseId}`} className="text-amber-600 hover:text-orange-700 font-semibold">
+          <h1 className="text-4xl font-bold text-white mb-4">Module Not Found</h1>
+          <p className="text-[#a7a7a7] mb-4">This module is currently being developed.</p>
+          <Link href={`/courses/${courseId}`} className="text-[#1ed760] hover:text-white font-semibold transition-colors">
             Return to Course
           </Link>
         </div>
@@ -102,68 +99,45 @@ export default function ModuleDetailPage() {
   const hasNextModule = currentModuleIndex < modules.length - 1;
   const hasPrevModule = currentModuleIndex > 0;
   const unlocked = currentUser ? hasCourseAccess(course.id) : false;
-  const coursePrice = course.priceUSD ?? 14;
 
   // Paywall: module detail pages require purchase (course OR quarterly pass)
   if (!unlocked) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-[#121212]">
         <Header
           variant="course"
           backLink={{ href: `/courses/${courseId}`, text: "← Back to Course" }}
         />
 
-        <PurchaseModal
-          isOpen={purchaseOpen}
-          onClose={() => setPurchaseOpen(false)}
-          courseId={course.id}
-          courseTitle={course.title}
-          coursePriceUSD={coursePrice}
-          quarterlyPriceUSD={QUARTERLY_PASS_PRICE_USD}
-          mode={purchaseMode}
-        />
-
         <section className="container mx-auto px-4 sm:px-6 py-16 sm:py-24">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
               Unlock this module
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 mb-8">
+            <p className="text-lg sm:text-xl text-[#a7a7a7] mb-8">
               Module detail pages (notes, activities, resources) are available after purchase.
             </p>
 
             {!currentUser && (
-              <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-left">
-                <p className="text-yellow-900 font-semibold">Please sign in first.</p>
-                <p className="text-yellow-800 text-sm mt-1">
+              <div className="mb-6 p-4 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-xl text-left">
+                <p className="text-[#1ed760] font-semibold">Please sign in first.</p>
+                <p className="text-[#b3b3b3] text-sm mt-1">
                   Purchases are tied to your account (stored locally on this device).
                 </p>
               </div>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Button
-                variant="primary"
-                size="md"
-                className="w-full"
-                onClick={() => {
-                  setPurchaseMode("course");
-                  setPurchaseOpen(true);
-                }}
-              >
-                Buy this course — ${coursePrice.toFixed(2)}
-              </Button>
-              <Button
-                variant="secondary"
-                size="md"
-                className="w-full"
-                onClick={() => {
-                  setPurchaseMode("quarterly");
-                  setPurchaseOpen(true);
-                }}
-              >
-                School Pass (Quarterly) — ${QUARTERLY_PASS_PRICE_USD.toFixed(2)}
-              </Button>
+            <div className="flex flex-col gap-3">
+              <Link href="/checkout?plan=pro" className="w-full">
+                <Button variant="primary" size="md" className="w-full">
+                  Get Pro Pass — $19/mo
+                </Button>
+              </Link>
+              <Link href="/#pricing" className="w-full">
+                <Button variant="secondary" size="md" className="w-full">
+                  View All Plans
+                </Button>
+              </Link>
             </div>
 
             <div className="mt-8">
@@ -182,14 +156,14 @@ export default function ModuleDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#121212] text-white">
       <Header
         variant="course"
         backLink={{ href: `/courses/${courseId}`, text: "← Back to Course" }}
       />
 
       {/* Module Header */}
-      <section className="border-b-2 border-gray-200 bg-gradient-to-r from-gray-50 to-white">
+      <section className="border-b border-[#282828] bg-gradient-to-r from-[#181818] to-[#121212]">
         <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <div className="max-w-4xl mx-auto">
             <AnimatedSection>
@@ -198,23 +172,23 @@ export default function ModuleDetailPage() {
                   <IconComponent className={`${course.iconColor} w-6 h-6`} />
                 </div>
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{course.title}</h1>
-                  <p className="text-gray-600">Module {moduleId} of {modules.length}</p>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-white">{course.title}</h1>
+                  <p className="text-[#b3b3b3]">Module {moduleId} of {modules.length}</p>
                 </div>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
                 {courseModule.title}
               </h2>
 
-              <p className="text-xl text-gray-600 mb-6">{courseModule.description}</p>
+              <p className="text-xl text-[#b3b3b3] mb-6">{courseModule.description}</p>
 
               <div className="flex flex-wrap gap-3">
-                <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
-                  📚 {courseModule.estimatedTime}
+                <span className="flex items-center gap-2 px-3 py-1 bg-[#1ed760]/10 text-[#1ed760] rounded-full text-sm font-medium border border-[#1ed760]/20">
+                  <Clock size={14} /> {courseModule.estimatedTime}
                 </span>
-                <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
-                  🎯 {courseModule.objectives.length} Learning Objectives
+                <span className="flex items-center gap-2 px-3 py-1 bg-[#1ed760]/10 text-[#1ed760] rounded-full text-sm font-medium border border-[#1ed760]/20">
+                  <TargetIcon size={14} /> {courseModule.objectives.length} Objectives
                 </span>
               </div>
             </AnimatedSection>
@@ -229,14 +203,14 @@ export default function ModuleDetailPage() {
           {courseModule.objectives.length > 0 && (
             <AnimatedSection delay={100}>
               <div className="mb-12">
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Learning Objectives</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">Learning Objectives</h3>
                 <ul className="space-y-3">
                   {courseModule.objectives.map((objective, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                        <div className="w-2 h-2 bg-[#1ed760] rounded-full"></div>
                       </div>
-                      <span className="text-lg text-gray-700">{objective}</span>
+                      <span className="text-lg text-[#b3b3b3]">{objective}</span>
                     </li>
                   ))}
                 </ul>
@@ -247,10 +221,10 @@ export default function ModuleDetailPage() {
           {/* Main Content */}
           <AnimatedSection delay={200}>
             <div className="mb-12">
-              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Module Content</h3>
-              <div className="prose prose-lg max-w-none">
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">Module Content</h3>
+              <div className="prose prose-invert prose-lg max-w-none">
                 {courseModule.content.split('\n').map((paragraph, index) => (
-                  <p key={index} className="text-gray-700 leading-relaxed mb-4">
+                  <p key={index} className="text-[#b3b3b3] leading-relaxed mb-4">
                     {paragraph}
                   </p>
                 ))}
@@ -262,17 +236,17 @@ export default function ModuleDetailPage() {
           {courseModule.activities.length > 0 && (
             <AnimatedSection delay={300}>
               <div className="mb-12">
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Practice Activities</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">Practice Activities</h3>
                 <div className="space-y-4">
                   {courseModule.activities.map((activity, index) => (
-                    <div key={index} className="p-6 bg-orange-50 border-l-4 border-orange-400 rounded-r-lg">
+                    <div key={index} className="p-6 bg-[#181818] border border-[#282828] rounded-xl hover:border-[#1ed760]/50 transition-colors group">
                       <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                          <span className="text-white font-bold text-sm">{index + 1}</span>
+                        <div className="w-8 h-8 bg-[#1ed760] rounded-full flex items-center justify-center flex-shrink-0 mt-1 shadow-lg shadow-[#1ed760]/20">
+                          <span className="text-black font-bold text-sm">{index + 1}</span>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-orange-900 mb-2">Activity {index + 1}</h4>
-                          <p className="text-orange-800">{activity}</p>
+                          <h4 className="font-semibold text-white mb-2 group-hover:text-[#1ed760] transition-colors">Activity {index + 1}</h4>
+                          <p className="text-[#b3b3b3] leading-relaxed">{activity}</p>
                         </div>
                       </div>
                     </div>
@@ -286,20 +260,26 @@ export default function ModuleDetailPage() {
           {courseModule.resources.length > 0 && (
             <AnimatedSection delay={400}>
               <div className="mb-12">
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Resources & Downloads</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">Resources & Downloads</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {courseModule.resources.map((resource, index) => (
-                    <div key={index} className="p-4 border-2 border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
+                    <a 
+                      key={index} 
+                      href={resource.url} 
+                      download 
+                      className="p-4 border border-[#282828] bg-[#181818] rounded-xl hover:border-[#1ed760]/50 transition-all group hover:scale-[1.02]"
+                    >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <span className="text-gray-600">📄</span>
+                        <div className="w-10 h-10 bg-[#282828] rounded-lg flex items-center justify-center group-hover:bg-[#1ed760] transition-colors">
+                          <FileText className="text-[#a7a7a7] group-hover:text-black w-5 h-5 transition-colors" />
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900">{resource}</h4>
-                          <p className="text-sm text-gray-600">Download available</p>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-white group-hover:text-[#1ed760] transition-colors">{resource.name}</h4>
+                          <p className="text-sm text-[#a7a7a7]">Download PDF</p>
                         </div>
+                        <Download className="text-[#b3b3b3] group-hover:text-[#1ed760] w-5 h-5 opacity-0 group-hover:opacity-100 transition-all" />
                       </div>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -308,29 +288,29 @@ export default function ModuleDetailPage() {
 
           {/* Navigation */}
           <AnimatedSection delay={500}>
-            <div className="border-t-2 border-gray-200 pt-8">
-              <div className="flex flex-col sm:flex-row justify-between gap-4">
-                <div className="flex gap-4">
+            <div className="border-t border-[#282828] pt-12">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4 w-full sm:w-auto">
                   {hasPrevModule && (
-                    <Link href={`/courses/${courseId}/modules/${moduleId - 1}`}>
-                      <Button variant="secondary" size="md">
-                        ← Previous Module
-                      </Button>
+                    <Link href={`/courses/${courseId}/modules/${moduleId - 1}`} className="flex-1 sm:flex-none">
+                      <button className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#282828] text-white font-bold rounded-full hover:bg-[#333] transition-all hover:scale-105">
+                        <ChevronLeft size={20} /> Previous
+                      </button>
                     </Link>
                   )}
                   {hasNextModule && (
-                    <Link href={`/courses/${courseId}/modules/${moduleId + 1}`}>
-                      <Button variant="primary" size="md">
-                        Next Module →
-                      </Button>
+                    <Link href={`/courses/${courseId}/modules/${moduleId + 1}`} className="flex-1 sm:flex-none">
+                      <button className="w-full flex items-center justify-center gap-2 px-8 py-3 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-all shadow-lg shadow-[#1ed760]/20">
+                        Next <ChevronRight size={20} />
+                      </button>
                     </Link>
                   )}
                 </div>
 
-                <Link href={`/courses/${courseId}`}>
-                  <Button variant="outline" size="md">
+                <Link href={`/courses/${courseId}`} className="w-full sm:w-auto text-center">
+                  <span className="text-[#b3b3b3] hover:text-white transition-colors font-bold text-sm cursor-pointer underline-offset-4 hover:underline">
                     Back to Course Overview
-                  </Button>
+                  </span>
                 </Link>
               </div>
             </div>

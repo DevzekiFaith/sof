@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
 import Button from "../components/ui/Button";
 import AnimatedSection from "../components/ui/AnimatedSection";
+import Link from "next/link";
+import { Mail, Check } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -24,122 +24,145 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header variant="simple" />
-
-      {/* Contact Content */}
-      <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
-        <div className="max-w-4xl mx-auto">
-          <AnimatedSection>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-gray-900 mb-8 sm:mb-12 leading-tight px-4">
+    <div className="min-h-screen bg-[#121212] text-white pb-24">
+      {/* Top Gradient */}
+      <div className="relative pt-24 pb-8 px-6 sm:px-10 bg-gradient-to-b from-[#064e3b] to-[#121212]">
+        <div className="flex flex-col md:flex-row items-end gap-6 max-w-7xl mx-auto relative z-10">
+          <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-none bg-gradient-to-br from-[#1ed760] to-[#1db954] shadow-2xl flex items-center justify-center flex-shrink-0 border border-[#282828]">
+            <Mail size={80} strokeWidth={1.5} className="text-white" />
+          </div>
+          <div className="flex-1 pb-2">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-sm font-bold tracking-wider uppercase text-[#1ed760]">Support</span>
+            </div>
+            <h1 className="text-5xl sm:text-7xl md:text-8xl font-black mb-6 tracking-tighter truncate">
               Get in Touch
             </h1>
-          </AnimatedSection>
+            <div className="flex items-center gap-4 text-sm font-medium text-gray-300">
+              <span>Customer Service</span>
+              <span className="w-1 h-1 rounded-full bg-gray-500"></span>
+              <span>Partnerships</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          {submitted ? (
-            <AnimatedSection>
-              <div className="p-6 sm:p-8 bg-gray-100 rounded-2xl mb-8 mx-4 sm:mx-0 border-2 border-gray-200 shadow-lg">
-                <p className="text-xl sm:text-2xl font-bold text-gray-900">
-                  Thank you! We&apos;ll get back to you soon.
-                </p>
+      {/* Action Buttons */}
+      <div className="px-6 sm:px-10 py-6 max-w-7xl mx-auto flex items-center gap-6 border-b border-[#282828]">
+        <Link href="/#courses">
+          <button className="w-14 h-14 rounded-full bg-[#1ed760] flex items-center justify-center text-black hover:scale-105 transition-transform shadow-lg">
+            <svg className="w-7 h-7 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4l12 6-12 6z" /></svg>
+          </button>
+        </Link>
+        <button className="p-2 text-gray-400 hover:text-white transition-colors">
+          <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Contact Content */}
+      <section className="px-6 sm:px-10 py-10 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          <div className="lg:col-span-2 space-y-10">
+            {submitted ? (
+              <AnimatedSection>
+                <div className="p-6 sm:p-8 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-xl mb-8">
+                  <p className="text-xl sm:text-2xl font-bold text-white flex items-center gap-3">
+                    <Check className="text-[#1ed760] w-6 h-6" /> Thank you! We&apos;ll get back to you soon.
+                  </p>
+                </div>
+              </AnimatedSection>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <AnimatedSection delay={100}>
+                  <div>
+                    <label className="block text-sm font-bold text-white uppercase tracking-wider mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-3 bg-[#181818] border border-[#282828] rounded-md focus:border-[#1ed760] focus:outline-none text-white transition-all duration-300"
+                      required
+                    />
+                  </div>
+                </AnimatedSection>
+
+                <AnimatedSection delay={150}>
+                  <div>
+                    <label className="block text-sm font-bold text-white uppercase tracking-wider mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-3 bg-[#181818] border border-[#282828] rounded-md focus:border-[#1ed760] focus:outline-none text-white transition-all duration-300"
+                      required
+                    />
+                  </div>
+                </AnimatedSection>
+
+                <AnimatedSection delay={200}>
+                  <div>
+                    <label className="block text-sm font-bold text-white uppercase tracking-wider mb-2">
+                      Subject
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      className="w-full px-4 py-3 bg-[#181818] border border-[#282828] rounded-md focus:border-[#1ed760] focus:outline-none text-white transition-all duration-300"
+                      required
+                    />
+                  </div>
+                </AnimatedSection>
+
+                <AnimatedSection delay={250}>
+                  <div>
+                    <label className="block text-sm font-bold text-white uppercase tracking-wider mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      rows={6}
+                      className="w-full px-4 py-3 bg-[#181818] border border-[#282828] rounded-md focus:border-[#1ed760] focus:outline-none text-white resize-none transition-all duration-300"
+                      required
+                    />
+                  </div>
+                </AnimatedSection>
+
+                <AnimatedSection delay={300}>
+                  <button type="submit" className="px-8 py-3 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform">
+                    Send Message
+                  </button>
+                </AnimatedSection>
+              </form>
+            )}
+          </div>
+
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold text-white mb-4">Other Ways to Reach Us</h2>
+            <div className="bg-[#181818] p-6 rounded-md border border-[#282828] space-y-6">
+              <div>
+                <div className="text-[#b3b3b3] text-sm uppercase tracking-wider mb-1">Email</div>
+                <div className="text-lg font-bold text-white">contact@magis.com</div>
               </div>
-            </AnimatedSection>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 px-4 sm:px-0">
-              <AnimatedSection delay={100}>
-                <div>
-                  <label className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 border-2 border-gray-200 rounded-lg focus:border-black focus:outline-none text-lg sm:text-xl transition-all duration-300 hover:border-gray-300 focus:shadow-lg"
-                    required
-                  />
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection delay={150}>
-                <div>
-                  <label className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 border-2 border-gray-200 rounded-lg focus:border-black focus:outline-none text-lg sm:text-xl transition-all duration-300 hover:border-gray-300 focus:shadow-lg"
-                    required
-                  />
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection delay={200}>
-                <div>
-                  <label className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 border-2 border-gray-200 rounded-lg focus:border-black focus:outline-none text-lg sm:text-xl transition-all duration-300 hover:border-gray-300 focus:shadow-lg"
-                    required
-                  />
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection delay={250}>
-                <div>
-                  <label className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-                    Message
-                  </label>
-                  <textarea
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    rows={6}
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 border-2 border-gray-200 rounded-lg focus:border-black focus:outline-none text-lg sm:text-xl resize-none transition-all duration-300 hover:border-gray-300 focus:shadow-lg"
-                    required
-                  />
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection delay={300}>
-                <Button type="submit" variant="primary" size="md" className="w-full sm:w-auto">
-                  Send Message
-                </Button>
-              </AnimatedSection>
-            </form>
-          )}
-
-          <AnimatedSection delay={400}>
-            <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t-2 border-gray-200 px-4 sm:px-0">
-              <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 sm:mb-8">
-                Other Ways to Reach Us
-              </h2>
-              <div className="space-y-4 sm:space-y-6">
-                <div className="group">
-                  <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 group-hover:text-black transition-colors">Email</p>
-                  <p className="text-lg sm:text-xl text-gray-600 group-hover:text-gray-900 transition-colors">contact@selfpay.com</p>
-                </div>
-                <div className="group">
-                  <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 group-hover:text-black transition-colors">Phone</p>
-                  <p className="text-lg sm:text-xl text-gray-600 group-hover:text-gray-900 transition-colors">+1 (555) 123-4567</p>
-                </div>
-                <div className="group">
-                  <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 group-hover:text-black transition-colors">Office Hours</p>
-                  <p className="text-lg sm:text-xl text-gray-600 group-hover:text-gray-900 transition-colors">Monday - Friday, 9 AM - 5 PM</p>
-                </div>
+              <div>
+                <div className="text-[#b3b3b3] text-sm uppercase tracking-wider mb-1">Phone</div>
+                <div className="text-lg font-bold text-white">+1 (555) 123-4567</div>
+              </div>
+              <div>
+                <div className="text-[#b3b3b3] text-sm uppercase tracking-wider mb-1">Office Hours</div>
+                <div className="text-lg font-bold text-white">Mon - Fri, 9 AM - 5 PM</div>
               </div>
             </div>
-          </AnimatedSection>
+          </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }
