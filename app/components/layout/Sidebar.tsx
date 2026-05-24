@@ -1,17 +1,108 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Library, Plus, Heart, User, BookOpen, Music, Star } from "lucide-react";
+import { Home, Search, Library, Plus, Heart, User, BookOpen, Music, Star, Bell, Users } from "lucide-react";
 import Logo from "../Logo";
 import { useUser } from "../../contexts/UserContext";
+import { useSocial } from "../../contexts/SocialContext";
 import { courses } from "../../data/courses";
+import { supabase } from "../../../lib/supabase";
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { currentUser, enrolledCourses } = useUser();
+  const { pendingRequests } = useSocial();
   const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [friendRequestCount, setFriendRequestCount] = useState(0);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!currentUser) return;
+
+    // Listen for friend requests in real-time
+    const friendsChannel = supabase
+      .channel('friend_requests_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'friends',
+          filter: `friend_id=eq.${currentUser.id}`,
+        },
+        (payload: any) => {
+          console.log('Friend request change:', payload);
+          // Reload friend requests
+          setFriendRequestCount(prev => prev + 1);
+        }
+      )
+      .subscribe();
+
+    // Listen for notifications in real-time
+    const notificationsChannel = supabase
+      .channel('notifications_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${currentUser.id}`,
+        },
+        (payload: any) => {
+          console.log('New notification:', payload);
+          setNotificationCount(prev => prev + 1);
+        }
+      )
+      .subscribe();
+
+    // Load initial notification count and notifications
+    const loadNotifications = async () => {
+      const { data, error } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (!error && data) {
+        setNotifications(data);
+        const unreadCount = data.filter((n: any) => !n.is_read).length;
+        setNotificationCount(unreadCount);
+      }
+    };
+
+    loadNotifications();
+
+    return () => {
+      supabase.removeChannel(friendsChannel);
+      supabase.removeChannel(notificationsChannel);
+    };
+  }, [currentUser]);
+
+  useEffect(() => {
+    setFriendRequestCount(pendingRequests.length);
+  }, [pendingRequests]);
+
+  const handleBellClick = () => {
+    setShowNotifications(!showNotifications);
+  };
+
+  const markAsRead = async (notificationId: string) => {
+    await supabase
+      .from('notifications')
+      .update({ is_read: true })
+      .eq('id', notificationId);
+
+    setNotifications(prev =>
+      prev.map(n => n.id === notificationId ? { ...n, is_read: true } : n)
+    );
+    setNotificationCount(prev => Math.max(0, prev - 1));
+  };
 
   const mainLinks = [
     { href: "/", label: "Home", icon: <Home className="w-6 h-6" /> },
@@ -27,10 +118,76 @@ export default function Sidebar() {
     <aside className="hidden md:flex flex-col w-72 bg-black h-screen sticky top-0 left-0 p-2 gap-2 flex-shrink-0 z-40">
       {/* Top Navigation Panel */}
       <div className="bg-[#121212] rounded-lg p-4 space-y-4">
-        <div className="mb-4 px-2">
+        <div className="mb-4 px-2 flex items-center justify-between">
           <Link href="/" className="transition-transform hover:scale-105 inline-block">
             <Logo />
           </Link>
+          <div className="flex items-center gap-2">
+            {/* Notifications Button */}
+            <button
+              onClick={handleBellClick}
+              className="relative p-2 hover:bg-[#282828] rounded-full transition-colors"
+            >
+              <Bell className="w-5 h-5 text-[#b3b3b3] hover:text-white" />
+              {notificationCount > 0 && (
+                <span className="absolute top-0 right-0 w-4 h-4 bg-[#1ed760] text-black text-xs font-bold rounded-full flex items-center justify-center">
+                  {notificationCount}
+                </span>
+              )}
+            </button>
+            {/* Friends Button */}
+            <button className="relative p-2 hover:bg-[#282828] rounded-full transition-colors">
+              <Users className="w-5 h-5 text-[#b3b3b3] hover:text-white" />
+              {friendRequestCount > 0 && (
+                <span className="absolute top-0 right-0 w-4 h-4 bg-[#1ed760] text-black text-xs font-bold rounded-full flex items-center justify-center">
+                  {friendRequestCount}
+                </span>
+              )}
+            </button>
+
+            {/* Notifications Dropdown */}
+            {showNotifications && (
+              <div className="absolute top-12 right-0 w-80 bg-[#181818] border border-[#282828] rounded-xl shadow-2xl z-50 max-h-96 overflow-y-auto">
+                <div className="p-4 border-b border-[#282828]">
+                  <h3 className="text-sm font-bold text-white">Notifications</h3>
+                </div>
+                {notifications.length === 0 ? (
+                  <div className="p-4 text-center text-[#b3b3b3] text-sm">
+                    No notifications yet
+                  </div>
+                ) : (
+                  <div className="divide-y divide-[#282828]">
+                    {notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        onClick={() => markAsRead(notification.id)}
+                        className={`p-4 hover:bg-[#282828] cursor-pointer transition-colors ${
+                          !notification.is_read ? 'bg-[#282828]/50' : ''
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="w-2 h-2 mt-2 rounded-full bg-[#1ed760] flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-white mb-1">{notification.title}</p>
+                            <p className="text-xs text-[#b3b3b3] leading-relaxed">{notification.message}</p>
+                            {notification.link && (
+                              <Link
+                                href={notification.link}
+                                className="text-xs text-[#1ed760] hover:underline mt-1 inline-block"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                View →
+                              </Link>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
         <nav className="space-y-1">
           {mainLinks.map((link) => {

@@ -1,6 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "../../lib/supabase";
+import { useUser } from "./UserContext";
 
 type Theme = "light" | "dark";
 
@@ -14,12 +16,12 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
+  const { currentUser } = useUser();
 
   useEffect(() => {
     // Spotify-like apps are always dark. Force dark mode on load.
     setTheme("dark");
     document.documentElement.classList.add("dark");
-    localStorage.setItem("magis_theme", "dark");
   }, []);
 
   const toggleTheme = () => {

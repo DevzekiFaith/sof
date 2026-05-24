@@ -29,10 +29,8 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           return;
         }
         success = await register(formData.name, formData.email, formData.password);
-        if (!success) setError("An account with this email already exists");
       } else {
         success = await login(formData.email, formData.password);
-        if (!success) setError("Invalid email or password");
       }
 
       if (success) {
@@ -133,10 +131,6 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           {isSignUp ? "Already have an account? Sign in" : "New to Magify? Create an account"}
         </button>
       </div>
-
-      <p className="mt-6 text-[10px] text-gray-600 text-center uppercase tracking-widest">
-        Your data is saved locally for this demo
-      </p>
     </div>
   );
 }

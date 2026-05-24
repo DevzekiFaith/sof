@@ -5,21 +5,22 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { getCourseById } from "../../data/courses";
 import { useUser } from "../../contexts/UserContext";
+import { supabase } from "../../../lib/supabase";
 import type { LessonStage } from "../../contexts/UserContext";
 import Logo from "../../components/Logo";
 import confetti from "canvas-confetti";
-import { 
-  BookOpen, 
-  Zap, 
+import {
+  BookOpen,
+  Zap,
   RotateCcw,
-  MessageSquare, 
-  Target, 
-  Clock, 
-  Paperclip, 
-  GraduationCap, 
-  Flame, 
-  Check, 
-  Lock, 
+  MessageSquare,
+  Target,
+  Clock,
+  Paperclip,
+  GraduationCap,
+  Flame,
+  Check,
+  Lock,
   Menu,
   ChevronRight,
   ChevronLeft
@@ -174,7 +175,20 @@ export default function CoursePlayerPage() {
     }
   };
 
-  const confirmExit = () => {
+  const confirmExit = async () => {
+    // Create abandonment reminder notification if progress is incomplete
+    if (currentUser && progressPct > 0 && progressPct < 100) {
+      await supabase
+        .from('notifications')
+        .insert({
+          user_id: currentUser.id,
+          type: 'course_complete',
+          title: 'Continue Your Learning',
+          message: `You're ${progressPct}% through "${course.title}". Come back to finish what you started!`,
+          link: `/learn/${courseId}`
+        });
+    }
+
     if (exitTarget) router.push(exitTarget);
     setShowExitConfirm(false);
   };
@@ -348,10 +362,10 @@ export default function CoursePlayerPage() {
               <ul className="space-y-2">
                 {currentModuleData.resources.map((res, i) => (
                   <li key={i}>
-                    <a 
-                      href={res.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                    <a
+                      href={res.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-2 text-[#b3b3b3] text-sm hover:text-[#1ed760] transition-colors group"
                     >
                       <Paperclip size={14} className="group-hover:rotate-12 transition-transform" />

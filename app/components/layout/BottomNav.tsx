@@ -1,13 +1,83 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Library } from "lucide-react";
+import { Home, Search, Library, Bell, Users } from "lucide-react";
 import { useUser } from "../../contexts/UserContext";
+import { useSocial } from "../../contexts/SocialContext";
+import { supabase } from "../../../lib/supabase";
 
 export default function BottomNav() {
   const pathname = usePathname();
   const { currentUser } = useUser();
+  const { pendingRequests } = useSocial();
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [friendRequestCount, setFriendRequestCount] = useState(0);
+
+  useEffect(() => {
+    if (!currentUser) return;
+
+    // Listen for friend requests in real-time
+    const friendsChannel = supabase
+      .channel('friend_requests_changes_mobile')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'friends',
+          filter: `friend_id=eq.${currentUser.id}`,
+        },
+        (payload: any) => {
+          console.log('Friend request change:', payload);
+          setFriendRequestCount(prev => prev + 1);
+        }
+      )
+      .subscribe();
+
+    // Listen for notifications in real-time
+    const notificationsChannel = supabase
+      .channel('notifications_changes_mobile')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${currentUser.id}`,
+        },
+        (payload: any) => {
+          console.log('New notification:', payload);
+          setNotificationCount(prev => prev + 1);
+        }
+      )
+      .subscribe();
+
+    // Load initial notification count
+    const loadNotifications = async () => {
+      const { data, error } = await supabase
+        .from('notifications')
+        .select('id')
+        .eq('user_id', currentUser.id)
+        .eq('is_read', false);
+
+      if (!error && data) {
+        setNotificationCount(data.length);
+      }
+    };
+
+    loadNotifications();
+
+    return () => {
+      supabase.removeChannel(friendsChannel);
+      supabase.removeChannel(notificationsChannel);
+    };
+  }, [currentUser]);
+
+  useEffect(() => {
+    setFriendRequestCount(pendingRequests.length);
+  }, [pendingRequests]);
 
   const navLinks = [
     { href: "/", label: "Home", icon: <Home className="w-6 h-6" /> },
@@ -34,6 +104,30 @@ export default function BottomNav() {
           </Link>
         );
       })}
+      {/* Notifications Button */}
+      <button className="flex flex-col items-center gap-1 transition-all duration-300 text-[#b3b3b3] hover:text-white relative">
+        <div className="relative">
+          <Bell className="w-6 h-6" />
+          {notificationCount > 0 && (
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#1ed760] text-black text-xs font-bold rounded-full flex items-center justify-center">
+              {notificationCount}
+            </span>
+          )}
+        </div>
+        <span className="text-[10px] font-bold tracking-tight">Alerts</span>
+      </button>
+      {/* Friends Button */}
+      <button className="flex flex-col items-center gap-1 transition-all duration-300 text-[#b3b3b3] hover:text-white relative">
+        <div className="relative">
+          <Users className="w-6 h-6" />
+          {friendRequestCount > 0 && (
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#1ed760] text-black text-xs font-bold rounded-full flex items-center justify-center">
+              {friendRequestCount}
+            </span>
+          )}
+        </div>
+        <span className="text-[10px] font-bold tracking-tight">Friends</span>
+      </button>
     </nav>
   );
 }

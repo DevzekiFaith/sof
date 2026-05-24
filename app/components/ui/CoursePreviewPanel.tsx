@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Course } from "../../data/courses";
-import { BookOpen, Zap, RotateCcw, Target } from "lucide-react";
+import { BookOpen, Zap, RotateCcw, Target, Lock, Crown, Star, CheckCircle } from "lucide-react";
+import { useUser } from "../../contexts/UserContext";
+import PaymentPromptModal from "./PaymentPromptModal";
 
 interface CoursePreviewPanelProps {
   course: Course | null;
@@ -12,6 +14,8 @@ interface CoursePreviewPanelProps {
 
 export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPanelProps) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const { isPremium, currentUser, getSubscriptionStatus } = useUser();
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // Close on Escape key
   useEffect(() => {
@@ -37,6 +41,21 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
   const IconComponent = course.icon;
   const moduleCount = course.modules?.length ?? 0;
   const outcomes = course.outcomes ?? [];
+  const userIsPremium = isPremium();
+  const isLoggedIn = currentUser !== null;
+  const subscriptionStatus = getSubscriptionStatus();
+  const hasActiveSubscription = subscriptionStatus.isActive;
+  const currentTier = subscriptionStatus.tier;
+
+  // Debug logging
+  console.log('CoursePreviewPanel - Subscription check:', {
+    isLoggedIn,
+    userIsPremium,
+    subscriptionStatus,
+    hasActiveSubscription,
+    currentTier,
+    currentUser: currentUser?.id
+  });
 
   return (
     <>
@@ -158,14 +177,87 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
             </div>
           )}
 
+          {/* What You'll Get (Before Payment) */}
+          <div className="bg-[#181818] rounded-2xl p-6 border border-[#282828]">
+            <h3 className="text-lg font-bold text-white mb-4">What you&apos;ll get</h3>
+            <ul className="space-y-3">
+              {[
+                "8 comprehensive modules with detailed content",
+                "Interactive exercises and activities",
+                "Real-world application challenges",
+                "Progress tracking and completion certificates",
+                "Lifetime access to course materials",
+                "Downloadable resources and templates"
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-[#1ed760] flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-[#b3b3b3] leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Reviews Section */}
+          <div>
+            <h3 className="text-lg font-bold text-white mb-4">What learners say</h3>
+            <div className="space-y-4">
+              {[
+                {
+                  name: "Sarah M.",
+                  rating: 5,
+                  text: "This course completely changed how I approach problems. The frameworks are practical and easy to apply.",
+                  role: "Student"
+                },
+                {
+                  name: "James K.",
+                  rating: 5,
+                  text: "Best investment I've made in my personal development. The 4-stage learning method really works.",
+                  role: "Professional"
+                },
+                {
+                  name: "Emily R.",
+                  rating: 4,
+                  text: "Clear, actionable content that I could immediately apply to my work. Highly recommended!",
+                  role: "Entrepreneur"
+                }
+              ].map((review, i) => (
+                <div key={i} className="bg-[#181818] rounded-xl p-4 border border-[#282828]">
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(review.rating)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-[#1ed760] text-[#1ed760]" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-[#e5e5e5] mb-3 leading-relaxed">{review.text}</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-[#282828] flex items-center justify-center text-xs font-bold text-[#1ed760]">
+                      {review.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white">{review.name}</p>
+                      <p className="text-xs text-[#a7a7a7]">{review.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Module List Preview */}
           {course.modules && course.modules.length > 0 && (
             <div>
-              <h3 className="text-lg font-bold text-white mb-4">
-                {moduleCount} Modules
-              </h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-white">
+                  {moduleCount} Modules
+                </h3>
+                {!userIsPremium && (
+                  <div className="flex items-center gap-1 text-xs text-[#1ed760]">
+                    <Crown size={12} />
+                    <span>Premium</span>
+                  </div>
+                )}
+              </div>
               <div className="space-y-2">
-                {course.modules.slice(0, 5).map((mod, i) => (
+                {course.modules.slice(0, userIsPremium ? 5 : 2).map((mod, i) => (
                   <div key={i} className="flex items-center gap-3 p-3 bg-[#181818] rounded-xl border border-transparent hover:border-[#282828] transition-colors">
                     <span className="w-7 h-7 flex-shrink-0 bg-[#282828] text-[#a7a7a7] rounded-lg flex items-center justify-center text-xs font-bold">
                       {i + 1}
@@ -173,7 +265,13 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
                     <span className="text-sm text-[#e5e5e5] font-medium">{mod}</span>
                   </div>
                 ))}
-                {moduleCount > 5 && (
+                {!userIsPremium && moduleCount > 2 && (
+                  <div className="flex items-center justify-center gap-2 py-3 bg-[#282828]/50 rounded-xl border border-[#282828]">
+                    <Lock className="w-4 h-4 text-[#b3b3b3]" />
+                    <span className="text-sm text-[#b3b3b3]">+{moduleCount - 2} more modules</span>
+                  </div>
+                )}
+                {userIsPremium && moduleCount > 5 && (
                   <div className="text-center py-2">
                     <span className="text-sm text-[#535353]">+{moduleCount - 5} more modules inside</span>
                   </div>
@@ -185,18 +283,50 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
 
         {/* Sticky CTA Footer */}
         <div className="sticky bottom-0 bg-[#121212]/95 backdrop-blur-md border-t border-[#282828] p-6 shadow-2xl flex flex-col gap-3">
-          <Link href={`/learn/${course.id}`} className="block w-full" onClick={onClose}>
-            <button className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group">
-              Start Course
-            </button>
-          </Link>
-          <Link href="/#pricing" className="block w-full" onClick={onClose}>
-            <button className="w-full py-3 bg-transparent text-white hover:scale-105 font-bold rounded-full transition-all text-sm border border-[#535353] hover:border-white">
-              View Plans &amp; Pricing
-            </button>
-          </Link>
+          {!hasActiveSubscription ? (
+            <>
+              <button
+                onClick={() => setShowPaymentModal(true)}
+                className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group"
+              >
+                {isLoggedIn ? (
+                  <>
+                    <Crown className="w-5 h-5" />
+                    {currentTier === 'free' ? 'Upgrade to Access Full Course' : 'Renew Subscription'}
+                  </>
+                ) : (
+                  'Start Course'
+                )}
+              </button>
+              <Link href="/#pricing" className="block w-full" onClick={onClose}>
+                <button className="w-full py-3 bg-transparent text-white hover:scale-105 font-bold rounded-full transition-all text-sm border border-[#535353] hover:border-white">
+                  View Plans &amp; Pricing
+                </button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href={`/learn/${course.id}`} className="block w-full" onClick={onClose}>
+                <button className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group">
+                  Start Course
+                </button>
+              </Link>
+              <Link href="/#pricing" className="block w-full" onClick={onClose}>
+                <button className="w-full py-3 bg-transparent text-white hover:scale-105 font-bold rounded-full transition-all text-sm border border-[#535353] hover:border-white">
+                  Manage Subscription
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
+
+      <PaymentPromptModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        featureName="Full Course Access"
+        plan="monthly"
+      />
     </>
   );
 }

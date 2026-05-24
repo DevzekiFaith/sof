@@ -1,12 +1,15 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { supabase } from '../../lib/supabase';
+import { Session, User as SupabaseUser } from '@supabase/supabase-js';
+
+export type SubscriptionTier = 'free' | 'monthly' | 'annual' | 'lifetime';
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  password: string;
   createdAt: string;
   preferences?: {
     [key: string]: unknown;
@@ -17,6 +20,8 @@ export interface User {
     streakDays: number;
     lastActiveDate: string | null;
   };
+  subscriptionTier?: SubscriptionTier;
+  subscriptionExpiresAt?: string;
 }
 
 export type BillingInterval = "quarterly";
@@ -56,12 +61,17 @@ interface UserContextType {
   awardXP: (amount: number) => void;
   isLoading: boolean;
   enrolledCourses: string[];
+  // Subscription tier
+  upgradeToPremium: (plan: 'monthly' | 'annual' | 'lifetime') => Promise<void>;
+  isPremium: () => boolean;
+  getSubscriptionStatus: () => { tier: SubscriptionTier; expiresAt?: string; isActive: boolean };
+  // Engagement bonuses
+  checkStreakBonus: () => { earned: boolean; reward: string };
+  addReferral: (referredUserId: string) => Promise<boolean>;
+  getReferralCount: () => Promise<number>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
-
-const STORAGE_KEY = 'magify_users';
-const CURRENT_USER_KEY = 'magify_current_user';
 
 const PREF_OWNED_COURSES_KEY = "ownedCourseIds";
 const PREF_QUARTERLY_PASS_EXPIRES_AT_KEY = "quarterlyPassExpiresAt";
@@ -72,85 +82,133 @@ const STAGES_ORDER: LessonStage[] = ['learn', 'practice', 'reflect', 'apply'];
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem(CURRENT_USER_KEY);
-    if (savedUser) {
-      try {
-        setCurrentUser(JSON.parse(savedUser));
-      } catch {
-        localStorage.removeItem(CURRENT_USER_KEY);
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session?.user) {
+        loadUserProfile(session.user.id);
+      } else {
+        setIsLoading(false);
       }
-    }
-    setIsLoading(false);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session?.user) {
+        loadUserProfile(session.user.id);
+      } else {
+        setCurrentUser(null);
+        setIsLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const getUsers = (): User[] => {
-    try {
-      const users = localStorage.getItem(STORAGE_KEY);
-      return users ? JSON.parse(users) : [];
-    } catch {
-      return [];
-    }
-  };
+  const loadUserProfile = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single();
 
-  const saveUsers = (users: User[]) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+    if (error) {
+      console.error('Error loading user profile:', error);
+      setIsLoading(false);
+      return;
+    }
+
+    if (data) {
+      const { data: gamificationData } = await supabase
+        .from('gamification_stats')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      const user: User = {
+        id: data.id,
+        name: data.name || '',
+        email: data.email || '',
+        createdAt: data.created_at,
+        subscriptionTier: data.subscription_tier as SubscriptionTier,
+        subscriptionExpiresAt: data.subscription_expires_at,
+        stats: gamificationData ? {
+          xp: gamificationData.total_xp,
+          level: gamificationData.level,
+          streakDays: gamificationData.streak_days,
+          lastActiveDate: gamificationData.last_active_date
+        } : undefined
+      };
+
+      setCurrentUser(user);
+    }
+    setIsLoading(false);
   };
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    const users = getUsers();
-    const user = users.find(u => u.email === email && u.password === password);
-    if (user) {
-      setCurrentUser(user);
-      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
-      return true;
-    }
-    return false;
-  };
-
-  const register = async (name: string, email: string, password: string): Promise<boolean> => {
-    const users = getUsers();
-    if (users.find(u => u.email === email)) return false;
-
-    const newUser: User = {
-      id: Date.now().toString(),
-      name,
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
-      createdAt: new Date().toISOString(),
-      preferences: {},
-      stats: { xp: 0, level: 1, streakDays: 0, lastActiveDate: null }
-    };
+    });
 
-    users.push(newUser);
-    saveUsers(users);
-    setCurrentUser(newUser);
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(newUser));
+    if (error) {
+      console.error('Login error:', error.message);
+      alert(`Login failed: ${error.message}`);
+      return false;
+    }
+
     return true;
   };
 
-  const logout = () => {
-    setCurrentUser(null);
-    localStorage.removeItem(CURRENT_USER_KEY);
+  const register = async (name: string, email: string, password: string): Promise<boolean> => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name,
+        },
+      },
+    });
+
+    if (error) {
+      console.error('Registration error:', error.message);
+      alert(`Registration failed: ${error.message}`);
+      return false;
+    }
+
+    // Check if email confirmation is required
+    if (data.user && !data.session) {
+      alert('Registration successful! Please check your email to confirm your account.');
+    }
+
+    return true;
   };
 
-  const updateUserPreferences = (newPreferences: { [key: string]: unknown }) => {
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setCurrentUser(null);
+  };
+
+  const updateUserPreferences = async (newPreferences: { [key: string]: unknown }) => {
     if (!currentUser) return;
 
-    const users = getUsers();
-    const userIndex = users.findIndex(u => u.id === currentUser.id);
+    const { error } = await supabase
+      .from('profiles')
+      .update({ 
+        preferences: { ...(currentUser.preferences || {}), ...newPreferences }
+      })
+      .eq('id', currentUser.id);
 
-    if (userIndex !== -1) {
-      const updatedUser = {
-        ...users[userIndex],
-        preferences: { ...users[userIndex].preferences, ...newPreferences }
-      };
-      users[userIndex] = updatedUser;
-      saveUsers(users);
-      setCurrentUser(updatedUser);
-      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(updatedUser));
+    if (error) {
+      console.error('Error updating preferences:', error);
     }
   };
 
@@ -169,22 +227,36 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const hasCourseAccess = (courseId: string): boolean => {
     if (!currentUser) return false;
+
+    const tier = currentUser.subscriptionTier || 'free';
     const owned = getOwnedCourses();
-    if (owned.includes(courseId)) return true;
+
+    // Free tier: limited to 2 courses
+    if (tier === 'free') {
+      if (owned.includes(courseId)) return true;
+      if (owned.length >= 2) return false; // Already at limit
+      return true; // Can access if under limit
+    }
+
+    // Monthly, Annual, Lifetime: full access
+    if (tier === 'monthly' || tier === 'annual' || tier === 'lifetime') {
+      return true;
+    }
+
     return getQuarterlyPass().isActive;
   };
 
-  const purchaseCourse = (courseId: string) => {
+  const purchaseCourse = async (courseId: string) => {
     if (!currentUser) return;
     const owned = new Set(getOwnedCourses());
     owned.add(courseId);
-    updateUserPreferences({ [PREF_OWNED_COURSES_KEY]: Array.from(owned) });
+    await updateUserPreferences({ [PREF_OWNED_COURSES_KEY]: Array.from(owned) });
   };
 
-  const purchaseQuarterlyPass = () => {
+  const purchaseQuarterlyPass = async () => {
     if (!currentUser) return;
     const expiresAt = new Date(Date.now() + QUARTERLY_DURATION_DAYS * 24 * 60 * 60 * 1000).toISOString();
-    updateUserPreferences({ [PREF_QUARTERLY_PASS_EXPIRES_AT_KEY]: expiresAt });
+    await updateUserPreferences({ [PREF_QUARTERLY_PASS_EXPIRES_AT_KEY]: expiresAt });
   };
 
   // ─── Progress Tracking ───────────────────────────────────────────────────────
@@ -214,7 +286,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return mod.completedStages.includes(stage);
   };
 
-  const markStageComplete = (
+  const markStageComplete = async (
     courseId: string,
     moduleIndex: number,
     stage: LessonStage,
@@ -241,7 +313,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     if (!moduleProgress.completedStages.includes(stage)) {
       moduleProgress.completedStages.push(stage);
       // Award XP for stage completion
-      awardXP(25);
+      await awardXP(25);
     }
 
     // Check if all 4 stages are done
@@ -264,59 +336,232 @@ export function UserProvider({ children }: { children: ReactNode }) {
       progress.completedAt = new Date().toISOString();
     }
 
-    updateUserPreferences({ [key]: progress });
+    await updateUserPreferences({ [key]: progress });
   };
 
   // ─── Gamification ────────────────────────────────────────────────────────
 
-  const awardXP = (amount: number) => {
+  const awardXP = async (amount: number) => {
     if (!currentUser) return;
 
-    const users = getUsers();
-    const userIndex = users.findIndex(u => u.id === currentUser.id);
+    const stats = currentUser.stats || { xp: 0, level: 1, streakDays: 0, lastActiveDate: null };
+    
+    const newXp = stats.xp + amount;
+    const newLevel = Math.floor(newXp / 100) + 1; // 100 XP per level
 
-    if (userIndex !== -1) {
-      const user = users[userIndex];
-      const stats = user.stats || { xp: 0, level: 1, streakDays: 0, lastActiveDate: null };
-      
-      const newXp = stats.xp + amount;
-      const newLevel = Math.floor(newXp / 100) + 1; // 100 XP per level
-
-      const today = new Date().toISOString().split('T')[0];
-      let newStreak = stats.streakDays;
-      
-      if (stats.lastActiveDate !== today) {
-        if (stats.lastActiveDate) {
-          const lastDate = new Date(stats.lastActiveDate);
-          const current = new Date(today);
-          const diffTime = Math.abs(current.getTime() - lastDate.getTime());
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          
-          if (diffDays === 1) {
-            newStreak += 1; // consecutive day
-          } else if (diffDays > 1) {
-            newStreak = 1; // streak broken
-          }
-        } else {
-          newStreak = 1; // first day
+    const today = new Date().toISOString().split('T')[0];
+    let newStreak = stats.streakDays;
+    
+    if (stats.lastActiveDate !== today) {
+      if (stats.lastActiveDate) {
+        const lastDate = new Date(stats.lastActiveDate);
+        const current = new Date(today);
+        const diffTime = Math.abs(current.getTime() - lastDate.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) {
+          newStreak += 1; // consecutive day
+        } else if (diffDays > 1) {
+          newStreak = 1; // streak broken
         }
+      } else {
+        newStreak = 1; // first day
+      }
+    }
+
+    const { error } = await supabase
+      .from('gamification_stats')
+      .upsert({
+        user_id: currentUser.id,
+        total_xp: newXp,
+        level: newLevel,
+        streak_days: newStreak,
+        last_active_date: today
+      });
+
+    if (error) {
+      console.error('Error updating gamification stats:', error);
+      return;
+    }
+
+    // Update local state
+    setCurrentUser({
+      ...currentUser,
+      stats: {
+        xp: newXp,
+        level: newLevel,
+        streakDays: newStreak,
+        lastActiveDate: today
+      }
+    });
+  };
+
+  // ─── Subscription Tier ─────────────────────────────────────────────────────
+
+  const upgradeToPremium = async (plan: 'monthly' | 'annual' | 'lifetime') => {
+    if (!currentUser) return;
+
+    let expiresAt: string | undefined;
+
+    if (plan === 'monthly') {
+      expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 30 days
+    } else if (plan === 'annual') {
+      expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(); // 365 days
+    }
+    // Lifetime has no expiration
+
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        subscription_tier: plan,
+        subscription_expires_at: expiresAt
+      })
+      .eq('id', currentUser.id);
+
+    if (error) {
+      console.error('Error upgrading subscription:', error);
+      return;
+    }
+
+    setCurrentUser({
+      ...currentUser,
+      subscriptionTier: plan,
+      subscriptionExpiresAt: expiresAt
+    });
+  };
+
+  const isPremium = (): boolean => {
+    if (!currentUser) return false;
+
+    const tier = currentUser.subscriptionTier || 'free';
+
+    // Free tier is not premium
+    if (tier === 'free') return false;
+
+    // Lifetime is always premium
+    if (tier === 'lifetime') return true;
+
+    // Monthly and Annual need expiration check
+    if (tier === 'monthly' || tier === 'annual') {
+      if (currentUser.subscriptionExpiresAt) {
+        return new Date(currentUser.subscriptionExpiresAt) > new Date();
+      }
+      return true;
+    }
+
+    return false;
+  };
+
+  const getSubscriptionStatus = () => {
+    if (!currentUser) {
+      return { tier: 'free' as const, isActive: false };
+    }
+
+    const tier = currentUser.subscriptionTier || 'free';
+    let isActive = false;
+
+    // Free tier is not active
+    if (tier === 'free') {
+      isActive = false;
+    }
+    // Lifetime is always active
+    else if (tier === 'lifetime') {
+      isActive = true;
+    }
+    // Monthly and Annual need expiration check
+    else if (tier === 'monthly' || tier === 'annual') {
+      if (currentUser.subscriptionExpiresAt) {
+        isActive = new Date(currentUser.subscriptionExpiresAt) > new Date();
+      } else {
+        isActive = true;
+      }
+    }
+
+    return {
+      tier,
+      expiresAt: currentUser.subscriptionExpiresAt,
+      isActive
+    };
+  };
+
+  // ─── Engagement Bonuses ─────────────────────────────────────────────────────
+
+  const checkStreakBonus = () => {
+    if (!currentUser) return { earned: false, reward: '' };
+
+    const streakDays = currentUser.stats?.streakDays || 0;
+
+    // 7-day streak bonus
+    if (streakDays === 7) {
+      return { earned: true, reward: '1 free week of premium' };
+    }
+
+    // 30-day streak bonus
+    if (streakDays === 30) {
+      return { earned: true, reward: '1 free month of premium' };
+    }
+
+    return { earned: false, reward: '' };
+  };
+
+  const addReferral = async (referredUserId: string) => {
+    if (!currentUser) return false;
+
+    try {
+      const { error } = await supabase
+        .from('referrals')
+        .insert({
+          referrer_id: currentUser.id,
+          referred_user_id: referredUserId,
+          created_at: new Date().toISOString()
+        });
+
+      if (error) {
+        console.error('Error adding referral:', error);
+        return false;
       }
 
-      const updatedUser = {
-        ...user,
-        stats: {
-          xp: newXp,
-          level: newLevel,
-          streakDays: newStreak,
-          lastActiveDate: today
-        }
-      };
+      // Check if user has 3 referrals and award bonus
+      const { data: referrals } = await supabase
+        .from('referrals')
+        .select('id')
+        .eq('referrer_id', currentUser.id);
 
-      users[userIndex] = updatedUser;
-      saveUsers(users);
-      setCurrentUser(updatedUser);
-      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(updatedUser));
+      if (referrals && referrals.length === 3) {
+        // Award 1 free month of premium
+        const currentExpiresAt = currentUser.subscriptionExpiresAt;
+        const bonusExpiresAt = currentExpiresAt
+          ? new Date(Math.max(new Date(currentExpiresAt).getTime(), Date.now() + 30 * 24 * 60 * 60 * 1000)).toISOString()
+          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
+        await supabase
+          .from('profiles')
+          .update({ subscription_expires_at: bonusExpiresAt })
+          .eq('id', currentUser.id);
+
+        setCurrentUser({
+          ...currentUser,
+          subscriptionExpiresAt: bonusExpiresAt
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error adding referral:', error);
+      return false;
     }
+  };
+
+  const getReferralCount = async () => {
+    if (!currentUser) return 0;
+
+    const { data, error } = await supabase
+      .from('referrals')
+      .select('id')
+      .eq('referrer_id', currentUser.id);
+
+    if (error || !data) return 0;
+    return data.length;
   };
 
   return (
@@ -338,7 +583,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
         isStageComplete,
         awardXP,
         isLoading,
-        enrolledCourses: getOwnedCourses()
+        enrolledCourses: getOwnedCourses(),
+        upgradeToPremium,
+        isPremium,
+        getSubscriptionStatus,
+        checkStreakBonus,
+        addReferral,
+        getReferralCount
       }}
     >
       {children}

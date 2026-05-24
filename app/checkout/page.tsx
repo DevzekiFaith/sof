@@ -9,25 +9,32 @@ import { CreditCard } from "lucide-react";
 
 // Plan config
 const PLANS = {
-  basic: {
-    name: "Basic Pass",
-    description: "Essential life skills for ages 10–18.",
-    priceUSD: 9,
-    priceNGN: 14000,
+  free: {
+    name: "Free",
+    description: "Access to 2 basic courses, basic progress tracking, daily streak tracking, view leaderboards.",
+    priceUSD: 0,
+    priceNGN: 0,
     featured: false,
   },
-  pro: {
-    name: "Pro Pass",
-    description: "Advanced capabilities for ambitious young adults & professionals.",
-    priceUSD: 19,
-    priceNGN: 29000,
+  monthly: {
+    name: "Monthly",
+    description: "All courses access, full gamification (XP, achievements), full social features (friends, challenges), offline downloads, priority support.",
+    priceUSD: 9.99,
+    priceNGN: 15000,
+    featured: false,
+  },
+  annual: {
+    name: "Annual",
+    description: "Everything in Monthly + exclusive masterclasses, 1-on-1 coaching session (quarterly), certificate of completion, priority feature requests.",
+    priceUSD: 79.99,
+    priceNGN: 120000,
     featured: true,
   },
-  elite: {
-    name: "Elite Pass",
-    description: "Masterclasses & executive coaching for career veterans.",
-    priceUSD: 44,
-    priceNGN: 67000,
+  lifetime: {
+    name: "Lifetime",
+    description: "Everything forever, all future courses, priority feature requests, VIP support, exclusive community access.",
+    priceUSD: 149,
+    priceNGN: 225000,
     featured: false,
   },
 } as const;
@@ -37,11 +44,11 @@ type PlanKey = keyof typeof PLANS;
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const rawPlan = searchParams.get("plan") ?? "pro";
-  const planKey: PlanKey = (rawPlan in PLANS ? rawPlan : "pro") as PlanKey;
+  const rawPlan = searchParams.get("plan") ?? "monthly";
+  const planKey: PlanKey = (rawPlan in PLANS ? rawPlan : "monthly") as PlanKey;
   const plan = PLANS[planKey];
 
-  const { currentUser, login, register, logout, purchaseQuarterlyPass } = useUser();
+  const { currentUser, login, register, logout, upgradeToPremium } = useUser();
 
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "", name: "" });
@@ -68,7 +75,7 @@ function CheckoutContent() {
     },
     customizations: {
       title: "Magify — Formation for Life",
-      description: `${plan.name} — Monthly subscription`,
+      description: `${plan.name} — ${planKey === 'lifetime' ? 'One-time payment' : planKey === 'annual' ? 'Yearly subscription' : 'Monthly subscription'}`,
       logo: "https://magify.app/logo.png",
     },
   };
@@ -78,10 +85,12 @@ function CheckoutContent() {
   const handlePay = () => {
     if (!currentUser) return;
     handleFlutterPayment({
-      callback: (response) => {
+      callback: async (response) => {
         closePaymentModal();
         if (response.status === "successful" || response.status === "completed") {
-          purchaseQuarterlyPass();
+          // Convert planKey to the correct type for upgradeToPremium
+          const planType = planKey === 'free' ? 'monthly' : planKey as 'monthly' | 'annual' | 'lifetime';
+          await upgradeToPremium(planType);
           router.push("/profile?success=true");
         }
       },
@@ -171,7 +180,7 @@ function CheckoutContent() {
               </div>
 
               <div className={`py-5 border-y border-[#282828] mb-5 flex justify-between items-center`}>
-                <span className="font-semibold">Monthly</span>
+                <span className="font-semibold">{planKey === 'lifetime' ? 'One-time' : planKey === 'annual' ? 'Yearly' : 'Monthly'}</span>
                 <span className="font-black text-2xl">{displayPrice}</span>
               </div>
 
