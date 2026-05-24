@@ -771,15 +771,168 @@ These advanced techniques prepare you for the most demanding decision situations
       "Build flexible thinking habits",
       "Keep momentum during uncertainty"
     ],
-    detailedModules: Array.from({ length: 8 }).map((_, i) => ({
-      title: `Module ${i + 1}`,
-      description: "Detailed content coming soon.",
-      objectives: [],
-      content: "This module is being prepared.",
-      activities: [],
-      resources: [],
-      estimatedTime: "TBD"
-    }))
+    detailedModules: [
+      {
+        title: "Understanding Change",
+        description: "Learn why change happens and how to prepare for it mentally and emotionally.",
+        objectives: [
+          "Understand the nature of change",
+          "Recognize your change response patterns",
+          "Prepare mentally for transitions"
+        ],
+        content: `Change is inevitable, but how we respond to it determines our success. This module helps you understand the psychology of change and develop the mindset needed to navigate transitions effectively.`,
+        activities: [
+          "Identify 3 major changes you've experienced and how you handled them",
+          "Create a personal change response journal",
+          "Practice a grounding technique for stressful transitions"
+        ],
+        resources: [
+          { name: "Understanding Change Psychology (Article)", url: "https://hbr.org/2021/06/how-to-handle-change" },
+          { name: "Change Management Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Resilience Basics",
+        description: "Build the foundation for bouncing back from setbacks and challenges.",
+        objectives: [
+          "Define resilience in your own words",
+          "Identify your resilience strengths",
+          "Practice basic resilience techniques"
+        ],
+        content: `Resilience is not about avoiding stress—it's about recovering from it. This module teaches you the foundational skills for building mental and emotional resilience.`,
+        activities: [
+          "Create a resilience inventory of your strengths",
+          "Practice a 5-minute resilience exercise",
+          "Identify 3 people who support your resilience"
+        ],
+        resources: [
+          { name: "Building Resilience (Article)", url: "https://www.apa.org/topics/resilience" },
+          { name: "Resilience Training (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "40 minutes"
+      },
+      {
+        title: "Flexible Thinking",
+        description: "Develop cognitive flexibility to adapt your thinking to new situations.",
+        objectives: [
+          "Practice reframing situations",
+          "Challenge fixed mindsets",
+          "Develop multiple perspectives"
+        ],
+        content: `Flexible thinking is the ability to adapt your mental approach to different situations. This module teaches you techniques for developing cognitive flexibility.`,
+        activities: [
+          "Reframe 3 negative situations into opportunities",
+          "Practice the 'six thinking hats' technique",
+          "Challenge one fixed belief you hold"
+        ],
+        resources: [
+          { name: "Cognitive Flexibility Guide (Article)", url: "https://www.psychologytoday.com/us/basics/cognitive-flexibility" },
+          { name: "Reframing Techniques (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "50 minutes"
+      },
+      {
+        title: "Managing Stress & Energy",
+        description: "Learn practical techniques for managing stress and maintaining energy during change.",
+        objectives: [
+          "Identify personal stress triggers",
+          "Practice stress management techniques",
+          "Build energy management habits"
+        ],
+        content: `Stress management is essential for adaptability. This module provides practical techniques for handling stress and maintaining energy during transitions.`,
+        activities: [
+          "Create a personal stress trigger map",
+          "Practice 3 stress management techniques",
+          "Design an energy management routine"
+        ],
+        resources: [
+          { name: "Stress Management Techniques (Article)", url: "https://www.mayoclinic.org/healthy-lifestyle/stress-management" },
+          { name: "Energy Management Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Learning Fast",
+        description: "Develop rapid learning skills to adapt quickly to new information and situations.",
+        objectives: [
+          "Practice accelerated learning techniques",
+          "Develop information filtering skills",
+          "Build quick adaptation habits"
+        ],
+        content: `The ability to learn quickly is a superpower in a changing world. This module teaches you techniques for rapid learning and adaptation.`,
+        activities: [
+          "Practice the Feynman technique on a new topic",
+          "Create a personal learning system",
+          "Complete a 24-hour learning challenge"
+        ],
+        resources: [
+          { name: "Accelerated Learning Guide (Article)", url: "https://www.mindtools.com/pages/article/accelerated-learning.htm" },
+          { name: "Feynman Technique Explained (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "55 minutes"
+      },
+      {
+        title: "Handling Setbacks",
+        description: "Learn to bounce back from failures and disappointments with grace and determination.",
+        objectives: [
+          "Develop a setback recovery process",
+          "Practice constructive self-reflection",
+          "Build failure resilience"
+        ],
+        content: `Setbacks are inevitable, but they don't have to define you. This module teaches you how to handle failures constructively and bounce back stronger.`,
+        activities: [
+          "Create a setback recovery plan",
+          "Practice constructive failure analysis",
+          "Write a 'lessons learned' document from a recent setback"
+        ],
+        resources: [
+          { name: "Bouncing Back from Failure (Article)", url: "https://hbr.org/2021/06/how-to-bounce-back-from-failure" },
+          { name: "Growth Mindset Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "50 minutes"
+      },
+      {
+        title: "Building Better Habits",
+        description: "Create habits that support adaptability and continuous improvement.",
+        objectives: [
+          "Understand habit formation science",
+          "Design adaptive habits",
+          "Build habit maintenance systems"
+        ],
+        content: `Habits are the foundation of sustainable change. This module teaches you how to build habits that support adaptability and continuous growth.`,
+        activities: [
+          "Use the habit loop to design one new habit",
+          "Create a habit tracking system",
+          "Practice habit stacking for better routines"
+        ],
+        resources: [
+          { name: "Atomic Habits Summary (Article)", url: "https://jamesclear.com/atomic-habits" },
+          { name: "Habit Formation Science (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Planning for the Next Season",
+        description: "Develop strategic planning skills to prepare for future changes and opportunities.",
+        objectives: [
+          "Practice scenario planning",
+          "Create adaptive goal systems",
+          "Build future-readiness habits"
+        ],
+        content: `The best way to handle the future is to prepare for it. This module teaches you strategic planning techniques for navigating uncertainty.`,
+        activities: [
+          "Create 3 scenarios for your next 6 months",
+          "Design adaptive goals for different outcomes",
+          "Build a future-readiness checklist"
+        ],
+        resources: [
+          { name: "Scenario Planning Guide (Article)", url: "https://hbr.org/2021/06/scenario-planning" },
+          { name: "Strategic Planning Tools (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "55 minutes"
+      }
+    ]
   },
   {
     id: "self-image",
@@ -811,15 +964,168 @@ These advanced techniques prepare you for the most demanding decision situations
       "Strengthen identity and values",
       "Create a personal self-image plan"
     ],
-    detailedModules: Array.from({ length: 8 }).map((_, i) => ({
-      title: `Module ${i + 1}`,
-      description: "Detailed content coming soon.",
-      objectives: [],
-      content: "This module is being prepared.",
-      activities: [],
-      resources: [],
-      estimatedTime: "TBD"
-    }))
+    detailedModules: [
+      {
+        title: "What Self-Image Is",
+        description: "Understand the concept of self-image and how it shapes your life.",
+        objectives: [
+          "Define self-image in your own words",
+          "Understand how self-image affects behavior",
+          "Identify your current self-image"
+        ],
+        content: `Self-image is the mental picture you hold of yourself. It influences every decision you make and every action you take. This module helps you understand and reshape your self-image for better outcomes.`,
+        activities: [
+          "Write a description of your current self-image",
+          "Identify 3 ways your self-image affects your decisions",
+          "Create a vision of your ideal self-image"
+        ],
+        resources: [
+          { name: "Self-Image Psychology (Article)", url: "https://www.verywellmind.com/what-is-self-image-2797910" },
+          { name: "Self-Concept Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "40 minutes"
+      },
+      {
+        title: "Confidence & Competence",
+        description: "Build real confidence through skill development and achievement.",
+        objectives: [
+          "Understand the confidence-competence loop",
+          "Develop skills that build confidence",
+          "Practice confidence-building actions"
+        ],
+        content: `True confidence comes from competence. This module teaches you how to build real confidence through skill development and meaningful achievements.`,
+        activities: [
+          "Identify 3 skills you want to develop",
+          "Create a skill-building plan",
+          "Practice one confidence-building action daily"
+        ],
+        resources: [
+          { name: "Building Real Confidence (Article)", url: "https://hbr.org/2021/06/how-to-build-confidence" },
+          { name: "Competence-Confidence Loop (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Self-Talk Fundamentals",
+        description: "Transform your inner dialogue from critical to supportive.",
+        objectives: [
+          "Identify negative self-talk patterns",
+          "Practice positive self-talk techniques",
+          "Build supportive inner dialogue habits"
+        ],
+        content: `Your inner dialogue shapes your reality. This module teaches you how to transform negative self-talk into supportive, empowering inner dialogue.`,
+        activities: [
+          "Track your self-talk for one day",
+          "Practice reframing negative thoughts",
+          "Create positive self-talk affirmations"
+        ],
+        resources: [
+          { name: "Positive Self-Talk Guide (Article)", url: "https://www.verywellmind.com/positive-self-talk" },
+          { name: "Cognitive Restructuring (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "50 minutes"
+      },
+      {
+        title: "Identity & Values",
+        description: "Clarify who you are and what matters most to you.",
+        objectives: [
+          "Identify your core values",
+          "Clarify your identity",
+          "Align actions with values"
+        ],
+        content: `Knowing who you are and what you value is essential for a strong self-image. This module helps you clarify your identity and live in alignment with your values.`,
+        activities: [
+          "Complete a values assessment exercise",
+          "Write a personal identity statement",
+          "Identify areas where your actions don't match your values"
+        ],
+        resources: [
+          { name: "Values Assessment Tool (Article)", url: "https://www.mindtools.com/pages/article/newTED_01.htm" },
+          { name: "Identity Formation Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "55 minutes"
+      },
+      {
+        title: "Boundaries & Respect",
+        description: "Learn to set healthy boundaries that protect your self-image.",
+        objectives: [
+          "Understand the importance of boundaries",
+          "Practice setting boundaries",
+          "Learn to respect others' boundaries"
+        ],
+        content: `Healthy boundaries protect your self-image and self-respect. This module teaches you how to set and maintain boundaries that support your wellbeing.`,
+        activities: [
+          "Identify 3 areas where you need better boundaries",
+          "Practice setting a boundary in a relationship",
+          "Create a personal boundary framework"
+        ],
+        resources: [
+          { name: "Setting Healthy Boundaries (Article)", url: "https://www.psychologytoday.com/us/blog/the-intelligence-divide/201805/why-boundaries-are-important" },
+          { name: "Boundary Setting Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Discipline & Consistency",
+        description: "Build the discipline to maintain positive self-image habits.",
+        objectives: [
+          "Understand the science of discipline",
+          "Build consistency habits",
+          "Practice self-discipline techniques"
+        ],
+        content: `Discipline is the bridge between goals and achievement. This module teaches you how to build the self-discipline needed to maintain positive self-image habits.`,
+        activities: [
+          "Create a daily discipline routine",
+          "Practice the 5-second rule for motivation",
+          "Build a consistency tracking system"
+        ],
+        resources: [
+          { name: "Building Self-Discipline (Article)", url: "https://hbr.org/2021/06/how-to-build-self-discipline" },
+          { name: "Consistency Habits (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "50 minutes"
+      },
+      {
+        title: "Resilience & Recovery",
+        description: "Learn to bounce back from setbacks without damaging your self-image.",
+        objectives: [
+          "Develop resilience strategies",
+          "Practice self-compassion",
+          "Build recovery routines"
+        ],
+        content: `Setbacks can damage your self-image if you let them. This module teaches you how to bounce back from challenges while maintaining a positive self-image.`,
+        activities: [
+          "Practice self-compassion after a setback",
+          "Create a recovery routine",
+          "Identify your resilience strengths"
+        ],
+        resources: [
+          { name: "Building Resilience (Article)", url: "https://www.apa.org/topics/resilience" },
+          { name: "Self-Compassion Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Your Self-Image Plan",
+        description: "Create a comprehensive plan for building and maintaining a strong self-image.",
+        objectives: [
+          "Integrate all self-image concepts",
+          "Create a personal development plan",
+          "Build long-term maintenance strategies"
+        ],
+        content: `This final module brings everything together. You'll create a comprehensive plan for building and maintaining a strong, healthy self-image over the long term.`,
+        activities: [
+          "Create a self-image development plan",
+          "Design a maintenance routine",
+          "Set long-term self-image goals"
+        ],
+        resources: [
+          { name: "Personal Development Planning (Article)", url: "https://hbr.org/2021/06/how-to-create-a-personal-development-plan" },
+          { name: "Goal Setting Framework (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "60 minutes"
+      }
+    ]
   },
   {
     id: "communication",
@@ -851,15 +1157,168 @@ These advanced techniques prepare you for the most demanding decision situations
       "Handle difficult conversations",
       "Build lifelong communication habits"
     ],
-    detailedModules: Array.from({ length: 8 }).map((_, i) => ({
-      title: `Module ${i + 1}`,
-      description: "Detailed content coming soon.",
-      objectives: [],
-      content: "This module is being prepared.",
-      activities: [],
-      resources: [],
-      estimatedTime: "TBD"
-    }))
+    detailedModules: [
+      {
+        title: "Clarity & Structure",
+        description: "Learn to structure your communication for maximum clarity and impact.",
+        objectives: [
+          "Master the clarity-first principle",
+          "Structure messages effectively",
+          "Eliminate confusion in communication"
+        ],
+        content: `Clear communication starts with clear thinking. This module teaches you how to structure your thoughts and messages for maximum clarity and impact.`,
+        activities: [
+          "Practice the pyramid principle for structuring messages",
+          "Rewrite 3 unclear messages into clear ones",
+          "Create a personal communication template"
+        ],
+        resources: [
+          { name: "Clarity in Communication (Article)", url: "https://hbr.org/2021/06/how-to-communicate-with-clarity" },
+          { name: "Message Structure Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Listening Fundamentals",
+        description: "Develop active listening skills that make others feel heard and understood.",
+        objectives: [
+          "Practice active listening techniques",
+          "Develop empathetic listening habits",
+          "Improve comprehension and retention"
+        ],
+        content: `Listening is the most important communication skill. This module teaches you how to listen actively, empathetically, and effectively.`,
+        activities: [
+          "Practice active listening in 3 conversations",
+          "Use the 'reflect and confirm' technique",
+          "Identify your listening barriers"
+        ],
+        resources: [
+          { name: "Active Listening Guide (Article)", url: "https://www.mindtools.com/pages/article/active-listening.htm" },
+          { name: "Listening Skills Training (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "50 minutes"
+      },
+      {
+        title: "Confidence in Speaking",
+        description: "Build the confidence to speak up in any situation.",
+        objectives: [
+          "Overcome speaking anxiety",
+          "Develop vocal presence",
+          "Practice confident speaking techniques"
+        ],
+        content: `Confidence in speaking is a skill that can be learned. This module provides techniques for building speaking confidence and overcoming anxiety.`,
+        activities: [
+          "Practice vocal exercises for presence",
+          "Use the 3-second rule for speaking up",
+          "Record and review your speaking practice"
+        ],
+        resources: [
+          { name: "Building Speaking Confidence (Article)", url: "https://hbr.org/2021/06/how-to-speak-with-confidence" },
+          { name: "Public Speaking Tips (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Asking Better Questions",
+        description: "Learn to ask questions that unlock information and build relationships.",
+        objectives: [
+          "Master different question types",
+          "Practice open-ended questioning",
+          "Use questions strategically"
+        ],
+        content: `Good questions unlock information and build relationships. This module teaches you how to ask better questions in any situation.`,
+        activities: [
+          "Practice converting closed questions to open ones",
+          "Use questioning frameworks in conversations",
+          "Create a personal question bank"
+        ],
+        resources: [
+          { name: "Art of Questioning (Article)", url: "https://hbr.org/2021/06/how-to-ask-better-questions" },
+          { name: "Questioning Techniques (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "40 minutes"
+      },
+      {
+        title: "Difficult Conversations",
+        description: "Learn to handle challenging conversations with grace and effectiveness.",
+        objectives: [
+          "Prepare for difficult conversations",
+          "Manage emotions during tough talks",
+          "Achieve positive outcomes"
+        ],
+        content: `Difficult conversations are inevitable, but they don't have to be destructive. This module teaches you how to handle challenging conversations effectively.`,
+        activities: [
+          "Use the 'prepare, discuss, resolve' framework",
+          "Practice emotional regulation techniques",
+          "Role-play a difficult conversation scenario"
+        ],
+        resources: [
+          { name: "Difficult Conversations Guide (Article)", url: "https://hbr.org/2021/06/how-to-have-difficult-conversations" },
+          { name: "Conflict Resolution Skills (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "55 minutes"
+      },
+      {
+        title: "Non‑Verbal Communication",
+        description: "Understand and use body language to enhance your communication.",
+        objectives: [
+          "Read non-verbal cues effectively",
+          "Use body language strategically",
+          "Align verbal and non-verbal messages"
+        ],
+        content: `Non-verbal communication conveys more than words. This module teaches you to read and use body language effectively.`,
+        activities: [
+          "Practice mirroring techniques",
+          "Record and analyze your body language",
+          "Identify non-verbal cues in others"
+        ],
+        resources: [
+          { name: "Body Language Guide (Article)", url: "https://www.scienceofpeople.com/body-language" },
+          { name: "Non-Verbal Communication (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "45 minutes"
+      },
+      {
+        title: "Influence & Persuasion Basics",
+        description: "Learn ethical techniques for influencing others and building consensus.",
+        objectives: [
+          "Understand influence principles",
+          "Practice ethical persuasion",
+          "Build consensus effectively"
+        ],
+        content: `Influence is about helping others see your perspective. This module teaches ethical techniques for influencing and persuading others.`,
+        activities: [
+          "Practice the 'reciprocity' principle",
+          "Use storytelling for influence",
+          "Apply Cialdini's principles in real situations"
+        ],
+        resources: [
+          { name: "Influence Psychology (Article)", url: "https://hbr.org/2021/06/how-to-influence-people" },
+          { name: "Persuasion Techniques (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "50 minutes"
+      },
+      {
+        title: "Communication Habits for Life",
+        description: "Build sustainable communication habits that serve you for a lifetime.",
+        objectives: [
+          "Create a communication improvement plan",
+          "Build daily communication practices",
+          "Develop long-term growth strategies"
+        ],
+        content: `Communication is a lifelong skill. This final module helps you create sustainable habits and a plan for continuous improvement.`,
+        activities: [
+          "Create a personal communication development plan",
+          "Design daily communication practices",
+          "Set long-term communication goals"
+        ],
+        resources: [
+          { name: "Communication Mastery (Article)", url: "https://hbr.org/2021/06/how-to-master-communication" },
+          { name: "Habit Building Guide (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" }
+        ],
+        estimatedTime: "60 minutes"
+      }
+    ]
   },
 ];
 

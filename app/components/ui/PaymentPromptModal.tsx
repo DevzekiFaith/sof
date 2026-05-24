@@ -20,7 +20,7 @@ export default function PaymentPromptModal({ isOpen, onClose, featureName, plan 
     lifetime: { price: 149, period: 'once', name: 'Lifetime' }
   };
 
-  const currentPlan = planDetails[plan];
+  const currentPlan = planDetails[plan] || planDetails.monthly;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
