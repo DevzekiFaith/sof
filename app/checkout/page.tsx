@@ -82,14 +82,21 @@ function CheckoutContent() {
 
   const handleFlutterPayment = useFlutterwave(flwConfig);
 
-  const handlePay = () => {
+  const handlePay = async () => {
     if (!currentUser) return;
+
+    // For free plan, skip payment and directly upgrade
+    if (planKey === 'free') {
+      router.push("/profile?success=true");
+      return;
+    }
+
     handleFlutterPayment({
       callback: async (response) => {
         closePaymentModal();
         if (response.status === "successful" || response.status === "completed") {
           // Convert planKey to the correct type for upgradeToPremium
-          const planType = planKey === 'free' ? 'monthly' : planKey as 'monthly' | 'annual' | 'lifetime';
+          const planType = planKey as 'monthly' | 'annual' | 'lifetime';
           await upgradeToPremium(planType);
           router.push("/profile?success=true");
         }
@@ -297,7 +304,7 @@ function CheckoutContent() {
               onClick={handlePay}
               className="w-full py-4 px-6 bg-[#1ed760] hover:scale-[1.02] text-black font-bold text-lg rounded-full shadow-lg shadow-[#1ed760]/20 transition-transform flex justify-center items-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Pay {displayPrice} via Flutterwave
+              {planKey === 'free' ? 'Get Started Free' : `Pay ${displayPrice} via Flutterwave`}
               <span className="transform group-hover:translate-x-1 transition-transform">→</span>
             </button>
 

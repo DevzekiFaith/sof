@@ -69,6 +69,10 @@ interface UserContextType {
   checkStreakBonus: () => { earned: boolean; reward: string };
   addReferral: (referredUserId: string) => Promise<boolean>;
   getReferralCount: () => Promise<number>;
+  // Email confirmation
+  resendConfirmationEmail: (email: string) => Promise<boolean>;
+  // OAuth
+  signInWithGoogle: () => Promise<boolean>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -160,7 +164,36 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     if (error) {
       console.error('Login error:', error.message);
-      alert(`Login failed: ${error.message}`);
+      return false;
+    }
+
+    return true;
+  };
+
+  const resendConfirmationEmail = async (email: string): Promise<boolean> => {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+    });
+
+    if (error) {
+      console.error('Resend confirmation error:', error.message);
+      return false;
+    }
+
+    return true;
+  };
+
+  const signInWithGoogle = async (): Promise<boolean> => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+
+    if (error) {
+      console.error('Google sign-in error:', error.message);
       return false;
     }
 
@@ -589,7 +622,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         getSubscriptionStatus,
         checkStreakBonus,
         addReferral,
-        getReferralCount
+        getReferralCount,
+        resendConfirmationEmail,
+        signInWithGoogle
       }}
     >
       {children}
