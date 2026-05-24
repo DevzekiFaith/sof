@@ -1,7 +1,7 @@
 "use client";
 
 import { usePodcast } from "../../contexts/PodcastContext";
-import { Play, Pause, SkipForward, SkipBack, Volume2, Mic, X } from "lucide-react";
+import { Play, Pause, SkipForward, SkipBack, Volume2, Mic, ChevronUp, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 export default function EduCastPlayer() {
@@ -14,25 +14,6 @@ export default function EduCastPlayer() {
     return null;
   }
 
-  const handleClose = () => {
-    pausePlayback();
-    setIsMinimized(true);
-  };
-
-  if (isMinimized) {
-    return (
-      <div className="fixed bottom-20 left-4 md:left-72 bg-[#181818] border border-[#282828] rounded-full p-2 z-40 shadow-2xl">
-        <button
-          onClick={() => setIsMinimized(false)}
-          className="flex items-center gap-2 px-3 py-1 bg-[#1ed760] text-black rounded-full text-sm font-bold hover:scale-105 transition-transform"
-        >
-          <Mic size={14} />
-          <span className="truncate max-w-[150px]">{playbackState.currentEduCast.title}</span>
-        </button>
-      </div>
-    );
-  }
-
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -41,24 +22,61 @@ export default function EduCastPlayer() {
 
   const progressPercent = (playbackState.currentTime / playbackState.duration) * 100;
 
-  return (
-    <div className="fixed bottom-20 left-0 right-0 md:left-64 md:right-0 bg-[#181818] border-t border-[#282828] p-4 z-40">
-      <div className="max-w-4xl mx-auto">
-        {/* EduCast Info */}
-        <div className="flex items-center gap-4 mb-3">
-          <div className="w-12 h-12 rounded bg-gradient-to-br from-[#1ed760]/30 to-[#121212] flex items-center justify-center flex-shrink-0">
-            <Mic className="w-6 h-6 text-[#1ed760]" />
+  if (isMinimized) {
+    return (
+      <div className="fixed bottom-0 left-0 right-0 bg-[#000000]/95 backdrop-blur-xl border-t border-white/5 px-4 py-2 z-50">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
+          <div className="flex items-center gap-3 flex-1">
+            <button
+              onClick={playbackState.isPlaying ? pausePlayback : resumePlayback}
+              className="w-10 h-10 rounded-full bg-[#1ed760] text-black flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0"
+            >
+              {playbackState.isPlaying ? (
+                <Pause size={18} fill="currentColor" />
+              ) : (
+                <Play size={18} fill="currentColor" className="ml-0.5" />
+              )}
+            </button>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-bold text-white truncate">{playbackState.currentEduCast.title}</h4>
+              <p className="text-xs text-[#b3b3b3]">{playbackState.currentEduCast.host}</p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <h4 className="text-sm font-bold text-white truncate">{playbackState.currentEduCast.title}</h4>
-            <p className="text-xs text-[#b3b3b3]">{playbackState.currentEduCast.host}</p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-[#b3b3b3]">{formatTime(playbackState.currentTime)} / {formatTime(playbackState.duration)}</span>
+            <button
+              onClick={() => setIsMinimized(false)}
+              className="p-2 hover:bg-[#282828] rounded-full transition-colors"
+              title="Expand player"
+            >
+              <ChevronUp size={18} className="text-white" />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 md:left-64 bg-[#181818] border-t border-[#282828] z-50 transition-all duration-300">
+      <div className="max-w-4xl mx-auto p-4">
+        {/* Header with minimize button */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-4 flex-1">
+            <div className="w-12 h-12 rounded bg-gradient-to-br from-[#1ed760]/30 to-[#121212] flex items-center justify-center flex-shrink-0">
+              <Mic className="w-6 h-6 text-[#1ed760]" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-bold text-white truncate">{playbackState.currentEduCast.title}</h4>
+              <p className="text-xs text-[#b3b3b3]">{playbackState.currentEduCast.host}</p>
+            </div>
           </div>
           <button
-            onClick={handleClose}
+            onClick={() => setIsMinimized(true)}
             className="p-2 hover:bg-[#282828] rounded-full transition-colors"
-            title="Close player"
+            title="Minimize player"
           >
-            <X size={18} className="text-[#b3b3b3]" />
+            <ChevronDown size={18} className="text-[#b3b3b3]" />
           </button>
         </div>
 
@@ -99,12 +117,12 @@ export default function EduCastPlayer() {
             </button>
             <button
               onClick={playbackState.isPlaying ? pausePlayback : resumePlayback}
-              className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition-transform"
+              className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition-transform"
             >
               {playbackState.isPlaying ? (
-                <Pause size={20} fill="currentColor" />
+                <Pause size={24} fill="currentColor" />
               ) : (
-                <Play size={20} fill="currentColor" className="ml-1" />
+                <Play size={24} fill="currentColor" className="ml-1" />
               )}
             </button>
             <button

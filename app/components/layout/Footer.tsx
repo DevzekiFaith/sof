@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Logo from "../Logo";
 import Copyright from "../Copyright";
-import { Twitter, Instagram, Linkedin } from "lucide-react";
+import { X, Instagram, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -19,7 +19,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               {[
-                { name: 'Twitter', icon: <Twitter size={20} /> },
+                { name: 'X', icon: <X size={20} /> },
                 { name: 'Instagram', icon: <Instagram size={20} /> },
                 { name: 'LinkedIn', icon: <Linkedin size={20} /> }
               ].map((social) => (

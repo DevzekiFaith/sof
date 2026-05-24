@@ -42,6 +42,7 @@ export interface Course {
   status?: string;
   duration?: string;
   priceUSD?: number;
+  isFree?: boolean; // Indicates if course is available to free users
   modules?: string[];
   outcomes?: string[];
   youtubeVideoUrl?: string; // Simple YouTube integration
@@ -64,6 +65,7 @@ export const courses: Course[] = [
     featured: true,
     duration: "5 weeks",
     priceUSD: 14,
+    isFree: true,
     modules: [
       "Problem Solving Fundamentals",
       "Critical Thinking Skills",
@@ -187,11 +189,11 @@ Each framework has its strengths and is best applied to specific types of proble
 
 You'll discover:
 
-• **Brainstorming Techniques**: Rules for effective idea generation
-• **Lateral Thinking**: Creative approaches to problem solving
-• **SCAMPER Method**: Systematic creativity technique
-• **Analogical Thinking**: Using metaphors and analogies
-• **Mindfulness Practices**: Techniques to clear mental blocks
+Brainstorming Techniques: Rules for effective idea generation
+Lateral Thinking: Creative approaches to problem solving
+SCAMPER Method: Systematic creativity technique
+Analogical Thinking: Using metaphors and analogies
+Mindfulness Practices: Techniques to clear mental blocks
 
 Creativity is a skill that can be developed and strengthened with practice.`,
         activities: [
@@ -219,11 +221,11 @@ Creativity is a skill that can be developed and strengthened with practice.`,
 
 You'll learn:
 
-• **Pros/Cons Analysis**: Balanced evaluation technique
-• **Decision Trees**: Visual decision mapping
-• **Expected Value**: Mathematical approach to uncertainty
-• **Pre-mortem Analysis**: Anticipating potential failures
-• **Satisficing**: Good enough decision making
+Pros/Cons Analysis: Balanced evaluation technique
+Decision Trees: Visual decision mapping
+Expected Value: Mathematical approach to uncertainty
+Pre-mortem Analysis: Anticipating potential failures
+Satisficing: Good enough decision making
 
 These tools will help you make better decisions consistently.`,
         activities: [
@@ -250,11 +252,11 @@ These tools will help you make better decisions consistently.`,
 
 You'll explore:
 
-• **Cognitive Biases**: Hidden thinking traps
-• **Emotional Barriers**: Fear, anxiety, frustration
-• **Environmental Factors**: Distractions and constraints
-• **Motivational Blocks**: Lack of confidence or interest
-• **Time Pressure**: Decision fatigue and rushed thinking
+Cognitive Biases: Hidden thinking traps
+Emotional Barriers: Fear, anxiety, frustration
+Environmental Factors: Distractions and constraints
+Motivational Blocks: Lack of confidence or interest
+Time Pressure: Decision fatigue and rushed thinking
 
 Understanding these blocks is the first step to overcoming them.`,
         activities: [
@@ -281,11 +283,11 @@ Understanding these blocks is the first step to overcoming them.`,
 
 You'll learn:
 
-• **Group Dynamics**: Understanding team interactions
-• **Facilitation Techniques**: Leading group problem-solving sessions
-• **Conflict Resolution**: Managing disagreements constructively
-• **Diverse Perspectives**: Leveraging different viewpoints
-• **Consensus Building**: Reaching group agreement
+Group Dynamics: Understanding team interactions
+Facilitation Techniques: Leading group problem-solving sessions
+Conflict Resolution: Managing disagreements constructively
+Diverse Perspectives: Leveraging different viewpoints
+Consensus Building: Reaching group agreement
 
 Effective collaboration can lead to better solutions than any individual could create alone.`,
         activities: [
@@ -312,11 +314,11 @@ Effective collaboration can lead to better solutions than any individual could c
 
 You'll explore:
 
-• **Case Studies**: Real problem-solving successes and failures
-• **Industry Applications**: Problem solving in different fields
-• **Personal Challenges**: Applying skills to life problems
-• **Systematic Approach**: Complete problem-solving methodology
-• **Continuous Improvement**: Learning from experience
+Case Studies: Real problem-solving successes and failures
+Industry Applications: Problem solving in different fields
+Personal Challenges: Applying skills to life problems
+Systematic Approach: Complete problem-solving methodology
+Continuous Improvement: Learning from experience
 
 This module helps you integrate all the skills into a comprehensive problem-solving approach.`,
         activities: [
@@ -346,6 +348,7 @@ This module helps you integrate all the skills into a comprehensive problem-solv
     featured: false,
     duration: "5 weeks",
     priceUSD: 14,
+    isFree: true,
     modules: [
       "Decision-Making Fundamentals",
       "Critical Thinking Skills",
@@ -377,10 +380,10 @@ This module helps you integrate all the skills into a comprehensive problem-solv
 
 This foundational module covers:
 
-• **Decision Types**: Understanding different kinds of decisions
-• **Decision Criteria**: How to identify what matters most
-• **Decision Process**: A systematic approach to making choices
-• **Decision Quality**: How to know if you've made a good decision
+Decision Types: Understanding different kinds of decisions
+Decision Criteria: How to identify what matters most
+Decision Process: A systematic approach to making choices
+Decision Quality: How to know if you've made a good decision
 
 The goal is to move from impulsive or emotional decisions to thoughtful, strategic choices that serve your long-term goals.`,
         activities: [
@@ -407,10 +410,10 @@ The goal is to move from impulsive or emotional decisions to thoughtful, strateg
 
 This module covers:
 
-• **Information Evaluation**: How to assess the credibility of sources
-• **Logical Reasoning**: Building arguments based on evidence
-• **Cognitive Biases**: Common mental shortcuts that lead to poor decisions
-• **Critical Questions**: What questions to ask when evaluating information
+Information Evaluation: How to assess the credibility of sources
+Logical Reasoning: Building arguments based on evidence
+Cognitive Biases: Common mental shortcuts that lead to poor decisions
+Critical Questions: What questions to ask when evaluating information
 
 Critical thinking is a skill that improves with practice. The more you apply these techniques, the more natural they become.`,
         activities: [
@@ -437,11 +440,11 @@ Critical thinking is a skill that improves with practice. The more you apply the
 
 You'll learn:
 
-• **Research Techniques**: Systematic information gathering
-• **Source Evaluation**: Assessing information quality
-• **Data Organization**: Structuring information for analysis
-• **Information Prioritization**: Focusing on what matters most
-• **Avoiding Overload**: Managing information volume
+Research Techniques: Systematic information gathering
+Source Evaluation: Assessing information quality
+Data Organization: Structuring information for analysis
+Information Prioritization: Focusing on what matters most
+Avoiding Overload: Managing information volume
 
 The key is gathering the right information, not just more information.`,
         activities: [
@@ -468,11 +471,11 @@ The key is gathering the right information, not just more information.`,
 
 You'll master:
 
-• **Cost-Benefit Analysis**: Weighing pros and cons quantitatively
-• **Multi-Criteria Decision Analysis**: Complex decision evaluation
-• **Risk Analysis**: Assessing uncertainty and probability
-• **Sensitivity Analysis**: Testing decision robustness
-• **Gap Analysis**: Comparing current vs. desired states
+Cost-Benefit Analysis: Weighing pros and cons quantitatively
+Multi-Criteria Decision Analysis: Complex decision evaluation
+Risk Analysis: Assessing uncertainty and probability
+Sensitivity Analysis: Testing decision robustness
+Gap Analysis: Comparing current vs. desired states
 
 These frameworks help you make decisions based on evidence rather than intuition.`,
         activities: [
@@ -499,11 +502,11 @@ These frameworks help you make decisions based on evidence rather than intuition
 
 You'll learn:
 
-• **Risk Identification**: Finding potential problems
-• **Risk Evaluation**: Assessing probability and impact
-• **Risk Tolerance**: Understanding your risk preferences
-• **Mitigation Strategies**: Reducing risk exposure
-• **Contingency Planning**: Preparing for worst-case scenarios
+Risk Identification: Finding potential problems
+Risk Evaluation: Assessing probability and impact
+Risk Tolerance: Understanding your risk preferences
+Mitigation Strategies: Reducing risk exposure
+Contingency Planning: Preparing for worst-case scenarios
 
 Understanding risk helps you make more confident and realistic decisions.`,
         activities: [
@@ -530,11 +533,11 @@ Understanding risk helps you make more confident and realistic decisions.`,
 
 You'll learn:
 
-• **Action Planning**: Creating detailed implementation plans
-• **Change Management**: Handling transitions and resistance
-• **Progress Monitoring**: Tracking implementation success
-• **Course Correction**: Adjusting when things go wrong
-• **Stakeholder Management**: Keeping people informed and engaged
+Action Planning: Creating detailed implementation plans
+Change Management: Handling transitions and resistance
+Progress Monitoring: Tracking implementation success
+Course Correction: Adjusting when things go wrong
+Stakeholder Management: Keeping people informed and engaged
 
 Successful implementation turns good decisions into great outcomes.`,
         activities: [
@@ -561,11 +564,11 @@ Successful implementation turns good decisions into great outcomes.`,
 
 You'll discover:
 
-• **Outcome Analysis**: Evaluating what actually happened
-• **Success Factors**: Understanding what worked well
-• **Failure Analysis**: Learning from mistakes without blame
-• **Pattern Recognition**: Identifying recurring themes
-• **Continuous Improvement**: Building better decision-making habits
+Outcome Analysis: Evaluating what actually happened
+Success Factors: Understanding what worked well
+Failure Analysis: Learning from mistakes without blame
+Pattern Recognition: Identifying recurring themes
+Continuous Improvement: Building better decision-making habits
 
 The goal is to get better at decision-making through deliberate learning.`,
         activities: [
@@ -592,11 +595,11 @@ The goal is to get better at decision-making through deliberate learning.`,
 
 You'll master:
 
-• **Scenario Planning**: Preparing for multiple futures
-• **Game Theory**: Strategic decision-making
-• **Complex Systems Thinking**: Understanding interconnected decisions
-• **Ethical Decision Frameworks**: Balancing competing values
-• **Crisis Decision Making**: High-pressure decision techniques
+Scenario Planning: Preparing for multiple futures
+Game Theory: Strategic decision-making
+Complex Systems Thinking: Understanding interconnected decisions
+Ethical Decision Frameworks: Balancing competing values
+Crisis Decision Making: High-pressure decision techniques
 
 These advanced techniques prepare you for the most demanding decision situations.`,
         activities: [

@@ -46,6 +46,8 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
   const subscriptionStatus = getSubscriptionStatus();
   const hasActiveSubscription = subscriptionStatus.isActive;
   const currentTier = subscriptionStatus.tier;
+  const isFreeCourse = course.isFree ?? false;
+  const canAccessCourse = isFreeCourse || hasActiveSubscription;
 
   // Debug logging
   console.log('CoursePreviewPanel - Subscription check:', {
@@ -69,7 +71,7 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
       {/* Slide-over Panel */}
       <div
         ref={panelRef}
-        className="fixed top-0 right-0 h-full w-full sm:w-[520px] bg-[#121212] z-50 shadow-2xl overflow-y-auto animate-slide-in-right border-l border-[#282828]"
+        className="fixed top-0 right-0 h-full w-full sm:w-[520px] bg-[#121212] z-[60] shadow-2xl overflow-y-auto animate-slide-in-right border-l border-[#282828]"
         role="dialog"
         aria-modal="true"
         aria-label={`${course.title} preview`}
@@ -105,6 +107,13 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
             <div className="mb-3 relative z-10">
               <span className="px-3 py-1 bg-[#1ed760] text-black text-xs font-black rounded-full uppercase tracking-wider">
                 Popular
+              </span>
+            </div>
+          )}
+          {isFreeCourse && (
+            <div className="mb-3 relative z-10">
+              <span className="px-3 py-1 bg-[#1ed760] text-black text-xs font-black rounded-full uppercase tracking-wider">
+                Free
               </span>
             </div>
           )}
@@ -249,7 +258,7 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
                 <h3 className="text-lg font-bold text-white">
                   {moduleCount} Modules
                 </h3>
-                {!userIsPremium && (
+                {!isFreeCourse && !userIsPremium && (
                   <div className="flex items-center gap-1 text-xs text-[#1ed760]">
                     <Crown size={12} />
                     <span>Premium</span>
@@ -257,7 +266,7 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
                 )}
               </div>
               <div className="space-y-2">
-                {course.modules.slice(0, userIsPremium ? 5 : 2).map((mod, i) => (
+                {course.modules.slice(0, canAccessCourse ? 5 : 2).map((mod, i) => (
                   <div key={i} className="flex items-center gap-3 p-3 bg-[#181818] rounded-xl border border-transparent hover:border-[#282828] transition-colors">
                     <span className="w-7 h-7 flex-shrink-0 bg-[#282828] text-[#a7a7a7] rounded-lg flex items-center justify-center text-xs font-bold">
                       {i + 1}
@@ -265,13 +274,13 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
                     <span className="text-sm text-[#e5e5e5] font-medium">{mod}</span>
                   </div>
                 ))}
-                {!userIsPremium && moduleCount > 2 && (
+                {!canAccessCourse && moduleCount > 2 && (
                   <div className="flex items-center justify-center gap-2 py-3 bg-[#282828]/50 rounded-xl border border-[#282828]">
                     <Lock className="w-4 h-4 text-[#b3b3b3]" />
                     <span className="text-sm text-[#b3b3b3]">+{moduleCount - 2} more modules</span>
                   </div>
                 )}
-                {userIsPremium && moduleCount > 5 && (
+                {canAccessCourse && moduleCount > 5 && (
                   <div className="text-center py-2">
                     <span className="text-sm text-[#535353]">+{moduleCount - 5} more modules inside</span>
                   </div>
@@ -283,7 +292,15 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
 
         {/* Sticky CTA Footer */}
         <div className="sticky bottom-0 bg-[#121212]/95 backdrop-blur-md border-t border-[#282828] p-6 shadow-2xl flex flex-col gap-3">
-          {!hasActiveSubscription ? (
+          {isFreeCourse ? (
+            <>
+              <Link href={isLoggedIn ? `/learn/${course.id}` : "/checkout?plan=free"} className="block w-full" onClick={onClose}>
+                <button className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group">
+                  {isLoggedIn ? 'Start Free Course' : 'Sign Up to Start'}
+                </button>
+              </Link>
+            </>
+          ) : !hasActiveSubscription ? (
             <>
               <button
                 onClick={() => setShowPaymentModal(true)}

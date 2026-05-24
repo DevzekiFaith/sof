@@ -296,6 +296,11 @@ export default function Home() {
                   ) : (
                     <course.icon className="w-8 h-8 text-white relative z-10" />
                   )}
+                  {course.isFree && (
+                    <div className="absolute top-1 left-1 bg-[#1ed760] text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">
+                      Free
+                    </div>
+                  )}
                 </div>
                 <div className="flex-1 flex items-center justify-between px-4 overflow-hidden">
                   <span className="font-bold text-sm truncate">{course.title}</span>
@@ -346,6 +351,13 @@ export default function Home() {
                   <img src={course.imageUrl} alt={course.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 ) : (
                   <course.icon className="text-white w-1/3 h-1/3 drop-shadow-2xl relative z-10" />
+                )}
+                
+                {/* Free/Premium Badge */}
+                {course.isFree && (
+                  <div className="absolute top-2 left-2 bg-[#1ed760] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
+                    Free
+                  </div>
                 )}
                 
                 {/* Spotify style floating play button */}

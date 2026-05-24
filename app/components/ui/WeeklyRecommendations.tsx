@@ -54,11 +54,16 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
             </div>
 
             {/* Course Image */}
-            <div className={`w-12 h-12 rounded bg-gradient-to-br ${rec.course.bgGradient} flex items-center justify-center shadow-lg flex-shrink-0`}>
+            <div className={`w-12 h-12 rounded bg-gradient-to-br ${rec.course.bgGradient} flex items-center justify-center shadow-lg flex-shrink-0 relative`}>
               {rec.course.imageUrl ? (
                 <img src={rec.course.imageUrl} alt={rec.course.title} className="w-full h-full object-cover rounded" />
               ) : (
                 <rec.course.icon className="w-6 h-6 text-white" />
+              )}
+              {rec.course.isFree && (
+                <div className="absolute top-0 right-0 bg-[#1ed760] text-black text-[8px] font-bold px-1 py-0.5 rounded-full">
+                  Free
+                </div>
               )}
             </div>
 
