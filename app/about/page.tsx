@@ -19,7 +19,7 @@ export default function AboutPage() {
               <span className="text-sm font-bold tracking-wider uppercase text-[#1ed760]">Our Story</span>
             </div>
             <h1 className="text-5xl sm:text-7xl md:text-8xl font-black mb-6 tracking-tighter truncate">
-              About Magify
+              About Origin
             </h1>
             <div className="flex items-center gap-4 text-sm font-medium text-gray-300">
               <span>Formation Platform</span>
@@ -59,7 +59,7 @@ export default function AboutPage() {
               <div>
                 <h2 className="text-2xl font-bold text-white mb-4">Our Mission</h2>
                 <p className="text-[#b3b3b3] text-lg leading-relaxed">
-                   We empower individuals aged 10 to 45 with practical life and professional skills. Magify is a formation platform — rooted in the idea that growth is intentional, staged, and always pointing higher. No fluff. No theory for theory's sake. Just structured formation that works.
+                   We empower individuals aged 10 to 45 with practical life and professional skills. Origin is a formation platform — rooted in the idea that growth is intentional, staged, and always pointing higher. No fluff. No theory for theory's sake. Just structured formation that works.
                 </p>
               </div>
             </AnimatedSection>
@@ -68,7 +68,7 @@ export default function AboutPage() {
               <div>
                 <h2 className="text-2xl font-bold text-white mb-4">What We Do</h2>
                 <p className="text-[#b3b3b3] text-lg leading-relaxed mb-6">
-                   Magify offers structured courses in capital development, persuasion, decision-making, teamwork, and more. Each program follows our formation method:
+                   Origin offers structured courses in capital development, persuasion, decision-making, teamwork, and more. Each program follows our formation method:
                 </p>
                 <ul className="space-y-4">
                   {[
@@ -92,7 +92,7 @@ export default function AboutPage() {
               <div>
                 <h2 className="text-2xl font-bold text-white mb-4">Who We Serve</h2>
                 <p className="text-[#b3b3b3] text-lg leading-relaxed">
-                  Whether you’re a student finding your feet, a professional leveling up, or someone stubbornly committed to growth — Magify was built for you. Our age-inclusive formation means everyone, everywhere, can grow.
+                  Whether you’re a student finding your feet, a professional leveling up, or someone stubbornly committed to growth — Origin was built for you. Our age-inclusive formation means everyone, everywhere, can grow.
                 </p>
               </div>
             </AnimatedSection>

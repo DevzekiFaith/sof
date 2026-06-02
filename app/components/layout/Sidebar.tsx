@@ -251,7 +251,7 @@ export default function Sidebar() {
                   <Music className="text-black w-6 h-6" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-sm font-bold text-white">Magify Intro</span>
+                  <span className="text-sm font-bold text-white">Origin Intro</span>
                   <span className="text-xs text-[#b3b3b3]">Playlist • Official</span>
                 </div>
               </Link>

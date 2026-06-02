@@ -55,9 +55,9 @@ function CheckoutContent() {
       phone_number: "",
     },
     customizations: {
-      title: "Magify — Formation for Life",
+      title: "Origin — Formation for Life",
       description: `${course.title} — One-time purchase`,
-      logo: "https://magify.app/logo.png",
+      logo: "https://origin.app/logo.png",
     },
   };
 

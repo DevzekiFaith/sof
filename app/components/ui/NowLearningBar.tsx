@@ -73,7 +73,7 @@ export default function NowLearningBar() {
             {activeCourse.title}
           </Link>
           <span className="text-[#b3b3b3] text-[10px] sm:text-xs truncate">
-            {activeCourse.duration || "Magify Core"}
+            {activeCourse.duration || "Origin Core"}
           </span>
         </div>
       </div>

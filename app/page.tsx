@@ -368,7 +368,7 @@ export default function Home() {
                   return (
                     <Link
                       key={track.id}
-                      href={`/courses?track=${track.id}`}
+                      href={`/tracks?track=${track.id}`}
                       className="group relative p-5 rounded-xl border border-[#282828] hover:border-[#1ed760]/30 transition-all duration-300 overflow-hidden cursor-pointer bg-[#181818]"
                     >
                       {/* Glow on hover */}
@@ -386,7 +386,7 @@ export default function Home() {
                         <p className="text-[10px] text-[#b3b3b3] mb-2 line-clamp-2 leading-snug">{track.tagline}</p>
                         <div className="flex items-center justify-between mt-3">
                           <span className="text-[10px] font-bold rounded-full px-2 py-0.5 bg-[#282828] text-[#1ed760]">
-                            {track.courseCount} courses
+                            {track.curriculum?.length || 0} modules
                           </span>
                           <span className="text-[9px] text-[#b3b3b3]">{track.ageRange}</span>
                         </div>
@@ -403,7 +403,7 @@ export default function Home() {
             <section className="mt-16">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h2 className="text-2xl font-black tracking-tight">Magify Clubs</h2>
+                  <h2 className="text-2xl font-black tracking-tight">Origin Clubs</h2>
                   <p className="text-sm text-[#b3b3b3] mt-1">
                     Inspired by Eton's 80+ societies — explore beyond the classroom
                   </p>
@@ -623,7 +623,7 @@ export default function Home() {
                 </h2>
                 <p className="text-sm text-[#b3b3b3] max-w-xl mb-10 leading-relaxed">
                   Elite boarding schools offer the gold standard — but they charge £55,000 a year
-                  and have waiting lists that start at birth. Magify gives your child the same
+                  and have waiting lists that start at birth. Origin gives your child the same
                   standard of learning from day one, at any age, for a fraction of the cost.
                 </p>
 
@@ -675,11 +675,11 @@ export default function Home() {
             </section>
           </AnimatedSection>
 
-          {/* ── WHY MAGIFY? (Social Proof + Comparison) ──────────────── */}
+          {/* ── WHY SHAPE? (Social Proof + Comparison) ──────────────── */}
           <AnimatedSection>
             <section className="mt-20">
               <div className="mb-8">
-                <h2 className="text-2xl font-black tracking-tight mb-1">Why Magify?</h2>
+                <h2 className="text-2xl font-black tracking-tight mb-1">Why Origin?</h2>
                 <p className="text-sm text-[#b3b3b3]">See what your child gets that other schools can&apos;t offer.</p>
               </div>
 
@@ -696,7 +696,7 @@ export default function Home() {
                       </th>
                       <th className="text-center pb-4">
                         <span className="inline-flex items-center gap-1.5 bg-[#1ed760]/10 border border-[#1ed760]/30 text-[#1ed760] text-xs font-black px-3 py-1.5 rounded-full">
-                          <Sparkles size={11} /> Magify
+                          <Sparkles size={11} /> Origin
                         </span>
                         <br /><span className="text-[10px] text-[#b3b3b3] font-normal">Free–£9.99/mo</span>
                       </th>
@@ -714,7 +714,7 @@ export default function Home() {
                       ["Gamified progress tracking", false, false, true],
                       ["Available from age 5", false, false, true],
                       ["Free starter access", false, false, true],
-                    ].map(([feature, state, elite, magify], i) => (
+                    ].map(([feature, state, elite, shape], i) => (
                       <tr key={i} className="hover:bg-[#181818] transition-colors">
                         <td className="py-3 text-white text-sm font-medium">{feature as string}</td>
                         <td className="py-3 text-center">
@@ -726,7 +726,7 @@ export default function Home() {
                             <span className="text-[#b3b3b3] text-lg">✗</span>}
                         </td>
                         <td className="py-3 text-center">
-                          {magify ? <CheckCircle size={18} className="text-[#1ed760] mx-auto" /> :
+                          {shape ? <CheckCircle size={18} className="text-[#1ed760] mx-auto" /> :
                             <span className="text-[#b3b3b3] text-lg">✗</span>}
                         </td>
                       </tr>
@@ -735,9 +735,9 @@ export default function Home() {
                 </table>
               </div>
 
-              {/* How Magify Works — 4 stages */}
+              {/* How Origin Works — 4 stages */}
               <div className="mt-14">
-                <h3 className="text-lg font-black tracking-tight mb-6">How Magify Works</h3>
+                <h3 className="text-lg font-black tracking-tight mb-6">How Origin Works</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
                     { label: "Explore", icon: <Globe className="w-5 h-5 text-[#1ed760]" />, desc: "Browse 8 elite tracks & 32 courses", step: "01" },
@@ -804,112 +804,46 @@ export default function Home() {
                   <span>Elite education. 99.9% less than £55,000/yr.</span>
                   <Crown size={12} />
                 </div>
-                <h2 className="text-2xl font-black tracking-tight mb-2">Choose Your Plan</h2>
-                <p className="text-sm text-[#b3b3b3]">Start free. Upgrade when ready. Cancel anytime.</p>
+                <h2 className="text-2xl font-black tracking-tight mb-2">Invest in Your Future</h2>
+                <p className="text-sm text-[#b3b3b3]">Purchase courses individually. Own them forever.</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mt-8">
-                {[
-                  {
-                    name: "Starter", price: 0, period: "forever",
-                    badge: null,
-                    features: ["2 free courses", "Basic progress tracking", "Daily streak tracking", "View leaderboards", "1 club membership"],
-                    plan: "free", description: "Perfect for getting started",
-                    cta: "Get Started Free",
-                  },
-                  {
-                    name: "Scholar", price: 9.99, period: "month",
-                    badge: null,
-                    features: ["All 32 courses", "All 8 learning tracks", "Full XP & achievements", "Social features & clubs", "Offline downloads", "Priority support"],
-                    plan: "monthly", description: "Full access for curious learners",
-                    cta: "Start Scholarship",
-                  },
-                  {
-                    name: "Elite Annual", price: 79.99, period: "year",
-                    badge: "Save 33%",
-                    features: ["Everything in Scholar", "Exclusive masterclasses", "Quarterly coaching session", "Certificate of completion", "Stretch & Challenge access", "Priority feature requests"],
-                    plan: "annual", description: "Best value — commit to excellence",
-                    featured: true,
-                    cta: "Choose Elite →",
-                  },
-                  {
-                    name: "Lifetime", price: 149, period: "once",
-                    badge: null,
-                    features: ["Everything, forever", "All future courses & tracks", "VIP community access", "Priority feature requests", "Exclusive alumni badge"],
-                    plan: "lifetime", description: "One investment. Lifelong education.",
-                    cta: "Get Lifetime Access",
-                  }
-                ].map((plan: any) => (
-                  <div key={plan.name} className={`p-6 rounded-xl flex flex-col relative transition-all ${
-                    plan.featured
-                      ? "bg-gradient-to-b from-[#1a2e1a] to-[#181818] ring-2 ring-[#1ed760] shadow-[0_0_40px_rgba(30,215,96,0.15)] scale-105"
-                      : "bg-[#181818] hover:bg-[#1e1e1e] border border-[#282828]"
-                  }`}>
-                    {plan.badge && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#1ed760] text-black text-xs font-black px-3 py-1 rounded-full">
-                        {plan.badge}
-                      </div>
-                    )}
-                    <div className="mb-4">
-                      <h3 className="text-lg font-black text-white mb-1">{plan.name}</h3>
-                      <p className="text-xs text-[#b3b3b3]">{plan.description}</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mt-8">
+                {coursesMinimal.slice(0, 3).map((course: Course) => (
+                  <div key={course.id} className="bg-[#181818] hover:bg-[#1e1e1e] border border-[#282828] rounded-xl p-6 transition-all">
+                    <div className={`w-16 h-16 rounded-lg bg-gradient-to-br ${course.bgGradient} flex items-center justify-center mb-4`}>
+                      <course.icon className="text-white w-8 h-8" />
                     </div>
-                    <div className="mb-6">
-                      <div className="flex items-end gap-1">
-                        <span className="text-3xl font-black text-white">{plan.price === 0 ? 'Free' : `£${plan.price}`}</span>
-                        {plan.price > 0 && <span className="text-[#b3b3b3] text-xs mb-1">/ {plan.period}</span>}
-                      </div>
-                      {plan.featured && (
-                        <p className="text-[10px] text-[#D4AF37] mt-1 font-bold">
-                          vs £55,000/yr at Eton or Harrow
-                        </p>
+                    <h3 className="text-lg font-black text-white mb-1">{course.title}</h3>
+                    <p className="text-xs text-[#b3b3b3] mb-4 line-clamp-2">{course.description}</p>
+                    <div className="flex items-center gap-2 mb-4">
+                      {course.isFree ? (
+                        <span className="bg-[#1ed760] text-black text-xs font-bold px-3 py-1 rounded-full">Free</span>
+                      ) : (
+                        <span className="bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full">${course.priceUSD}</span>
                       )}
+                      <span className="text-[10px] text-[#b3b3b3]">{course.duration}</span>
                     </div>
-                    <hr className="border-[#282828] mb-6" />
-                    <ul className="text-xs text-white space-y-3 mb-6 flex-1">
-                      {plan.features.map((feature: string, i: number) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <CheckCircle size={12} className="text-[#1ed760] mt-0.5 flex-shrink-0" />
-                          <span className="leading-tight">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href={`/checkout?plan=${plan.plan}`} className="mt-auto">
-                      <button className={`w-full py-3 rounded-full font-black text-sm transition-all hover:scale-105 ${
-                        plan.featured ? "bg-[#1ed760] text-black shadow-[0_0_20px_rgba(30,215,96,0.3)]" :
-                        plan.price === 0 ? "bg-white/10 text-white hover:bg-white/20" :
-                        "bg-transparent border border-[#535353] text-white hover:border-white"
-                      }`}>
-                        {plan.cta}
-                      </button>
-                    </Link>
+                    <button
+                      onClick={() => {
+                        if (course.isFree) {
+                          setSelectedCourse(course);
+                        } else {
+                          router.push(`/checkout?course=${course.id}`);
+                        }
+                      }}
+                      className="w-full py-3 rounded-full font-black text-sm transition-all hover:scale-105 bg-[#1ed760] text-black"
+                    >
+                      {course.isFree ? 'Start Free' : 'Purchase Course'}
+                    </button>
                   </div>
                 ))}
               </div>
 
-              {/* Earn free access */}
-              <div className="mt-12 p-6 bg-[#181818] rounded-xl border border-[#282828]">
-                <h3 className="text-base font-black text-white mb-4 flex items-center gap-2">
-                  <Sparkles size={16} className="text-[#1ed760]" />
-                  Earn Free Access
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {[
-                    { icon: <Zap className="w-5 h-5 text-[#1ed760]" />, title: "7-Day Streak", desc: "Earn 1 free week of premium" },
-                    { icon: <Users className="w-5 h-5 text-[#1ed760]" />, title: "Refer 3 Friends", desc: "Get 1 free month of premium" },
-                    { icon: <GraduationCap className="w-5 h-5 text-[#1ed760]" />, title: "Complete 5 Courses", desc: "Unlock lifetime achievement badge" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#1ed760]/10 flex items-center justify-center flex-shrink-0">
-                        {item.icon}
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-white">{item.title}</p>
-                        <p className="text-xs text-[#b3b3b3]">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className="text-center mt-8">
+                <Link href="/courses" className="inline-flex items-center gap-2 text-sm font-bold text-[#1ed760] hover:underline">
+                  View All Courses <ArrowRight size={16} />
+                </Link>
               </div>
             </section>
           </AnimatedSection>

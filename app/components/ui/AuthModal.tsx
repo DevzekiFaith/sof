@@ -81,7 +81,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           <User className="text-[#1ed760]" size={32} />
         </div>
         <h2 className="text-3xl font-black text-white tracking-tighter mb-2">
-          {isSignUp ? "Join Magify" : "Welcome Back"}
+          {isSignUp ? "Join Origin" : "Welcome Back"}
         </h2>
         <p className="text-sm text-[#b3b3b3]">
           {isSignUp ? "Start your formation journey today." : "Log in to continue your progress."}
@@ -166,7 +166,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           }}
           className="text-sm text-[#b3b3b3] hover:text-white transition-colors"
         >
-          {isSignUp ? "Already have an account? Sign in" : "New to Magify? Create an account"}
+          {isSignUp ? "Already have an account? Sign in" : "New to Origin? Create an account"}
         </button>
       </div>
     </div>

@@ -357,6 +357,7 @@ This module helps you integrate all the skills into a comprehensive problem-solv
       "Critical Thinking Skills",
       "Information Gathering",
       "Analysis Frameworks",
+      "Inversion Thinking",
       "Risk Assessment",
       "Decision Implementation",
       "Learning from Outcomes",

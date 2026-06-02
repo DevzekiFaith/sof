@@ -148,7 +148,7 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
 
           {/* Formation Stages Explainer */}
           <div className="bg-[#181818] rounded-2xl p-6 border border-[#282828]">
-            <p className="text-xs font-bold text-[#1ed760] uppercase tracking-wider mb-4">How Magify Works</p>
+            <p className="text-xs font-bold text-[#1ed760] uppercase tracking-wider mb-4">How Origin Works</p>
             <div className="grid grid-cols-4 gap-2">
               {[
                 { label: "Learn", icon: <BookOpen className="w-5 h-5 text-[#1ed760]" />, desc: "Core content" },

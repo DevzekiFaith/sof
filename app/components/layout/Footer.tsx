@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <Logo />
-              <span className="text-3xl font-black text-white tracking-tighter">MAGIFY</span>
+              <span className="text-3xl font-black text-white tracking-tighter">ORIGIN</span>
             </div>
             <p className="text-xl text-[#b3b3b3] max-w-md leading-relaxed mb-8">
               Formation for every stage of life. Practical, structured, and built to transform how you think, decide, and lead.

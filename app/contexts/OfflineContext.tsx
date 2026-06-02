@@ -96,7 +96,7 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
 
   // Load downloaded content from localStorage (device-specific)
   useEffect(() => {
-    const savedContent = localStorage.getItem('magify_downloads');
+    const savedContent = localStorage.getItem('origin_downloads');
 
     if (savedContent) {
       try {
@@ -114,7 +114,7 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
 
   // Save downloaded content to localStorage (device-specific)
   useEffect(() => {
-    localStorage.setItem('magify_downloads', JSON.stringify(downloadedContent));
+    localStorage.setItem('origin_downloads', JSON.stringify(downloadedContent));
   }, [downloadedContent]);
 
   // Monitor online status

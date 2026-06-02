@@ -24,16 +24,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Magify — Formation for Life",
-  description: "Magify empowers individuals aged 10–45 with essential life and professional skills through structured, stage-based learning. Capital development, persuasion, decision-making, teamwork, and more.",
+  title: "Origin — Formation for Life",
+  description: "Origin empowers individuals aged 10–45 with essential life and professional skills through structured, stage-based learning. Capital development, persuasion, decision-making, teamwork, and more.",
   openGraph: {
-    title: "Magify — Formation for Life",
+    title: "Origin — Formation for Life",
     description: "Structured, Jesuit-inspired skill formation for every stage of life.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Magify — Formation for Life",
+    title: "Origin — Formation for Life",
     description: "Structured, stage-based learning for real-world skills.",
   },
 };

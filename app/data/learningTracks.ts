@@ -11,6 +11,7 @@ export interface LearningTrack {
   courseCount: number;
   ageRange: string;
   etonHarrowLink: string; // Which elite school subject area this maps to
+  curriculum?: string[]; // Track-specific curriculum content
 }
 
 export const learningTracks: LearningTrack[] = [
@@ -27,13 +28,25 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 6,
     ageRange: "5–18",
     etonHarrowLink: "Eton: 28 subjects including all sciences · Harrow: All 3 sciences compulsory in Year 9",
+    curriculum: [
+      "Mathematical Foundations",
+      "Scientific Method & Inquiry",
+      "Physics: Motion & Forces",
+      "Chemistry: Matter & Reactions",
+      "Biology: Living Systems",
+      "Computer Science Fundamentals",
+      "Engineering Design Process",
+      "Data Analysis & Statistics",
+      "Laboratory Skills",
+      "STEM Project-Based Learning"
+    ],
   },
   {
     id: "arts-creativity",
     title: "Arts & Creativity",
     emoji: "🎨",
     tagline: "Create, perform, express",
-    description: "Drama, music, visual arts and creative writing are core at Eton and Harrow — not extras. At Magify, every child gets professional-standard creative education.",
+    description: "Drama, music, visual arts and creative writing are core at Eton and Harrow — not extras. At Origin, every child gets professional-standard creative education.",
     subjects: ["Drama & Theatre", "Music & Composition", "Visual Art", "Creative Writing", "Storytelling", "Film & Photography"],
     color: "#EC4899",
     gradientFrom: "#4a1942",
@@ -41,13 +54,25 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 5,
     ageRange: "5–18",
     etonHarrowLink: "Eton: large-scale productions each term · Harrow: professional-standard theatre & music",
+    curriculum: [
+      "Drama & Performance Techniques",
+      "Music Theory & Composition",
+      "Visual Arts Fundamentals",
+      "Creative Writing Workshop",
+      "Storytelling & Narrative Structure",
+      "Film & Photography Basics",
+      "Art History & Appreciation",
+      "Creative Expression",
+      "Portfolio Development",
+      "Public Performance"
+    ],
   },
   {
     id: "languages",
     title: "Languages",
     emoji: "🌍",
     tagline: "Speak the world's languages",
-    description: "Eton offers 10 languages. Harrow requires students to choose two foreign languages from Year 9. Every Magify child starts their global communication journey here.",
+    description: "Eton offers 10 languages. Harrow requires students to choose two foreign languages from Year 9. Every Origin child starts their global communication journey here.",
     subjects: ["English Language & Literature", "French", "Spanish", "Mandarin Chinese", "Arabic", "Latin"],
     color: "#F59E0B",
     gradientFrom: "#4a3000",
@@ -55,6 +80,18 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 6,
     ageRange: "5–18",
     etonHarrowLink: "Eton: 10 modern & classical languages offered · Harrow: 2 languages compulsory from Year 9",
+    curriculum: [
+      "English Language Mastery",
+      "French Language & Culture",
+      "Spanish Language & Culture",
+      "Mandarin Chinese Fundamentals",
+      "Arabic Language & Script",
+      "Latin Language & Literature",
+      "Linguistics & Language Structure",
+      "Cross-Cultural Communication",
+      "Literature Analysis",
+      "Translation & Interpretation"
+    ],
   },
   {
     id: "character-values",
@@ -69,13 +106,25 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 4,
     ageRange: "5–18",
     etonHarrowLink: "Harrow core values: Courage, Honour, Humility, Fellowship · Eton: PSHE & character development",
+    curriculum: [
+      "Ethics & Moral Philosophy",
+      "Emotional Intelligence Development",
+      "Personal, Social & Health Education",
+      "Resilience & Mental Toughness",
+      "Integrity & Ethical Decision-Making",
+      "Community Service & Citizenship",
+      "Self-Awareness & Reflection",
+      "Values-Based Leadership",
+      "Character Development",
+      "Social Responsibility"
+    ],
   },
   {
     id: "sport-wellbeing",
     title: "Sport & Wellbeing",
     emoji: "🏅",
     tagline: "A healthy body, a powerful mind",
-    description: "At Eton and Harrow, sport is built into the weekly timetable — it is never optional. Magify treats physical and mental wellbeing as non-negotiable parts of a complete education.",
+    description: "At Eton and Harrow, sport is built into the weekly timetable — it is never optional. Origin treats physical and mental wellbeing as non-negotiable parts of a complete education.",
     subjects: ["Physical Education", "Mindfulness & Meditation", "Nutrition & Health", "Team Sports", "Mental Health", "Yoga & Movement"],
     color: "#10B981",
     gradientFrom: "#064e3b",
@@ -83,6 +132,18 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 4,
     ageRange: "5–18",
     etonHarrowLink: "Harrow: sport embedded in weekly timetable · Eton: sports & aquatic centre, daily participation",
+    curriculum: [
+      "Physical Fitness Training",
+      "Mindfulness & Meditation Practices",
+      "Nutrition & Healthy Eating",
+      "Team Sports & Collaboration",
+      "Mental Health Awareness",
+      "Yoga & Movement Arts",
+      "Athletic Development",
+      "Stress Management",
+      "Wellbeing Habits",
+      "Sports Leadership"
+    ],
   },
   {
     id: "leadership",
@@ -97,6 +158,18 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 5,
     ageRange: "5–18",
     etonHarrowLink: "Eton: CCF, 80+ societies, student-led leadership · Harrow: Harrow Prize, community service",
+    curriculum: [
+      "Leadership Fundamentals",
+      "Entrepreneurship & Innovation",
+      "Public Speaking & Debate",
+      "Community Leadership",
+      "Project Management",
+      "Decision Making Under Pressure",
+      "Team Building & Management",
+      "Strategic Thinking",
+      "Ethical Leadership",
+      "Global Leadership Perspectives"
+    ],
   },
   {
     id: "classical-thinking",
@@ -111,13 +184,25 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 3,
     ageRange: "8–18",
     etonHarrowLink: "Harrow: Latin & Ancient History compulsory Year 9, Philosophy compulsory · Eton: Classics, Greek, Latin",
+    curriculum: [
+      "Philosophy & Ethics",
+      "Logic & Reasoning",
+      "Ancient History",
+      "Latin Language & Literature",
+      "Rhetoric & Persuasion",
+      "Critical Analysis",
+      "Classical Literature",
+      "Philosophical Inquiry",
+      "Historical Thinking",
+      "Classical Civilizations"
+    ],
   },
   {
     id: "university-prep",
     title: "University Prep",
     emoji: "🎓",
     tagline: "Oxford · Cambridge · Ivy League ready",
-    description: "From Year 9, Eton and Harrow are preparing their students for Oxford, Cambridge and the US Ivy League. Magify gives every child that same multi-year head start.",
+    description: "From Year 9, Eton and Harrow are preparing their students for Oxford, Cambridge and the US Ivy League. Origin gives every child that same multi-year head start.",
     subjects: ["Study Skills & Research", "University Application", "Interview Preparation", "Extended Projects (EPQ)", "UCAS & US Applications", "Academic Writing"],
     color: "#6366F1",
     gradientFrom: "#1e1b4b",
@@ -125,6 +210,18 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 4,
     ageRange: "12–18",
     etonHarrowLink: "Eton: dedicated university prep, Oxbridge + US Ivies · Harrow: university-style Electives programme",
+    curriculum: [
+      "Study Skills & Research Methods",
+      "University Application Strategy",
+      "Interview Preparation",
+      "Extended Projects (EPQ)",
+      "UCAS & US Applications",
+      "Academic Writing",
+      "Standardized Test Prep",
+      "Personal Statement Writing",
+      "University Selection Strategy",
+      "Campus Transition Skills"
+    ],
   },
 ];
 
