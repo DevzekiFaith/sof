@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import { getCourseById } from "../../data/courses";
 import { QUARTERLY_PASS_PRICE_USD } from "../../data/courses";
 import Header from "../../components/layout/Header";
@@ -16,8 +18,26 @@ import Logo from "../../components/Logo";
 export default function CourseDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
   const course = getCourseById(params.id as string);
   const { currentUser, hasCourseAccess, getQuarterlyPass } = useUser();
+
+  useEffect(() => {
+    // Simulate loading state for better UX
+    const timer = setTimeout(() => setIsLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#1ed760] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-[#b3b3b3]">Loading course...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!course) {
     return (
@@ -61,7 +81,7 @@ export default function CourseDetailPage() {
             <div className="mb-8 sm:mb-12">
               <div className={`inline-flex items-center justify-center rounded-2xl bg-gradient-to-br ${course.bgGradient} mb-6 sm:mb-8 transition-transform duration-300 hover:scale-110 hover:rotate-3 relative overflow-hidden w-20 h-20 sm:w-28 sm:h-28 shadow-lg shadow-black/50`}>
                 {course.imageUrl ? (
-                  <img src={course.imageUrl} alt={course.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
+                  <Image src={course.imageUrl} alt={course.title} fill className="object-cover opacity-90" sizes="(max-width: 640px) 80px, 112px" />
                 ) : (
                   <IconComponent className={`${course.iconColor} w-12 h-12 sm:w-16 sm:h-16 transition-transform duration-300 relative z-10`} />
                 )}
@@ -195,7 +215,8 @@ export default function CourseDetailPage() {
                   {modules.map((moduleName: string, index: number) => {
                     const moduleDetail = course.detailedModules?.[index];
                     const ModuleIcon = moduleDetail?.icon;
-                    
+                    const isValidIcon = ModuleIcon && typeof ModuleIcon === 'function';
+
                     return (
                       <AnimatedSection key={index} delay={index * 50}>
                         <Link href={`/courses/${course.id}/modules/${index + 1}`}>
@@ -207,7 +228,7 @@ export default function CourseDetailPage() {
                               <Play size={16} fill="currentColor" />
                             </div>
                             <div className="w-10 h-10 bg-[#282828] rounded flex items-center justify-center flex-shrink-0 border border-[#333]">
-                               {ModuleIcon ? (
+                               {isValidIcon ? (
                                  <ModuleIcon className="w-5 h-5 text-[#1ed760]" />
                                ) : (
                                  <BookOpen className="w-5 h-5 text-[#b3b3b3]" />

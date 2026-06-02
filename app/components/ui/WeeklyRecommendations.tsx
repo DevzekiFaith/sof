@@ -4,6 +4,7 @@ import { useRecommendations } from "../../contexts/RecommendationContext";
 import { Sparkles, RefreshCw } from "lucide-react";
 import { Course } from "../../data/courses";
 import { Play } from "lucide-react";
+import Image from "next/image";
 
 interface WeeklyRecommendationsProps {
   onCourseSelect?: (course: Course) => void;
@@ -56,7 +57,7 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
             {/* Course Image */}
             <div className={`w-12 h-12 rounded bg-gradient-to-br ${rec.course.bgGradient} flex items-center justify-center shadow-lg flex-shrink-0 relative`}>
               {rec.course.imageUrl ? (
-                <img src={rec.course.imageUrl} alt={rec.course.title} className="w-full h-full object-cover rounded" />
+                <Image src={rec.course.imageUrl} alt={rec.course.title} fill className="object-cover rounded" sizes="48px" />
               ) : (
                 <rec.course.icon className="w-6 h-6 text-white" />
               )}

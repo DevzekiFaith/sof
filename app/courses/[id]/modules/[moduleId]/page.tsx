@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { getCourseById, ModuleDetail } from "../../../../data/courses";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../../../components/layout/Header";
 import Footer from "../../../../components/layout/Footer";
 import Button from "../../../../components/ui/Button";
@@ -17,8 +17,25 @@ export default function ModuleDetailPage() {
   const courseId = params.id as string;
   const moduleId = parseInt(params.moduleId as string);
   const { currentUser, hasCourseAccess } = useUser();
+  const [isLoading, setIsLoading] = useState(true);
 
   const course = getCourseById(courseId);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#1ed760] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-[#b3b3b3]">Loading module...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!course) {
     return (
@@ -263,23 +280,41 @@ export default function ModuleDetailPage() {
                 <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">Resources & Downloads</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {courseModule.resources.map((resource, index) => (
-                    <a 
-                      key={index} 
-                      href={resource.url} 
-                      download 
-                      className="p-4 border border-[#282828] bg-[#181818] rounded-xl hover:border-[#1ed760]/50 transition-all group hover:scale-[1.02]"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[#282828] rounded-lg flex items-center justify-center group-hover:bg-[#1ed760] transition-colors">
-                          <FileText className="text-[#a7a7a7] group-hover:text-black w-5 h-5 transition-colors" />
+                    resource.url ? (
+                      <a
+                        key={index}
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 border border-[#282828] bg-[#181818] rounded-xl hover:border-[#1ed760]/50 transition-all group hover:scale-[1.02] cursor-pointer pointer-events-auto"
+                        style={{ pointerEvents: 'auto' }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-[#282828] rounded-lg flex items-center justify-center group-hover:bg-[#1ed760] transition-colors">
+                            <FileText className="text-[#a7a7a7] group-hover:text-black w-5 h-5 transition-colors" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-white group-hover:text-[#1ed760] transition-colors">{resource.name}</h4>
+                            <p className="text-sm text-[#a7a7a7]">Download PDF</p>
+                          </div>
+                          <Download className="text-[#b3b3b3] group-hover:text-[#1ed760] w-5 h-5 opacity-0 group-hover:opacity-100 transition-all" />
                         </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-white group-hover:text-[#1ed760] transition-colors">{resource.name}</h4>
-                          <p className="text-sm text-[#a7a7a7]">Download PDF</p>
-                        </div>
-                        <Download className="text-[#b3b3b3] group-hover:text-[#1ed760] w-5 h-5 opacity-0 group-hover:opacity-100 transition-all" />
-                      </div>
-                    </a>
+                      </a>
+                    ) : (
+                      <details key={index} className="p-4 border border-[#282828] bg-[#181818] rounded-xl hover:border-[#1ed760]/50 transition-all group cursor-pointer pointer-events-auto" style={{ pointerEvents: 'auto' }}>
+                        <summary className="flex items-center gap-3 list-none">
+                          <div className="w-10 h-10 bg-[#282828] rounded-lg flex items-center justify-center group-hover:bg-[#1ed760] transition-colors">
+                            <FileText className="text-[#a7a7a7] group-hover:text-black w-5 h-5 transition-colors" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-white group-hover:text-[#1ed760] transition-colors">{resource.name}</h4>
+                            <p className="text-sm text-[#a7a7a7]">Click to expand</p>
+                          </div>
+                          <span className="text-[#b3b3b3] group-hover:text-[#1ed760]">+</span>
+                        </summary>
+                        <p className="mt-4 text-sm text-[#a7a7a7] leading-relaxed">{resource.content}</p>
+                      </details>
+                    )
                   ))}
                 </div>
               </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useUser } from "../../contexts/UserContext";
 import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Maximize2, ListMusic, Volume2, VolumeX, Volume1 } from "lucide-react";
@@ -60,7 +61,7 @@ export default function NowLearningBar() {
       <div className="flex items-center gap-3 sm:gap-4 w-[60%] md:w-[30%] min-w-0">
         <div className="w-10 h-10 sm:w-14 sm:h-14 rounded shadow-lg overflow-hidden flex-shrink-0 group relative cursor-pointer">
           {activeCourse.imageUrl ? (
-            <img src={activeCourse.imageUrl} alt={activeCourse.title} className="w-full h-full object-cover" />
+            <Image src={activeCourse.imageUrl} alt={activeCourse.title} fill className="object-cover" sizes="(max-width: 640px) 40px, 56px" />
           ) : (
             <div className={`w-full h-full bg-gradient-to-br ${activeCourse.bgGradient} flex items-center justify-center`}>
                <activeCourse.icon className="text-white w-4 h-4 sm:w-6 sm:h-6" />

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Course } from "../../data/courses";
 import { BookOpen, Zap, RotateCcw, Target, Lock, Crown, Star, CheckCircle } from "lucide-react";
 import { useUser } from "../../contexts/UserContext";
@@ -79,7 +80,7 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
         {/* Header */}
         <div className={`bg-gradient-to-br ${course.bgGradient} p-8 pb-10 relative overflow-hidden`}>
           {course.imageUrl && (
-            <img src={course.imageUrl} alt="" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30" />
+            <Image src={course.imageUrl} alt="" fill className="object-cover mix-blend-overlay opacity-30" sizes="520px" />
           )}
           {/* Decorative blur glow */}
           <div className="absolute -top-10 -right-10 w-48 h-48 bg-[#1ed760]/20 rounded-full blur-3xl pointer-events-none" />
@@ -87,7 +88,7 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
           <div className="flex items-start justify-between mb-6 relative z-10">
             <div className={`p-4 rounded-2xl bg-black/40 backdrop-blur-md shadow-sm w-20 h-20 flex items-center justify-center relative overflow-hidden border border-white/10`}>
               {course.imageUrl ? (
-                <img src={course.imageUrl} alt={course.title} className="absolute inset-0 w-full h-full object-cover" />
+                <Image src={course.imageUrl} alt={course.title} fill className="object-cover" sizes="80px" />
               ) : (
                 <IconComponent className={`${course.iconColor} w-10 h-10 relative z-10`} />
               )}

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "../contexts/UserContext";
 import Link from "next/link";
-import { STAGES } from "../page";
+
 
 export default function ProfilePage() {
   const { currentUser, logout } = useUser();

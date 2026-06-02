@@ -107,12 +107,16 @@ CREATE INDEX IF NOT EXISTS idx_friends_user_id ON friends(user_id);
 CREATE INDEX IF NOT EXISTS idx_friends_friend_id ON friends(friend_id);
 CREATE INDEX IF NOT EXISTS idx_friends_status ON friends(status);
 CREATE INDEX IF NOT EXISTS idx_course_progress_user_id ON course_progress(user_id);
+CREATE INDEX IF NOT EXISTS idx_course_progress_user_course ON course_progress(user_id, course_id);
 CREATE INDEX IF NOT EXISTS idx_daily_stats_user_id ON daily_stats(user_id);
 CREATE INDEX IF NOT EXISTS idx_daily_stats_date ON daily_stats(date);
+CREATE INDEX IF NOT EXISTS idx_daily_stats_user_date ON daily_stats(user_id, date);
 CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
 CREATE INDEX IF NOT EXISTS idx_notifications_is_read ON notifications(is_read);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_created ON notifications(user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_learning_history_user_id ON learning_history(user_id);
 CREATE INDEX IF NOT EXISTS idx_learning_history_course_id ON learning_history(course_id);
+CREATE INDEX IF NOT EXISTS idx_learning_history_user_course ON learning_history(user_id, course_id);
 
 -- Row Level Security (RLS) policies
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;

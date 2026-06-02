@@ -15,7 +15,6 @@ const ageGroups = [
     label: "Ages 10-15",
     description: "Kids & Early Teens",
     emoji: "🌟",
-    emoji: "🌟",
     color: "from-green-400 to-green-600"
   },
   {

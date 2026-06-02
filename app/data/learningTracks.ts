@@ -1,0 +1,175 @@
+export interface LearningTrack {
+  id: string;
+  title: string;
+  emoji: string;
+  tagline: string;
+  description: string;
+  subjects: string[];
+  color: string;
+  gradientFrom: string;
+  gradientTo: string;
+  courseCount: number;
+  ageRange: string;
+  etonHarrowLink: string; // Which elite school subject area this maps to
+}
+
+export const learningTracks: LearningTrack[] = [
+  {
+    id: "sciences-stem",
+    title: "Sciences & STEM",
+    emoji: "🔬",
+    tagline: "Think like a scientist",
+    description: "Master mathematics, sciences and technology through rigorous, hands-on learning. The same STEM curriculum that Eton and Harrow demand from their students.",
+    subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "Engineering"],
+    color: "#3B82F6",
+    gradientFrom: "#1e3a5f",
+    gradientTo: "#0f172a",
+    courseCount: 6,
+    ageRange: "5–18",
+    etonHarrowLink: "Eton: 28 subjects including all sciences · Harrow: All 3 sciences compulsory in Year 9",
+  },
+  {
+    id: "arts-creativity",
+    title: "Arts & Creativity",
+    emoji: "🎨",
+    tagline: "Create, perform, express",
+    description: "Drama, music, visual arts and creative writing are core at Eton and Harrow — not extras. At Magify, every child gets professional-standard creative education.",
+    subjects: ["Drama & Theatre", "Music & Composition", "Visual Art", "Creative Writing", "Storytelling", "Film & Photography"],
+    color: "#EC4899",
+    gradientFrom: "#4a1942",
+    gradientTo: "#0f172a",
+    courseCount: 5,
+    ageRange: "5–18",
+    etonHarrowLink: "Eton: large-scale productions each term · Harrow: professional-standard theatre & music",
+  },
+  {
+    id: "languages",
+    title: "Languages",
+    emoji: "🌍",
+    tagline: "Speak the world's languages",
+    description: "Eton offers 10 languages. Harrow requires students to choose two foreign languages from Year 9. Every Magify child starts their global communication journey here.",
+    subjects: ["English Language & Literature", "French", "Spanish", "Mandarin Chinese", "Arabic", "Latin"],
+    color: "#F59E0B",
+    gradientFrom: "#4a3000",
+    gradientTo: "#0f172a",
+    courseCount: 6,
+    ageRange: "5–18",
+    etonHarrowLink: "Eton: 10 modern & classical languages offered · Harrow: 2 languages compulsory from Year 9",
+  },
+  {
+    id: "character-values",
+    title: "Character & Values",
+    emoji: "🛡️",
+    tagline: "Courage · Honour · Humility · Fellowship",
+    description: "Harrow's four core values — Courage, Honour, Humility and Fellowship — are the backbone of character education. We bring this structured moral development to every child.",
+    subjects: ["Ethics & Philosophy", "Emotional Intelligence", "PSHE", "Resilience", "Integrity", "Community Service"],
+    color: "#8B5CF6",
+    gradientFrom: "#2d1b69",
+    gradientTo: "#0f172a",
+    courseCount: 4,
+    ageRange: "5–18",
+    etonHarrowLink: "Harrow core values: Courage, Honour, Humility, Fellowship · Eton: PSHE & character development",
+  },
+  {
+    id: "sport-wellbeing",
+    title: "Sport & Wellbeing",
+    emoji: "🏅",
+    tagline: "A healthy body, a powerful mind",
+    description: "At Eton and Harrow, sport is built into the weekly timetable — it is never optional. Magify treats physical and mental wellbeing as non-negotiable parts of a complete education.",
+    subjects: ["Physical Education", "Mindfulness & Meditation", "Nutrition & Health", "Team Sports", "Mental Health", "Yoga & Movement"],
+    color: "#10B981",
+    gradientFrom: "#064e3b",
+    gradientTo: "#0f172a",
+    courseCount: 4,
+    ageRange: "5–18",
+    etonHarrowLink: "Harrow: sport embedded in weekly timetable · Eton: sports & aquatic centre, daily participation",
+  },
+  {
+    id: "leadership",
+    title: "Leadership",
+    emoji: "🎖️",
+    tagline: "Develop the next generation of leaders",
+    description: "Both Eton and Harrow have produced Prime Ministers, heads of state and CEOs. Their leadership development is systematic, starting from age 13. We start even earlier.",
+    subjects: ["Leadership Fundamentals", "Entrepreneurship", "Public Speaking & Debate", "Community Leadership", "Project Management", "Decision Making Under Pressure"],
+    color: "#F97316",
+    gradientFrom: "#431407",
+    gradientTo: "#0f172a",
+    courseCount: 5,
+    ageRange: "5–18",
+    etonHarrowLink: "Eton: CCF, 80+ societies, student-led leadership · Harrow: Harrow Prize, community service",
+  },
+  {
+    id: "classical-thinking",
+    title: "Classical Thinking",
+    emoji: "📜",
+    tagline: "Logic, Philosophy & the Ancient World",
+    description: "Both Eton and Harrow require Latin, Philosophy and Ancient History. Classical education builds the sharpest, most disciplined minds. This is the secret weapon of elite education.",
+    subjects: ["Philosophy & Ethics", "Logic & Reasoning", "Ancient History", "Latin", "Rhetoric", "Critical Analysis"],
+    color: "#D4AF37",
+    gradientFrom: "#3d2d00",
+    gradientTo: "#0f172a",
+    courseCount: 3,
+    ageRange: "8–18",
+    etonHarrowLink: "Harrow: Latin & Ancient History compulsory Year 9, Philosophy compulsory · Eton: Classics, Greek, Latin",
+  },
+  {
+    id: "university-prep",
+    title: "University Prep",
+    emoji: "🎓",
+    tagline: "Oxford · Cambridge · Ivy League ready",
+    description: "From Year 9, Eton and Harrow are preparing their students for Oxford, Cambridge and the US Ivy League. Magify gives every child that same multi-year head start.",
+    subjects: ["Study Skills & Research", "University Application", "Interview Preparation", "Extended Projects (EPQ)", "UCAS & US Applications", "Academic Writing"],
+    color: "#6366F1",
+    gradientFrom: "#1e1b4b",
+    gradientTo: "#0f172a",
+    courseCount: 4,
+    ageRange: "12–18",
+    etonHarrowLink: "Eton: dedicated university prep, Oxbridge + US Ivies · Harrow: university-style Electives programme",
+  },
+];
+
+export const sofClubs = [
+  { id: "debate", name: "Debate Club", emoji: "🗣️", members: 1240, description: "Argue both sides of any issue" },
+  { id: "coding", name: "Coding Society", emoji: "💻", members: 2100, description: "Build real apps and games" },
+  { id: "entrepreneur", name: "Entrepreneurship Hub", emoji: "🚀", members: 890, description: "Launch your first business idea" },
+  { id: "philosophy", name: "Philosophy Circle", emoji: "🧠", members: 560, description: "Ask the big questions of life" },
+  { id: "writing", name: "Creative Writing", emoji: "✍️", members: 1450, description: "Tell stories that matter" },
+  { id: "science", name: "Science Explorers", emoji: "⚗️", members: 1780, description: "Experiment and discover" },
+  { id: "music", name: "Music Makers", emoji: "🎵", members: 920, description: "Compose and perform music" },
+  { id: "model-un", name: "Model UN", emoji: "🌐", members: 430, description: "Solve the world's problems" },
+  { id: "art", name: "Art Studio", emoji: "🖌️", members: 1100, description: "Express yourself visually" },
+  { id: "environment", name: "Eco Warriors", emoji: "🌱", members: 770, description: "Lead environmental change" },
+];
+
+export const stretchChallenges = [
+  {
+    id: "financial-literacy",
+    title: "Financial Literacy for Teens",
+    description: "Understand money, investing and wealth-building the way elite school graduates do. Build your financial foundations before you turn 18.",
+    level: "Challenge",
+    levelColor: "#F5C518",
+    emoji: "💰",
+    duration: "3 weeks",
+    for: "Ages 13–18",
+  },
+  {
+    id: "public-speaking",
+    title: "Public Speaking Masterclass",
+    description: "Learn to speak with authority, persuade any audience, and own any room. Taught to the standard of Eton's debating societies.",
+    level: "Expert",
+    levelColor: "#EF4444",
+    emoji: "🎤",
+    duration: "4 weeks",
+    for: "Ages 10–18",
+  },
+  {
+    id: "leadership-pressure",
+    title: "Leadership Under Pressure",
+    description: "How do you lead when everything is going wrong? Study real case studies from military leaders, CEOs and heads of state.",
+    level: "Expert",
+    levelColor: "#EF4444",
+    emoji: "⚡",
+    duration: "4 weeks",
+    for: "Ages 14–18",
+  },
+];

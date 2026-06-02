@@ -6,49 +6,15 @@ import Link from "next/link";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { useUser } from "../contexts/UserContext";
 import { CreditCard } from "lucide-react";
-
-// Plan config
-const PLANS = {
-  free: {
-    name: "Free",
-    description: "Access to 2 basic courses, basic progress tracking, daily streak tracking, view leaderboards.",
-    priceUSD: 0,
-    priceNGN: 0,
-    featured: false,
-  },
-  monthly: {
-    name: "Monthly",
-    description: "All courses access, full gamification (XP, achievements), full social features (friends, challenges), offline downloads, priority support.",
-    priceUSD: 9.99,
-    priceNGN: 15000,
-    featured: false,
-  },
-  annual: {
-    name: "Annual",
-    description: "Everything in Monthly + exclusive masterclasses, 1-on-1 coaching session (quarterly), certificate of completion, priority feature requests.",
-    priceUSD: 79.99,
-    priceNGN: 120000,
-    featured: true,
-  },
-  lifetime: {
-    name: "Lifetime",
-    description: "Everything forever, all future courses, priority feature requests, VIP support, exclusive community access.",
-    priceUSD: 149,
-    priceNGN: 225000,
-    featured: false,
-  },
-} as const;
-
-type PlanKey = keyof typeof PLANS;
+import { courses, getCourseById } from "../data/courses";
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const rawPlan = searchParams.get("plan") ?? "monthly";
-  const planKey: PlanKey = (rawPlan in PLANS ? rawPlan : "monthly") as PlanKey;
-  const plan = PLANS[planKey];
+  const courseId = searchParams.get("course");
+  const course = courseId ? getCourseById(courseId) : null;
 
-  const { currentUser, login, register, logout, upgradeToPremium } = useUser();
+  const { currentUser, login, register, logout } = useUser();
 
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "", name: "" });
@@ -56,14 +22,29 @@ function CheckoutContent() {
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [currency, setCurrency] = useState<"USD" | "NGN">("USD");
 
+  // Redirect if no course selected
+  if (!course) {
+    router.push("/courses");
+    return null;
+  }
+
+  // Free courses don't need payment
+  if (course.isFree) {
+    router.push(`/courses/${course.id}`);
+    return null;
+  }
+
+  const priceUSD = course.priceUSD || 14;
+  const priceNGN = priceUSD * 1500; // Simple conversion rate
+
   const displayPrice = currency === "NGN"
-    ? `₦${plan.priceNGN.toLocaleString()}`
-    : `$${plan.priceUSD}`;
+    ? `₦${priceNGN.toLocaleString()}`
+    : `$${priceUSD}`;
 
   const flwConfig = {
     public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY ?? "",
-    tx_ref: `magify-${planKey}-${Date.now()}`,
-    amount: currency === "NGN" ? plan.priceNGN : plan.priceUSD,
+    tx_ref: `magify-course-${course.id}-${Date.now()}`,
+    amount: currency === "NGN" ? priceNGN : priceUSD,
     currency,
     payment_options: currency === "NGN"
       ? "card,banktransfer,ussd,mobilemoney"
@@ -75,7 +56,7 @@ function CheckoutContent() {
     },
     customizations: {
       title: "Magify — Formation for Life",
-      description: `${plan.name} — ${planKey === 'lifetime' ? 'One-time payment' : planKey === 'annual' ? 'Yearly subscription' : 'Monthly subscription'}`,
+      description: `${course.title} — One-time purchase`,
       logo: "https://magify.app/logo.png",
     },
   };
@@ -85,20 +66,12 @@ function CheckoutContent() {
   const handlePay = async () => {
     if (!currentUser) return;
 
-    // For free plan, skip payment and directly upgrade
-    if (planKey === 'free') {
-      router.push("/profile?success=true");
-      return;
-    }
-
     handleFlutterPayment({
       callback: async (response) => {
         closePaymentModal();
         if (response.status === "successful" || response.status === "completed") {
-          // Convert planKey to the correct type for upgradeToPremium
-          const planType = planKey as 'monthly' | 'annual' | 'lifetime';
-          await upgradeToPremium(planType);
-          router.push("/profile?success=true");
+          // TODO: Add course to user's purchased courses
+          router.push(`/courses/${course.id}?purchased=true`);
         }
       },
       onClose: () => {
@@ -159,14 +132,9 @@ function CheckoutContent() {
           <div className="w-full md:w-1/3 order-2 md:order-1">
             <h2 className="text-2xl font-bold text-white mb-6">Order Summary</h2>
             <div className={`rounded-xl p-6 sm:p-8 shadow-xl bg-[#181818] border border-[#282828] text-white relative`}>
-              {plan.featured && (
-                <div className="absolute top-0 inset-x-0 bg-[#1ed760] text-black text-xs font-bold py-1.5 text-center uppercase tracking-wider rounded-t-xl">
-                  Most Popular
-                </div>
-              )}
-              <div className={`mb-5 ${plan.featured ? "mt-4" : ""}`}>
-                <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
-                <p className={`text-sm text-[#b3b3b3]`}>{plan.description}</p>
+              <div className="mb-5">
+                <h3 className="text-xl font-bold mb-1">{course.title}</h3>
+                <p className={`text-sm text-[#b3b3b3] line-clamp-2`}>{course.description}</p>
               </div>
 
               {/* Currency switcher */}
@@ -187,7 +155,7 @@ function CheckoutContent() {
               </div>
 
               <div className={`py-5 border-y border-[#282828] mb-5 flex justify-between items-center`}>
-                <span className="font-semibold">{planKey === 'lifetime' ? 'One-time' : planKey === 'annual' ? 'Yearly' : 'Monthly'}</span>
+                <span className="font-semibold">One-time purchase</span>
                 <span className="font-black text-2xl">{displayPrice}</span>
               </div>
 
@@ -196,7 +164,7 @@ function CheckoutContent() {
                 <span className="font-black text-2xl text-[#1ed760]">{displayPrice}</span>
               </div>
               <p className={`text-xs text-right text-[#a7a7a7]`}>
-                Cancel anytime.
+                Lifetime access to this course.
               </p>
             </div>
 
@@ -304,7 +272,7 @@ function CheckoutContent() {
               onClick={handlePay}
               className="w-full py-4 px-6 bg-[#1ed760] hover:scale-[1.02] text-black font-bold text-lg rounded-full shadow-lg shadow-[#1ed760]/20 transition-transform flex justify-center items-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {planKey === 'free' ? 'Get Started Free' : `Pay ${displayPrice} via Flutterwave`}
+              {`Pay ${displayPrice} via Flutterwave`}
               <span className="transform group-hover:translate-x-1 transition-transform">→</span>
             </button>
 

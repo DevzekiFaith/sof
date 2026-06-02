@@ -60,7 +60,7 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (error) {
-        console.error('Error loading offline settings:', error);
+        console.error('Error loading offline settings:', error.message || error);
         return;
       }
 

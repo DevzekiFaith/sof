@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Home, Search, Library, Plus, Heart, User, BookOpen, Music, Star, Bell, Users } from "lucide-react";
 import Logo from "../Logo";
@@ -263,7 +264,7 @@ export default function Sidebar() {
                     <Link key={course.id} href={`/learn/${course.id}`} className="flex items-center gap-3 p-2 rounded-md hover:bg-[#1a1a1a] transition-colors group">
                       <div className="w-12 h-12 rounded overflow-hidden shadow-lg group-hover:scale-105 transition-transform">
                         {course.imageUrl ? (
-                          <img src={course.imageUrl} alt={course.title} className="w-full h-full object-cover" />
+                          <Image src={course.imageUrl} alt={course.title} fill className="object-cover" sizes="48px" />
                         ) : (
                           <div className={`w-full h-full bg-gradient-to-br ${course.bgGradient} flex items-center justify-center`}>
                             <course.icon className="text-white w-6 h-6" />

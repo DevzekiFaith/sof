@@ -227,14 +227,17 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
 
       if (statsData) {
         const level = statsData.level || 1;
-        const achievements: Achievement[] = (achievementsData || []).map((a: any) => {
-          const achievementDef = ACHIEVEMENTS.find(def => def.id === a.achievement_id);
-          return {
-            ...achievementDef,
-            unlockedAt: new Date(a.unlocked_at),
-            progress: achievementDef?.maxProgress
-          };
-        }).filter(Boolean);
+        const achievements = (achievementsData || [])
+          .map((a: any) => {
+            const achievementDef = ACHIEVEMENTS.find(def => def.id === a.achievement_id);
+            if (!achievementDef) return null;
+            return {
+              ...achievementDef,
+              unlockedAt: new Date(a.unlocked_at),
+              progress: achievementDef.maxProgress
+            } as Achievement;
+          })
+          .filter((a): a is Achievement => a !== null);
 
         setUserGamification({
           totalXP: statsData.total_xp || 0,
@@ -352,7 +355,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
           streak_days: newStreak
         })
         .then(({ error }) => {
-          if (error) console.error('Error updating streak:', error);
+          if (error) console.error('Error updating streak:', error.message || error);
         });
 
       // Check for streak achievements
@@ -367,7 +370,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
               ...achievement,
               unlockedAt: new Date(),
               progress: achievement.maxProgress
-            });
+            } as Achievement);
             addXP(achievement.xpReward, `Achievement: ${achievement.title}`);
           }
         }
@@ -396,7 +399,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
         ...achievement,
         unlockedAt: new Date(),
         progress: achievement.maxProgress
-      };
+      } as Achievement;
 
       // Save to Supabase
       supabase
@@ -442,7 +445,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
           ...achievement,
           unlockedAt: new Date(),
           progress: maxProgress
-        };
+        } as Achievement;
 
         // Save to Supabase
         supabase
@@ -477,7 +480,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
         updatedAchievements.push({
           ...achievement,
           progress: newProgress
-        });
+        } as Achievement);
       }
 
       return {

@@ -47,6 +47,7 @@ export interface Course {
   outcomes?: string[];
   youtubeVideoUrl?: string; // Simple YouTube integration
   detailedModules?: ModuleDetail[]; // Detailed module content
+  trackId?: string; // Links course to a learning track
 }
 
 export const QUARTERLY_PASS_PRICE_USD = 49;
@@ -66,6 +67,7 @@ export const courses: Course[] = [
     duration: "5 weeks",
     priceUSD: 14,
     isFree: true,
+    trackId: "classical-thinking",
     modules: [
       "Problem Solving Fundamentals",
       "Critical Thinking Skills",
@@ -349,6 +351,7 @@ This module helps you integrate all the skills into a comprehensive problem-solv
     duration: "5 weeks",
     priceUSD: 14,
     isFree: true,
+    trackId: "leadership",
     modules: [
       "Decision-Making Fundamentals",
       "Critical Thinking Skills",
@@ -630,6 +633,7 @@ These advanced techniques prepare you for the most demanding decision situations
     duration: "4 weeks",
     priceUSD: 14,
     youtubeVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    trackId: "leadership",
     modules: [
       "Team Basics: Roles & Responsibility",
       "Communication in Teams",
@@ -758,6 +762,7 @@ These advanced techniques prepare you for the most demanding decision situations
     duration: "4 weeks",
     priceUSD: 14,
     youtubeVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    trackId: "character-values",
     modules: [
       "Understanding Change",
       "Resilience Basics",
@@ -951,6 +956,7 @@ These advanced techniques prepare you for the most demanding decision situations
     duration: "4 weeks",
     priceUSD: 14,
     youtubeVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    trackId: "character-values",
     modules: [
       "What Self-Image Is",
       "Confidence & Competence",
@@ -1144,6 +1150,7 @@ These advanced techniques prepare you for the most demanding decision situations
     duration: "4 weeks",
     priceUSD: 14,
     youtubeVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    trackId: "leadership",
     modules: [
       "Clarity & Structure",
       "Listening Fundamentals",
