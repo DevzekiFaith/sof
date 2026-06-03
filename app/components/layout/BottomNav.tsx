@@ -3,15 +3,17 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Library, Bell, Users } from "lucide-react";
+import { Home, Search, Library, Bell, Users, ShoppingBag } from "lucide-react";
 import { useUser } from "../../contexts/UserContext";
 import { useSocial } from "../../contexts/SocialContext";
+import { useCart } from "../../contexts/CartContext";
 import { supabase } from "../../../lib/supabase";
 
 export default function BottomNav() {
   const pathname = usePathname();
   const { currentUser } = useUser();
   const { pendingRequests } = useSocial();
+  const { cartCount, mounted } = useCart();
   const [notificationCount, setNotificationCount] = useState(0);
   const [friendRequestCount, setFriendRequestCount] = useState(0);
 
@@ -83,6 +85,7 @@ export default function BottomNav() {
     { href: "/", label: "Home", icon: <Home className="w-6 h-6" /> },
     { href: "/#courses", label: "Search", icon: <Search className="w-6 h-6" /> },
     { href: "/profile", label: "Your Library", icon: <Library className="w-6 h-6" /> },
+    { href: "/cart", label: "Cart", icon: <ShoppingBag className="w-6 h-6" />, badge: mounted ? cartCount : 0 },
   ];
 
   return (
@@ -97,8 +100,13 @@ export default function BottomNav() {
               isActive ? "text-white scale-110" : "text-[#b3b3b3]"
             }`}
           >
-            <div className={`${isActive ? "text-white" : "text-[#b3b3b3]"}`}>
+            <div className={`${isActive ? "text-white" : "text-[#b3b3b3]"} relative`}>
               {link.icon}
+              {link.badge && link.badge > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#D4AF37] text-black text-xs font-bold rounded-full flex items-center justify-center">
+                  {link.badge}
+                </span>
+              )}
             </div>
             <span className="text-[10px] font-bold tracking-tight">{link.label}</span>
           </Link>

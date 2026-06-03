@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { useUser } from "../contexts/UserContext";
+import { useCart } from "../contexts/CartContext";
+import { useToast } from "../contexts/ToastContext";
 import { CreditCard } from "lucide-react";
 import { courses, getCourseById } from "../data/courses";
 
@@ -13,6 +15,8 @@ function CheckoutContent() {
   const router = useRouter();
   const courseId = searchParams.get("course");
   const course = courseId ? getCourseById(courseId) : null;
+  const { cart, clearCart, cartTotal, cartTotalNGN } = useCart();
+  const { showToast } = useToast();
 
   const { currentUser, login, register, logout } = useUser();
 
@@ -22,20 +26,16 @@ function CheckoutContent() {
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [currency, setCurrency] = useState<"USD" | "NGN">("USD");
 
-  // Redirect if no course selected
-  if (!course) {
+  // Redirect if no course selected and cart is empty
+  if (!course && cart.length === 0) {
     router.push("/courses");
     return null;
   }
 
-  // Free courses don't need payment
-  if (course.isFree) {
-    router.push(`/courses/${course.id}`);
-    return null;
-  }
-
-  const priceUSD = course.priceUSD || 14;
-  const priceNGN = priceUSD * 1500; // Simple conversion rate
+  // Use cart items if available, otherwise use single course
+  const itemsToCheckout = cart.length > 0 ? cart : (course ? [course] : []);
+  const priceUSD = cart.length > 0 ? cartTotal : (course?.priceUSD || 14);
+  const priceNGN = cart.length > 0 ? cartTotalNGN : priceUSD * 1500;
 
   const displayPrice = currency === "NGN"
     ? `₦${priceNGN.toLocaleString()}`
@@ -43,7 +43,7 @@ function CheckoutContent() {
 
   const flwConfig = {
     public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY ?? "",
-    tx_ref: `magify-course-${course.id}-${Date.now()}`,
+    tx_ref: `origin-cart-${Date.now()}`,
     amount: currency === "NGN" ? priceNGN : priceUSD,
     currency,
     payment_options: currency === "NGN"
@@ -56,7 +56,7 @@ function CheckoutContent() {
     },
     customizations: {
       title: "Origin — Formation for Life",
-      description: `${course.title} — One-time purchase`,
+      description: cart.length > 0 ? `${cart.length} course${cart.length > 1 ? 's' : ''} — One-time purchase` : `${course?.title} — One-time purchase`,
       logo: "https://origin.app/logo.png",
     },
   };
@@ -70,8 +70,17 @@ function CheckoutContent() {
       callback: async (response) => {
         closePaymentModal();
         if (response.status === "successful" || response.status === "completed") {
-          // TODO: Add course to user's purchased courses
-          router.push(`/courses/${course.id}?purchased=true`);
+          // Clear cart after successful payment
+          if (cart.length > 0) {
+            clearCart();
+          }
+          showToast("Payment successful!", "success");
+          // TODO: Add courses to user's purchased courses
+          if (course) {
+            router.push(`/courses/${course.id}?purchased=true`);
+          } else {
+            router.push("/courses");
+          }
         }
       },
       onClose: () => {
@@ -121,7 +130,7 @@ function CheckoutContent() {
           <div className="font-bold text-lg text-white">Secure Checkout</div>
         </div>
         <Link href="/" className="text-xs font-black text-[#b3b3b3] hover:text-white uppercase tracking-tighter">
-          Magify
+          Origin
         </Link>
       </header>
 
@@ -132,10 +141,24 @@ function CheckoutContent() {
           <div className="w-full md:w-1/3 order-2 md:order-1">
             <h2 className="text-2xl font-bold text-white mb-6">Order Summary</h2>
             <div className={`rounded-xl p-6 sm:p-8 shadow-xl bg-[#181818] border border-[#282828] text-white relative`}>
-              <div className="mb-5">
-                <h3 className="text-xl font-bold mb-1">{course.title}</h3>
-                <p className={`text-sm text-[#b3b3b3] line-clamp-2`}>{course.description}</p>
-              </div>
+              {cart.length > 0 ? (
+                <div className="mb-5 space-y-3">
+                  {cart.map((item) => (
+                    <div key={item.id} className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h3 className="text-sm font-bold mb-1">{item.title}</h3>
+                        <p className={`text-xs text-[#b3b3b3] line-clamp-1`}>{item.description}</p>
+                      </div>
+                      <span className="text-sm font-bold text-[#D4AF37]">${item.priceUSD}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : course ? (
+                <div className="mb-5">
+                  <h3 className="text-xl font-bold mb-1">{course.title}</h3>
+                  <p className={`text-sm text-[#b3b3b3] line-clamp-2`}>{course.description}</p>
+                </div>
+              ) : null}
 
               {/* Currency switcher */}
               <div className="flex gap-2 mb-5">

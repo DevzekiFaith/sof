@@ -57,8 +57,7 @@ export default function CourseDetailPage() {
   const outcomes = course.outcomes || [];
   const coursePrice = course.priceUSD ?? 14;
   const pass = getQuarterlyPass();
-  const isFreeCourse = course.isFree ?? false;
-  const unlocked = currentUser ? (isFreeCourse || hasCourseAccess(course.id)) : false;
+  const unlocked = currentUser ? hasCourseAccess(course.id) : false;
 
   return (
     <div className="min-h-screen bg-[#121212] text-white">
@@ -85,11 +84,6 @@ export default function CourseDetailPage() {
                 ) : (
                   <IconComponent className={`${course.iconColor} w-12 h-12 sm:w-16 sm:h-16 transition-transform duration-300 relative z-10`} />
                 )}
-                {isFreeCourse && (
-                  <div className="absolute top-2 right-2 bg-[#1ed760] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
-                    Free
-                  </div>
-                )}
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-white mb-4 sm:mb-6 leading-tight tracking-tight">
                 {course.title}
@@ -115,16 +109,10 @@ export default function CourseDetailPage() {
                   <span className="text-base sm:text-lg font-bold text-white">{course.duration}</span>
                 </div>
               )}
-              {!isFreeCourse ? (
-                <Link href="/#pricing" className="px-4 sm:px-6 py-2 sm:py-3 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-lg hover:bg-[#1ed760]/20 transition-colors duration-300 transform hover:scale-105 group">
-                  <span className="text-xs sm:text-sm text-[#1ed760] font-semibold">Price: </span>
-                  <span className="text-base sm:text-lg font-bold text-[#1ed760] group-hover:underline">${coursePrice}</span>
-                </Link>
-              ) : (
-                <div className="px-4 sm:px-6 py-2 sm:py-3 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-lg">
-                  <span className="text-base sm:text-lg font-bold text-[#1ed760]">Free</span>
-                </div>
-              )}
+              <Link href="/#pricing" className="px-4 sm:px-6 py-2 sm:py-3 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-lg hover:bg-[#1ed760]/20 transition-colors duration-300 transform hover:scale-105 group">
+                <span className="text-xs sm:text-sm text-[#1ed760] font-semibold">Price: </span>
+                <span className="text-base sm:text-lg font-bold text-[#1ed760] group-hover:underline">${coursePrice}</span>
+              </Link>
             </div>
           </AnimatedSection>
 
@@ -142,26 +130,21 @@ export default function CourseDetailPage() {
                   </Button>
                 </a>
               ) : (
-                <Link 
-                  href={
-                    isFreeCourse 
-                      ? (currentUser ? `/learn/${course.id}` : "/checkout?plan=free") 
-                      : (unlocked ? `/learn/${course.id}` : "/checkout?plan=monthly")
-                  } 
+                <Link
+                  href={unlocked ? `/learn/${course.id}` : `/checkout?course=${course.id}`}
                   className="w-full sm:w-auto"
                 >
                   <Button variant="primary" size="md" className="w-full">
-                    {isFreeCourse ? (currentUser ? "Start Learning" : "Sign Up to Start") : (unlocked ? "Continue Learning" : "Enroll Now")}
+                    {unlocked ? "Continue Learning" : "Purchase Course"}
                   </Button>
                 </Link>
               )}
             </div>
           </AnimatedSection>
 
-          {/* Purchase CTA - Only show for premium courses */}
-          {!isFreeCourse && (
-            <AnimatedSection delay={350}>
-              <div className="mt-6 p-6 border border-[#282828] rounded-2xl bg-[#181818] shadow-2xl">
+          {/* Purchase CTA */}
+          <AnimatedSection delay={350}>
+            <div className="mt-6 p-6 border border-[#282828] rounded-2xl bg-[#181818] shadow-2xl">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                   <div>
                     <div className="text-2xl font-bold text-white mb-2">
@@ -202,7 +185,6 @@ export default function CourseDetailPage() {
                 </div>
               </div>
             </AnimatedSection>
-          )}
 
           {modules.length > 0 && course.detailedModules && course.detailedModules.length === modules.length && (
             <AnimatedSection delay={400}>

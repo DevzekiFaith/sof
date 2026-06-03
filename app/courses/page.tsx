@@ -7,11 +7,15 @@ import Image from "next/image";
 import { courses } from "../data/courses";
 import { Play } from "lucide-react";
 import { learningTracks } from "../data/learningTracks";
+import { useCart } from "../contexts/CartContext";
+import { useToast } from "../contexts/ToastContext";
 
 export default function CoursesPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const trackId = searchParams.get("track");
+  const { addToCart } = useCart();
+  const { showToast } = useToast();
   const [selectedCourse, setSelectedCourse] = useState(null);
 
   // Filter courses by trackId if provided
@@ -53,11 +57,8 @@ export default function CoursesPage() {
             <button
               key={course.id}
               onClick={() => {
-                if (course.isFree) {
-                  router.push(`/courses/${course.id}`);
-                } else {
-                  router.push(`/checkout?course=${course.id}`);
-                }
+                addToCart(course);
+                showToast("Added to cart!", "success");
               }}
               className="group flex flex-col items-start p-4 bg-[#181818] hover:bg-[#282828] transition-all duration-300 rounded-lg text-left relative shadow-lg"
             >
@@ -68,15 +69,12 @@ export default function CoursesPage() {
                 ) : (
                   <course.icon className="text-white w-1/3 h-1/3 drop-shadow-2xl relative z-10" />
                 )}
-                {course.isFree ? (
-                  <div className="absolute top-2 left-2 bg-[#1ed760] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
-                    Free
-                  </div>
-                ) : (
-                  <div className="absolute top-2 left-2 bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
-                    ${course.priceUSD}
-                  </div>
-                )}
+                <div className="absolute top-2 left-2 bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
+                  ${course.priceUSD}
+                </div>
+                <div className="absolute top-2 right-2 bg-[#282828] text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
+                  ₦{(course.priceUSD || 0) * 1500}
+                </div>
                 <div className="absolute bottom-2 right-2 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10 shadow-2xl">
                   <div className="w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center text-black hover:scale-105 transition-transform shadow-[0_8px_16px_rgba(0,0,0,0.5)]">
                     <Play size={24} fill="currentColor" className="ml-1" />

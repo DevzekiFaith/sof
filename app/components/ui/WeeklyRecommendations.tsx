@@ -61,11 +61,12 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
               ) : (
                 <rec.course.icon className="w-6 h-6 text-white" />
               )}
-              {rec.course.isFree && (
-                <div className="absolute top-0 right-0 bg-[#1ed760] text-black text-[8px] font-bold px-1 py-0.5 rounded-full">
-                  Free
-                </div>
-              )}
+              <div className="absolute top-0 right-0 bg-[#D4AF37] text-black text-[8px] font-bold px-1 py-0.5 rounded-full">
+                ${rec.course.priceUSD}
+              </div>
+              <div className="absolute top-0 left-0 bg-[#282828] text-white text-[8px] font-bold px-1 py-0.5 rounded-full">
+                ₦{(rec.course.priceUSD || 0) * 1500}
+              </div>
             </div>
 
             {/* Course Info */}

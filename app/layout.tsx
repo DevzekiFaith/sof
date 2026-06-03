@@ -9,6 +9,8 @@ import { RecommendationProvider } from "./contexts/RecommendationContext";
 import { ProgressProvider } from "./contexts/ProgressContext";
 import { OfflineProvider } from "./contexts/OfflineContext";
 import { PodcastProvider } from "./contexts/PodcastContext";
+import { ToastProvider } from "./contexts/ToastContext";
+import { CartProvider } from "./contexts/CartContext";
 import Sidebar from "./components/layout/Sidebar";
 import BottomNav from "./components/layout/BottomNav";
 import NowLearningBar from "./components/ui/NowLearningBar";
@@ -26,6 +28,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Origin — Formation for Life",
   description: "Origin empowers individuals aged 10–45 with essential life and professional skills through structured, stage-based learning. Capital development, persuasion, decision-making, teamwork, and more.",
+  icons: {
+    icon: "/origin.png",
+    apple: "/origin.png",
+  },
   openGraph: {
     title: "Origin — Formation for Life",
     description: "Structured, Jesuit-inspired skill formation for every stage of life.",
@@ -56,14 +62,18 @@ export default function RootLayout({
                   <ProgressProvider>
                     <OfflineProvider>
                       <PodcastProvider>
-                        <div className="flex flex-col md:flex-row min-h-screen bg-[#121212] text-white">
-                          <Sidebar />
-                          <main className="flex-1 flex flex-col min-w-0 pb-[80px] md:pb-20 relative">
-                            {children}
-                          </main>
-                          <NowLearningBar />
-                          <BottomNav />
-                        </div>
+                        <ToastProvider>
+                          <CartProvider>
+                            <div className="flex flex-col md:flex-row min-h-screen bg-[#121212] text-white">
+                              <Sidebar />
+                              <main className="flex-1 flex flex-col min-w-0 pb-[80px] md:pb-20 relative">
+                                {children}
+                              </main>
+                              <NowLearningBar />
+                              <BottomNav />
+                            </div>
+                          </CartProvider>
+                        </ToastProvider>
                       </PodcastProvider>
                     </OfflineProvider>
                   </ProgressProvider>

@@ -21,6 +21,8 @@ import { learningTracks, sofClubs, stretchChallenges } from "./data/learningTrac
 import { useUser } from "./contexts/UserContext";
 import { useGamification } from "./contexts/GamificationContext";
 import { useSocial } from "./contexts/SocialContext";
+import { useCart } from "./contexts/CartContext";
+import { useToast } from "./contexts/ToastContext";
 import { supabase } from "../lib/supabase";
 
 // Lazy load heavy components
@@ -97,6 +99,8 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 
 export default function Home() {
   const router = useRouter();
+  const { addToCart } = useCart();
+  const { showToast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [ageFilter, setAgeFilter] = useState<string>("all");
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -467,15 +471,12 @@ export default function Home() {
                       ) : (
                         <course.icon className="w-8 h-8 text-white relative z-10" />
                       )}
-                      {course.isFree ? (
-                        <div className="absolute top-1 left-1 bg-[#1ed760] text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">
-                          Free
-                        </div>
-                      ) : (
-                        <div className="absolute top-1 left-1 bg-[#D4AF37] text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">
-                          ${course.priceUSD}
-                        </div>
-                      )}
+                      <div className="absolute top-1 left-1 bg-[#D4AF37] text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">
+                        ${course.priceUSD}
+                      </div>
+                      <div className="absolute top-1 right-1 bg-[#282828] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
+                        ₦{(course.priceUSD || 0) * 1500}
+                      </div>
                     </div>
                     <div className="flex-1 flex items-center justify-between px-4 overflow-hidden">
                       <span className="font-bold text-sm truncate">{course.title}</span>
@@ -513,11 +514,8 @@ export default function Home() {
                   <button
                     key={course.id}
                     onClick={() => {
-                      if (course.isFree) {
-                        setSelectedCourse(course);
-                      } else {
-                        router.push(`/checkout?course=${course.id}`);
-                      }
+                      addToCart(course);
+                      showToast("Added to cart!", "success");
                     }}
                     className="group flex flex-col items-start p-4 bg-[#181818] hover:bg-[#282828] transition-all duration-300 rounded-lg text-left relative shadow-lg"
                   >
@@ -528,15 +526,12 @@ export default function Home() {
                       ) : (
                         <course.icon className="text-white w-1/3 h-1/3 drop-shadow-2xl relative z-10" />
                       )}
-                      {course.isFree ? (
-                        <div className="absolute top-2 left-2 bg-[#1ed760] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
-                          Free
-                        </div>
-                      ) : (
-                        <div className="absolute top-2 left-2 bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
-                          ${course.priceUSD}
-                        </div>
-                      )}
+                      <div className="absolute top-2 left-2 bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
+                        ${course.priceUSD}
+                      </div>
+                      <div className="absolute top-2 right-2 bg-[#282828] text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
+                        ₦{(course.priceUSD || 0) * 1500}
+                      </div>
                       <div className="absolute bottom-2 right-2 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10 shadow-2xl">
                         <div className="w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center text-black hover:scale-105 transition-transform shadow-[0_8px_16px_rgba(0,0,0,0.5)]">
                           <Play size={24} fill="currentColor" className="ml-1" />
@@ -817,24 +812,17 @@ export default function Home() {
                     <h3 className="text-lg font-black text-white mb-1">{course.title}</h3>
                     <p className="text-xs text-[#b3b3b3] mb-4 line-clamp-2">{course.description}</p>
                     <div className="flex items-center gap-2 mb-4">
-                      {course.isFree ? (
-                        <span className="bg-[#1ed760] text-black text-xs font-bold px-3 py-1 rounded-full">Free</span>
-                      ) : (
-                        <span className="bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full">${course.priceUSD}</span>
-                      )}
+                      <span className="bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full">${course.priceUSD} / ₦{(course.priceUSD || 0) * 1500}</span>
                       <span className="text-[10px] text-[#b3b3b3]">{course.duration}</span>
                     </div>
                     <button
                       onClick={() => {
-                        if (course.isFree) {
-                          setSelectedCourse(course);
-                        } else {
-                          router.push(`/checkout?course=${course.id}`);
-                        }
+                        addToCart(course);
+                        showToast("Added to cart!", "success");
                       }}
                       className="w-full py-3 rounded-full font-black text-sm transition-all hover:scale-105 bg-[#1ed760] text-black"
                     >
-                      {course.isFree ? 'Start Free' : 'Purchase Course'}
+                      Add to Cart
                     </button>
                   </div>
                 ))}

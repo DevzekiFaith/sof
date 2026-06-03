@@ -47,8 +47,7 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
   const subscriptionStatus = getSubscriptionStatus();
   const hasActiveSubscription = subscriptionStatus.isActive;
   const currentTier = subscriptionStatus.tier;
-  const isFreeCourse = course.isFree ?? false;
-  const canAccessCourse = isFreeCourse || hasActiveSubscription;
+  const canAccessCourse = hasActiveSubscription;
 
   // Debug logging
   console.log('CoursePreviewPanel - Subscription check:', {
@@ -111,13 +110,14 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
               </span>
             </div>
           )}
-          {isFreeCourse && (
-            <div className="mb-3 relative z-10">
-              <span className="px-3 py-1 bg-[#1ed760] text-black text-xs font-black rounded-full uppercase tracking-wider">
-                Free
-              </span>
-            </div>
-          )}
+          <div className="mb-3 relative z-10 flex gap-2">
+            <span className="px-3 py-1 bg-[#D4AF37] text-black text-xs font-black rounded-full uppercase tracking-wider">
+              ${course.priceUSD}
+            </span>
+            <span className="px-3 py-1 bg-[#282828] text-white text-xs font-black rounded-full uppercase tracking-wider">
+              ₦{(course.priceUSD || 0) * 1500}
+            </span>
+          </div>
 
           <h2 className="text-3xl font-extrabold text-white mb-2 leading-tight relative z-10">
             {course.title}
@@ -259,7 +259,7 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
                 <h3 className="text-lg font-bold text-white">
                   {moduleCount} Modules
                 </h3>
-                {!isFreeCourse && !userIsPremium && (
+                {!userIsPremium && (
                   <div className="flex items-center gap-1 text-xs text-[#1ed760]">
                     <Crown size={12} />
                     <span>Premium</span>
@@ -293,48 +293,18 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
 
         {/* Sticky CTA Footer */}
         <div className="sticky bottom-0 bg-[#121212]/95 backdrop-blur-md border-t border-[#282828] p-6 shadow-2xl flex flex-col gap-3">
-          {isFreeCourse ? (
-            <>
-              <Link href={isLoggedIn ? `/learn/${course.id}` : "/checkout?plan=free"} className="block w-full" onClick={onClose}>
-                <button className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group">
-                  {isLoggedIn ? 'Start Free Course' : 'Sign Up to Start'}
-                </button>
-              </Link>
-            </>
-          ) : !hasActiveSubscription ? (
-            <>
-              <button
-                onClick={() => setShowPaymentModal(true)}
-                className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group"
-              >
-                {isLoggedIn ? (
-                  <>
-                    <Crown className="w-5 h-5" />
-                    {currentTier === 'free' ? 'Upgrade to Access Full Course' : 'Renew Subscription'}
-                  </>
-                ) : (
-                  'Start Course'
-                )}
+          {canAccessCourse ? (
+            <Link href={`/learn/${course.id}`} className="block w-full" onClick={onClose}>
+              <button className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group">
+                Start Course
               </button>
-              <Link href="/#pricing" className="block w-full" onClick={onClose}>
-                <button className="w-full py-3 bg-transparent text-white hover:scale-105 font-bold rounded-full transition-all text-sm border border-[#535353] hover:border-white">
-                  View Plans &amp; Pricing
-                </button>
-              </Link>
-            </>
+            </Link>
           ) : (
-            <>
-              <Link href={`/learn/${course.id}`} className="block w-full" onClick={onClose}>
-                <button className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group">
-                  Start Course
-                </button>
-              </Link>
-              <Link href="/#pricing" className="block w-full" onClick={onClose}>
-                <button className="w-full py-3 bg-transparent text-white hover:scale-105 font-bold rounded-full transition-all text-sm border border-[#535353] hover:border-white">
-                  Manage Subscription
-                </button>
-              </Link>
-            </>
+            <Link href={`/checkout?course=${course.id}`} className="block w-full" onClick={onClose}>
+              <button className="w-full py-4 bg-[#1ed760] hover:scale-105 text-black font-bold text-lg rounded-full shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 group">
+                Purchase Course — ${course.priceUSD}
+              </button>
+            </Link>
           )}
         </div>
       </div>

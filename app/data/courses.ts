@@ -66,7 +66,6 @@ export const courses: Course[] = [
     featured: true,
     duration: "5 weeks",
     priceUSD: 14,
-    isFree: true,
     trackId: "classical-thinking",
     modules: [
       "Problem Solving Fundamentals",
@@ -350,7 +349,6 @@ This module helps you integrate all the skills into a comprehensive problem-solv
     featured: false,
     duration: "5 weeks",
     priceUSD: 14,
-    isFree: true,
     trackId: "leadership",
     modules: [
       "Decision-Making Fundamentals",

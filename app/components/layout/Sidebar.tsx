@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Home, Search, Library, Plus, Heart, User, BookOpen, Music, Star, Bell, Users } from "lucide-react";
+import { Home, Search, Library, Plus, Heart, User, BookOpen, Music, Star, Bell, Users, ShoppingBag } from "lucide-react";
 import Logo from "../Logo";
 import { useUser } from "../../contexts/UserContext";
 import { useSocial } from "../../contexts/SocialContext";
+import { useCart } from "../../contexts/CartContext";
 import { courses } from "../../data/courses";
 import { supabase } from "../../../lib/supabase";
 
@@ -15,6 +16,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const { currentUser, enrolledCourses } = useUser();
   const { pendingRequests } = useSocial();
+  const { cartCount, mounted } = useCart();
   const [activeFilter, setActiveFilter] = useState<string>("All");
   const [notificationCount, setNotificationCount] = useState(0);
   const [friendRequestCount, setFriendRequestCount] = useState(0);
@@ -108,6 +110,7 @@ export default function Sidebar() {
   const mainLinks = [
     { href: "/", label: "Home", icon: <Home className="w-6 h-6" /> },
     { href: "/#courses", label: "Search", icon: <Search className="w-6 h-6" /> },
+    { href: "/cart", label: "Cart", icon: <ShoppingBag className="w-6 h-6" />, badge: mounted ? cartCount : 0 },
   ];
 
   // Get actually enrolled course objects
@@ -198,13 +201,18 @@ export default function Sidebar() {
                 key={link.href}
                 href={link.href}
                 className={`flex items-center gap-5 px-3 py-3 rounded-md font-bold transition-all duration-200 group ${
-                  isActive 
-                    ? "text-white" 
+                  isActive
+                    ? "text-white"
                     : "text-[#b3b3b3] hover:text-white"
                 }`}
               >
-                <div className={`transition-transform duration-200 group-hover:scale-105 ${isActive ? "text-white" : ""}`}>
+                <div className={`transition-transform duration-200 group-hover:scale-105 ${isActive ? "text-white" : ""} relative`}>
                   {link.icon}
+                  {link.badge && link.badge > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#D4AF37] text-black text-xs font-bold rounded-full flex items-center justify-center">
+                      {link.badge}
+                    </span>
+                  )}
                 </div>
                 <span className="text-sm tracking-tight">{link.label}</span>
               </Link>
