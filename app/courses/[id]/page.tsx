@@ -171,14 +171,14 @@ export default function CourseDetailPage() {
                   </div>
 
                   <div className="flex flex-col gap-3 sm:min-w-[280px]">
-                    <Link href="/checkout?plan=monthly" className="w-full">
+                    <Link href={`/checkout?courseId=${course.id}`} className="w-full">
                       <button className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform shadow-lg shadow-[#1ed760]/20">
-                        Get Premium — ${coursePrice}
+                        Buy Course — ${coursePrice}
                       </button>
                     </Link>
-                    <Link href="/#pricing" className="w-full">
+                    <Link href="/courses" className="w-full">
                       <button className="w-full py-3 bg-[#282828] text-white font-bold rounded-full border border-[#333] hover:bg-[#333] transition-colors">
-                        View All Plans
+                        View All Courses
                       </button>
                     </Link>
                   </div>

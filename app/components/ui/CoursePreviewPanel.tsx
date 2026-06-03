@@ -15,7 +15,7 @@ interface CoursePreviewPanelProps {
 
 export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPanelProps) {
   const panelRef = useRef<HTMLDivElement>(null);
-  const { isPremium, currentUser, getSubscriptionStatus } = useUser();
+  const { currentUser, hasCourseAccess } = useUser();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // Close on Escape key
@@ -42,22 +42,8 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
   const IconComponent = course.icon;
   const moduleCount = course.modules?.length ?? 0;
   const outcomes = course.outcomes ?? [];
-  const userIsPremium = isPremium();
   const isLoggedIn = currentUser !== null;
-  const subscriptionStatus = getSubscriptionStatus();
-  const hasActiveSubscription = subscriptionStatus.isActive;
-  const currentTier = subscriptionStatus.tier;
-  const canAccessCourse = hasActiveSubscription;
-
-  // Debug logging
-  console.log('CoursePreviewPanel - Subscription check:', {
-    isLoggedIn,
-    userIsPremium,
-    subscriptionStatus,
-    hasActiveSubscription,
-    currentTier,
-    currentUser: currentUser?.id
-  });
+  const canAccessCourse = hasCourseAccess(course.id);
 
   return (
     <>
@@ -259,12 +245,6 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
                 <h3 className="text-lg font-bold text-white">
                   {moduleCount} Modules
                 </h3>
-                {!userIsPremium && (
-                  <div className="flex items-center gap-1 text-xs text-[#1ed760]">
-                    <Crown size={12} />
-                    <span>Premium</span>
-                  </div>
-                )}
               </div>
               <div className="space-y-2">
                 {course.modules.slice(0, canAccessCourse ? 5 : 2).map((mod, i) => (
@@ -313,7 +293,6 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
         featureName="Full Course Access"
-        plan="monthly"
       />
     </>
   );

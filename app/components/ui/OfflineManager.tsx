@@ -8,7 +8,7 @@ import PaymentPromptModal from "./PaymentPromptModal";
 
 export default function OfflineManager() {
   const { downloadedContent, isOnline, settings, usedStorage, removeContent, updateSettings, clearAllDownloads } = useOffline();
-  const { isPremium, currentUser } = useUser();
+  const { currentUser } = useUser();
   const [showSettings, setShowSettings] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
@@ -18,15 +18,10 @@ export default function OfflineManager() {
   };
 
   const storagePercent = (usedStorage / (settings.maxStorage * 1024 * 1024)) * 100;
-  const userIsPremium = isPremium();
   const isLoggedIn = currentUser !== null;
 
   const handleDownload = () => {
     if (!isLoggedIn) {
-      setShowPaymentModal(true);
-      return;
-    }
-    if (!userIsPremium) {
       setShowPaymentModal(true);
       return;
     }
@@ -38,12 +33,6 @@ export default function OfflineManager() {
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
           <Download className="w-5 h-5 text-[#1ed760]" />
           Offline Content
-          {!userIsPremium && (
-            <div className="flex items-center gap-1 text-xs text-[#1ed760]">
-              <Crown size={10} />
-              <span>Premium</span>
-            </div>
-          )}
         </h3>
         <div className="flex items-center gap-2">
           {isOnline ? (
@@ -57,14 +46,12 @@ export default function OfflineManager() {
               <span>Offline</span>
             </div>
           )}
-          {userIsPremium && (
-            <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="p-2 hover:bg-[#282828] rounded-full transition-colors"
-            >
-              <Settings size={16} className="text-[#b3b3b3]" />
-            </button>
-          )}
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            className="p-2 hover:bg-[#282828] rounded-full transition-colors"
+          >
+            <Settings size={16} className="text-[#b3b3b3]" />
+          </button>
         </div>
       </div>
 
@@ -86,7 +73,7 @@ export default function OfflineManager() {
       </div>
 
       {/* Settings Panel */}
-      {showSettings && userIsPremium && (
+      {showSettings && (
         <div className="bg-[#282828] p-4 rounded-lg mb-4">
           <h4 className="text-sm font-bold text-white mb-3">Download Settings</h4>
           <div className="space-y-3">
@@ -140,7 +127,7 @@ export default function OfflineManager() {
       <div className="space-y-2">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-[#b3b3b3]">{downloadedContent.length} items downloaded</span>
-          {downloadedContent.length > 0 && userIsPremium && (
+          {downloadedContent.length > 0 && (
             <button
               onClick={clearAllDownloads}
               className="text-xs text-red-400 hover:text-red-300 transition-colors"
@@ -150,18 +137,7 @@ export default function OfflineManager() {
           )}
         </div>
 
-        {!userIsPremium ? (
-          <div className="text-center py-8">
-            <Lock className="w-12 h-12 text-[#3f3f3f] mx-auto mb-2" />
-            <p className="text-sm text-[#b3b3b3]">Offline downloads require Premium</p>
-            <button
-              onClick={() => setShowPaymentModal(true)}
-              className="mt-3 px-4 py-2 bg-[#1ed760] text-black font-bold rounded-full text-sm hover:scale-105 transition-transform"
-            >
-              Upgrade to Premium
-            </button>
-          </div>
-        ) : downloadedContent.length === 0 ? (
+        {downloadedContent.length === 0 ? (
           <div className="text-center py-8">
             <Download className="w-12 h-12 text-[#3f3f3f] mx-auto mb-2" />
             <p className="text-sm text-[#b3b3b3]">No content downloaded</p>
@@ -215,7 +191,6 @@ export default function OfflineManager() {
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
         featureName="Offline Downloads"
-        plan="premium"
       />
     </div>
   );

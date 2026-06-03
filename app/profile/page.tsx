@@ -7,7 +7,7 @@ import Link from "next/link";
 
 
 export default function ProfilePage() {
-  const { currentUser, logout } = useUser();
+  const { currentUser, logout, enrolledCourses } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function ProfilePage() {
     );
   }
 
-  const joinYear = new Date(currentUser.joinedAt).getFullYear();
+  const joinYear = new Date(currentUser.createdAt).getFullYear();
 
   return (
     <div className="min-h-screen bg-[#121212] text-white pb-32">
@@ -37,11 +37,6 @@ export default function ProfilePage() {
           <div className="flex-1 pb-2">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-sm font-bold tracking-wider uppercase text-gray-300">Profile</span>
-              {currentUser.hasQuarterlyPass && (
-                <span className="px-2 py-0.5 bg-[#1ed760] text-black text-[10px] font-black rounded-sm uppercase tracking-widest">
-                  Premium
-                </span>
-              )}
             </div>
             <h1 className="text-5xl sm:text-7xl md:text-8xl font-black mb-6 tracking-tighter truncate">
               {currentUser.name}
@@ -89,55 +84,13 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 <div className="bg-[#181818] p-5 rounded-md hover:bg-[#282828] transition-colors group">
-                  <div className="text-[#a7a7a7] text-sm font-medium mb-1 group-hover:text-white transition-colors">Courses</div>
-                  <div className="text-3xl font-black text-white">{Object.keys(currentUser.completedStages || {}).length}</div>
+                  <div className="text-[#a7a7a7] text-sm font-medium mb-1 group-hover:text-white transition-colors">Courses Enrolled</div>
+                  <div className="text-3xl font-black text-white">{enrolledCourses.length}</div>
                 </div>
                 <div className="bg-[#181818] p-5 rounded-md hover:bg-[#282828] transition-colors group">
-                  <div className="text-[#a7a7a7] text-sm font-medium mb-1 group-hover:text-white transition-colors">Badges</div>
-                  <div className="text-3xl font-black text-white">{currentUser.stats?.badges?.length || 0}</div>
+                  <div className="text-[#a7a7a7] text-sm font-medium mb-1 group-hover:text-white transition-colors">Level</div>
+                  <div className="text-3xl font-black text-white">{currentUser.stats?.level || 1}</div>
                 </div>
-              </div>
-            </section>
-
-            {/* Recent Activity */}
-            <section>
-              <h2 className="text-2xl font-bold mb-6">Recent Activity</h2>
-              <div className="bg-[#181818] rounded-md overflow-hidden">
-                {Object.keys(currentUser.completedStages || {}).length === 0 ? (
-                  <div className="p-8 text-center text-[#a7a7a7]">
-                    <p className="mb-4">You haven't started any courses yet.</p>
-                    <Link href="/#courses">
-                      <button className="px-6 py-2 rounded-full border border-[#1ed760] text-[#1ed760] font-bold hover:bg-[#1ed760] hover:text-black transition-colors">
-                        Browse Courses
-                      </button>
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="divide-y divide-[#282828]">
-                    {Object.entries(currentUser.completedStages || {}).map(([courseId, stages], idx) => (
-                      <div key={courseId} className="p-4 hover:bg-[#282828] transition-colors flex items-center justify-between group">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-[#282828] rounded-md flex items-center justify-center text-xl">
-                            📚
-                          </div>
-                          <div>
-                            <div className="font-bold text-white group-hover:text-[#1ed760] transition-colors capitalize">
-                              {courseId}
-                            </div>
-                            <div className="text-sm text-[#a7a7a7]">
-                              {Object.keys(stages).length} modules accessed
-                            </div>
-                          </div>
-                        </div>
-                        <Link href={`/learn/${courseId}`}>
-                          <button className="opacity-0 group-hover:opacity-100 px-4 py-2 rounded-full border border-white text-sm font-bold hover:scale-105 transition-all">
-                            Resume
-                          </button>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             </section>
 
@@ -149,29 +102,7 @@ export default function ProfilePage() {
               <h2 className="text-xl font-bold mb-4">About</h2>
               <div className="bg-[#181818] p-6 rounded-md text-[#a7a7a7] text-sm space-y-4">
                 <p>Email: <span className="text-white font-medium">{currentUser.email}</span></p>
-                <p>Joined: <span className="text-white font-medium">{formatDate(currentUser.joinedAt)}</span></p>
-                {currentUser.hasQuarterlyPass ? (
-                  <div className="mt-4 p-3 bg-[#1ed760]/10 rounded border border-[#1ed760]/20 flex items-start gap-3">
-                    <span className="text-[#1ed760] text-xl">💎</span>
-                    <div>
-                      <p className="font-bold text-white mb-1">Premium Member</p>
-                      <p className="text-xs">You have full access to all courses and materials.</p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mt-4 p-3 bg-white/5 rounded border border-white/10 flex items-start gap-3">
-                    <span className="text-white text-xl">🔓</span>
-                    <div>
-                      <p className="font-bold text-white mb-1">Free Tier</p>
-                      <p className="text-xs mb-3">Upgrade for unlimited access to premium courses.</p>
-                      <Link href="/checkout?plan=pro">
-                        <button className="px-4 py-2 bg-white text-black font-bold rounded-full text-xs hover:scale-105 transition-transform">
-                          Upgrade Now
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                )}
+                <p>Joined: <span className="text-white font-medium">{formatDate(currentUser.createdAt)}</span></p>
               </div>
             </section>
           </div>

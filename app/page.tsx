@@ -672,17 +672,16 @@ export default function Home() {
             </section>
           </AnimatedSection>
 
-          {/* ── WHY SHAPE? (Social Proof + Comparison) ──────────────── */}
+          {/* ── HOW ORIGIN WORKS ─────────────────────────────────────── */}
           <AnimatedSection>
             <section className="mt-20">
               <div className="mb-8">
-                <h2 className="text-2xl font-black tracking-tight mb-1">Why Origin?</h2>
-                <p className="text-sm text-[#b3b3b3]">See what your child gets that other schools can&apos;t offer.</p>
+                <h2 className="text-2xl font-black tracking-tight mb-1">How Origin Works</h2>
+                <p className="text-sm text-[#b3b3b3]">A structured path from exploration to mastery</p>
               </div>
 
               {/* How Origin Works — 4 stages */}
               <div className="mt-14">
-                <h3 className="text-lg font-black tracking-tight mb-6">How Origin Works</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
                     { label: "Explore", icon: <Globe className="w-5 h-5 text-[#1ed760]" />, desc: "Browse 8 elite tracks & 32 courses", step: "01" },

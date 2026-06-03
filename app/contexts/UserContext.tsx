@@ -4,8 +4,6 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { supabase } from '../../lib/supabase';
 import { Session, User as SupabaseUser } from '@supabase/supabase-js';
 
-export type SubscriptionTier = 'free' | 'monthly' | 'annual' | 'lifetime';
-
 export interface User {
   id: string;
   name: string;
@@ -20,8 +18,6 @@ export interface User {
     streakDays: number;
     lastActiveDate: string | null;
   };
-  subscriptionTier?: SubscriptionTier;
-  subscriptionExpiresAt?: string;
 }
 
 export type BillingInterval = "quarterly";
@@ -61,10 +57,6 @@ interface UserContextType {
   awardXP: (amount: number) => void;
   isLoading: boolean;
   enrolledCourses: string[];
-  // Subscription tier
-  upgradeToPremium: (plan: 'monthly' | 'annual' | 'lifetime') => Promise<void>;
-  isPremium: () => boolean;
-  getSubscriptionStatus: () => { tier: SubscriptionTier; expiresAt?: string; isActive: boolean };
   // Engagement bonuses
   checkStreakBonus: () => { earned: boolean; reward: string };
   addReferral: (referredUserId: string) => Promise<boolean>;
@@ -141,8 +133,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
         name: data.name || '',
         email: data.email || '',
         createdAt: data.created_at,
-        subscriptionTier: data.subscription_tier as SubscriptionTier,
-        subscriptionExpiresAt: data.subscription_expires_at,
         stats: gamificationData ? {
           xp: gamificationData.total_xp,
           level: gamificationData.level,
@@ -261,22 +251,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const hasCourseAccess = (courseId: string): boolean => {
     if (!currentUser) return false;
 
-    const tier = currentUser.subscriptionTier || 'free';
     const owned = getOwnedCourses();
-
-    // Free tier: limited to 2 courses
-    if (tier === 'free') {
-      if (owned.includes(courseId)) return true;
-      if (owned.length >= 2) return false; // Already at limit
-      return true; // Can access if under limit
-    }
-
-    // Monthly, Annual, Lifetime: full access
-    if (tier === 'monthly' || tier === 'annual' || tier === 'lifetime') {
-      return true;
-    }
-
-    return getQuarterlyPass().isActive;
+    return owned.includes(courseId);
   };
 
   const purchaseCourse = async (courseId: string) => {
@@ -429,94 +405,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  // ─── Subscription Tier ─────────────────────────────────────────────────────
-
-  const upgradeToPremium = async (plan: 'monthly' | 'annual' | 'lifetime') => {
-    if (!currentUser) return;
-
-    let expiresAt: string | undefined;
-
-    if (plan === 'monthly') {
-      expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 30 days
-    } else if (plan === 'annual') {
-      expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(); // 365 days
-    }
-    // Lifetime has no expiration
-
-    const { error } = await supabase
-      .from('profiles')
-      .update({
-        subscription_tier: plan,
-        subscription_expires_at: expiresAt
-      })
-      .eq('id', currentUser.id);
-
-    if (error) {
-      console.error('Error upgrading subscription:', error);
-      return;
-    }
-
-    setCurrentUser({
-      ...currentUser,
-      subscriptionTier: plan,
-      subscriptionExpiresAt: expiresAt
-    });
-  };
-
-  const isPremium = (): boolean => {
-    if (!currentUser) return false;
-
-    const tier = currentUser.subscriptionTier || 'free';
-
-    // Free tier is not premium
-    if (tier === 'free') return false;
-
-    // Lifetime is always premium
-    if (tier === 'lifetime') return true;
-
-    // Monthly and Annual need expiration check
-    if (tier === 'monthly' || tier === 'annual') {
-      if (currentUser.subscriptionExpiresAt) {
-        return new Date(currentUser.subscriptionExpiresAt) > new Date();
-      }
-      return true;
-    }
-
-    return false;
-  };
-
-  const getSubscriptionStatus = () => {
-    if (!currentUser) {
-      return { tier: 'free' as const, isActive: false };
-    }
-
-    const tier = currentUser.subscriptionTier || 'free';
-    let isActive = false;
-
-    // Free tier is not active
-    if (tier === 'free') {
-      isActive = false;
-    }
-    // Lifetime is always active
-    else if (tier === 'lifetime') {
-      isActive = true;
-    }
-    // Monthly and Annual need expiration check
-    else if (tier === 'monthly' || tier === 'annual') {
-      if (currentUser.subscriptionExpiresAt) {
-        isActive = new Date(currentUser.subscriptionExpiresAt) > new Date();
-      } else {
-        isActive = true;
-      }
-    }
-
-    return {
-      tier,
-      expiresAt: currentUser.subscriptionExpiresAt,
-      isActive
-    };
-  };
-
   // ─── Engagement Bonuses ─────────────────────────────────────────────────────
 
   const checkStreakBonus = () => {
@@ -526,12 +414,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     // 7-day streak bonus
     if (streakDays === 7) {
-      return { earned: true, reward: '1 free week of premium' };
+      return { earned: true, reward: 'XP bonus awarded' };
     }
 
     // 30-day streak bonus
     if (streakDays === 30) {
-      return { earned: true, reward: '1 free month of premium' };
+      return { earned: true, reward: 'XP bonus awarded' };
     }
 
     return { earned: false, reward: '' };
@@ -561,21 +449,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         .eq('referrer_id', currentUser.id);
 
       if (referrals && referrals.length === 3) {
-        // Award 1 free month of premium
-        const currentExpiresAt = currentUser.subscriptionExpiresAt;
-        const bonusExpiresAt = currentExpiresAt
-          ? new Date(Math.max(new Date(currentExpiresAt).getTime(), Date.now() + 30 * 24 * 60 * 60 * 1000)).toISOString()
-          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-
-        await supabase
-          .from('profiles')
-          .update({ subscription_expires_at: bonusExpiresAt })
-          .eq('id', currentUser.id);
-
-        setCurrentUser({
-          ...currentUser,
-          subscriptionExpiresAt: bonusExpiresAt
-        });
+        // Award bonus for referrals
+        // TODO: Implement referral reward logic for per-course pricing
       }
 
       return true;
@@ -617,9 +492,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
         awardXP,
         isLoading,
         enrolledCourses: getOwnedCourses(),
-        upgradeToPremium,
-        isPremium,
-        getSubscriptionStatus,
         checkStreakBonus,
         addReferral,
         getReferralCount,

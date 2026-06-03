@@ -8,7 +8,7 @@ import PaymentPromptModal from "./PaymentPromptModal";
 
 export default function EduCastList() {
   const { eduCasts, playEduCast, playbackState } = usePodcast();
-  const { isPremium, currentUser } = useUser();
+  const { currentUser } = useUser();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const formatDuration = (seconds: number): string => {
@@ -25,15 +25,10 @@ export default function EduCastList() {
     return playbackState.currentEduCast?.id === eduCastId && playbackState.isPlaying;
   };
 
-  const userIsPremium = isPremium();
   const isLoggedIn = currentUser !== null;
 
   const handlePlayEduCast = (eduCast: any) => {
     if (!isLoggedIn) {
-      setShowPaymentModal(true);
-      return;
-    }
-    if (!userIsPremium) {
       setShowPaymentModal(true);
       return;
     }
@@ -46,12 +41,6 @@ export default function EduCastList() {
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
           <Mic className="w-5 h-5 text-[#1ed760]" />
           EduCasts
-          {!userIsPremium && (
-            <div className="flex items-center gap-1 text-xs text-[#1ed760]">
-              <Crown size={10} />
-              <span>Premium</span>
-            </div>
-          )}
         </h3>
         <span className="text-sm text-[#b3b3b3]">{eduCasts.length} episodes</span>
       </div>
@@ -60,18 +49,14 @@ export default function EduCastList() {
         {eduCasts.map((eduCast) => (
           <div
             key={eduCast.id}
-            className={`flex items-center gap-4 p-4 bg-[#282828] hover:bg-[#333] transition-all rounded-lg group ${
-              !userIsPremium ? 'cursor-pointer' : 'cursor-pointer'
-            }`}
+            className="flex items-center gap-4 p-4 bg-[#282828] hover:bg-[#333] transition-all rounded-lg group cursor-pointer"
             onClick={() => handlePlayEduCast(eduCast)}
           >
             {/* Play Button */}
             <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
               isPlaying(eduCast.id) 
                 ? 'bg-[#1ed760] text-black' 
-                : !userIsPremium
-                  ? 'bg-[#121212] text-white group-hover:bg-[#282828]'
-                  : 'bg-[#121212] text-white group-hover:bg-[#282828]'
+                : 'bg-[#121212] text-white group-hover:bg-[#282828]'
             }`}>
               {isPlaying(eduCast.id) ? (
                 <div className="flex gap-1">
@@ -79,8 +64,6 @@ export default function EduCastList() {
                   <div className="w-1 h-4 bg-black animate-pulse" style={{ animationDelay: '0.1s' }} />
                   <div className="w-1 h-4 bg-black animate-pulse" style={{ animationDelay: '0.2s' }} />
                 </div>
-              ) : !userIsPremium ? (
-                <Lock size={16} className="text-[#b3b3b3]" />
               ) : (
                 <Play size={20} fill="currentColor" className="ml-1" />
               )}
@@ -139,7 +122,6 @@ export default function EduCastList() {
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
         featureName="EduCasts"
-        plan="premium"
       />
     </div>
   );
