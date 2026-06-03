@@ -16,6 +16,7 @@ interface CartContextType {
   cartTotalNGN: number;
   cartCount: number;
   mounted: boolean;
+  cartTimestamp: number | null;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -35,13 +36,18 @@ interface CartProviderProps {
 export function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [cartTimestamp, setCartTimestamp] = useState<number | null>(null);
 
   // Load cart from localStorage on mount
   useEffect(() => {
     setMounted(true);
     const savedCart = localStorage.getItem("origin_cart");
+    const savedTimestamp = localStorage.getItem("origin_cart_timestamp");
     if (savedCart) {
       setCart(JSON.parse(savedCart));
+    }
+    if (savedTimestamp) {
+      setCartTimestamp(parseInt(savedTimestamp));
     }
   }, []);
 
@@ -49,6 +55,7 @@ export function CartProvider({ children }: CartProviderProps) {
   useEffect(() => {
     if (mounted) {
       localStorage.setItem("origin_cart", JSON.stringify(cart));
+      localStorage.setItem("origin_cart_timestamp", Date.now().toString());
     }
   }, [cart, mounted]);
 
@@ -87,6 +94,7 @@ export function CartProvider({ children }: CartProviderProps) {
         cartTotalNGN,
         cartCount,
         mounted,
+        cartTimestamp,
       }}
     >
       {children}

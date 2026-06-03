@@ -23,6 +23,7 @@ import { useGamification } from "./contexts/GamificationContext";
 import { useSocial } from "./contexts/SocialContext";
 import { useCart } from "./contexts/CartContext";
 import { useToast } from "./contexts/ToastContext";
+import { useNotifications } from "./hooks/useNotifications";
 import { supabase } from "../lib/supabase";
 
 // Lazy load heavy components
@@ -101,6 +102,7 @@ export default function Home() {
   const router = useRouter();
   const { addToCart } = useCart();
   const { showToast } = useToast();
+  useNotifications();
   const [searchQuery, setSearchQuery] = useState("");
   const [ageFilter, setAgeFilter] = useState<string>("all");
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
