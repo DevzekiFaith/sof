@@ -680,58 +680,6 @@ export default function Home() {
                 <p className="text-sm text-[#b3b3b3]">See what your child gets that other schools can&apos;t offer.</p>
               </div>
 
-              {/* Comparison table */}
-              <div className="overflow-x-auto -mx-4 px-4">
-                <table className="w-full min-w-[640px] text-sm">
-                  <thead>
-                    <tr>
-                      <th className="text-left text-xs text-[#b3b3b3] pb-4 font-semibold w-1/4">Feature</th>
-                      <th className="text-center text-xs text-[#b3b3b3] pb-4 font-semibold">State School</th>
-                      <th className="text-center text-xs text-[#b3b3b3] pb-4 font-semibold">
-                        <span className="text-[#D4AF37]">Elite Private</span>
-                        <br /><span className="text-[10px] font-normal">£55,000/yr</span>
-                      </th>
-                      <th className="text-center pb-4">
-                        <span className="inline-flex items-center gap-1.5 bg-[#1ed760]/10 border border-[#1ed760]/30 text-[#1ed760] text-xs font-black px-3 py-1.5 rounded-full">
-                          <Sparkles size={11} /> Origin
-                        </span>
-                        <br /><span className="text-[10px] text-[#b3b3b3] font-normal">Free–£9.99/mo</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#282828]">
-                    {[
-                      ["Personalised tutoring", false, true, true],
-                      ["Broad curriculum (28+ subjects)", false, true, true],
-                      ["Arts, Music & Drama", false, true, true],
-                      ["Character & values education", false, true, true],
-                      ["Sport & wellbeing", false, true, true],
-                      ["University & career preparation", false, true, true],
-                      ["Peer community & clubs", false, true, true],
-                      ["Gamified progress tracking", false, false, true],
-                      ["Available from age 5", false, false, true],
-                      ["Free starter access", false, false, true],
-                    ].map(([feature, state, elite, shape], i) => (
-                      <tr key={i} className="hover:bg-[#181818] transition-colors">
-                        <td className="py-3 text-white text-sm font-medium">{feature as string}</td>
-                        <td className="py-3 text-center">
-                          {state ? <CheckCircle size={18} className="text-[#1ed760] mx-auto" /> :
-                            <span className="text-[#b3b3b3] text-lg">✗</span>}
-                        </td>
-                        <td className="py-3 text-center">
-                          {elite ? <CheckCircle size={18} className="text-[#D4AF37] mx-auto" /> :
-                            <span className="text-[#b3b3b3] text-lg">✗</span>}
-                        </td>
-                        <td className="py-3 text-center">
-                          {shape ? <CheckCircle size={18} className="text-[#1ed760] mx-auto" /> :
-                            <span className="text-[#b3b3b3] text-lg">✗</span>}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
               {/* How Origin Works — 4 stages */}
               <div className="mt-14">
                 <h3 className="text-lg font-black tracking-tight mb-6">How Origin Works</h3>
