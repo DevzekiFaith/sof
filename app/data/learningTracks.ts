@@ -18,7 +18,7 @@ export const learningTracks: LearningTrack[] = [
   {
     id: "sciences-stem",
     title: "Sciences & STEM",
-    emoji: "🔬",
+    emoji: "◽",
     tagline: "Think like a scientist",
     description: "Master mathematics, sciences and technology through rigorous, hands-on learning. The same STEM curriculum that Eton and Harrow demand from their students.",
     subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "Engineering"],
@@ -44,7 +44,7 @@ export const learningTracks: LearningTrack[] = [
   {
     id: "arts-creativity",
     title: "Arts & Creativity",
-    emoji: "🎨",
+    emoji: "◾",
     tagline: "Create, perform, express",
     description: "Drama, music, visual arts and creative writing are core at Eton and Harrow — not extras. At Origin, every child gets professional-standard creative education.",
     subjects: ["Drama & Theatre", "Music & Composition", "Visual Art", "Creative Writing", "Storytelling", "Film & Photography"],
@@ -70,7 +70,7 @@ export const learningTracks: LearningTrack[] = [
   {
     id: "languages",
     title: "Languages",
-    emoji: "🌍",
+    emoji: "○",
     tagline: "Speak the world's languages",
     description: "Eton offers 10 languages. Harrow requires students to choose two foreign languages from Year 9. Every Origin child starts their global communication journey here.",
     subjects: ["English Language & Literature", "French", "Spanish", "Mandarin Chinese", "Arabic", "Latin"],
@@ -96,7 +96,7 @@ export const learningTracks: LearningTrack[] = [
   {
     id: "character-values",
     title: "Character & Values",
-    emoji: "🛡️",
+    emoji: "●",
     tagline: "Courage · Honour · Humility · Fellowship",
     description: "Harrow's four core values — Courage, Honour, Humility and Fellowship — are the backbone of character education. We bring this structured moral development to every child.",
     subjects: ["Ethics & Philosophy", "Emotional Intelligence", "PSHE", "Resilience", "Integrity", "Community Service"],
@@ -122,7 +122,7 @@ export const learningTracks: LearningTrack[] = [
   {
     id: "sport-wellbeing",
     title: "Sport & Wellbeing",
-    emoji: "🏅",
+    emoji: "△",
     tagline: "A healthy body, a powerful mind",
     description: "At Eton and Harrow, sport is built into the weekly timetable — it is never optional. Origin treats physical and mental wellbeing as non-negotiable parts of a complete education.",
     subjects: ["Physical Education", "Mindfulness & Meditation", "Nutrition & Health", "Team Sports", "Mental Health", "Yoga & Movement"],
@@ -148,7 +148,7 @@ export const learningTracks: LearningTrack[] = [
   {
     id: "leadership",
     title: "Leadership",
-    emoji: "🎖️",
+    emoji: "▲",
     tagline: "Develop the next generation of leaders",
     description: "Both Eton and Harrow have produced Prime Ministers, heads of state and CEOs. Their leadership development is systematic, starting from age 13. We start even earlier.",
     subjects: ["Leadership Fundamentals", "Entrepreneurship", "Public Speaking & Debate", "Community Leadership", "Project Management", "Decision Making Under Pressure"],
@@ -174,7 +174,7 @@ export const learningTracks: LearningTrack[] = [
   {
     id: "classical-thinking",
     title: "Classical Thinking",
-    emoji: "📜",
+    emoji: "◇",
     tagline: "Logic, Philosophy & the Ancient World",
     description: "Both Eton and Harrow require Latin, Philosophy and Ancient History. Classical education builds the sharpest, most disciplined minds. This is the secret weapon of elite education.",
     subjects: ["Philosophy & Ethics", "Logic & Reasoning", "Ancient History", "Latin", "Rhetoric", "Critical Analysis"],
@@ -200,7 +200,7 @@ export const learningTracks: LearningTrack[] = [
   {
     id: "university-prep",
     title: "University Prep",
-    emoji: "🎓",
+    emoji: "⬡",
     tagline: "Oxford · Cambridge · Ivy League ready",
     description: "From Year 9, Eton and Harrow are preparing their students for Oxford, Cambridge and the US Ivy League. Origin gives every child that same multi-year head start.",
     subjects: ["Study Skills & Research", "University Application", "Interview Preparation", "Extended Projects (EPQ)", "UCAS & US Applications", "Academic Writing"],
