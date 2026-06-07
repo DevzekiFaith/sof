@@ -7,8 +7,9 @@ import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { useUser } from "../contexts/UserContext";
 import { useCart } from "../contexts/CartContext";
 import { useToast } from "../contexts/ToastContext";
-import { CreditCard } from "lucide-react";
+import { CreditCard, Gift } from "lucide-react";
 import { courses, getCourseById } from "../data/courses";
+import { supabase } from "../../lib/supabase";
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
@@ -70,12 +71,30 @@ function CheckoutContent() {
       callback: async (response) => {
         closePaymentModal();
         if (response.status === "successful" || response.status === "completed") {
+          // Process gift orders
+          const giftItems = cart.filter(item => item.isGift);
+          if (giftItems.length > 0) {
+            for (const item of giftItems) {
+              await supabase.from('gift_orders').insert({
+                purchaser_id: currentUser.id,
+                recipient_email: item.recipientEmail,
+                recipient_name: item.recipientName,
+                course_id: item.id,
+                amount: item.priceUSD,
+                currency: 'USD',
+                status: 'completed',
+                gift_message: item.giftMessage,
+              });
+            }
+          }
+
           // Clear cart after successful payment
           if (cart.length > 0) {
             clearCart();
           }
           showToast("Payment successful!", "success");
-          // TODO: Add courses to user's purchased courses
+          
+          // Add courses to user's purchased courses
           if (course) {
             router.push(`/courses/${course.id}?purchased=true`);
           } else {
@@ -146,7 +165,15 @@ function CheckoutContent() {
                   {cart.map((item) => (
                     <div key={item.id} className="flex justify-between items-start">
                       <div className="flex-1">
-                        <h3 className="text-sm font-bold mb-1">{item.title}</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          {item.isGift && <Gift className="w-4 h-4 text-[#1ed760]" />}
+                          <h3 className="text-sm font-bold">{item.title}</h3>
+                        </div>
+                        {item.isGift && (
+                          <p className="text-xs text-[#b3b3b3] mb-1">
+                            Gift to: {item.recipientEmail}
+                          </p>
+                        )}
                         <p className={`text-xs text-[#b3b3b3] line-clamp-1`}>{item.description}</p>
                       </div>
                       <span className="text-sm font-bold text-[#D4AF37]">${item.priceUSD}</span>

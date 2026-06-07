@@ -13,6 +13,8 @@ interface WeeklyRecommendationsProps {
 export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommendationsProps) {
   const { weeklyRecommendations, refreshRecommendations } = useRecommendations();
 
+  console.log('WeeklyRecommendations rendered, count:', weeklyRecommendations.length);
+
   const getReasonColor = (type: string) => {
     switch (type) {
       case 'popular':
@@ -46,8 +48,12 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
         {weeklyRecommendations.map((rec, index) => (
           <div
             key={`${rec.course.id}-${index}`}
-            onClick={() => onCourseSelect?.(rec.course)}
+            onClick={() => {
+              console.log('Course clicked:', rec.course.title);
+              onCourseSelect?.(rec.course);
+            }}
             className="flex items-center gap-4 p-3 bg-[#282828] hover:bg-[#333] transition-all rounded-lg group cursor-pointer"
+            style={{ pointerEvents: 'auto' }}
           >
             {/* Rank */}
             <div className="w-6 text-center text-sm font-bold text-[#b3b3b3]">
@@ -78,7 +84,7 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
 
             {/* Play Button */}
             <div className="opacity-0 group-hover:opacity-100 transition-all">
-              <div className="w-10 h-10 rounded-full bg-[#1ed760] flex items-center justify-center text-black hover:scale-105 transition-transform">
+              <div className="w-10 h-10 rounded-full bg-[#1ed760] flex items-center justify-center text-black hover:scale-105 transition-transform cursor-pointer" onClick={(e) => { e.stopPropagation(); onCourseSelect?.(rec.course); }}>
                 <Play size={16} fill="currentColor" className="ml-0.5" />
               </div>
             </div>

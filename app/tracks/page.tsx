@@ -34,11 +34,18 @@ export default function TracksPage() {
                   <div className="text-4xl mb-4">{t.emoji}</div>
                   <h3 className="font-bold text-white text-lg mb-2">{t.title}</h3>
                   <p className="text-xs text-[#b3b3b3] mb-4 line-clamp-2">{t.tagline}</p>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold rounded-full px-2 py-1 bg-[#282828] text-[#1ed760]">
                       {t.curriculum?.length || 0} modules
                     </span>
                     <span className="text-xs text-[#b3b3b3]">{t.ageRange}</span>
+                  </div>
+                  <div className="flex items-center justify-between pt-3 border-t border-[#282828]">
+                    <div>
+                      <p className="text-lg font-bold text-white">${t.priceUSD}</p>
+                      <p className="text-xs text-[#b3b3b3]">₦{t.priceNGN?.toLocaleString()}</p>
+                    </div>
+                    <span className="text-xs text-[#1ed760] font-bold">View Track</span>
                   </div>
                 </Link>
               ))}
@@ -64,9 +71,20 @@ export default function TracksPage() {
               <p className="text-base text-[#b3b3b3] mb-6 max-w-3xl">
                 {track.description}
               </p>
-              <div className="flex items-center gap-4 text-sm text-[#b3b3b3] mb-8">
+              <div className="flex items-center gap-4 text-sm text-[#b3b3b3] mb-6">
                 <span className="bg-[#282828] px-3 py-1 rounded-full">{track.ageRange}</span>
                 <span>{track.subjects.length} subjects</span>
+              </div>
+              <div className="flex items-center gap-4 mb-8 p-4 bg-[#1ed760]/10 rounded-xl border border-[#1ed760]/20">
+                <div>
+                  <p className="text-xs text-[#b3b3b3] mb-1">Track Price</p>
+                  <p className="text-2xl font-bold text-[#1ed760]">${track.priceUSD}</p>
+                  <p className="text-sm text-[#b3b3b3]">₦{track.priceNGN?.toLocaleString()}</p>
+                </div>
+                <div className="flex-1 text-right">
+                  <p className="text-xs text-[#b3b3b3] mb-1">{track.curriculum?.length || 0} Modules</p>
+                  <p className="text-sm text-white font-bold">Complete Curriculum</p>
+                </div>
               </div>
             </div>
 

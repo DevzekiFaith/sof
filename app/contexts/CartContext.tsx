@@ -5,11 +5,16 @@ import { Course } from "../data/courses";
 
 interface CartItem extends Course {
   quantity: number;
+  isGift?: boolean;
+  recipientEmail?: string;
+  recipientName?: string;
+  giftMessage?: string;
 }
 
 interface CartContextType {
   cart: CartItem[];
   addToCart: (course: Course) => void;
+  addGiftToCart: (course: Course, recipientEmail: string, recipientName?: string, giftMessage?: string) => void;
   removeFromCart: (courseId: string) => void;
   clearCart: () => void;
   cartTotal: number;
@@ -71,6 +76,20 @@ export function CartProvider({ children }: CartProviderProps) {
     });
   };
 
+  const addGiftToCart = (course: Course, recipientEmail: string, recipientName?: string, giftMessage?: string) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === course.id && item.isGift);
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item.id === course.id && item.isGift 
+            ? { ...item, quantity: item.quantity + 1, recipientEmail, recipientName, giftMessage }
+            : item
+        );
+      }
+      return [...prevCart, { ...course, quantity: 1, isGift: true, recipientEmail, recipientName, giftMessage }];
+    });
+  };
+
   const removeFromCart = (courseId: string) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== courseId));
   };
@@ -88,6 +107,7 @@ export function CartProvider({ children }: CartProviderProps) {
       value={{
         cart,
         addToCart,
+        addGiftToCart,
         removeFromCart,
         clearCart,
         cartTotal,

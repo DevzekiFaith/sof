@@ -35,6 +35,10 @@ const AnalyticsDashboard = lazy(() => import("./components/ui/AnalyticsDashboard
 const OfflineManager = lazy(() => import("./components/ui/OfflineManager"));
 const EduCastList = lazy(() => import("./components/ui/EduCastList"));
 const EduCastPlayer = lazy(() => import("./components/ui/EduCastPlayer"));
+const SocialFeatures = lazy(() => import("./components/ui/SocialFeatures"));
+const CommunityHub = lazy(() => import("./components/ui/CommunityHub"));
+const ProductivityTools = lazy(() => import("./components/ui/ProductivityTools"));
+const MonetizationOptions = lazy(() => import("./components/ui/MonetizationOptions"));
 
 // ── Track icon map ────────────────────────────────────────────────────
 const trackIconMap: Record<string, React.ElementType> = {
@@ -106,6 +110,11 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [ageFilter, setAgeFilter] = useState<string>("all");
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+
+  // Debug selectedCourse changes
+  useEffect(() => {
+    console.log('selectedCourse changed:', selectedCourse?.title);
+  }, [selectedCourse]);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [waitlistEmail, setWaitlistEmail] = useState("");
   const [isWaitlisted, setIsWaitlisted] = useState(false);
@@ -566,6 +575,7 @@ export default function Home() {
                   <div
                     key={challenge.id}
                     className="group relative p-6 bg-[#181818] border border-[#282828] hover:border-[#1ed760]/30 rounded-xl transition-all duration-300 cursor-pointer overflow-hidden"
+                    onClick={() => router.push(`/challenge/${challenge.id}`)}
                   >
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                       style={{ background: 'radial-gradient(circle at 50% 0%, rgba(30,215,96,0.06), transparent 70%)' }} />
@@ -591,7 +601,13 @@ export default function Home() {
                           <span>⏱ {challenge.duration}</span>
                           <span>👤 {challenge.for}</span>
                         </div>
-                        <button className="flex items-center gap-1 text-[#1ed760] text-xs font-bold group-hover:gap-2 transition-all">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/challenge/${challenge.id}`);
+                          }}
+                          className="flex items-center gap-1 text-[#1ed760] text-xs font-bold group-hover:gap-2 transition-all"
+                        >
                           Start <ArrowRight size={12} />
                         </button>
                       </div>
@@ -708,6 +724,34 @@ export default function Home() {
           <AnimatedSection>
             <Suspense fallback={<div className="h-32 bg-[#181818] rounded-lg animate-pulse" />}>
               <EduCastList />
+            </Suspense>
+          </AnimatedSection>
+
+          {/* ── SOCIAL FEATURES ───────────────────────────────────────── */}
+          <AnimatedSection>
+            <Suspense fallback={<div className="h-32 bg-[#181818] rounded-lg animate-pulse" />}>
+              <SocialFeatures />
+            </Suspense>
+          </AnimatedSection>
+
+          {/* ── COMMUNITY HUB ─────────────────────────────────────────── */}
+          <AnimatedSection>
+            <Suspense fallback={<div className="h-32 bg-[#181818] rounded-lg animate-pulse" />}>
+              <CommunityHub />
+            </Suspense>
+          </AnimatedSection>
+
+          {/* ── PRODUCTIVITY TOOLS ────────────────────────────────────── */}
+          <AnimatedSection>
+            <Suspense fallback={<div className="h-32 bg-[#181818] rounded-lg animate-pulse" />}>
+              <ProductivityTools />
+            </Suspense>
+          </AnimatedSection>
+
+          {/* ── MONETIZATION OPTIONS ─────────────────────────────────── */}
+          <AnimatedSection>
+            <Suspense fallback={<div className="h-32 bg-[#181818] rounded-lg animate-pulse" />}>
+              <MonetizationOptions />
             </Suspense>
           </AnimatedSection>
 
@@ -838,7 +882,7 @@ export default function Home() {
         )}
 
         {selectedCourse && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
             <CoursePreviewPanel course={selectedCourse} onClose={() => setSelectedCourse(null)} />
           </Suspense>
         )}

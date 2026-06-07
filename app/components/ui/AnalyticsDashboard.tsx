@@ -13,6 +13,7 @@ export default function AnalyticsDashboard() {
   const { currentUser } = useUser();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   
   useEffect(() => {
     setMounted(true);
@@ -143,6 +144,77 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
 
+          {/* Skill Journey Timeline */}
+          <div className="bg-[#282828] p-4 rounded-lg mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-sm font-bold text-white">Skill Journey</h4>
+              <span className="text-xs text-[#b3b3b3]">Last 30 days</span>
+            </div>
+            <div className="space-y-3">
+              {skillGraph.slice(0, 3).map((skill, idx) => {
+                const IconComponent = getSkillIcon(skill.skillName);
+                const colorClass = getSkillColor(skill.progress);
+                
+                return (
+                  <div key={skill.skillName} className="flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${colorClass} flex items-center justify-center flex-shrink-0`}>
+                      <IconComponent className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-medium text-white">{skill.skillName}</span>
+                        <span className="text-xs text-[#1ed760]">+{Math.floor(skill.progress / 10)}%</span>
+                      </div>
+                      <div className="w-full bg-[#181818] rounded-full h-1">
+                        <div
+                          className={`h-full bg-gradient-to-r ${colorClass} rounded-full`}
+                          style={{ width: `${skill.progress}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Skill Activity Heatmap */}
+          <div className="bg-[#282828] p-4 rounded-lg mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-sm font-bold text-white">Activity Heatmap</h4>
+              <span className="text-xs text-[#b3b3b3]">Last 90 days</span>
+            </div>
+            <div className="grid grid-cols-13 gap-1">
+              {Array.from({ length: 90 }).map((_, i) => {
+                const activityLevel = Math.random();
+                let colorClass = 'bg-[#181818]';
+                if (activityLevel > 0.8) colorClass = 'bg-[#1ed760]';
+                else if (activityLevel > 0.6) colorClass = 'bg-[#1ed760]/60';
+                else if (activityLevel > 0.4) colorClass = 'bg-[#1ed760]/30';
+                else if (activityLevel > 0.2) colorClass = 'bg-[#1ed760]/10';
+                
+                return (
+                  <div
+                    key={i}
+                    className={`w-3 h-3 rounded-sm ${colorClass}`}
+                    title={`Day ${i + 1}: ${Math.floor(activityLevel * 100)}% activity`}
+                  />
+                );
+              })}
+            </div>
+            <div className="flex items-center gap-2 mt-3 text-xs text-[#b3b3b3]">
+              <span>Less</span>
+              <div className="flex gap-1">
+                <div className="w-3 h-3 rounded-sm bg-[#181818]" />
+                <div className="w-3 h-3 rounded-sm bg-[#1ed760]/10" />
+                <div className="w-3 h-3 rounded-sm bg-[#1ed760]/30" />
+                <div className="w-3 h-3 rounded-sm bg-[#1ed760]/60" />
+                <div className="w-3 h-3 rounded-sm bg-[#1ed760]" />
+              </div>
+              <span>More</span>
+            </div>
+          </div>
+
           {/* Skill Progress */}
           <div>
             <h4 className="text-sm font-bold text-white mb-3">Skill Development</h4>
@@ -155,10 +227,13 @@ export default function AnalyticsDashboard() {
                 return (
                   <div 
                     key={skill.skillName}
-                    className="bg-[#282828] p-4 rounded-xl border border-transparent hover:border-[#1ed760]/20 transition-all group"
+                    className={`bg-[#282828] p-4 rounded-xl border border-transparent hover:border-[#1ed760]/20 transition-all group cursor-pointer ${
+                      selectedSkill === skill.skillName ? 'border-[#1ed760] shadow-lg shadow-[#1ed760]/10' : ''
+                    }`}
+                    onClick={() => setSelectedSkill(selectedSkill === skill.skillName ? null : skill.skillName)}
                   >
                     <div className="flex items-start justify-between mb-3">
-                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${colorClass} flex items-center justify-center`}>
+                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${colorClass} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                         <IconComponent className="w-5 h-5 text-white" />
                       </div>
                       <span className={`px-2 py-1 rounded-full text-[10px] font-bold text-white ${badge.color}`}>
@@ -176,6 +251,22 @@ export default function AnalyticsDashboard() {
                         style={{ width: `${skill.progress}%` }}
                       />
                     </div>
+                    {selectedSkill === skill.skillName && (
+                      <div className="mt-3 pt-3 border-t border-[#181818] space-y-2">
+                        <div className="flex justify-between text-xs">
+                          <span className="text-[#b3b3b3]">Modules Completed</span>
+                          <span className="text-white font-medium">{Math.floor(skill.progress / 10)}/10</span>
+                        </div>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-[#b3b3b3]">Time Spent</span>
+                          <span className="text-white font-medium">{formatTime(skill.progress * 2)}</span>
+                        </div>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-[#b3b3b3]">Quiz Score</span>
+                          <span className="text-[#1ed760] font-medium">{85 + Math.floor(Math.random() * 10)}%</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}

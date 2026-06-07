@@ -3,7 +3,7 @@
 import { useCart } from "../contexts/CartContext";
 import { useToast } from "../contexts/ToastContext";
 import { useRouter } from "next/navigation";
-import { Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { Trash2, ShoppingBag, ArrowRight, BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -69,8 +69,10 @@ export default function CartPage() {
                   <div className={`w-24 h-24 rounded-lg bg-gradient-to-br ${item.bgGradient} flex items-center justify-center flex-shrink-0 relative`}>
                     {item.imageUrl ? (
                       <Image src={item.imageUrl} alt={item.title} fill className="object-cover rounded-lg" sizes="96px" />
-                    ) : (
+                    ) : item.icon ? (
                       <item.icon className="text-white w-12 h-12" />
+                    ) : (
+                      <BookOpen className="text-white w-12 h-12" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">

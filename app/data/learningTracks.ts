@@ -12,6 +12,25 @@ export interface LearningTrack {
   ageRange: string;
   etonHarrowLink: string; // Which elite school subject area this maps to
   curriculum?: string[]; // Track-specific curriculum content
+  detailedContent?: Module[]; // Detailed module content with lessons
+  priceUSD?: number;
+  priceNGN?: number;
+}
+
+export interface Module {
+  title: string;
+  description: string;
+  lessons: Lesson[];
+  duration: string;
+  difficulty: string;
+}
+
+export interface Lesson {
+  title: string;
+  description: string;
+  duration: string;
+  type: 'video' | 'interactive' | 'quiz' | 'project';
+  objectives: string[];
 }
 
 export const learningTracks: LearningTrack[] = [
@@ -28,6 +47,8 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 6,
     ageRange: "5–18",
     etonHarrowLink: "Eton: 28 subjects including all sciences · Harrow: All 3 sciences compulsory in Year 9",
+    priceUSD: 199,
+    priceNGN: 298500,
     curriculum: [
       "Mathematical Foundations",
       "Scientific Method & Inquiry",
@@ -39,6 +60,109 @@ export const learningTracks: LearningTrack[] = [
       "Data Analysis & Statistics",
       "Laboratory Skills",
       "STEM Project-Based Learning"
+    ],
+    detailedContent: [
+      {
+        title: "Mathematical Foundations",
+        description: "Build a strong mathematical foundation covering algebra, geometry, and calculus concepts essential for STEM.",
+        duration: "8 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "Algebra Fundamentals",
+            description: "Master algebraic expressions, equations, and inequalities",
+            duration: "45 min",
+            type: "video",
+            objectives: ["Solve linear equations", "Understand algebraic expressions", "Apply algebra to real-world problems"]
+          },
+          {
+            title: "Geometry & Spatial Reasoning",
+            description: "Explore geometric shapes, angles, and spatial relationships",
+            duration: "50 min",
+            type: "interactive",
+            objectives: ["Identify geometric properties", "Calculate area and perimeter", "Understand transformations"]
+          },
+          {
+            title: "Calculus Introduction",
+            description: "Introduction to derivatives, integrals, and their applications",
+            duration: "60 min",
+            type: "video",
+            objectives: ["Understand limits", "Calculate basic derivatives", "Apply calculus to motion problems"]
+          },
+          {
+            title: "Math Assessment",
+            description: "Test your understanding of mathematical concepts",
+            duration: "30 min",
+            type: "quiz",
+            objectives: ["Demonstrate problem-solving skills", "Apply concepts to complex problems"]
+          }
+        ]
+      },
+      {
+        title: "Scientific Method & Inquiry",
+        description: "Learn the systematic approach to scientific investigation and critical thinking.",
+        duration: "6 weeks",
+        difficulty: "Beginner",
+        lessons: [
+          {
+            title: "The Scientific Method",
+            description: "Understanding the steps of scientific inquiry",
+            duration: "40 min",
+            type: "video",
+            objectives: ["Identify scientific method steps", "Formulate hypotheses", "Design experiments"]
+          },
+          {
+            title: "Data Collection & Analysis",
+            description: "Techniques for gathering and analyzing scientific data",
+            duration: "55 min",
+            type: "interactive",
+            objectives: ["Collect accurate data", "Analyze trends", "Draw valid conclusions"]
+          },
+          {
+            title: "Research Project",
+            description: "Conduct your own scientific investigation",
+            duration: "2 weeks",
+            type: "project",
+            objectives: ["Apply scientific method", "Present findings", "Evaluate peer research"]
+          }
+        ]
+      },
+      {
+        title: "Physics: Motion & Forces",
+        description: "Explore the fundamental principles of motion, forces, and energy.",
+        duration: "8 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "Kinematics",
+            description: "Study of motion without considering forces",
+            duration: "50 min",
+            type: "video",
+            objectives: ["Understand velocity and acceleration", "Solve motion problems", "Analyze motion graphs"]
+          },
+          {
+            title: "Newton's Laws",
+            description: "Fundamental laws of motion and force",
+            duration: "55 min",
+            type: "interactive",
+            objectives: ["Apply Newton's three laws", "Calculate forces", "Understand equilibrium"]
+          },
+          {
+            title: "Energy & Work",
+            description: "Conservation of energy and work principles",
+            duration: "45 min",
+            type: "video",
+            objectives: ["Calculate work and power", "Understand energy conservation", "Apply energy principles"]
+          },
+          {
+            title: "Physics Lab",
+            description: "Hands-on experiments with motion and forces",
+            duration: "90 min",
+            type: "interactive",
+            objectives: ["Conduct physics experiments", "Measure motion", "Analyze experimental data"]
+          }
+        ]
+      }
     ],
   },
   {
@@ -54,6 +178,8 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 5,
     ageRange: "5–18",
     etonHarrowLink: "Eton: large-scale productions each term · Harrow: professional-standard theatre & music",
+    priceUSD: 179,
+    priceNGN: 268500,
     curriculum: [
       "Drama & Performance Techniques",
       "Music Theory & Composition",
@@ -65,6 +191,66 @@ export const learningTracks: LearningTrack[] = [
       "Creative Expression",
       "Portfolio Development",
       "Public Performance"
+    ],
+    detailedContent: [
+      {
+        title: "Drama & Performance Techniques",
+        description: "Master the art of performance through acting techniques, stage presence, and character development.",
+        duration: "8 weeks",
+        difficulty: "Beginner",
+        lessons: [
+          {
+            title: "Acting Fundamentals",
+            description: "Introduction to acting techniques and methods",
+            duration: "50 min",
+            type: "video",
+            objectives: ["Understand character development", "Practice vocal projection", "Learn stage presence"]
+          },
+          {
+            title: "Scene Study",
+            description: "Analyze and perform scenes from classic plays",
+            duration: "60 min",
+            type: "interactive",
+            objectives: ["Analyze dramatic text", "Develop authentic characters", "Perform with emotional depth"]
+          },
+          {
+            title: "Performance Project",
+            description: "Prepare and perform a monologue or scene",
+            duration: "2 weeks",
+            type: "project",
+            objectives: ["Apply acting techniques", "Receive and incorporate feedback", "Deliver polished performance"]
+          }
+        ]
+      },
+      {
+        title: "Music Theory & Composition",
+        description: "Learn music theory fundamentals and create your own compositions.",
+        duration: "10 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "Music Fundamentals",
+            description: "Notes, scales, intervals, and basic harmony",
+            duration: "45 min",
+            type: "video",
+            objectives: ["Read musical notation", "Understand scales and keys", "Identify intervals"]
+          },
+          {
+            title: "Composition Workshop",
+            description: "Create your own musical pieces",
+            duration: "90 min",
+            type: "interactive",
+            objectives: ["Apply music theory", "Compose melodies", "Arrange harmonies"]
+          },
+          {
+            title: "Performance & Recording",
+            description: "Record and perform your compositions",
+            duration: "60 min",
+            type: "project",
+            objectives: ["Use digital audio tools", "Record compositions", "Present musical work"]
+          }
+        ]
+      }
     ],
   },
   {
@@ -80,6 +266,8 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 6,
     ageRange: "5–18",
     etonHarrowLink: "Eton: 10 modern & classical languages offered · Harrow: 2 languages compulsory from Year 9",
+    priceUSD: 189,
+    priceNGN: 283500,
     curriculum: [
       "English Language Mastery",
       "French Language & Culture",
@@ -91,6 +279,66 @@ export const learningTracks: LearningTrack[] = [
       "Cross-Cultural Communication",
       "Literature Analysis",
       "Translation & Interpretation"
+    ],
+    detailedContent: [
+      {
+        title: "English Language Mastery",
+        description: "Achieve fluency in English language through comprehensive grammar, vocabulary, and communication skills.",
+        duration: "12 weeks",
+        difficulty: "Beginner",
+        lessons: [
+          {
+            title: "Grammar Foundations",
+            description: "Master English grammar rules and sentence structure",
+            duration: "45 min",
+            type: "video",
+            objectives: ["Understand parts of speech", "Construct proper sentences", "Avoid common errors"]
+          },
+          {
+            title: "Vocabulary Building",
+            description: "Expand your vocabulary with advanced words and expressions",
+            duration: "40 min",
+            type: "interactive",
+            objectives: ["Learn new vocabulary daily", "Use context clues", "Apply words in context"]
+          },
+          {
+            title: "Writing Workshop",
+            description: "Practice writing essays, reports, and creative pieces",
+            duration: "60 min",
+            type: "project",
+            objectives: ["Write structured essays", "Develop writing style", "Edit and revise work"]
+          }
+        ]
+      },
+      {
+        title: "French Language & Culture",
+        description: "Learn French language while exploring French culture and civilization.",
+        duration: "10 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "French Basics",
+            description: "Introduction to French pronunciation and basic phrases",
+            duration: "50 min",
+            type: "video",
+            objectives: ["Master French pronunciation", "Learn essential phrases", "Understand basic grammar"]
+          },
+          {
+            title: "Conversation Practice",
+            description: "Practice speaking French in real-world scenarios",
+            duration: "45 min",
+            type: "interactive",
+            objectives: ["Hold basic conversations", "Ask and answer questions", "Use common expressions"]
+          },
+          {
+            title: "Cultural Project",
+            description: "Explore French culture through research and presentation",
+            duration: "2 weeks",
+            type: "project",
+            objectives: ["Research French culture", "Present findings in French", "Understand cultural context"]
+          }
+        ]
+      }
     ],
   },
   {
@@ -106,6 +354,8 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 4,
     ageRange: "5–18",
     etonHarrowLink: "Harrow core values: Courage, Honour, Humility, Fellowship · Eton: PSHE & character development",
+    priceUSD: 149,
+    priceNGN: 223500,
     curriculum: [
       "Ethics & Moral Philosophy",
       "Emotional Intelligence Development",
@@ -117,6 +367,66 @@ export const learningTracks: LearningTrack[] = [
       "Values-Based Leadership",
       "Character Development",
       "Social Responsibility"
+    ],
+    detailedContent: [
+      {
+        title: "Ethics & Moral Philosophy",
+        description: "Explore ethical frameworks and develop moral reasoning skills.",
+        duration: "8 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "Ethical Theories",
+            description: "Introduction to major ethical frameworks",
+            duration: "50 min",
+            type: "video",
+            objectives: ["Understand utilitarianism", "Learn deontological ethics", "Apply virtue ethics"]
+          },
+          {
+            title: "Moral Dilemmas",
+            description: "Analyze and discuss complex moral situations",
+            duration: "60 min",
+            type: "interactive",
+            objectives: ["Identify ethical conflicts", "Apply ethical frameworks", "Make reasoned decisions"]
+          },
+          {
+            title: "Ethics Project",
+            description: "Research and present on an ethical issue",
+            duration: "2 weeks",
+            type: "project",
+            objectives: ["Research ethical issues", "Develop ethical arguments", "Present findings"]
+          }
+        ]
+      },
+      {
+        title: "Emotional Intelligence Development",
+        description: "Build self-awareness, empathy, and emotional regulation skills.",
+        duration: "10 weeks",
+        difficulty: "Beginner",
+        lessons: [
+          {
+            title: "Self-Awareness",
+            description: "Understanding your own emotions and triggers",
+            duration: "45 min",
+            type: "video",
+            objectives: ["Identify emotions", "Recognize triggers", "Practice self-reflection"]
+          },
+          {
+            title: "Empathy Building",
+            description: "Develop ability to understand others' perspectives",
+            duration: "50 min",
+            type: "interactive",
+            objectives: ["Practice active listening", "Understand different viewpoints", "Show compassion"]
+          },
+          {
+            title: "Emotional Regulation",
+            description: "Learn techniques to manage emotions effectively",
+            duration: "40 min",
+            type: "video",
+            objectives: ["Identify coping strategies", "Practice mindfulness", "Develop emotional control"]
+          }
+        ]
+      }
     ],
   },
   {
@@ -132,6 +442,8 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 4,
     ageRange: "5–18",
     etonHarrowLink: "Harrow: sport embedded in weekly timetable · Eton: sports & aquatic centre, daily participation",
+    priceUSD: 149,
+    priceNGN: 223500,
     curriculum: [
       "Physical Fitness Training",
       "Mindfulness & Meditation Practices",
@@ -143,6 +455,66 @@ export const learningTracks: LearningTrack[] = [
       "Stress Management",
       "Wellbeing Habits",
       "Sports Leadership"
+    ],
+    detailedContent: [
+      {
+        title: "Physical Fitness Training",
+        description: "Develop strength, endurance, and flexibility through structured fitness programs.",
+        duration: "8 weeks",
+        difficulty: "Beginner",
+        lessons: [
+          {
+            title: "Fitness Fundamentals",
+            description: "Introduction to exercise physiology and proper form",
+            duration: "45 min",
+            type: "video",
+            objectives: ["Understand exercise principles", "Learn proper form", "Create workout plans"]
+          },
+          {
+            title: "Strength Training",
+            description: "Build muscle and improve body composition",
+            duration: "50 min",
+            type: "interactive",
+            objectives: ["Master strength exercises", "Progressive overload", "Track progress"]
+          },
+          {
+            title: "Fitness Assessment",
+            description: "Test your fitness levels and set goals",
+            duration: "30 min",
+            type: "quiz",
+            objectives: ["Measure fitness metrics", "Set realistic goals", "Create improvement plan"]
+          }
+        ]
+      },
+      {
+        title: "Mindfulness & Meditation Practices",
+        description: "Learn mindfulness techniques for mental clarity and stress reduction.",
+        duration: "6 weeks",
+        difficulty: "Beginner",
+        lessons: [
+          {
+            title: "Introduction to Mindfulness",
+            description: "Understanding mindfulness and its benefits",
+            duration: "40 min",
+            type: "video",
+            objectives: ["Understand mindfulness", "Practice basic techniques", "Apply to daily life"]
+          },
+          {
+            title: "Meditation Practice",
+            description: "Guided meditation sessions for beginners",
+            duration: "30 min",
+            type: "interactive",
+            objectives: ["Practice meditation", "Develop focus", "Reduce stress"]
+          },
+          {
+            title: "Mindfulness Challenge",
+            description: "30-day mindfulness practice challenge",
+            duration: "30 days",
+            type: "project",
+            objectives: ["Daily mindfulness practice", "Track progress", "Reflect on benefits"]
+          }
+        ]
+      }
     ],
   },
   {
@@ -158,6 +530,8 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 5,
     ageRange: "5–18",
     etonHarrowLink: "Eton: CCF, 80+ societies, student-led leadership · Harrow: Harrow Prize, community service",
+    priceUSD: 179,
+    priceNGN: 268500,
     curriculum: [
       "Leadership Fundamentals",
       "Entrepreneurship & Innovation",
@@ -169,6 +543,66 @@ export const learningTracks: LearningTrack[] = [
       "Strategic Thinking",
       "Ethical Leadership",
       "Global Leadership Perspectives"
+    ],
+    detailedContent: [
+      {
+        title: "Leadership Fundamentals",
+        description: "Understand core leadership principles and develop your leadership style.",
+        duration: "8 weeks",
+        difficulty: "Beginner",
+        lessons: [
+          {
+            title: "Leadership Styles",
+            description: "Explore different leadership approaches and when to use them",
+            duration: "50 min",
+            type: "video",
+            objectives: ["Identify leadership styles", "Understand situational leadership", "Develop personal style"]
+          },
+          {
+            title: "Communication Skills",
+            description: "Master effective communication for leaders",
+            duration: "45 min",
+            type: "interactive",
+            objectives: ["Practice active listening", "Deliver clear messages", "Handle difficult conversations"]
+          },
+          {
+            title: "Leadership Project",
+            description: "Lead a team project from start to finish",
+            duration: "4 weeks",
+            type: "project",
+            objectives: ["Apply leadership principles", "Manage team dynamics", "Deliver results"]
+          }
+        ]
+      },
+      {
+        title: "Entrepreneurship & Innovation",
+        description: "Learn to think like an entrepreneur and turn ideas into reality.",
+        duration: "10 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "Ideation & Innovation",
+            description: "Generate and evaluate business ideas",
+            duration: "55 min",
+            type: "interactive",
+            objectives: ["Brainstorm creative solutions", "Validate ideas", "Develop business concepts"]
+          },
+          {
+            title: "Business Planning",
+            description: "Create a comprehensive business plan",
+            duration: "60 min",
+            type: "video",
+            objectives: ["Structure business plans", "Financial projections", "Market analysis"]
+          },
+          {
+            title: "Startup Pitch",
+            description: "Present your business idea to investors",
+            duration: "30 min",
+            type: "project",
+            objectives: ["Create compelling pitch", "Answer questions confidently", "Persuade effectively"]
+          }
+        ]
+      }
     ],
   },
   {
@@ -184,6 +618,8 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 3,
     ageRange: "8–18",
     etonHarrowLink: "Harrow: Latin & Ancient History compulsory Year 9, Philosophy compulsory · Eton: Classics, Greek, Latin",
+    priceUSD: 159,
+    priceNGN: 238500,
     curriculum: [
       "Philosophy & Ethics",
       "Logic & Reasoning",
@@ -195,6 +631,66 @@ export const learningTracks: LearningTrack[] = [
       "Philosophical Inquiry",
       "Historical Thinking",
       "Classical Civilizations"
+    ],
+    detailedContent: [
+      {
+        title: "Philosophy & Ethics",
+        description: "Study ancient philosophical traditions and their modern applications.",
+        duration: "10 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "Ancient Greek Philosophy",
+            description: "Introduction to Socrates, Plato, and Aristotle",
+            duration: "55 min",
+            type: "video",
+            objectives: ["Understand key philosophers", "Analyze philosophical arguments", "Apply ancient wisdom"]
+          },
+          {
+            title: "Ethical Reasoning",
+            description: "Develop skills in ethical analysis and decision-making",
+            duration: "50 min",
+            type: "interactive",
+            objectives: ["Apply ethical frameworks", "Analyze moral dilemmas", "Develop reasoned arguments"]
+          },
+          {
+            title: "Philosophy Essay",
+            description: "Write an essay on a philosophical topic",
+            duration: "2 weeks",
+            type: "project",
+            objectives: ["Research philosophical concepts", "Construct arguments", "Write clearly and persuasively"]
+          }
+        ]
+      },
+      {
+        title: "Logic & Reasoning",
+        description: "Master formal logic and critical thinking skills.",
+        duration: "8 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "Propositional Logic",
+            description: "Understanding logical operators and arguments",
+            duration: "45 min",
+            type: "video",
+            objectives: ["Identify logical structures", "Construct valid arguments", "Detect fallacies"]
+          },
+          {
+            title: "Critical Thinking",
+            description: "Apply logic to analyze arguments and claims",
+            duration: "50 min",
+            type: "interactive",
+            objectives: ["Evaluate evidence", "Identify biases", "Make sound judgments"]
+          },
+          {
+            title: "Logic Assessment",
+            description: "Test your logical reasoning abilities",
+            duration: "30 min",
+            type: "quiz",
+            objectives: ["Solve logic puzzles", "Analyze arguments", "Identify fallacies"]
+          }
+        ]
+      }
     ],
   },
   {
@@ -210,6 +706,8 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 4,
     ageRange: "12–18",
     etonHarrowLink: "Eton: dedicated university prep, Oxbridge + US Ivies · Harrow: university-style Electives programme",
+    priceUSD: 199,
+    priceNGN: 298500,
     curriculum: [
       "Study Skills & Research Methods",
       "University Application Strategy",
@@ -221,6 +719,66 @@ export const learningTracks: LearningTrack[] = [
       "Personal Statement Writing",
       "University Selection Strategy",
       "Campus Transition Skills"
+    ],
+    detailedContent: [
+      {
+        title: "Study Skills & Research Methods",
+        description: "Master advanced study techniques and academic research skills.",
+        duration: "8 weeks",
+        difficulty: "Intermediate",
+        lessons: [
+          {
+            title: "Advanced Study Techniques",
+            description: "Learn effective note-taking, time management, and memory techniques",
+            duration: "50 min",
+            type: "video",
+            objectives: ["Master note-taking methods", "Develop study schedules", "Improve memory retention"]
+          },
+          {
+            title: "Research Methods",
+            description: "Conduct academic research and evaluate sources",
+            duration: "55 min",
+            type: "interactive",
+            objectives: ["Find reliable sources", "Evaluate credibility", "Cite properly"]
+          },
+          {
+            title: "Research Project",
+            description: "Complete an independent research project",
+            duration: "3 weeks",
+            type: "project",
+            objectives: ["Formulate research question", "Conduct literature review", "Present findings"]
+          }
+        ]
+      },
+      {
+        title: "University Application Strategy",
+        description: "Navigate the university application process for top-tier institutions.",
+        duration: "12 weeks",
+        difficulty: "Advanced",
+        lessons: [
+          {
+            title: "Application Overview",
+            description: "Understanding application requirements for different systems",
+            duration: "45 min",
+            type: "video",
+            objectives: ["Understand UCAS system", "Know US application requirements", "Compare university systems"]
+          },
+          {
+            title: "Personal Statement",
+            description: "Craft compelling personal statements",
+            duration: "60 min",
+            type: "interactive",
+            objectives: ["Write engaging narratives", "Highlight achievements", "Demonstrate fit"]
+          },
+          {
+            title: "Interview Preparation",
+            description: "Prepare for university interviews",
+            duration: "50 min",
+            type: "video",
+            objectives: ["Practice common questions", "Develop responses", "Build confidence"]
+          }
+        ]
+      }
     ],
   },
 ];

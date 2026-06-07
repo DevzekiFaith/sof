@@ -18,6 +18,8 @@ export default function CoursePreviewPanel({ course, onClose }: CoursePreviewPan
   const { currentUser, hasCourseAccess } = useUser();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
+  console.log('CoursePreviewPanel rendered with course:', course?.title);
+
   // Close on Escape key
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
