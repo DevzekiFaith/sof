@@ -258,7 +258,7 @@ export default function ChallengePage() {
       fullDescription: course.description,
       ageRange: course.ageRange,
       duration: course.duration,
-      icon: course.icon,
+      icon: BookOpen,
       iconColor: course.levelColor,
       bgGradient: 'from-gray-800 to-gray-900',
     });

@@ -69,8 +69,6 @@ export default function CartPage() {
                   <div className={`w-24 h-24 rounded-lg bg-gradient-to-br ${item.bgGradient} flex items-center justify-center flex-shrink-0 relative`}>
                     {item.imageUrl ? (
                       <Image src={item.imageUrl} alt={item.title} fill className="object-cover rounded-lg" sizes="96px" />
-                    ) : item.icon ? (
-                      <item.icon className="text-white w-12 h-12" />
                     ) : (
                       <BookOpen className="text-white w-12 h-12" />
                     )}

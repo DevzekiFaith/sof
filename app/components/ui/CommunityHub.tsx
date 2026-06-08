@@ -30,9 +30,9 @@ export default function CommunityHub() {
     const fetchForumPosts = async () => {
       const { data } = await supabase
         .from('forum_posts')
-        .select('*, profiles(full_name)')
+        .select('*')
         .order('created_at', { ascending: false })
-        .limit(4);
+        .limit(10);
       if (data) setForumPosts(data);
     };
 
@@ -172,7 +172,6 @@ export default function CommunityHub() {
                     <h4 className="text-sm font-bold text-white mb-1">{forum.title}</h4>
                     <div className="flex items-center gap-3 text-xs text-[#b3b3b3]">
                       <span className="px-2 py-0.5 rounded-full bg-[#1ed760]/20 text-[#1ed760]">{forum.category}</span>
-                      <span>by {forum.profiles?.full_name || 'Anonymous'}</span>
                       <span className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {new Date(forum.created_at).toLocaleDateString()}
