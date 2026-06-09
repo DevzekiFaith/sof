@@ -761,19 +761,24 @@ export default function Home() {
               <div className="mt-14">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
-                    { label: "Explore", icon: <Globe className="w-5 h-5 text-[#1ed760]" />, desc: "Browse 8 elite tracks & 32 courses", step: "01" },
-                    { label: "Learn", icon: <BookOpen className="w-5 h-5 text-[#1ed760]" />, desc: "Core content, video & guided notes", step: "02" },
-                    { label: "Practice", icon: <Zap className="w-5 h-5 text-[#1ed760]" />, desc: "Active exercises & challenges", step: "03" },
-                    { label: "Grow", icon: <Flame className="w-5 h-5 text-[#1ed760]" />, desc: "Streaks, XP, badges & real-world application", step: "04" },
+                    { label: "Explore", icon: <Globe className="w-5 h-5 text-white" />, desc: "Browse 8 elite tracks & 32 courses", step: "01", gradient: "from-blue-500 to-purple-600" },
+                    { label: "Learn", icon: <BookOpen className="w-5 h-5 text-white" />, desc: "Core content, video & guided notes", step: "02", gradient: "from-[#1ed760] to-[#17a549]" },
+                    { label: "Practice", icon: <Zap className="w-5 h-5 text-white" />, desc: "Active exercises & challenges", step: "03", gradient: "from-orange-500 to-red-600" },
+                    { label: "Grow", icon: <Flame className="w-5 h-5 text-white" />, desc: "Streaks, XP, badges & real-world application", step: "04", gradient: "from-pink-500 to-rose-600" },
                   ].map((stage, idx) => (
                     <div key={idx}
-                      className="bg-[#181818] p-5 rounded-xl border border-transparent hover:bg-[#252525] hover:border-[#1ed760]/20 transition-all group flex flex-col">
-                      <div className="text-[10px] font-black text-[#b3b3b3] mb-3 tracking-widest">{stage.step}</div>
-                      <div className="w-10 h-10 rounded-full bg-[#1ed760]/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
-                        {stage.icon}
+                      className="bg-[#181818] rounded-xl border border-transparent hover:bg-[#252525] hover:border-[#1ed760]/20 transition-all group flex flex-col overflow-hidden">
+                      <div className={`h-24 bg-gradient-to-br ${stage.gradient} flex items-center justify-center relative`}>
+                        <div className="absolute inset-0 bg-black/20" />
+                        <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300 relative z-10">
+                          {stage.icon}
+                        </div>
                       </div>
-                      <h3 className="text-base font-black text-white mb-1">{stage.label}</h3>
-                      <p className="text-xs text-[#b3b3b3] leading-snug">{stage.desc}</p>
+                      <div className="p-4">
+                        <div className="text-[10px] font-black text-[#b3b3b3] mb-2 tracking-widest">{stage.step}</div>
+                        <h3 className="text-base font-black text-white mb-1">{stage.label}</h3>
+                        <p className="text-xs text-[#b3b3b3] leading-snug">{stage.desc}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
