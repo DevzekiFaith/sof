@@ -154,6 +154,9 @@ export function RecommendationProvider({ children }: { children: ReactNode }) {
       });
 
     if (error) {
+      // Handle error
+    }
+
     // Update local state for immediate UI feedback
     setLearningHistory(prev => {
       const filtered = prev.filter(a => a.courseId !== activity.courseId);
