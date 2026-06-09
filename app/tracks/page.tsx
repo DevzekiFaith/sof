@@ -19,13 +19,13 @@ export default function TracksPage() {
           // Show all learning tracks
           <div>
             <div className="mb-8">
-              <h1 className="text-3xl font-black mb-2">8 Elite Learning Tracks</h1>
+              <h1 className="text-3xl font-black mb-2">4 Elite Learning Tracks</h1>
               <p className="text-sm text-[#b3b3b3]">
                 Mapped to Eton & Harrow's world-class curriculum
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {learningTracks.map((t) => (
+              {learningTracks.filter(track => ['leadership', 'character-values', 'classical-thinking', 'university-prep'].includes(track.id)).map((t) => (
                 <Link
                   key={t.id}
                   href={`/tracks?track=${t.id}`}
@@ -77,7 +77,7 @@ export default function TracksPage() {
               </div>
               <div className="flex items-center gap-4 mb-8 p-4 bg-[#1ed760]/10 rounded-xl border border-[#1ed760]/20">
                 <div>
-                  <p className="text-xs text-[#b3b3b3] mb-1">Track Price</p>
+                  <p className="text-xs text-[#b3b3b3] mb-1">One-time Purchase</p>
                   <p className="text-2xl font-bold text-[#1ed760]">${track.priceUSD}</p>
                   <p className="text-sm text-[#b3b3b3]">₦{track.priceNGN?.toLocaleString()}</p>
                 </div>

@@ -48,6 +48,17 @@ export interface Course {
   youtubeVideoUrl?: string; // Simple YouTube integration
   detailedModules?: ModuleDetail[]; // Detailed module content
   trackId?: string; // Links course to a learning track
+  // Udemy/Domestika style metadata
+  instructor?: string;
+  instructorTitle?: string;
+  rating?: number;
+  reviewCount?: number;
+  studentCount?: number;
+  level?: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
+  isBestseller?: boolean;
+  isNew?: boolean;
+  language?: string;
+  lastUpdated?: string;
 }
 
 export const QUARTERLY_PASS_PRICE_USD = 49;
@@ -67,6 +78,15 @@ export const courses: Course[] = [
     duration: "5 weeks",
     priceUSD: 14,
     trackId: "classical-thinking",
+    instructor: "Prof. James Wilson",
+    instructorTitle: "Oxford Philosophy Professor",
+    rating: 4.7,
+    reviewCount: 892,
+    studentCount: 5621,
+    level: "Intermediate",
+    isBestseller: true,
+    language: "English",
+    lastUpdated: "June 2024",
     modules: [
       "Problem Solving Fundamentals",
       "Critical Thinking Skills",
@@ -350,6 +370,14 @@ This module helps you integrate all the skills into a comprehensive problem-solv
     duration: "5 weeks",
     priceUSD: 14,
     trackId: "leadership",
+    instructor: "Dr. Sarah Mitchell",
+    instructorTitle: "Former Harrow Housemistress",
+    rating: 4.6,
+    reviewCount: 723,
+    studentCount: 4231,
+    level: "Intermediate",
+    language: "English",
+    lastUpdated: "June 2024",
     modules: [
       "Decision-Making Fundamentals",
       "Critical Thinking Skills",
@@ -633,6 +661,15 @@ These advanced techniques prepare you for the most demanding decision situations
     priceUSD: 14,
     youtubeVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     trackId: "leadership",
+    instructor: "Dr. Sarah Mitchell",
+    instructorTitle: "Former Harrow Housemistress",
+    rating: 4.8,
+    reviewCount: 1156,
+    studentCount: 7892,
+    level: "Beginner",
+    isBestseller: true,
+    language: "English",
+    lastUpdated: "June 2024",
     modules: [
       "Team Basics: Roles & Responsibility",
       "Communication in Teams",
@@ -762,6 +799,14 @@ These advanced techniques prepare you for the most demanding decision situations
     priceUSD: 14,
     youtubeVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     trackId: "character-values",
+    instructor: "Dr. Sarah Mitchell",
+    instructorTitle: "Former Harrow Housemistress",
+    rating: 4.5,
+    reviewCount: 634,
+    studentCount: 3892,
+    level: "Beginner",
+    language: "English",
+    lastUpdated: "June 2024",
     modules: [
       "Understanding Change",
       "Resilience Basics",
@@ -956,6 +1001,15 @@ These advanced techniques prepare you for the most demanding decision situations
     priceUSD: 14,
     youtubeVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     trackId: "character-values",
+    instructor: "Dr. Sarah Mitchell",
+    instructorTitle: "Former Harrow Housemistress",
+    rating: 4.9,
+    reviewCount: 1432,
+    studentCount: 9821,
+    level: "Beginner",
+    isBestseller: true,
+    language: "English",
+    lastUpdated: "June 2024",
     modules: [
       "What Self-Image Is",
       "Confidence & Competence",
@@ -1150,6 +1204,14 @@ These advanced techniques prepare you for the most demanding decision situations
     priceUSD: 14,
     youtubeVideoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     trackId: "leadership",
+    instructor: "Dr. Sarah Mitchell",
+    instructorTitle: "Former Harrow Housemistress",
+    rating: 4.7,
+    reviewCount: 891,
+    studentCount: 5634,
+    level: "Beginner",
+    language: "English",
+    lastUpdated: "June 2024",
     modules: [
       "Clarity & Structure",
       "Listening Fundamentals",

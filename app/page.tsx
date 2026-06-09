@@ -9,7 +9,8 @@ import {
   BookOpen, Zap, Target, Shield, Trophy,
   GraduationCap, Brain, Flame, ArrowRight, CheckCircle, Crown,
   Sparkles, Globe, Music, FlaskConical, Dumbbell, Scroll,
-  MessageSquare, Terminal, PenTool, Paintbrush, Leaf, Landmark, Presentation
+  MessageSquare, Terminal, PenTool, Paintbrush, Leaf, Landmark, Presentation,
+  Star, Clock, Award
 } from "lucide-react";
 import AnimatedSection from "./components/ui/AnimatedSection";
 import AuthModal from "./components/ui/AuthModal";
@@ -25,6 +26,7 @@ import { useCart } from "./contexts/CartContext";
 import { useToast } from "./contexts/ToastContext";
 import { useNotifications } from "./hooks/useNotifications";
 import { supabase } from "../lib/supabase";
+import { CURRENCY_CONFIG } from "../lib/config";
 
 // Lazy load heavy components
 const CoursePreviewPanel = lazy(() => import("./components/ui/CoursePreviewPanel"));
@@ -113,7 +115,7 @@ export default function Home() {
 
   // Debug selectedCourse changes
   useEffect(() => {
-    console.log('selectedCourse changed:', selectedCourse?.title);
+    // Debug: selectedCourse changed
   }, [selectedCourse]);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [waitlistEmail, setWaitlistEmail] = useState("");
@@ -193,16 +195,16 @@ export default function Home() {
           {/* ── Header ──────────────────────────────────────────────── */}
           <header className="flex justify-between items-center mb-6 sticky top-0 z-30 py-4 bg-[#121212]/70 backdrop-blur-md -mx-4 px-4 sm:-mx-8 sm:px-8">
             <div className="flex gap-2">
-              <button className="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-gray-400 cursor-not-allowed">
+              <button className="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-gray-400 cursor-not-allowed" title="Previous page">
                 <ChevronLeft size={20} />
               </button>
-              <button className="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-gray-400 cursor-not-allowed">
+              <button className="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-gray-400 cursor-not-allowed" title="Next page">
                 <ChevronRight size={20} />
               </button>
             </div>
             <div className="flex items-center gap-4">
               <StreakDisplay />
-              <Link href="/courses" className="hidden md:flex px-4 py-1.5 bg-[#D4AF37] text-black text-sm font-bold rounded-full hover:scale-105 transition-transform shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+              <Link href="/courses" className="hidden md:flex px-4 py-1.5 bg-[#D4AF37] text-black text-sm font-bold rounded-full hover:scale-105 transition-transform shadow-[0_0_20px_rgba(212,175,55,0.3)]" title="Browse all available courses">
                 ✨ Browse Courses
               </Link>
               <div className="relative">
@@ -247,7 +249,7 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <button className="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-[#b3b3b3] hover:text-white transition-colors relative group">
+              <button className="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-[#b3b3b3] hover:text-white transition-colors relative group" title="Friends">
                 <Users size={18} />
                 {friendRequestCount > 0 && (
                   <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#1ed760] text-black text-xs font-bold rounded-full flex items-center justify-center">
@@ -259,12 +261,13 @@ export default function Home() {
                 </div>
               </button>
               {currentUser ? (
-                <Link href="/profile" className="w-8 h-8 rounded-full bg-[#282828] border-2 border-[#1ed760]/30 flex items-center justify-center hover:scale-105 transition-transform overflow-hidden">
+                <Link href="/profile" className="w-8 h-8 rounded-full bg-[#282828] border-2 border-[#1ed760]/30 flex items-center justify-center hover:scale-105 transition-transform overflow-hidden" title="Your profile">
                   <User className="w-4 h-4 text-white" />
                 </Link>
               ) : (
                 <button onClick={() => setShowAuthModal(true)}
-                  className="px-6 py-1.5 bg-white text-black text-sm font-bold rounded-full hover:scale-105 transition-transform">
+                  className="px-6 py-1.5 bg-white text-black text-sm font-bold rounded-full hover:scale-105 transition-transform"
+                  title="Sign in to your account">
                   Log in
                 </button>
               )}
@@ -332,11 +335,13 @@ export default function Home() {
               <div className="flex flex-wrap justify-center gap-4">
                 <Link href="/courses"
                   className="px-8 py-4 bg-[#1ed760] text-black font-black rounded-full text-base hover:scale-105 transition-all shadow-[0_0_30px_rgba(30,215,96,0.4)] hover:shadow-[0_0_50px_rgba(30,215,96,0.6)]"
+                  title="Explore our course catalog"
                 >
                   Browse Courses →
                 </Link>
                 <Link href="/#tracks"
-                  className="px-8 py-4 border border-white/20 text-white font-bold rounded-full text-base hover:bg-white/10 transition-all">
+                  className="px-8 py-4 border border-white/20 text-white font-bold rounded-full text-base hover:bg-white/10 transition-all"
+                  title="View all learning tracks">
                   View All 8 Tracks
                 </Link>
               </div>
@@ -369,7 +374,7 @@ export default function Home() {
             <section id="tracks" className="mt-16 mb-4">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h2 className="text-2xl font-black tracking-tight">8 Elite Learning Tracks</h2>
+                  <h2 className="text-2xl font-black tracking-tight">4 Elite Learning Tracks</h2>
                   <p className="text-sm text-[#b3b3b3] mt-1">Mapped to Eton & Harrow's world-class curriculum</p>
                 </div>
                 <Link href="/courses" className="text-sm font-bold text-[#1ed760] hover:underline flex items-center gap-1">
@@ -377,33 +382,87 @@ export default function Home() {
                 </Link>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mt-6">
-                {learningTracks.map((track) => {
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                {learningTracks.filter(track => ['leadership', 'character-values', 'classical-thinking', 'university-prep'].includes(track.id)).map((track) => {
                   const TrackIcon = trackIconMap[track.id] || BookOpen;
                   return (
                     <Link
                       key={track.id}
                       href={`/tracks?track=${track.id}`}
-                      className="group relative p-5 rounded-xl border border-[#282828] hover:border-[#1ed760]/30 transition-all duration-300 overflow-hidden cursor-pointer bg-[#181818]"
+                      className="group relative bg-[#181818] rounded-xl border border-[#282828] hover:border-[#1ed760]/30 transition-all duration-300 overflow-hidden cursor-pointer"
                     >
-                      {/* Glow on hover */}
-                      <div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
-                        style={{ boxShadow: `inset 0 0 30px rgba(30,215,96,0.1)` }}
-                      />
-                      <div className="relative z-10">
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-300 bg-[#282828]"
-                        >
-                          <TrackIcon size={24} className="text-[#1ed760]" />
+                      {/* Course Thumbnail */}
+                      <div className={`h-40 bg-gradient-to-br ${track.gradientFrom} to-${track.gradientTo} relative overflow-hidden`}>
+                        <div className="absolute inset-0 bg-black/20" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <TrackIcon size={48} className="text-white/80" />
                         </div>
-                        <h3 className="font-bold text-white text-sm leading-tight mb-1">{track.title}</h3>
-                        <p className="text-[10px] text-[#b3b3b3] mb-2 line-clamp-2 leading-snug">{track.tagline}</p>
-                        <div className="flex items-center justify-between mt-3">
-                          <span className="text-[10px] font-bold rounded-full px-2 py-0.5 bg-[#282828] text-[#1ed760]">
-                            {track.curriculum?.length || 0} modules
-                          </span>
-                          <span className="text-[9px] text-[#b3b3b3]">{track.ageRange}</span>
+                        {track.isBestseller && (
+                          <div className="absolute top-3 left-3 bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded">
+                            Bestseller
+                          </div>
+                        )}
+                        {track.isNew && (
+                          <div className="absolute top-3 right-3 bg-[#1ed760] text-black text-xs font-bold px-2 py-1 rounded">
+                            New
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Course Info */}
+                      <div className="p-4">
+                        <h3 className="font-bold text-white text-sm leading-tight mb-2 line-clamp-2 group-hover:text-[#1ed760] transition-colors">
+                          {track.title}
+                        </h3>
+                        <p className="text-xs text-[#b3b3b3] mb-3 line-clamp-2">{track.tagline}</p>
+
+                        {/* Instructor */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-6 h-6 rounded-full bg-[#282828] flex items-center justify-center">
+                            <User className="w-4 h-4 text-[#b3b3b3]" />
+                          </div>
+                          <span className="text-xs text-[#b3b3b3]">{track.instructor}</span>
+                        </div>
+
+                        {/* Rating */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="flex items-center">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                size={12}
+                                className={i < Math.floor(track.rating || 0) ? "text-[#D4AF37] fill-[#D4AF37]" : "text-[#282828]"}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-xs text-[#b3b3b3]">{track.rating}</span>
+                          <span className="text-xs text-[#b3b3b3]">({track.reviewCount?.toLocaleString()})</span>
+                        </div>
+
+                        {/* Meta Info */}
+                        <div className="flex items-center gap-3 mb-3 text-xs text-[#b3b3b3]">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{track.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Award className="w-3 h-3" />
+                            <span>{track.level}</span>
+                          </div>
+                        </div>
+
+                        {/* Students */}
+                        <div className="text-xs text-[#b3b3b3] mb-3">
+                          {track.studentCount?.toLocaleString()} students enrolled
+                        </div>
+
+                        {/* Price */}
+                        <div className="flex items-center justify-between pt-3 border-t border-[#282828]">
+                          <div>
+                            <span className="text-lg font-bold text-[#D4AF37]">${track.priceUSD}</span>
+                            <span className="text-xs text-[#b3b3b3] ml-1">One-time</span>
+                          </div>
+                          <ArrowRight className="w-4 h-4 text-[#1ed760] opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                       </div>
                     </Link>
@@ -486,7 +545,7 @@ export default function Home() {
                         ${course.priceUSD}
                       </div>
                       <div className="absolute top-1 right-1 bg-[#282828] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full z-10">
-                        ₦{(course.priceUSD || 0) * 1500}
+                        ₦{(course.priceUSD || 0) * CURRENCY_CONFIG.NGN_TO_USD_RATE}
                       </div>
                     </div>
                     <div className="flex-1 flex items-center justify-between px-4 overflow-hidden">
@@ -541,7 +600,7 @@ export default function Home() {
                         ${course.priceUSD}
                       </div>
                       <div className="absolute top-2 right-2 bg-[#282828] text-white text-[10px] font-bold px-2 py-1 rounded-full z-10">
-                        ₦{(course.priceUSD || 0) * 1500}
+                        ₦{(course.priceUSD || 0) * CURRENCY_CONFIG.NGN_TO_USD_RATE}
                       </div>
                       <div className="absolute bottom-2 right-2 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10 shadow-2xl">
                         <div className="w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center text-black hover:scale-105 transition-transform shadow-[0_8px_16px_rgba(0,0,0,0.5)]">
@@ -676,11 +735,13 @@ export default function Home() {
 
                 <div className="flex flex-wrap gap-4">
                   <button onClick={() => setShowAuthModal(true)}
-                    className="px-6 py-3 bg-[#1ed760] text-black font-black rounded-full text-sm hover:scale-105 transition-all shadow-[0_0_20px_rgba(30,215,96,0.3)]">
+                    className="px-6 py-3 bg-[#1ed760] text-black font-black rounded-full text-sm hover:scale-105 transition-all shadow-[0_0_20px_rgba(30,215,96,0.3)]"
+                    title="Create an account to get started">
                     Start Your Child's Journey →
                   </button>
                   <Link href="/#pricing"
-                    className="px-6 py-3 border border-white/20 text-white font-bold rounded-full text-sm hover:bg-white/10 transition-all">
+                    className="px-6 py-3 border border-white/20 text-white font-bold rounded-full text-sm hover:bg-white/10 transition-all"
+                    title="View pricing options">
                     View Pricing
                   </Link>
                 </div>

@@ -4,12 +4,14 @@ import { Sparkles, Clock, User, ArrowRight, CheckCircle, BookOpen, PlayCircle, C
 import { useState, useEffect } from "react";
 import { useUser } from "../../contexts/UserContext";
 import { useCart } from "../../contexts/CartContext";
+import { useToast } from "../../contexts/ToastContext";
 import { supabase } from "../../../lib/supabase";
 import { useRouter } from "next/navigation";
 
 export default function StretchChallenge() {
   const { currentUser } = useUser();
   const { addToCart } = useCart();
+  const { showToast } = useToast();
   const router = useRouter();
   const [enrolledChallenges, setEnrolledChallenges] = useState<string[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
@@ -261,7 +263,7 @@ export default function StretchChallenge() {
 
   const handleStart = async (course: any) => {
     if (!currentUser) {
-      alert("Please sign in to enroll in this challenge");
+      showToast("Please sign in to enroll in this challenge", "error");
       return;
     }
 
@@ -277,16 +279,21 @@ export default function StretchChallenge() {
 
   const handleEnroll = async (course: any) => {
     if (!currentUser) {
-      alert("Please sign in to enroll in this challenge");
+      showToast("Please sign in to enroll in this challenge", "error");
       return;
     }
 
     addToCart({
       id: course.id,
       title: course.title,
-      price: course.priceUSD,
-      priceNGN: course.priceNGN,
-      type: 'course',
+      priceUSD: course.priceUSD,
+      description: course.description,
+      fullDescription: course.description,
+      ageRange: course.ageRange,
+      duration: course.duration,
+      icon: BookOpen,
+      iconColor: course.levelColor,
+      bgGradient: 'from-gray-800 to-gray-900',
     });
 
     const { error } = await supabase
@@ -299,10 +306,10 @@ export default function StretchChallenge() {
       });
 
     if (error) {
-      console.error('Error creating enrollment:', error);
+      showToast("Failed to enroll. Please try again.", "error");
     } else {
       setEnrolledChallenges(prev => [...prev, course.id]);
-      alert("Course added to cart! Complete checkout to begin.");
+      showToast("Course added to cart! Complete checkout to begin.", "success");
     }
   };
 

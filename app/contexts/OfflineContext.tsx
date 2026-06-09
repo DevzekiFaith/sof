@@ -146,8 +146,7 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
     const newTotalStorage = usedStorage + estimatedSize;
     
     if (newTotalStorage > settings.maxStorage * 1024 * 1024) {
-      alert('Storage limit reached. Please remove some downloads first.');
-      return;
+      throw new Error('Storage limit reached. Please remove some downloads first.');
     }
 
     // Simulate download progress

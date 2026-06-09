@@ -201,7 +201,7 @@ export default function CourseDetailPage() {
 
                     return (
                       <AnimatedSection key={index} delay={index * 50}>
-                        <Link href={`/courses/${course.id}/modules/${index + 1}`}>
+                        <Link href={`/courses/${course.id}/learn?module=${index}`}>
                           <div className="flex items-center gap-4 p-3 rounded-md hover:bg-white/10 transition-all group">
                             <div className="w-8 text-center text-[#b3b3b3] text-sm font-medium group-hover:hidden">
                               {index + 1}

@@ -10,6 +10,7 @@ import { useToast } from "../contexts/ToastContext";
 import { CreditCard, Gift } from "lucide-react";
 import { courses, getCourseById } from "../data/courses";
 import { supabase } from "../../lib/supabase";
+import { CURRENCY_CONFIG } from "../../lib/config";
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
@@ -36,7 +37,7 @@ function CheckoutContent() {
   // Use cart items if available, otherwise use single course
   const itemsToCheckout = cart.length > 0 ? cart : (course ? [course] : []);
   const priceUSD = cart.length > 0 ? cartTotal : (course?.priceUSD || 14);
-  const priceNGN = cart.length > 0 ? cartTotalNGN : priceUSD * 1500;
+  const priceNGN = cart.length > 0 ? cartTotalNGN : priceUSD * CURRENCY_CONFIG.NGN_TO_USD_RATE;
 
   const displayPrice = currency === "NGN"
     ? `₦${priceNGN.toLocaleString()}`
@@ -58,7 +59,7 @@ function CheckoutContent() {
     customizations: {
       title: "Origin — Formation for Life",
       description: cart.length > 0 ? `${cart.length} course${cart.length > 1 ? 's' : ''} — One-time purchase` : `${course?.title} — One-time purchase`,
-      logo: "https://origin.app/logo.png",
+      logo: "/origin.png",
     },
   };
 

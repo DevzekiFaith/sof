@@ -13,8 +13,22 @@ export interface LearningTrack {
   etonHarrowLink: string; // Which elite school subject area this maps to
   curriculum?: string[]; // Track-specific curriculum content
   detailedContent?: Module[]; // Detailed module content with lessons
-  priceUSD?: number;
-  priceNGN?: number;
+  priceUSD?: number; // One-time purchase price
+  priceNGN?: number; // One-time purchase price
+  skillId?: string; // Associated skill for progress tracking
+  // Udemy/Domestika style metadata
+  instructor?: string;
+  instructorTitle?: string;
+  rating?: number;
+  reviewCount?: number;
+  studentCount?: number;
+  duration?: string;
+  level?: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
+  thumbnailUrl?: string;
+  isBestseller?: boolean;
+  isNew?: boolean;
+  language?: string;
+  lastUpdated?: string;
 }
 
 export interface Module {
@@ -35,313 +49,6 @@ export interface Lesson {
 
 export const learningTracks: LearningTrack[] = [
   {
-    id: "sciences-stem",
-    title: "Sciences & STEM",
-    emoji: "◽",
-    tagline: "Think like a scientist",
-    description: "Master mathematics, sciences and technology through rigorous, hands-on learning. The same STEM curriculum that Eton and Harrow demand from their students.",
-    subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "Engineering"],
-    color: "#3B82F6",
-    gradientFrom: "#1e3a5f",
-    gradientTo: "#0f172a",
-    courseCount: 6,
-    ageRange: "5–18",
-    etonHarrowLink: "Eton: 28 subjects including all sciences · Harrow: All 3 sciences compulsory in Year 9",
-    priceUSD: 50,
-    priceNGN: 75000,
-    curriculum: [
-      "Mathematical Foundations",
-      "Scientific Method & Inquiry",
-      "Physics: Motion & Forces",
-      "Chemistry: Matter & Reactions",
-      "Biology: Living Systems",
-      "Computer Science Fundamentals",
-      "Engineering Design Process",
-      "Data Analysis & Statistics",
-      "Laboratory Skills",
-      "STEM Project-Based Learning"
-    ],
-    detailedContent: [
-      {
-        title: "Mathematical Foundations",
-        description: "Build a strong mathematical foundation covering algebra, geometry, and calculus concepts essential for STEM.",
-        duration: "8 weeks",
-        difficulty: "Intermediate",
-        lessons: [
-          {
-            title: "Algebra Fundamentals",
-            description: "Master algebraic expressions, equations, and inequalities",
-            duration: "45 min",
-            type: "video",
-            objectives: ["Solve linear equations", "Understand algebraic expressions", "Apply algebra to real-world problems"]
-          },
-          {
-            title: "Geometry & Spatial Reasoning",
-            description: "Explore geometric shapes, angles, and spatial relationships",
-            duration: "50 min",
-            type: "interactive",
-            objectives: ["Identify geometric properties", "Calculate area and perimeter", "Understand transformations"]
-          },
-          {
-            title: "Calculus Introduction",
-            description: "Introduction to derivatives, integrals, and their applications",
-            duration: "60 min",
-            type: "video",
-            objectives: ["Understand limits", "Calculate basic derivatives", "Apply calculus to motion problems"]
-          },
-          {
-            title: "Math Assessment",
-            description: "Test your understanding of mathematical concepts",
-            duration: "30 min",
-            type: "quiz",
-            objectives: ["Demonstrate problem-solving skills", "Apply concepts to complex problems"]
-          }
-        ]
-      },
-      {
-        title: "Scientific Method & Inquiry",
-        description: "Learn the systematic approach to scientific investigation and critical thinking.",
-        duration: "6 weeks",
-        difficulty: "Beginner",
-        lessons: [
-          {
-            title: "The Scientific Method",
-            description: "Understanding the steps of scientific inquiry",
-            duration: "40 min",
-            type: "video",
-            objectives: ["Identify scientific method steps", "Formulate hypotheses", "Design experiments"]
-          },
-          {
-            title: "Data Collection & Analysis",
-            description: "Techniques for gathering and analyzing scientific data",
-            duration: "55 min",
-            type: "interactive",
-            objectives: ["Collect accurate data", "Analyze trends", "Draw valid conclusions"]
-          },
-          {
-            title: "Research Project",
-            description: "Conduct your own scientific investigation",
-            duration: "2 weeks",
-            type: "project",
-            objectives: ["Apply scientific method", "Present findings", "Evaluate peer research"]
-          }
-        ]
-      },
-      {
-        title: "Physics: Motion & Forces",
-        description: "Explore the fundamental principles of motion, forces, and energy.",
-        duration: "8 weeks",
-        difficulty: "Intermediate",
-        lessons: [
-          {
-            title: "Kinematics",
-            description: "Study of motion without considering forces",
-            duration: "50 min",
-            type: "video",
-            objectives: ["Understand velocity and acceleration", "Solve motion problems", "Analyze motion graphs"]
-          },
-          {
-            title: "Newton's Laws",
-            description: "Fundamental laws of motion and force",
-            duration: "55 min",
-            type: "interactive",
-            objectives: ["Apply Newton's three laws", "Calculate forces", "Understand equilibrium"]
-          },
-          {
-            title: "Energy & Work",
-            description: "Conservation of energy and work principles",
-            duration: "45 min",
-            type: "video",
-            objectives: ["Calculate work and power", "Understand energy conservation", "Apply energy principles"]
-          },
-          {
-            title: "Physics Lab",
-            description: "Hands-on experiments with motion and forces",
-            duration: "90 min",
-            type: "interactive",
-            objectives: ["Conduct physics experiments", "Measure motion", "Analyze experimental data"]
-          }
-        ]
-      }
-    ],
-  },
-  {
-    id: "arts-creativity",
-    title: "Arts & Creativity",
-    emoji: "◾",
-    tagline: "Create, perform, express",
-    description: "Drama, music, visual arts and creative writing are core at Eton and Harrow — not extras. At Origin, every child gets professional-standard creative education.",
-    subjects: ["Drama & Theatre", "Music & Composition", "Visual Art", "Creative Writing", "Storytelling", "Film & Photography"],
-    color: "#EC4899",
-    gradientFrom: "#4a1942",
-    gradientTo: "#0f172a",
-    courseCount: 5,
-    ageRange: "5–18",
-    etonHarrowLink: "Eton: large-scale productions each term · Harrow: professional-standard theatre & music",
-    priceUSD: 50,
-    priceNGN: 75000,
-    curriculum: [
-      "Drama & Performance Techniques",
-      "Music Theory & Composition",
-      "Visual Arts Fundamentals",
-      "Creative Writing Workshop",
-      "Storytelling & Narrative Structure",
-      "Film & Photography Basics",
-      "Art History & Appreciation",
-      "Creative Expression",
-      "Portfolio Development",
-      "Public Performance"
-    ],
-    detailedContent: [
-      {
-        title: "Drama & Performance Techniques",
-        description: "Master the art of performance through acting techniques, stage presence, and character development.",
-        duration: "8 weeks",
-        difficulty: "Beginner",
-        lessons: [
-          {
-            title: "Acting Fundamentals",
-            description: "Introduction to acting techniques and methods",
-            duration: "50 min",
-            type: "video",
-            objectives: ["Understand character development", "Practice vocal projection", "Learn stage presence"]
-          },
-          {
-            title: "Scene Study",
-            description: "Analyze and perform scenes from classic plays",
-            duration: "60 min",
-            type: "interactive",
-            objectives: ["Analyze dramatic text", "Develop authentic characters", "Perform with emotional depth"]
-          },
-          {
-            title: "Performance Project",
-            description: "Prepare and perform a monologue or scene",
-            duration: "2 weeks",
-            type: "project",
-            objectives: ["Apply acting techniques", "Receive and incorporate feedback", "Deliver polished performance"]
-          }
-        ]
-      },
-      {
-        title: "Music Theory & Composition",
-        description: "Learn music theory fundamentals and create your own compositions.",
-        duration: "10 weeks",
-        difficulty: "Intermediate",
-        lessons: [
-          {
-            title: "Music Fundamentals",
-            description: "Notes, scales, intervals, and basic harmony",
-            duration: "45 min",
-            type: "video",
-            objectives: ["Read musical notation", "Understand scales and keys", "Identify intervals"]
-          },
-          {
-            title: "Composition Workshop",
-            description: "Create your own musical pieces",
-            duration: "90 min",
-            type: "interactive",
-            objectives: ["Apply music theory", "Compose melodies", "Arrange harmonies"]
-          },
-          {
-            title: "Performance & Recording",
-            description: "Record and perform your compositions",
-            duration: "60 min",
-            type: "project",
-            objectives: ["Use digital audio tools", "Record compositions", "Present musical work"]
-          }
-        ]
-      }
-    ],
-  },
-  {
-    id: "languages",
-    title: "Languages",
-    emoji: "○",
-    tagline: "Speak the world's languages",
-    description: "Eton offers 10 languages. Harrow requires students to choose two foreign languages from Year 9. Every Origin child starts their global communication journey here.",
-    subjects: ["English Language & Literature", "French", "Spanish", "Mandarin Chinese", "Arabic", "Latin"],
-    color: "#F59E0B",
-    gradientFrom: "#4a3000",
-    gradientTo: "#0f172a",
-    courseCount: 6,
-    ageRange: "5–18",
-    etonHarrowLink: "Eton: 10 modern & classical languages offered · Harrow: 2 languages compulsory from Year 9",
-    priceUSD: 50,
-    priceNGN: 75000,
-    curriculum: [
-      "English Language Mastery",
-      "French Language & Culture",
-      "Spanish Language & Culture",
-      "Mandarin Chinese Fundamentals",
-      "Arabic Language & Script",
-      "Latin Language & Literature",
-      "Linguistics & Language Structure",
-      "Cross-Cultural Communication",
-      "Literature Analysis",
-      "Translation & Interpretation"
-    ],
-    detailedContent: [
-      {
-        title: "English Language Mastery",
-        description: "Achieve fluency in English language through comprehensive grammar, vocabulary, and communication skills.",
-        duration: "12 weeks",
-        difficulty: "Beginner",
-        lessons: [
-          {
-            title: "Grammar Foundations",
-            description: "Master English grammar rules and sentence structure",
-            duration: "45 min",
-            type: "video",
-            objectives: ["Understand parts of speech", "Construct proper sentences", "Avoid common errors"]
-          },
-          {
-            title: "Vocabulary Building",
-            description: "Expand your vocabulary with advanced words and expressions",
-            duration: "40 min",
-            type: "interactive",
-            objectives: ["Learn new vocabulary daily", "Use context clues", "Apply words in context"]
-          },
-          {
-            title: "Writing Workshop",
-            description: "Practice writing essays, reports, and creative pieces",
-            duration: "60 min",
-            type: "project",
-            objectives: ["Write structured essays", "Develop writing style", "Edit and revise work"]
-          }
-        ]
-      },
-      {
-        title: "French Language & Culture",
-        description: "Learn French language while exploring French culture and civilization.",
-        duration: "10 weeks",
-        difficulty: "Intermediate",
-        lessons: [
-          {
-            title: "French Basics",
-            description: "Introduction to French pronunciation and basic phrases",
-            duration: "50 min",
-            type: "video",
-            objectives: ["Master French pronunciation", "Learn essential phrases", "Understand basic grammar"]
-          },
-          {
-            title: "Conversation Practice",
-            description: "Practice speaking French in real-world scenarios",
-            duration: "45 min",
-            type: "interactive",
-            objectives: ["Hold basic conversations", "Ask and answer questions", "Use common expressions"]
-          },
-          {
-            title: "Cultural Project",
-            description: "Explore French culture through research and presentation",
-            duration: "2 weeks",
-            type: "project",
-            objectives: ["Research French culture", "Present findings in French", "Understand cultural context"]
-          }
-        ]
-      }
-    ],
-  },
-  {
     id: "character-values",
     title: "Character & Values",
     emoji: "●",
@@ -356,6 +63,17 @@ export const learningTracks: LearningTrack[] = [
     etonHarrowLink: "Harrow core values: Courage, Honour, Humility, Fellowship · Eton: PSHE & character development",
     priceUSD: 50,
     priceNGN: 75000,
+    skillId: 'leadership',
+    instructor: 'Dr. Sarah Mitchell',
+    instructorTitle: 'Former Harrow Housemistress',
+    rating: 4.8,
+    reviewCount: 1247,
+    studentCount: 8542,
+    duration: '12 hours',
+    level: 'All Levels',
+    isBestseller: true,
+    language: 'English',
+    lastUpdated: 'June 2024',
     curriculum: [
       "Ethics & Moral Philosophy",
       "Emotional Intelligence Development",
@@ -430,94 +148,6 @@ export const learningTracks: LearningTrack[] = [
     ],
   },
   {
-    id: "sport-wellbeing",
-    title: "Sport & Wellbeing",
-    emoji: "△",
-    tagline: "A healthy body, a powerful mind",
-    description: "At Eton and Harrow, sport is built into the weekly timetable — it is never optional. Origin treats physical and mental wellbeing as non-negotiable parts of a complete education.",
-    subjects: ["Physical Education", "Mindfulness & Meditation", "Nutrition & Health", "Team Sports", "Mental Health", "Yoga & Movement"],
-    color: "#10B981",
-    gradientFrom: "#064e3b",
-    gradientTo: "#0f172a",
-    courseCount: 4,
-    ageRange: "5–18",
-    etonHarrowLink: "Harrow: sport embedded in weekly timetable · Eton: sports & aquatic centre, daily participation",
-    priceUSD: 50,
-    priceNGN: 75000,
-    curriculum: [
-      "Physical Fitness Training",
-      "Mindfulness & Meditation Practices",
-      "Nutrition & Healthy Eating",
-      "Team Sports & Collaboration",
-      "Mental Health Awareness",
-      "Yoga & Movement Arts",
-      "Athletic Development",
-      "Stress Management",
-      "Wellbeing Habits",
-      "Sports Leadership"
-    ],
-    detailedContent: [
-      {
-        title: "Physical Fitness Training",
-        description: "Develop strength, endurance, and flexibility through structured fitness programs.",
-        duration: "8 weeks",
-        difficulty: "Beginner",
-        lessons: [
-          {
-            title: "Fitness Fundamentals",
-            description: "Introduction to exercise physiology and proper form",
-            duration: "45 min",
-            type: "video",
-            objectives: ["Understand exercise principles", "Learn proper form", "Create workout plans"]
-          },
-          {
-            title: "Strength Training",
-            description: "Build muscle and improve body composition",
-            duration: "50 min",
-            type: "interactive",
-            objectives: ["Master strength exercises", "Progressive overload", "Track progress"]
-          },
-          {
-            title: "Fitness Assessment",
-            description: "Test your fitness levels and set goals",
-            duration: "30 min",
-            type: "quiz",
-            objectives: ["Measure fitness metrics", "Set realistic goals", "Create improvement plan"]
-          }
-        ]
-      },
-      {
-        title: "Mindfulness & Meditation Practices",
-        description: "Learn mindfulness techniques for mental clarity and stress reduction.",
-        duration: "6 weeks",
-        difficulty: "Beginner",
-        lessons: [
-          {
-            title: "Introduction to Mindfulness",
-            description: "Understanding mindfulness and its benefits",
-            duration: "40 min",
-            type: "video",
-            objectives: ["Understand mindfulness", "Practice basic techniques", "Apply to daily life"]
-          },
-          {
-            title: "Meditation Practice",
-            description: "Guided meditation sessions for beginners",
-            duration: "30 min",
-            type: "interactive",
-            objectives: ["Practice meditation", "Develop focus", "Reduce stress"]
-          },
-          {
-            title: "Mindfulness Challenge",
-            description: "30-day mindfulness practice challenge",
-            duration: "30 days",
-            type: "project",
-            objectives: ["Daily mindfulness practice", "Track progress", "Reflect on benefits"]
-          }
-        ]
-      }
-    ],
-  },
-  {
     id: "leadership",
     title: "Leadership",
     emoji: "▲",
@@ -532,6 +162,17 @@ export const learningTracks: LearningTrack[] = [
     etonHarrowLink: "Eton: CCF, 80+ societies, student-led leadership · Harrow: Harrow Prize, community service",
     priceUSD: 50,
     priceNGN: 75000,
+    skillId: 'leadership',
+    instructor: 'Dr. Sarah Mitchell',
+    instructorTitle: 'Former Harrow Housemistress',
+    rating: 4.8,
+    reviewCount: 1247,
+    studentCount: 8542,
+    duration: '12 hours',
+    level: 'All Levels',
+    isBestseller: true,
+    language: 'English',
+    lastUpdated: 'June 2024',
     curriculum: [
       "Leadership Fundamentals",
       "Entrepreneurship & Innovation",
@@ -620,6 +261,17 @@ export const learningTracks: LearningTrack[] = [
     etonHarrowLink: "Harrow: Latin & Ancient History compulsory Year 9, Philosophy compulsory · Eton: Classics, Greek, Latin",
     priceUSD: 50,
     priceNGN: 75000,
+    skillId: 'leadership',
+    instructor: 'Dr. Sarah Mitchell',
+    instructorTitle: 'Former Harrow Housemistress',
+    rating: 4.8,
+    reviewCount: 1247,
+    studentCount: 8542,
+    duration: '12 hours',
+    level: 'All Levels',
+    isBestseller: true,
+    language: 'English',
+    lastUpdated: 'June 2024',
     curriculum: [
       "Philosophy & Ethics",
       "Logic & Reasoning",
@@ -706,8 +358,19 @@ export const learningTracks: LearningTrack[] = [
     courseCount: 4,
     ageRange: "12–18",
     etonHarrowLink: "Eton: dedicated university prep, Oxbridge + US Ivies · Harrow: university-style Electives programme",
-    priceUSD: 199,
-    priceNGN: 298500,
+    priceUSD: 50,
+    priceNGN: 75000,
+    skillId: 'leadership',
+    instructor: 'Dr. Sarah Mitchell',
+    instructorTitle: 'Former Harrow Housemistress',
+    rating: 4.8,
+    reviewCount: 1247,
+    studentCount: 8542,
+    duration: '12 hours',
+    level: 'All Levels',
+    isBestseller: true,
+    language: 'English',
+    lastUpdated: 'June 2024',
     curriculum: [
       "Study Skills & Research Methods",
       "University Application Strategy",

@@ -22,6 +22,7 @@ export default function Sidebar() {
   const [friendRequestCount, setFriendRequestCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
+  const [showCreateMenu, setShowCreateMenu] = useState(false);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -229,9 +230,46 @@ export default function Sidebar() {
               <Library className="w-6 h-6 transition-transform group-hover:scale-105" />
               <span className="text-sm">Your Library</span>
             </button>
-            <button className="p-1 hover:bg-[#1a1a1a] rounded-full transition-colors hover:text-white">
-              <Plus className="w-5 h-5" />
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => setShowCreateMenu(!showCreateMenu)}
+                className="p-1 hover:bg-[#1a1a1a] rounded-full transition-colors hover:text-white"
+              >
+                <Plus className="w-5 h-5" />
+              </button>
+              
+              {/* Create Menu Dropdown */}
+              {showCreateMenu && (
+                <div className="absolute top-8 right-0 w-48 bg-[#181818] border border-[#282828] rounded-xl shadow-2xl z-50">
+                  <div className="p-2">
+                    <Link
+                      href="/playlists/create"
+                      onClick={() => setShowCreateMenu(false)}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#282828] transition-colors"
+                    >
+                      <Music className="w-4 h-4 text-[#1ed760]" />
+                      <span className="text-sm text-white">Create Playlist</span>
+                    </Link>
+                    <Link
+                      href="/#courses"
+                      onClick={() => setShowCreateMenu(false)}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#282828] transition-colors"
+                    >
+                      <BookOpen className="w-4 h-4 text-[#1ed760]" />
+                      <span className="text-sm text-white">Browse Courses</span>
+                    </Link>
+                    <Link
+                      href="/tracks"
+                      onClick={() => setShowCreateMenu(false)}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#282828] transition-colors"
+                    >
+                      <Library className="w-4 h-4 text-[#1ed760]" />
+                      <span className="text-sm text-white">View Tracks</span>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           
           <div className="flex gap-2 mt-4 px-2 overflow-x-auto no-scrollbar">
@@ -254,7 +292,7 @@ export default function Sidebar() {
         <div className="flex-1 overflow-y-auto px-2 pb-4 scrollbar-hide">
           <div className="space-y-1 mt-2">
             {(activeFilter === "All" || activeFilter === "Playlists") && (
-              <Link href="/about" className="flex items-center gap-3 p-2 rounded-md hover:bg-[#1a1a1a] transition-colors group">
+              <Link href="/playlists" className="flex items-center gap-3 p-2 rounded-md hover:bg-[#1a1a1a] transition-colors group">
                 <div className="w-12 h-12 bg-gradient-to-br from-[#1ed760] to-[#1db954] rounded flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
                   <Music className="text-black w-6 h-6" />
                 </div>
@@ -299,15 +337,15 @@ export default function Sidebar() {
             )}
 
             {(activeFilter === "All" || activeFilter === "Skills") && (
-              <div className="flex items-center gap-3 p-2 rounded-md hover:bg-[#1a1a1a] transition-colors group cursor-not-allowed opacity-50">
-                <div className="w-12 h-12 bg-[#282828] rounded flex items-center justify-center shadow-lg">
-                  <Star className="text-[#1ed760] w-6 h-6" />
+              <Link href="/skills" className="flex items-center gap-3 p-2 rounded-md hover:bg-[#1a1a1a] transition-colors group">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#F97316] to-[#ea580c] rounded flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                  <Star className="text-white w-6 h-6" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-white">Your Skills</span>
-                  <span className="text-xs text-[#b3b3b3]">Coming soon</span>
+                  <span className="text-xs text-[#b3b3b3]">Track progress</span>
                 </div>
-              </div>
+              </Link>
             )}
           </div>
         </div>

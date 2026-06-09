@@ -5,6 +5,7 @@ import { Sparkles, Clock, User, ArrowRight, CheckCircle, BookOpen, PlayCircle, C
 import { useState, useEffect } from "react";
 import { useUser } from "../../contexts/UserContext";
 import { useCart } from "../../contexts/CartContext";
+import { useToast } from "../../contexts/ToastContext";
 import { supabase } from "../../../lib/supabase";
 import { useRouter, useParams } from "next/navigation";
 
@@ -201,6 +202,7 @@ export default function ChallengePage() {
   const params = useParams();
   const { currentUser } = useUser();
   const { addToCart } = useCart();
+  const { showToast } = useToast();
   const router = useRouter();
   const [enrolledChallenges, setEnrolledChallenges] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
@@ -246,7 +248,7 @@ export default function ChallengePage() {
 
   const handleEnroll = async (course: any) => {
     if (!currentUser) {
-      alert("Please sign in to enroll in this challenge");
+      showToast("Please sign in to enroll in this challenge", "error");
       return;
     }
 
@@ -273,10 +275,10 @@ export default function ChallengePage() {
       });
 
     if (error) {
-      console.error('Error creating enrollment:', error);
+      showToast("Failed to enroll. Please try again.", "error");
     } else {
       setEnrolledChallenges(prev => [...prev, course.id]);
-      alert("Course added to cart! Complete checkout to begin.");
+      showToast("Course added to cart! Complete checkout to begin.", "success");
     }
   };
 

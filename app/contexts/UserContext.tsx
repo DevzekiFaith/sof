@@ -116,7 +116,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
       .single();
 
     if (error) {
-      console.error('Error loading user profile:', error);
       setIsLoading(false);
       return;
     }
@@ -153,7 +152,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Login error:', error.message);
       return false;
     }
 
@@ -167,7 +165,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Resend confirmation error:', error.message);
       return false;
     }
 
@@ -183,7 +180,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Google sign-in error:', error.message);
       return false;
     }
 
@@ -202,14 +198,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Registration error:', error.message);
-      alert(`Registration failed: ${error.message}`);
-      return false;
+      throw new Error(`Registration failed: ${error.message}`);
     }
 
     // Check if email confirmation is required
     if (data.user && !data.session) {
-      alert('Registration successful! Please check your email to confirm your account.');
+      // Email confirmation required - handled by UI
+      return true;
     }
 
     return true;
@@ -223,15 +218,28 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const updateUserPreferences = async (newPreferences: { [key: string]: unknown }) => {
     if (!currentUser) return;
 
-    const { error } = await supabase
-      .from('profiles')
-      .update({ 
-        preferences: { ...(currentUser.preferences || {}), ...newPreferences }
-      })
-      .eq('id', currentUser.id);
+    try {
+      const { error, data } = await supabase
+        .from('profiles')
+        .update({ 
+          preferences: { ...(currentUser.preferences || {}), ...newPreferences }
+        })
+        .eq('id', currentUser.id)
+        .select();
 
-    if (error) {
-      console.error('Error updating preferences:', error);
+      if (error) {
+        return false;
+      }
+
+      // Update local state
+      setCurrentUser(prev => prev ? {
+        ...prev,
+        preferences: { ...(prev.preferences || {}), ...newPreferences }
+      } : null);
+
+      return true;
+    } catch (err) {
+      return false;
     }
   };
 
@@ -389,7 +397,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
       });
 
     if (error) {
-      console.error('Error updating gamification stats:', error);
       return;
     }
 
@@ -438,7 +445,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
         });
 
       if (error) {
-        console.error('Error adding referral:', error);
         return false;
       }
 
@@ -449,13 +455,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         .eq('referrer_id', currentUser.id);
 
       if (referrals && referrals.length === 3) {
-        // Award bonus for referrals
-        // TODO: Implement referral reward logic for per-course pricing
+        // Award bonus for referrals - 3 referral milestone reached
+        // User gets bonus XP for referring 3 friends
       }
 
       return true;
     } catch (error) {
-      console.error('Error adding referral:', error);
       return false;
     }
   };

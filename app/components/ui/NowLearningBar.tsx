@@ -15,6 +15,9 @@ export default function NowLearningBar() {
   const [volume, setVolume] = useState(70);
   const [progress, setProgress] = useState(45);
   const [isMuted, setIsMuted] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [isRepeat, setIsRepeat] = useState(false);
+  const [currentCourseIndex, setCurrentCourseIndex] = useState(0);
 
   // Auto-progress mock
   useEffect(() => {
@@ -33,11 +36,56 @@ export default function NowLearningBar() {
   if (!currentUser) return null;
 
   // For demo, we'll pick the first enrolled course or the first course in the list
-  const activeCourseId = enrolledCourses[0] || "problem-solving";
+  const activeCourseId = enrolledCourses[currentCourseIndex] || courses[currentCourseIndex]?.id || "problem-solving";
   const activeCourse = courses.find(c => c.id === activeCourseId) || courses[0];
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+  };
+
+  const handleSkipBack = () => {
+    setProgress(0);
+    if (currentCourseIndex > 0) {
+      setCurrentCourseIndex(currentCourseIndex - 1);
+      setProgress(0);
+    }
+  };
+
+  const handleSkipForward = () => {
+    if (progress >= 95) {
+      // Move to next course if near end
+      if (currentCourseIndex < courses.length - 1) {
+        setCurrentCourseIndex(currentCourseIndex + 1);
+        setProgress(0);
+      }
+    } else {
+      // Skip ahead 10%
+      setProgress(Math.min(progress + 10, 100));
+    }
+  };
+
+  const toggleShuffle = () => {
+    setIsShuffle(!isShuffle);
+    if (!isShuffle) {
+      // Shuffle courses
+      const randomIndex = Math.floor(Math.random() * courses.length);
+      setCurrentCourseIndex(randomIndex);
+      setProgress(0);
+    }
+  };
+
+  const toggleRepeat = () => {
+    setIsRepeat(!isRepeat);
+  };
+
+  const handleMaximize = () => {
+    // Could open a fullscreen player modal
+    console.log('Maximize player');
+  };
+
+  const handleShowPlaylist = () => {
+    // Could open a playlist sidebar/modal
+    console.log('Show playlist');
   };
 
   const handleVolumeChange = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -81,10 +129,16 @@ export default function NowLearningBar() {
       {/* Center: Controls & Progress */}
       <div className="flex flex-col items-center justify-center flex-1 px-2 md:max-w-[40%]">
         <div className="flex items-center gap-4 sm:gap-6 mb-1 sm:mb-2">
-          <button className="text-[#b3b3b3] hover:text-white transition-colors hidden md:block">
+          <button 
+            onClick={toggleShuffle}
+            className={`transition-colors hidden md:block ${isShuffle ? 'text-[#1ed760]' : 'text-[#b3b3b3] hover:text-white'}`}
+          >
             <Shuffle size={16} />
           </button>
-          <button className="text-[#b3b3b3] hover:text-white transition-colors hidden sm:block" onClick={() => setProgress(0)}>
+          <button 
+            onClick={handleSkipBack}
+            className="text-[#b3b3b3] hover:text-white transition-colors hidden sm:block"
+          >
             <SkipBack size={20} fill="currentColor" />
           </button>
           <button 
@@ -93,10 +147,16 @@ export default function NowLearningBar() {
           >
             {isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-0.5" />}
           </button>
-          <button className="text-[#b3b3b3] hover:text-white transition-colors hidden sm:block" onClick={() => setProgress(0)}>
+          <button 
+            onClick={handleSkipForward}
+            className="text-[#b3b3b3] hover:text-white transition-colors hidden sm:block"
+          >
             <SkipForward size={20} fill="currentColor" />
           </button>
-          <button className="text-[#b3b3b3] hover:text-white transition-colors hidden md:block">
+          <button 
+            onClick={toggleRepeat}
+            className={`transition-colors hidden md:block ${isRepeat ? 'text-[#1ed760]' : 'text-[#b3b3b3] hover:text-white'}`}
+          >
             <Repeat size={16} />
           </button>
         </div>
@@ -117,7 +177,10 @@ export default function NowLearningBar() {
 
       {/* Right: Stats & Volume (Hidden on Mobile) */}
       <div className="hidden md:flex items-center justify-end gap-4 w-[30%] min-w-[180px]">
-        <button className="text-[#b3b3b3] hover:text-white transition-colors hidden lg:block">
+        <button 
+          onClick={handleShowPlaylist}
+          className="text-[#b3b3b3] hover:text-white transition-colors hidden lg:block"
+        >
           <ListMusic size={18} />
         </button>
         <div className="hidden sm:flex items-center gap-3 mr-2">
@@ -144,7 +207,10 @@ export default function NowLearningBar() {
             ></div>
           </div>
         </div>
-        <button className="text-[#b3b3b3] hover:text-white transition-colors hidden lg:block">
+        <button 
+          onClick={handleMaximize}
+          className="text-[#b3b3b3] hover:text-white transition-colors hidden lg:block"
+        >
           <Maximize2 size={16} />
         </button>
       </div>

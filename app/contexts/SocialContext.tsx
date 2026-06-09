@@ -244,13 +244,11 @@ export function SocialProvider({ children }: { children: ReactNode }) {
   }, [currentUser, friends]);
 
   const shareAchievement = useCallback((achievementId: string) => {
-    console.log(`Sharing achievement ${achievementId}`);
-    alert('Achievement shared! 🎉');
+    // TODO: Implement actual sharing functionality
   }, []);
 
   const shareProgress = useCallback((courseId: string) => {
-    console.log(`Sharing progress for course ${courseId}`);
-    alert('Progress shared! 📚');
+    // TODO: Implement actual sharing functionality
   }, []);
 
   return (
