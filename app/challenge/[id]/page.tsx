@@ -1,4 +1,5 @@
 "use client";
+// Force Vercel rebuild
 
 import React from "react";
 import { Sparkles, Clock, User, ArrowRight, CheckCircle, BookOpen, PlayCircle, ChevronRight, DollarSign, Mic, Crown } from "lucide-react";
