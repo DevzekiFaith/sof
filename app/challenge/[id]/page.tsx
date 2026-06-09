@@ -230,7 +230,7 @@ export default function ChallengePage() {
 
     const subscription = supabase
       .channel('challenge_enrollments_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload) => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload: any) => {
         if (payload.eventType === 'INSERT') {
           setEnrolledChallenges(prev => [...prev, payload.new.challenge_id]);
         } else if (payload.eventType === 'DELETE') {
