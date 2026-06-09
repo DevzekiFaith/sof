@@ -222,7 +222,7 @@ export default function ChallengePage() {
         .select('challenge_id')
         .eq('user_id', currentUser.id);
       if (data) {
-        setEnrolledChallenges(data.map(e => e.challenge_id));
+        setEnrolledChallenges(data.map((e: any) => e.challenge_id));
       }
     };
 
