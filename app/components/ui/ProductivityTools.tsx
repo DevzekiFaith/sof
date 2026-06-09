@@ -120,10 +120,6 @@ export default function ProductivityTools() {
         completed: true,
       });
 
-    if (error) {
-      console.error('Error saving focus session:', error);
-    }
-
     setFocusMode(false);
     setFocusTimer(25 * 60);
   };
@@ -139,12 +135,6 @@ export default function ProductivityTools() {
     }
 
     try {
-      console.log('Adding event with data:', {
-        user_id: currentUser.id,
-        title: newEventTitle,
-        event_date: new Date(newEventDate).toISOString(),
-        event_type: newEventType,
-      });
 
       // First check if table exists by trying to fetch
       const { error: fetchError } = await supabase
@@ -153,7 +143,6 @@ export default function ProductivityTools() {
         .limit(1);
 
       if (fetchError) {
-        console.error('Table does not exist or access denied:', fetchError);
         showToast('Calendar events table not found. Please run the database migration.', 'error');
         return;
       }
@@ -169,11 +158,8 @@ export default function ProductivityTools() {
         })
         .select();
 
-      console.log('Insert result:', { data, error });
 
       if (error) {
-        console.error('Error adding event:', error);
-        console.error('Error details:', JSON.stringify(error, null, 2));
         showToast(`Failed to add event: ${error.message || 'Unknown error'}`, 'error');
       } else {
         setNewEventTitle('');
@@ -183,7 +169,6 @@ export default function ProductivityTools() {
         showToast('Event added successfully!', 'success');
       }
     } catch (err) {
-      console.error('Unexpected error:', err);
       showToast('An unexpected error occurred. Please try again.', 'error');
     }
   };
@@ -209,7 +194,6 @@ export default function ProductivityTools() {
         });
 
       if (error) {
-        console.error('Error adding goal:', error);
         showToast('Failed to add goal. Please try again.', 'error');
       } else {
         setNewGoalTitle('');
@@ -218,20 +202,15 @@ export default function ProductivityTools() {
         showToast('Goal added successfully!', 'success');
       }
     } catch (err) {
-      console.error('Unexpected error:', err);
       showToast('An unexpected error occurred. Please try again.', 'error');
     }
   };
 
   const handleUpdateGoalProgress = async (goalId: string, newProgress: number) => {
-    const { error } = await supabase
+    await supabase
       .from('learning_goals')
       .update({ progress: newProgress })
       .eq('id', goalId);
-
-    if (error) {
-      console.error('Error updating goal progress:', error);
-    }
   };
 
   // Calculate statistics from real data

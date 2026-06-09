@@ -26,7 +26,6 @@ export default function CreatePlaylistPage() {
   const handleCreatePlaylist = () => {
     if (title.trim() && tracks.length > 0) {
       // In production, this would save to database
-      console.log("Creating playlist:", { title, description, tracks });
       router.push("/playlists");
     }
   };

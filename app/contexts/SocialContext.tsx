@@ -71,7 +71,6 @@ export function SocialProvider({ children }: { children: ReactNode }) {
         .eq('status', 'accepted');
 
       if (error) {
-        console.error('Error loading friends:', error);
         return;
       }
 
@@ -115,7 +114,6 @@ export function SocialProvider({ children }: { children: ReactNode }) {
         .eq('status', 'pending');
 
       if (error) {
-        console.error('Error loading pending requests:', error);
         return;
       }
 
@@ -145,10 +143,6 @@ export function SocialProvider({ children }: { children: ReactNode }) {
         friend_id: friendId,
         status: 'pending',
       });
-
-    if (error) {
-      console.error('Error sending friend request:', error);
-    }
   }, [currentUser]);
 
   const removeFriend = useCallback(async (friendId: string) => {
@@ -161,7 +155,6 @@ export function SocialProvider({ children }: { children: ReactNode }) {
       .eq('friend_id', friendId);
 
     if (error) {
-      console.error('Error removing friend:', error);
       return;
     }
 
@@ -178,7 +171,6 @@ export function SocialProvider({ children }: { children: ReactNode }) {
       .eq('friend_id', currentUser.id);
 
     if (error) {
-      console.error('Error accepting friend request:', error);
       return;
     }
 
@@ -195,7 +187,6 @@ export function SocialProvider({ children }: { children: ReactNode }) {
       .eq('friend_id', currentUser.id);
 
     if (error) {
-      console.error('Error declining friend request:', error);
       return;
     }
 
@@ -224,7 +215,6 @@ export function SocialProvider({ children }: { children: ReactNode }) {
       .select('*');
 
     if (error) {
-      console.error('Error loading leaderboard:', error);
       return [];
     }
 

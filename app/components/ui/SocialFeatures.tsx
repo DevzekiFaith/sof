@@ -117,7 +117,6 @@ export default function SocialFeatures() {
         .single();
 
       if (groupError) {
-        console.error('Error creating group:', groupError);
         showToast('Failed to create study group. Please try again.', 'error');
         return;
       }
@@ -131,7 +130,6 @@ export default function SocialFeatures() {
         });
 
       if (memberError) {
-        console.error('Error adding member:', memberError);
         showToast('Group created but failed to add you as a member.', 'error');
       } else {
         setNewGroupName('');
@@ -141,7 +139,6 @@ export default function SocialFeatures() {
         showToast('Study group created successfully!', 'success');
       }
     } catch (err) {
-      console.error('Unexpected error:', err);
       showToast('An unexpected error occurred. Please try again.', 'error');
     }
   };
@@ -167,7 +164,6 @@ export default function SocialFeatures() {
         });
 
       if (error) {
-        console.error('Error joining group:', error);
         showToast('Failed to join study group. Please try again.', 'error');
       } else {
         // Increment member count by fetching current count and updating
@@ -186,7 +182,6 @@ export default function SocialFeatures() {
         showToast('Successfully joined the study group!', 'success');
       }
     } catch (err) {
-      console.error('Unexpected error:', err);
       showToast('An unexpected error occurred. Please try again.', 'error');
     }
   };

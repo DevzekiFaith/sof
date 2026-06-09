@@ -211,9 +211,6 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
         .eq('user_id', currentUser.id)
         .single();
 
-      if (statsError && statsError.code !== 'PGRST116') {
-        console.error('Error loading gamification stats:', statsError);
-      }
 
       // Load achievements
       const { data: achievementsData, error: achievementsError } = await supabase
@@ -221,9 +218,6 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
         .select('*')
         .eq('user_id', currentUser.id);
 
-      if (achievementsError) {
-        console.error('Error loading achievements:', achievementsError);
-      }
 
       if (statsData) {
         const level = statsData.level || 1;
@@ -272,9 +266,6 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
         streak_days: userGamification.streak
       });
 
-    if (error) {
-      console.error('Error updating XP:', error);
-    }
 
     setUserGamification(prev => {
       const newTotalXP = prev.totalXP + totalAmount;
@@ -305,8 +296,6 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
         nextLevelXP: newNextLevelXP
       };
     });
-
-    console.log(`+${totalAmount} XP (${source}${streakBonus > 0 ? `, ${Math.round(streakBonus * 100)}% streak bonus` : ''})`);
   };
 
   const checkLevelUp = (): boolean => {
@@ -355,7 +344,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
           streak_days: newStreak
         })
         .then(({ error }) => {
-          if (error) console.error('Error updating streak:', error.message || error);
+          // Streak update completed
         });
 
       // Check for streak achievements
@@ -410,7 +399,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
           unlocked_at: new Date().toISOString()
         })
         .then(({ error }) => {
-          if (error) console.error('Error unlocking achievement:', error);
+          // Achievement unlock completed
         });
 
       addXP(achievement.xpReward, `Achievement: ${achievement.title}`);
@@ -456,7 +445,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
             unlocked_at: new Date().toISOString()
           })
           .then(({ error }) => {
-            if (error) console.error('Error unlocking achievement:', error);
+            // Achievement unlock completed
           });
 
         addXP(achievement.xpReward, `Achievement: ${achievement.title}`);

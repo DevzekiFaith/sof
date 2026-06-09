@@ -13,8 +13,6 @@ interface WeeklyRecommendationsProps {
 export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommendationsProps) {
   const { weeklyRecommendations, refreshRecommendations } = useRecommendations();
 
-  console.log('WeeklyRecommendations rendered, count:', weeklyRecommendations.length);
-
   const getReasonColor = (type: string) => {
     switch (type) {
       case 'popular':
@@ -49,7 +47,6 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
           <div
             key={`${rec.course.id}-${index}`}
             onClick={() => {
-              console.log('Course clicked:', rec.course.title);
               onCourseSelect?.(rec.course);
             }}
             className="flex items-center gap-4 p-3 bg-[#282828] hover:bg-[#333] transition-all rounded-lg group cursor-pointer"

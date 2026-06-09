@@ -111,7 +111,6 @@ export function RecommendationProvider({ children }: { children: ReactNode }) {
         .limit(50);
 
       if (error) {
-        console.error('Error loading learning history:', error);
         return;
       }
 
@@ -155,9 +154,6 @@ export function RecommendationProvider({ children }: { children: ReactNode }) {
       });
 
     if (error) {
-      console.error('Error recording activity:', error);
-    }
-
     // Update local state for immediate UI feedback
     setLearningHistory(prev => {
       const filtered = prev.filter(a => a.courseId !== activity.courseId);

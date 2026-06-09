@@ -60,7 +60,6 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (error) {
-        console.error('Error loading offline settings:', error.message || error);
         return;
       }
 
@@ -68,7 +67,7 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
         try {
           setSettings(JSON.parse(data.offline_settings as string));
         } catch (e) {
-          console.error('Error parsing offline settings:', e);
+          // Error parsing settings
         }
       }
     };
@@ -86,9 +85,6 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
         .update({ offline_settings: JSON.stringify(settings) })
         .eq('id', currentUser.id);
 
-      if (error) {
-        console.error('Error saving offline settings:', error);
-      }
     };
 
     saveSettings();
@@ -107,7 +103,7 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
           lastAccessed: new Date(c.lastAccessed)
         })));
       } catch (e) {
-        console.error('Error loading downloads:', e);
+        // Error loading downloads
       }
     }
   }, []);

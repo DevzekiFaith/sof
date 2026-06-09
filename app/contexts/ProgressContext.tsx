@@ -64,7 +64,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         .eq('user_id', currentUser.id);
 
       if (error) {
-        console.error('Error loading course progress:', error);
         return;
       }
 
@@ -104,7 +103,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         .limit(30);
 
       if (error) {
-        console.error('Error loading daily stats:', error);
         return;
       }
 
@@ -141,9 +139,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         last_accessed_at: new Date().toISOString()
       });
 
-    if (progressError) {
-      console.error('Error updating course progress:', progressError);
-    }
 
     // Update daily stats in Supabase
     const { error: statsError } = await supabase
@@ -156,9 +151,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         xp_earned: Math.floor(timeSpent * 2)
       });
 
-    if (statsError) {
-      console.error('Error updating daily stats:', statsError);
-    }
 
     // Update local state for immediate UI feedback
     setCourseProgress(prev => {

@@ -132,12 +132,11 @@ export function PodcastProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (error) {
-        console.error('Error loading playback state:', error);
         return;
       }
 
       if (data) {
-        const eduCast = data.current_edu_cast_id ? eduCasts.find(c => c.id === data.current_edu_cast_id) : null;
+        const eduCast = data.current_edu_cast_id ? eduCasts.find(c => c.id === data.current_edu_cast_id) || null : null;
         setPlaybackState({
           isPlaying: data.is_playing || false,
           currentTime: data.current_position || 0,
@@ -168,9 +167,6 @@ export function PodcastProvider({ children }: { children: ReactNode }) {
           updated_at: new Date().toISOString()
         });
 
-      if (error) {
-        console.error('Error saving playback state:', error);
-      }
     };
 
     savePlaybackState();

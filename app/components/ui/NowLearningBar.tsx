@@ -80,12 +80,10 @@ export default function NowLearningBar() {
 
   const handleMaximize = () => {
     // Could open a fullscreen player modal
-    console.log('Maximize player');
   };
 
   const handleShowPlaylist = () => {
     // Could open a playlist sidebar/modal
-    console.log('Show playlist');
   };
 
   const handleVolumeChange = (e: React.MouseEvent<HTMLDivElement>) => {

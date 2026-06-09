@@ -32,7 +32,6 @@ export default function BottomNav() {
           filter: `friend_id=eq.${currentUser.id}`,
         },
         (payload: any) => {
-          console.log('Friend request change:', payload);
           setFriendRequestCount(prev => prev + 1);
         }
       )
@@ -50,7 +49,6 @@ export default function BottomNav() {
           filter: `user_id=eq.${currentUser.id}`,
         },
         (payload: any) => {
-          console.log('New notification:', payload);
           setNotificationCount(prev => prev + 1);
         }
       )

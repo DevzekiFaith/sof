@@ -94,7 +94,6 @@ export default function CommunityHub() {
         });
 
       if (error) {
-        console.error('Error creating discussion:', error);
         showToast('Failed to create discussion. Please try again.', 'error');
       } else {
         setNewDiscussionTitle('');
@@ -104,7 +103,6 @@ export default function CommunityHub() {
         showToast('Discussion created successfully!', 'success');
       }
     } catch (err) {
-      console.error('Unexpected error:', err);
       showToast('An unexpected error occurred. Please try again.', 'error');
     }
   };
