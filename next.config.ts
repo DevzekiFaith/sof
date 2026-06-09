@@ -21,12 +21,6 @@ const nextConfig: NextConfig = {
   // Optimize production builds
   compress: true,
   
-  // Reduce bundle size by excluding unused locales
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
-  },
-  
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['lucide-react'],

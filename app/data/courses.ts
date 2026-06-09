@@ -14,6 +14,7 @@ import {
 export interface Resource {
   name: string;
   url: string;
+  content?: string;
 }
 
 export interface ModuleDetail {

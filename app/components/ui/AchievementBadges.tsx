@@ -45,7 +45,7 @@ export default function AchievementBadges() {
         {displayedAchievements.map((achievement) => {
           const isUnlocked = userGamification.achievements.find(ua => ua.id === achievement.id);
           const progress = isUnlocked ? achievement.maxProgress : (achievement.progress || 0);
-          const progressPercent = achievement.maxProgress ? (progress / achievement.maxProgress) * 100 : 0;
+          const progressPercent = achievement.maxProgress ? ((progress || 0) / achievement.maxProgress) * 100 : 0;
 
           return (
             <div

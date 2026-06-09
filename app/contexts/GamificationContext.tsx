@@ -231,7 +231,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
               progress: achievementDef.maxProgress
             } as Achievement;
           })
-          .filter((a): a is Achievement => a !== null);
+          .filter((a: any): a is Achievement => a !== null);
 
         setUserGamification({
           totalXP: statsData.total_xp || 0,
@@ -343,7 +343,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
           user_id: currentUser.id,
           streak_days: newStreak
         })
-        .then(({ error }) => {
+        .then(({ error }: any) => {
           // Streak update completed
         });
 
@@ -398,7 +398,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
           achievement_id: achievementId,
           unlocked_at: new Date().toISOString()
         })
-        .then(({ error }) => {
+        .then(({ error }: any) => {
           // Achievement unlock completed
         });
 
@@ -444,7 +444,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
             achievement_id: achievementId,
             unlocked_at: new Date().toISOString()
           })
-          .then(({ error }) => {
+          .then(({ error }: any) => {
             // Achievement unlock completed
           });
 

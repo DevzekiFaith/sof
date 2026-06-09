@@ -31,7 +31,7 @@ export default function StretchChallenge() {
         .select('challenge_id')
         .eq('user_id', currentUser.id);
       if (data) {
-        setEnrolledChallenges(data.map(e => e.challenge_id));
+        setEnrolledChallenges(data.map((e: any) => e.challenge_id));
       }
     };
 
@@ -39,7 +39,7 @@ export default function StretchChallenge() {
 
     const subscription = supabase
       .channel('challenge_enrollments_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload) => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload: any) => {
         if (payload.eventType === 'INSERT') {
           setEnrolledChallenges(prev => [...prev, payload.new.challenge_id]);
         } else if (payload.eventType === 'DELETE') {

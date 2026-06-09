@@ -37,7 +37,7 @@ export default function EduCastList() {
     // Set up real-time subscription for live sessions
     const subscription = supabase
       .channel('live_edu_sessions_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'live_edu_sessions' }, (payload) => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'live_edu_sessions' }, (payload: any) => {
         if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
           setLiveSessions(prev => {
             const existing = prev.find(s => s.id === payload.new.id);
