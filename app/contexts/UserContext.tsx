@@ -63,6 +63,8 @@ interface UserContextType {
   getReferralCount: () => Promise<number>;
   // Email confirmation
   resendConfirmationEmail: (email: string) => Promise<boolean>;
+  // Password reset
+  resetPassword: (email: string) => Promise<boolean>;
   // OAuth
   signInWithGoogle: () => Promise<boolean>;
 }
@@ -162,6 +164,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const { error } = await supabase.auth.resend({
       type: 'signup',
       email,
+    });
+
+    if (error) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const resetPassword = async (email: string): Promise<boolean> => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback`,
     });
 
     if (error) {
@@ -501,6 +515,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         addReferral,
         getReferralCount,
         resendConfirmationEmail,
+        resetPassword,
         signInWithGoogle
       }}
     >

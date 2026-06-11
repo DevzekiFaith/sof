@@ -9,10 +9,12 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ onClose }: AuthModalProps) {
-  const { login, register, resendConfirmationEmail } = useUser();
+  const { login, register, resendConfirmationEmail, resetPassword } = useUser();
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isResetPassword, setIsResetPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "", name: "" });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEmailNotConfirmed, setIsEmailNotConfirmed] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -63,6 +65,27 @@ export default function AuthModal({ onClose }: AuthModalProps) {
     setIsLoading(false);
   };
 
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    setIsLoading(true);
+
+    if (!formData.email) {
+      setError("Please enter your email address.");
+      setIsLoading(false);
+      return;
+    }
+
+    const success = await resetPassword(formData.email);
+    if (success) {
+      setSuccess("Password reset email sent! Please check your inbox.");
+    } else {
+      setError("Failed to send reset email. Please check your email and try again.");
+    }
+    setIsLoading(false);
+  };
+
 
   return (
     <div className="bg-[#181818] rounded-2xl p-8 shadow-2xl border border-white/5 animate-fade-in relative overflow-hidden">
@@ -81,10 +104,10 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           <User className="text-[#1ed760]" size={32} />
         </div>
         <h2 className="text-3xl font-black text-white tracking-tighter mb-2">
-          {isSignUp ? "Join Origin" : "Welcome Back"}
+          {isResetPassword ? "Reset Password" : (isSignUp ? "Join Origin" : "Welcome Back")}
         </h2>
         <p className="text-sm text-[#b3b3b3]">
-          {isSignUp ? "Start your formation journey today." : "Log in to continue your progress."}
+          {isResetPassword ? "Enter your email to reset your password." : (isSignUp ? "Start your formation journey today." : "Log in to continue your progress.")}
         </p>
       </div>
 
@@ -103,71 +126,129 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         </div>
       )}
 
+      {success && (
+        <div className="mb-6 p-4 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-xl text-[#1ed760] text-sm text-center">
+          {success}
+        </div>
+      )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {isSignUp && (
+
+      {isResetPassword ? (
+        <form onSubmit={handleResetPassword} className="space-y-4">
           <div className="relative group">
-            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
             <input
-              type="text"
+              type="email"
               required
-              placeholder="Full Name"
+              placeholder="Email Address"
               className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
-        )}
-        <div className="relative group">
-          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
-          <input
-            type="email"
-            required
-            placeholder="Email Address"
-            className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          />
-        </div>
-        <div className="relative group">
-          <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
-          <input
-            type={showPassword ? "text" : "password"}
-            required
-            placeholder="Password"
-            className="w-full pl-12 pr-12 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-        </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-all flex items-center justify-center gap-2 mt-6 disabled:opacity-50 disabled:scale-100"
-        >
-          {isLoading ? "Processing..." : (isSignUp ? "Create Account" : "Sign In")}
-          {!isLoading && <ArrowRight size={18} />}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-all flex items-center justify-center gap-2 mt-6 disabled:opacity-50 disabled:scale-100"
+          >
+            {isLoading ? "Sending..." : "Send Reset Email"}
+            {!isLoading && <ArrowRight size={18} />}
+          </button>
+        </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {isSignUp && (
+            <div className="relative group">
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
+              <input
+                type="text"
+                required
+                placeholder="Full Name"
+                className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </div>
+          )}
+          <div className="relative group">
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
+            <input
+              type="email"
+              required
+              placeholder="Email Address"
+              className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+          </div>
+          <div className="relative group">
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
+            <input
+              type={showPassword ? "text" : "password"}
+              required
+              placeholder="Password"
+              className="w-full pl-12 pr-12 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+
+          {!isSignUp && (
+            <button
+              type="button"
+              onClick={() => {
+                setIsResetPassword(true);
+                setIsEmailNotConfirmed(false);
+                setError("");
+              }}
+              className="text-sm text-[#1ed760] hover:underline"
+            >
+              Forgot password?
+            </button>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-all flex items-center justify-center gap-2 mt-6 disabled:opacity-50 disabled:scale-100"
+          >
+            {isLoading ? "Processing..." : (isSignUp ? "Create Account" : "Sign In")}
+            {!isLoading && <ArrowRight size={18} />}
+          </button>
+        </form>
+      )}
 
       <div className="mt-8 text-center">
-        <button
-          onClick={() => {
-            setIsSignUp(!isSignUp);
-            setError("");
-          }}
-          className="text-sm text-[#b3b3b3] hover:text-white transition-colors"
-        >
-          {isSignUp ? "Already have an account? Sign in" : "New to Origin? Create an account"}
-        </button>
+        {isResetPassword ? (
+          <button
+            onClick={() => {
+              setIsResetPassword(false);
+              setError("");
+              setSuccess("");
+            }}
+            className="text-sm text-[#b3b3b3] hover:text-white transition-colors"
+          >
+            Back to Sign In
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setError("");
+            }}
+            className="text-sm text-[#b3b3b3] hover:text-white transition-colors"
+          >
+            {isSignUp ? "Already have an account? Sign in" : "New to Origin? Create an account"}
+          </button>
+        )}
       </div>
     </div>
   );

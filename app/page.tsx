@@ -135,7 +135,7 @@ export default function Home() {
   useEffect(() => {
     if ('serviceWorker' in navigator && typeof window !== 'undefined') {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
+        navigator.serviceWorker.register('/sw.js').catch(() => { });
       });
     }
   }, []);
@@ -571,9 +571,8 @@ export default function Home() {
                   <button
                     key={age}
                     onClick={() => setAgeFilter(age)}
-                    className={`flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-bold transition-colors ${
-                      ageFilter === age ? "bg-white text-black" : "bg-[#2a2a2a] text-white hover:bg-[#333]"
-                    }`}
+                    className={`flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-bold transition-colors ${ageFilter === age ? "bg-white text-black" : "bg-[#2a2a2a] text-white hover:bg-[#333]"
+                      }`}
                   >
                     {age === "all" ? "All Ages" : `${age}+`}
                   </button>
@@ -761,10 +760,10 @@ export default function Home() {
               <div className="mt-14">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
-                    { label: "Explore", icon: <Globe className="w-5 h-5 text-white" />, desc: "Browse 8 elite tracks & 32 courses", step: "01", gradient: "from-blue-500 to-purple-600" },
-                    { label: "Learn", icon: <BookOpen className="w-5 h-5 text-white" />, desc: "Core content, video & guided notes", step: "02", gradient: "from-[#1ed760] to-[#17a549]" },
-                    { label: "Practice", icon: <Zap className="w-5 h-5 text-white" />, desc: "Active exercises & challenges", step: "03", gradient: "from-orange-500 to-red-600" },
-                    { label: "Grow", icon: <Flame className="w-5 h-5 text-white" />, desc: "Streaks, XP, badges & real-world application", step: "04", gradient: "from-pink-500 to-rose-600" },
+                    { label: "Explore", icon: <Globe className="w-5 h-5 text-white" />, desc: "Browse 8 elite tracks & 32 courses", step: "01", gradient: "from-[#1ed760] to-[#169c46]" },
+                    { label: "Learn", icon: <BookOpen className="w-5 h-5 text-white" />, desc: "Core content, video & guided notes", step: "02", gradient: "from-[#1db954] to-[#1ed760]" },
+                    { label: "Practice", icon: <Zap className="w-5 h-5 text-white" />, desc: "Active exercises & challenges", step: "03", gradient: "from-[#1ed760] to-[#1db954]" },
+                    { label: "Grow", icon: <Flame className="w-5 h-5 text-white" />, desc: "Streaks, XP, badges & real-world application", step: "04", gradient: "from-[#169c46] to-[#1ed760]" },
                   ].map((stage, idx) => (
                     <div key={idx}
                       className="bg-[#181818] rounded-xl border border-transparent hover:bg-[#252525] hover:border-[#1ed760]/20 transition-all group flex flex-col overflow-hidden">
