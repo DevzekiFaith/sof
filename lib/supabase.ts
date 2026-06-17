@@ -1,13 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Temporarily hardcoded to fix authentication issue
+// TODO: Revert to environment variables once loading is fixed
+const supabaseUrl = 'https://usjijpwcubtxofjqgiii.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzamlqcHdjdWJ0eG9manFnaWlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjIxMzMsImV4cCI6MjA5NTEzODEzM30.vuT7cOpMq9504WUdPD-pje5HkaeyK-DDXIPNelmqWSY';
 
-// Validate environment variables at runtime, not during build
-if (typeof window !== 'undefined' && (!supabaseUrl || !supabaseAnonKey)) {
-  throw new Error('Missing Supabase environment variables. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.');
-}
-
-export const supabase = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null as any;
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);

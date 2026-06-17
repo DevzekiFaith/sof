@@ -8,13 +8,15 @@ import { Star, Clock, Award, User, ArrowRight } from "lucide-react";
 import { learningTracks } from "../data/learningTracks";
 import { useCart } from "../contexts/CartContext";
 import { useToast } from "../contexts/ToastContext";
+import CoursePurchaseModal from "../components/ui/CoursePurchaseModal";
+import { Course } from "../data/courses";
 
 export default function CoursesContent() {
   const searchParams = useSearchParams();
   const trackId = searchParams.get("track");
   const { addToCart } = useCart();
   const { showToast } = useToast();
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   // Filter courses by trackId if provided
   const filteredCourses = trackId
@@ -54,10 +56,7 @@ export default function CoursesContent() {
             {filteredCourses.map((course) => (
             <button
               key={course.id}
-              onClick={() => {
-                addToCart(course);
-                showToast("Added to cart!", "success");
-              }}
+              onClick={() => setSelectedCourse(course)}
               className="group relative bg-[#181818] rounded-xl border border-[#282828] hover:border-[#1ed760]/30 transition-all duration-300 overflow-hidden cursor-pointer text-left"
             >
               {/* Course Thumbnail */}
@@ -134,6 +133,15 @@ export default function CoursesContent() {
         </div>
         )}
       </div>
+      
+      {/* Course Purchase Modal */}
+      {selectedCourse && (
+        <CoursePurchaseModal
+          course={selectedCourse}
+          isOpen={!!selectedCourse}
+          onClose={() => setSelectedCourse(null)}
+        />
+      )}
     </div>
   );
 }

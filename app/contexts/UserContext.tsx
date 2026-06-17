@@ -154,7 +154,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      return false;
+      console.error('Login error:', error.message);
+      throw new Error(error.message);
     }
 
     return true;
@@ -167,6 +168,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
+      console.error('Resend confirmation error:', error.message);
       return false;
     }
 
@@ -175,10 +177,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const resetPassword = async (email: string): Promise<boolean> => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/callback`,
+      redirectTo: `${window.location.origin}/auth/reset-password`,
     });
 
     if (error) {
+      console.error('Reset password error:', error.message);
       return false;
     }
 
@@ -208,11 +211,44 @@ export function UserProvider({ children }: { children: ReactNode }) {
         data: {
           name,
         },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
     if (error) {
+      console.error('Registration error:', error.message);
       throw new Error(`Registration failed: ${error.message}`);
+    }
+
+    // Create profile in database
+    if (data.user) {
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: data.user.id,
+          email: data.user.email,
+          name: name,
+          created_at: new Date().toISOString(),
+        });
+
+      if (profileError) {
+        console.error('Profile creation failed:', profileError);
+      }
+
+      // Create gamification stats
+      const { error: gamificationError } = await supabase
+        .from('gamification_stats')
+        .insert({
+          user_id: data.user.id,
+          total_xp: 0,
+          level: 1,
+          streak_days: 0,
+          last_active_date: new Date().toISOString(),
+        });
+
+      if (gamificationError) {
+        console.error('Gamification stats creation failed:', gamificationError);
+      }
     }
 
     // Check if email confirmation is required

@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'usjijpwcubtxofjqgiii.supabase.co',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   
@@ -28,6 +34,12 @@ const nextConfig: NextConfig = {
   
   // Production source maps (disable for smaller bundles in production)
   productionBrowserSourceMaps: false,
+  
+  // Ensure environment variables are available to the browser
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  },
 };
 
 export default nextConfig;

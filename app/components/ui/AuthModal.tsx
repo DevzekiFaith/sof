@@ -46,8 +46,8 @@ export default function AuthModal({ onClose }: AuthModalProps) {
       if (success) {
         onClose();
       }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+    } catch (err: any) {
+      setError(err.message || "An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
