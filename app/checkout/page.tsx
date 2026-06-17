@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
@@ -29,10 +29,11 @@ function CheckoutContent() {
   const [currency, setCurrency] = useState<"USD" | "NGN">("USD");
 
   // Redirect if no course selected and cart is empty
-  if (!course && cart.length === 0) {
-    router.push("/courses");
-    return null;
-  }
+  useEffect(() => {
+    if (!course && cart.length === 0) {
+      router.push("/courses");
+    }
+  }, [course, cart.length, router]);
 
   // Use cart items if available, otherwise use single course
   const itemsToCheckout = cart.length > 0 ? cart : (course ? [course] : []);
@@ -95,11 +96,41 @@ function CheckoutContent() {
           }
           showToast("Payment successful!", "success");
           
+          // Save purchase to database
+          const purchaseData = {
+            user_id: currentUser.id,
+            course_id: course?.id || '',
+            course_title: course?.title || '',
+            amount: priceUSD,
+            currency: currency,
+            payment_method: 'flutterwave',
+            transaction_id: response.transaction_id || response.tx_ref,
+            status: 'completed',
+          };
+
+          if (course) {
+            await supabase.from('course_purchases').insert(purchaseData);
+          } else {
+            // Handle cart purchases
+            for (const item of cart) {
+              await supabase.from('course_purchases').insert({
+                user_id: currentUser.id,
+                course_id: item.id,
+                course_title: item.title,
+                amount: item.priceUSD,
+                currency: currency,
+                payment_method: 'flutterwave',
+                transaction_id: response.transaction_id || response.tx_ref,
+                status: 'completed',
+              });
+            }
+          }
+
           // Add courses to user's purchased courses
           if (course) {
             router.push(`/courses/${course.id}?purchased=true`);
           } else {
-            router.push("/courses");
+            router.push("/courses?purchase_history=true");
           }
         }
       },

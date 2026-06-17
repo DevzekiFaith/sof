@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { getCourseById, Resource } from "../../data/courses";
+import DownloadableResource from "../../components/ui/DownloadableResource";
 import { useUser } from "../../contexts/UserContext";
 import { supabase } from "../../../lib/supabase";
 import Logo from "../../components/Logo";
@@ -366,34 +367,12 @@ export default function CoursePlayerPage() {
 
           {currentModuleData.resources?.length > 0 && (
             <div className="bg-[#181818] rounded-xl p-5 border border-[#282828]">
-              <p className="text-sm font-bold text-white uppercase tracking-wider mb-3">Resources</p>
-              <ul className="space-y-2">
+              <p className="text-sm font-bold text-white uppercase tracking-wider mb-4">Downloadable Resources</p>
+              <div className="space-y-3">
                 {currentModuleData.resources.map((res: Resource, i: number) => (
-                  <li key={i}>
-                    {res.url ? (
-                      <a
-                        href={res.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-[#b3b3b3] text-sm hover:text-[#1ed760] transition-colors group cursor-pointer pointer-events-auto"
-                        style={{ pointerEvents: 'auto' }}
-                      >
-                        <Paperclip size={14} className="group-hover:rotate-12 transition-transform" />
-                        <span>{res.name}</span>
-                      </a>
-                    ) : (
-                      <details className="group">
-                        <summary className="flex items-center gap-2 text-[#b3b3b3] text-sm hover:text-[#1ed760] transition-colors cursor-pointer list-none">
-                          <Paperclip size={14} className="group-hover:rotate-12 transition-transform" />
-                          <span>{res.name}</span>
-                          <span className="ml-auto text-[#535353] group-hover:text-[#1ed760]">+</span>
-                        </summary>
-                        <p className="mt-2 pl-6 text-sm text-[#a7a7a7] leading-relaxed">{res.content}</p>
-                      </details>
-                    )}
-                  </li>
+                  <DownloadableResource key={i} resource={res} />
                 ))}
-              </ul>
+              </div>
             </div>
           )}
         </div>

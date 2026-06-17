@@ -15,6 +15,8 @@ export interface Resource {
   name: string;
   url: string;
   content?: string;
+  type?: 'pdf' | 'video' | 'article' | 'exercise' | 'template' | 'download';
+  downloadable?: boolean;
 }
 
 export interface ModuleDetail {
@@ -67,7 +69,7 @@ export const QUARTERLY_PASS_PRICE_USD = 49;
 export const courses: Course[] = [
   {
     id: "problem-solving",
-    title: "Solution Mindset Development",
+    title: "8 Ways to Develop Solution Mindset",
     description: "Develop a systematic approach to solving problems creatively and effectively. Learn critical thinking skills, analytical frameworks, and practical strategies for overcoming challenges in life and work.",
     fullDescription: "Problem solving is at the heart of success in every field. This course teaches you to approach problems systematically, think critically, and develop creative solutions. You'll learn proven frameworks, analytical tools, and mental models that help you tackle complex challenges with confidence and clarity.",
     ageRange: "12-45",
@@ -129,12 +131,15 @@ The key insight is that most people jump to solutions without properly understan
         activities: [
           "Identify 3 problems in your daily life and practice defining them clearly",
           "Use the 5-Why technique to find root causes of common issues",
-          "Practice reframing a problem from 3 different perspectives"
+          "Practice reframing a problem from 3 different perspectives",
+          "Complete the interactive problem-solving exercise below"
         ],
         resources: [
-          { name: "5 Whys Technique Explained (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" },
-          { name: "Problem Definition Framework (Article)", url: "https://hbr.org/2021/06/how-to-define-a-problem" },
-          { name: "Root Cause Analysis Guide (Article)", url: "https://asq.org/quality-resources/root-cause-analysis" }
+          { name: "5 Whys Technique Explained (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk", type: "video" },
+          { name: "Problem Definition Framework (Article)", url: "https://hbr.org/2021/06/how-to-define-a-problem", type: "article" },
+          { name: "Root Cause Analysis Guide (Article)", url: "https://asq.org/quality-resources/root-cause-analysis", type: "article" },
+          { name: "Problem-Solving Worksheet", url: "#", type: "template", downloadable: true, content: "Problem-Solving Worksheet\n\n1. Problem Statement:\n   - What is the issue?\n   - When does it occur?\n   - Who is affected?\n\n2. Root Cause Analysis (5 Whys):\n   - Why #1:\n   - Why #2:\n   - Why #3:\n   - Why #4:\n   - Why #5:\n\n3. Potential Solutions:\n   - Solution 1:\n   - Solution 2:\n   - Solution 3:\n\n4. Evaluation Criteria:\n   - Cost:\n   - Time:\n   - Resources:\n   - Impact:\n\n5. Selected Solution:\n   - Why this solution:\n   - Implementation steps:\n   - Success metrics:" },
+          { name: "Daily Problem Log", url: "#", type: "exercise", downloadable: true, content: "Daily Problem Log\n\nDate: ___________\n\nProblems Identified Today:\n1. \n2. \n3. \n\nFor each problem, apply:\n- Clear definition:\n- Root cause (5 Whys):\n- Potential solutions:\n- Best solution chosen:\n\nReflection:\nWhat did I learn today about my problem-solving approach?" }
         ],
         estimatedTime: "45 minutes"
       },
@@ -158,12 +163,15 @@ Critical thinking is a skill that improves with practice. The more you apply the
         activities: [
           "Evaluate the credibility of 5 different news sources",
           "Practice identifying logical fallacies in arguments",
-          "Create a critical thinking checklist for daily decisions"
+          "Create a critical thinking checklist for daily decisions",
+          "Complete the critical thinking assessment exercise"
         ],
         resources: [
-          { name: "Critical Thinking Explained (Video)", url: "https://www.youtube.com/watch?v=6dl_UJcOy1I" },
-          { name: "Cognitive Bias Guide (Article)", url: "https://thedecisionlab.com/bias-directory/" },
-          { name: "Logical Fallacies Guide (Article)", url: "https://yourlogicalfallacyis.com/" }
+          { name: "Critical Thinking Explained (Video)", url: "https://www.youtube.com/watch?v=6dl_UJcOy1I", type: "video" },
+          { name: "Cognitive Bias Guide (Article)", url: "https://thedecisionlab.com/bias-directory/", type: "article" },
+          { name: "Logical Fallacies Guide (Article)", url: "https://yourlogicalfallacyis.com/", type: "article" },
+          { name: "Critical Thinking Checklist", url: "#", type: "template", downloadable: true, content: "Critical Thinking Checklist\n\nBefore making a decision, ask:\n\n1. What is the source of this information?\n2. What evidence supports this claim?\n3. Are there alternative explanations?\n4. What biases might be influencing this?\n5. What are the counter-arguments?\n6. What assumptions am I making?\n7. What would change my mind?\n\nDaily Critical Thinking Exercise:\n- News story I read today:\n- Source credibility check:\n- Evidence evaluation:\n- Bias identification:\n- Conclusion:" },
+          { name: "Logical Fallacies Reference Card", url: "#", type: "template", downloadable: true, content: "Common Logical Fallacies\n\n1. Ad Hominem: Attacking the person instead of the argument\n2. Straw Man: Misrepresenting someone's argument\n3. Appeal to Authority: Relying on authority rather than evidence\n4. False Dilemma: Presenting only two options when more exist\n5. Slippery Slope: Assuming one thing leads to another without evidence\n6. Circular Reasoning: Conclusion is included in the premise\n7. Hasty Generalization: Making broad conclusions from limited evidence\n8. Appeal to Emotion: Using emotion instead of logic\n9. Tu Quoque: 'You too' fallacy\n10. Red Herring: Distracting from the real issue\n\nPractice: Identify 3 fallacies in daily conversations or media" }
         ],
         estimatedTime: "50 minutes"
       },
@@ -189,12 +197,15 @@ Each framework has its strengths and is best applied to specific types of proble
         activities: [
           "Apply SWOT analysis to a personal goal",
           "Use a decision matrix to choose between 3 options",
-          "Create a mind map for a complex problem"
+          "Create a mind map for a complex problem",
+          "Complete the framework selection exercise"
         ],
         resources: [
-          { name: "SWOT Analysis Guide (Article)", url: "https://www.mindtools.com/pages/article/newTMC_05.htm" },
-          { name: "Decision Matrix Template (Tool)", url: "https://www.vertex42.com/ExcelTemplates/decision-matrix.html" },
-          { name: "Mind Mapping Tutorial (Video)", url: "https://www.youtube.com/watch?v=MlabrWv25q0" }
+          { name: "SWOT Analysis Guide (Article)", url: "https://www.mindtools.com/pages/article/newTMC_05.htm", type: "article" },
+          { name: "Decision Matrix Template (Tool)", url: "https://www.vertex42.com/ExcelTemplates/decision-matrix.html", type: "template" },
+          { name: "Mind Mapping Tutorial (Video)", url: "https://www.youtube.com/watch?v=MlabrWv25q0", type: "video" },
+          { name: "SWOT Analysis Template", url: "#", type: "template", downloadable: true, content: "SWOT Analysis Template\n\nProject/Goal: __________________\n\nSTRENGTHS (Internal, Positive)\n- What do you do well?\n- What unique resources do you have?\n- What do others see as your strengths?\n\nWEAKNESSES (Internal, Negative)\n- What could you improve?\n- What resources are you lacking?\n- What do others see as your weaknesses?\n\nOPPORTUNITIES (External, Positive)\n- What opportunities are available?\n- What trends could you take advantage of?\n- How can you turn strengths into opportunities?\n\nTHREATS (External, Negative)\n- What threats could harm you?\n- What are your competitors doing?\n- What obstacles do you face?\n\nAction Plan:\n1. \n2. \n3. " },
+          { name: "Decision Matrix Worksheet", url: "#", type: "exercise", downloadable: true, content: "Decision Matrix Worksheet\n\nDecision to make: __________________\n\nCriteria (rate importance 1-5):\n1. ___________ (Importance: ___)\n2. ___________ (Importance: ___)\n3. ___________ (Importance: ___)\n4. ___________ (Importance: ___)\n\nOptions:\nOption A | Option B | Option C\n---------|---------|---------\nScore for each criterion:\n\nTotal Score:\nOption A: ___\nOption B: ___\nOption C: ___\n\nDecision: _________\nReason: ___________" }
         ],
         estimatedTime: "55 minutes"
       },
@@ -359,7 +370,7 @@ This module helps you integrate all the skills into a comprehensive problem-solv
   },
   {
     id: "decision-making",
-    title: "Decision-Making",
+    title: "9 Ways to Master Decision-Making",
     description: "Develop critical thinking skills and frameworks for making better decisions under pressure. Learn to analyze situations, weigh options, and choose paths that lead to success.",
     fullDescription: "Every day, we make countless decisions that shape our lives. This course provides you with proven frameworks and tools to make better decisions, especially under pressure. You'll learn how to gather information effectively, analyze options objectively, and implement decisions with confidence.",
     ageRange: "12-45",
@@ -420,12 +431,15 @@ The goal is to move from impulsive or emotional decisions to thoughtful, strateg
         activities: [
           "Categorize 10 recent decisions by type",
           "Create a personal decision-making framework",
-          "Practice making a small decision using the framework"
+          "Practice making a small decision using the framework",
+          "Complete the decision-making exercise worksheet"
         ],
         resources: [
-          { name: "Decision-Making Framework (Article)", url: "https://hbr.org/2019/06/how-to-make-better-decisions" },
-          { name: "Decision Types Explained (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" },
-          { name: "Decision Quality Checklist (Tool)", url: "https://www.mindtools.com/pages/article/newTED_00.htm" }
+          { name: "Decision-Making Framework (Article)", url: "https://hbr.org/2019/06/how-to-make-better-decisions", type: "article" },
+          { name: "Decision Types Explained (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk", type: "video" },
+          { name: "Decision Quality Checklist (Tool)", url: "https://www.mindtools.com/pages/article/newTED_00.htm", type: "template" },
+          { name: "Decision-Making Worksheet", url: "#", type: "exercise", downloadable: true, content: "Decision-Making Worksheet\n\nDecision to make: __________________\n\nDecision Type:\n- Routine\n- Strategic\n- Crisis\n- Ethical\n\nDecision Criteria (rate importance 1-5):\n1. ___________ (Importance: ___)\n2. ___________ (Importance: ___)\n3. ___________ (Importance: ___)\n\nOptions:\nOption A: _______________\nOption B: _______________\nOption C: _______________\n\nEvaluation:\nOption A Score: ___\nOption B Score: ___\nOption C Score: ___\n\nDecision: _________\nConfidence Level: ___/10\n\nImplementation Plan:\n1. \n2. \n3. " },
+          { name: "Daily Decision Log", url: "#", type: "exercise", downloadable: true, content: "Daily Decision Log\n\nDate: ___________\n\nDecisions Made Today:\n1. Decision: ___________\n   Type: ___________\n   Process Used: ___________\n   Outcome: ___________\n\n2. Decision: ___________\n   Type: ___________\n   Process Used: ___________\n   Outcome: ___________\n\n3. Decision: ___________\n   Type: ___________\n   Process Used: ___________\n   Outcome: ___________\n\nReflection:\nWhat decision-making patterns do I notice?\nWhat can I improve tomorrow?" }
         ],
         estimatedTime: "40 minutes"
       },
@@ -450,12 +464,15 @@ Critical thinking is a skill that improves with practice. The more you apply the
         activities: [
           "Evaluate the credibility of 5 different news sources",
           "Practice identifying logical fallacies in arguments",
-          "Create a critical thinking checklist for daily decisions"
+          "Create a critical thinking checklist for daily decisions",
+          "Complete the critical thinking assessment exercise"
         ],
         resources: [
-          { name: "Critical Thinking Explained (Video)", url: "https://www.youtube.com/watch?v=6dl_UJcOy1I" },
-          { name: "Cognitive Bias Guide (Article)", url: "https://thedecisionlab.com/bias-directory/" },
-          { name: "Logical Fallacies Guide (Article)", url: "https://yourlogicalfallacyis.com/" }
+          { name: "Critical Thinking Explained (Video)", url: "https://www.youtube.com/watch?v=6dl_UJcOy1I", type: "video" },
+          { name: "Cognitive Bias Guide (Article)", url: "https://thedecisionlab.com/bias-directory/", type: "article" },
+          { name: "Logical Fallacies Guide (Article)", url: "https://yourlogicalfallacyis.com/", type: "article" },
+          { name: "Critical Thinking Checklist", url: "#", type: "template", downloadable: true, content: "Critical Thinking Checklist\n\nBefore making a decision, ask:\n\n1. What is the source of this information?\n2. What evidence supports this claim?\n3. Are there alternative explanations?\n4. What biases might be influencing this?\n5. What are the counter-arguments?\n6. What assumptions am I making?\n7. What would change my mind?\n\nDaily Critical Thinking Exercise:\n- News story I read today:\n- Source credibility check:\n- Evidence evaluation:\n- Bias identification:\n- Conclusion:" },
+          { name: "Logical Fallacies Reference Card", url: "#", type: "template", downloadable: true, content: "Common Logical Fallacies\n\n1. Ad Hominem: Attacking the person instead of the argument\n2. Straw Man: Misrepresenting someone's argument\n3. Appeal to Authority: Relying on authority rather than evidence\n4. False Dilemma: Presenting only two options when more exist\n5. Slippery Slope: Assuming one thing leads to another without evidence\n6. Circular Reasoning: Conclusion is included in the premise\n7. Hasty Generalization: Making broad conclusions from limited evidence\n8. Appeal to Emotion: Using emotion instead of logic\n9. Tu Quoque: 'You too' fallacy\n10. Red Herring: Distracting from the real issue\n\nPractice: Identify 3 fallacies in daily conversations or media" }
         ],
         estimatedTime: "50 minutes"
       },
@@ -481,12 +498,15 @@ The key is gathering the right information, not just more information.`,
         activities: [
           "Research a topic using multiple source types",
           "Create an information organization system",
-          "Practice prioritizing information for a decision"
+          "Practice prioritizing information for a decision",
+          "Complete the information gathering exercise"
         ],
         resources: [
-          { name: "Research Methods Guide (Article)", url: "https://libguides.mit.edu/researchmethods" },
-          { name: "Information Organization Tools (Article)", url: "https://www.notion.so/product/notion-ai" },
-          { name: "Source Evaluation Checklist (Tool)", url: "https://www.craaptest.org/" }
+          { name: "Research Methods Guide (Article)", url: "https://libguides.mit.edu/researchmethods", type: "article" },
+          { name: "Information Organization Tools (Article)", url: "https://www.notion.so/product/notion-ai", type: "article" },
+          { name: "Source Evaluation Checklist (Tool)", url: "https://www.craaptest.org/", type: "template" },
+          { name: "Research Planning Worksheet", url: "#", type: "exercise", downloadable: true, content: "Research Planning Worksheet\n\nResearch Topic: __________________\n\nResearch Questions:\n1. \n2. \n3. \n\nInformation Sources Needed:\n- Primary Sources: ___________\n- Secondary Sources: ___________\n- Expert Sources: ___________\n\nSource Evaluation Criteria:\n- Currency: ___/5\n- Relevance: ___/5\n- Authority: ___/5\n- Accuracy: ___/5\n- Purpose: ___/5\n\nInformation Organization:\nKey Themes:\n1. \n2. \n3. \n\nPriority Information:\n- Must Have: ___________\n- Nice to Have: ___________\n- Optional: ___________" },
+          { name: "Source Evaluation Template", url: "#", type: "template", downloadable: true, content: "Source Evaluation Template\n\nSource: __________________\n\nCRAAP Test:\nCurrency: When was this published? ___\nRelevance: Does this address my question? ___\nAuthority: Who is the author/publisher? ___\nAccuracy: Is the information supported by evidence? ___\nPurpose: Is the information fact or opinion? ___\n\nOverall Rating: ___/25\n\nUse in Decision:\n- Primary Source: Yes/No\n- Supporting Evidence: Yes/No\n- Background Context: Yes/No\n\nNotes: ___________" }
         ],
         estimatedTime: "45 minutes"
       },
@@ -512,12 +532,15 @@ These frameworks help you make decisions based on evidence rather than intuition
         activities: [
           "Conduct a cost-benefit analysis for a purchase",
           "Use multi-criteria analysis for a career choice",
-          "Perform risk analysis on a major decision"
+          "Perform risk analysis on a major decision",
+          "Complete the analysis framework exercise"
         ],
         resources: [
-          { name: "Cost-Benefit Analysis Guide (Article)", url: "https://www.mindtools.com/pages/article/newTED_08.htm" },
-          { name: "Multi-Criteria Analysis Tool (Template)", url: "https://www.vertex42.com/ExcelTemplates/multi-criteria-decision-matrix.html" },
-          { name: "Risk Assessment Template (Tool)", url: "https://www.projectmanagement.com/templates/risk-assessment-template" }
+          { name: "Cost-Benefit Analysis Guide (Article)", url: "https://www.mindtools.com/pages/article/newTED_08.htm", type: "article" },
+          { name: "Multi-Criteria Analysis Tool (Template)", url: "https://www.vertex42.com/ExcelTemplates/multi-criteria-decision-matrix.html", type: "template" },
+          { name: "Risk Assessment Template (Tool)", url: "https://www.projectmanagement.com/templates/risk-assessment-template", type: "template" },
+          { name: "Cost-Benefit Analysis Worksheet", url: "#", type: "exercise", downloadable: true, content: "Cost-Benefit Analysis Worksheet\n\nDecision: __________________\n\nCosts (Negative Impacts):\nFinancial Costs:\n- Cost 1: $_________ (Impact: ___/10)\n- Cost 2: $_________ (Impact: ___/10)\n- Cost 3: $_________ (Impact: ___/10)\n\nTime Costs:\n- Time 1: ___________ (Impact: ___/10)\n- Time 2: ___________ (Impact: ___/10)\n\nOpportunity Costs:\n- What you give up: ___________\n\nTotal Costs: $_________\n\nBenefits (Positive Impacts):\nFinancial Benefits:\n- Benefit 1: $_________ (Value: ___/10)\n- Benefit 2: $_________ (Value: ___/10)\n- Benefit 3: $_________ (Value: ___/10)\n\nIntangible Benefits:\n- Benefit 1: ___________ (Value: ___/10)\n- Benefit 2: ___________ (Value: ___/10)\n\nTotal Benefits: $_________\n\nNet Benefit: Benefits - Costs = $_________\n\nDecision: Go / No Go" },
+          { name: "Multi-Criteria Decision Matrix", url: "#", type: "exercise", downloadable: true, content: "Multi-Criteria Decision Matrix\n\nDecision: __________________\n\nCriteria (Weight 1-5):\n1. ___________ (Weight: ___)\n2. ___________ (Weight: ___)\n3. ___________ (Weight: ___)\n4. ___________ (Weight: ___)\n5. ___________ (Weight: ___)\n\nOptions:\nOption A | Option B | Option C\n---------|---------|---------\nScore each option (1-10) for each criterion:\n\nCriterion 1: ___ | ___ | ___\nCriterion 2: ___ | ___ | ___\nCriterion 3: ___ | ___ | ___\nCriterion 4: ___ | ___ | ___\nCriterion 5: ___ | ___ | ___\n\nWeighted Scores:\nOption A: ___\nOption B: ___\nOption C: ___\n\nBest Option: _________" }
         ],
         estimatedTime: "55 minutes"
       },
@@ -543,12 +566,15 @@ Understanding risk helps you make more confident and realistic decisions.`,
         activities: [
           "Identify risks in 5 recent decisions",
           "Create a risk mitigation plan for a major decision",
-          "Assess your personal risk tolerance"
+          "Assess your personal risk tolerance",
+          "Complete the risk assessment exercise"
         ],
         resources: [
-          { name: "Risk Assessment Matrix (Tool)", url: "https://www.projectmanagement.com/templates/risk-assessment-matrix" },
-          { name: "Risk Mitigation Strategies (Article)", url: "https://hbr.org/2021/06/risk-intelligence" },
-          { name: "Contingency Planning Guide (Article)", url: "https://www.ready.gov/business-continuity-planning" }
+          { name: "Risk Assessment Matrix (Tool)", url: "https://www.projectmanagement.com/templates/risk-assessment-matrix", type: "template" },
+          { name: "Risk Mitigation Strategies (Article)", url: "https://hbr.org/2021/06/risk-intelligence", type: "article" },
+          { name: "Contingency Planning Guide (Article)", url: "https://www.ready.gov/business-continuity-planning", type: "article" },
+          { name: "Risk Assessment Worksheet", url: "#", type: "exercise", downloadable: true, content: "Risk Assessment Worksheet\n\nDecision: __________________\n\nPotential Risks:\nRisk 1: ___________\n- Probability: Low/Medium/High (1-3)\n- Impact: Low/Medium/High (1-3)\n- Risk Score: ___ (Probability × Impact)\n\nRisk 2: ___________\n- Probability: Low/Medium/High (1-3)\n- Impact: Low/Medium/High (1-3)\n- Risk Score: ___ (Probability × Impact)\n\nRisk 3: ___________\n- Probability: Low/Medium/High (1-3)\n- Impact: Low/Medium/High (1-3)\n- Risk Score: ___ (Probability × Impact)\n\nMitigation Strategies:\nFor Risk 1: ___________\nFor Risk 2: ___________\nFor Risk 3: ___________\n\nContingency Plans:\nIf Risk 1 occurs: ___________\nIf Risk 2 occurs: ___________\nIf Risk 3 occurs: ___________\n\nOverall Risk Level: Low/Medium/High\nProceed with Decision: Yes/No" },
+          { name: "Personal Risk Tolerance Assessment", url: "#", type: "exercise", downloadable: true, content: "Personal Risk Tolerance Assessment\n\nRate your agreement (1-5) with each statement:\n\n1. I prefer certainty over potential high returns: ___\n2. I'm comfortable with ambiguity: ___\n3. I research thoroughly before deciding: ___\n4. I trust my gut instincts: ___\n5. I can handle losing money on investments: ___\n6. I prefer tried-and-true solutions: ___\n7. I'm willing to try new approaches: ___\n8. I need to feel 100% sure before acting: ___\n9. I learn from my mistakes quickly: ___\n10. I take calculated risks: ___\n\nRisk Profile:\n- Conservative (10-20): Prefers certainty, thorough research\n- Moderate (21-35): Balanced approach, considers risks\n- Aggressive (36-50): Comfortable with uncertainty, high risk tolerance\n\nYour Risk Profile: ___________\n\nDecision-Making Implications:\n- For conservative: Focus on thorough research, proven solutions\n- For moderate: Use risk-benefit analysis, consider alternatives\n- For aggressive: Can take calculated risks, learn from failures" }
         ],
         estimatedTime: "45 minutes"
       },
@@ -574,12 +600,15 @@ Successful implementation turns good decisions into great outcomes.`,
         activities: [
           "Create an action plan for a recent decision",
           "Monitor the implementation of a current decision",
-          "Practice adjusting a plan when obstacles arise"
+          "Practice adjusting a plan when obstacles arise",
+          "Complete the implementation planning exercise"
         ],
         resources: [
-          { name: "Action Plan Template (Tool)", url: "https://www.atlassian.com/software/confluence/templates/action-plan" },
-          { name: "Implementation Checklist (Article)", url: "https://hbr.org/2021/06/how-to-execute-a-strategy" },
-          { name: "Progress Tracking Tools (Article)", url: "https://www.monday.com/templates/project-management" }
+          { name: "Action Plan Template (Tool)", url: "https://www.atlassian.com/software/confluence/templates/action-plan", type: "template" },
+          { name: "Implementation Checklist (Article)", url: "https://hbr.org/2021/06/how-to-execute-a-strategy", type: "article" },
+          { name: "Progress Tracking Tools (Article)", url: "https://www.monday.com/templates/project-management", type: "article" },
+          { name: "Action Plan Worksheet", url: "#", type: "exercise", downloadable: true, content: "Action Plan Worksheet\n\nDecision: __________________\n\nGoal: __________________\n\nAction Steps:\nStep 1: ___________\n- Owner: ___________\n- Deadline: ___________\n- Resources needed: ___________\n- Success criteria: ___________\n\nStep 2: ___________\n- Owner: ___________\n- Deadline: ___________\n- Resources needed: ___________\n- Success criteria: ___________\n\nStep 3: ___________\n- Owner: ___________\n- Deadline: ___________\n- Resources needed: ___________\n- Success criteria: ___________\n\nPotential Obstacles:\nObstacle 1: ___________\n- Mitigation: ___________\n\nObstacle 2: ___________\n- Mitigation: ___________\n\nSuccess Metrics:\n- Metric 1: ___________\n- Metric 2: ___________\n- Metric 3: ___________\n\nReview Schedule:\n- Check-in 1: ___________\n- Check-in 2: ___________\n- Final review: ___________" },
+          { name: "Implementation Tracking Log", url: "#", type: "exercise", downloadable: true, content: "Implementation Tracking Log\n\nDecision: __________________\n\nStart Date: ___________\n\nProgress Tracking:\nWeek 1: ___________\n- Completed: ___________\n- Challenges: ___________\n- Adjustments made: ___________\n\nWeek 2: ___________\n- Completed: ___________\n- Challenges: ___________\n- Adjustments made: ___________\n\nWeek 3: ___________\n- Completed: ___________\n- Challenges: ___________\n- Adjustments made: ___________\n\nWeek 4: ___________\n- Completed: ___________\n- Challenges: ___________\n- Adjustments made: ___________\n\nFinal Review:\n- Decision outcome: ___________\n- Lessons learned: ___________\n- What worked well: ___________\n- What could be improved: ___________" }
         ],
         estimatedTime: "50 minutes"
       },
@@ -605,12 +634,15 @@ The goal is to get better at decision-making through deliberate learning.`,
         activities: [
           "Analyze the outcomes of 3 recent decisions",
           "Create a lessons-learned document",
-          "Identify patterns in your decision-making history"
+          "Identify patterns in your decision-making history",
+          "Complete the outcome analysis exercise"
         ],
         resources: [
-          { name: "Outcome Analysis Framework (Article)", url: "https://hbr.org/2021/06/how-to-learn-from-your-mistakes" },
-          { name: "Lessons Learned Template (Tool)", url: "https://www.atlassian.com/software/confluence/templates/lessons-learned" },
-          { name: "Decision Improvement Plan (Article)", url: "https://hbr.org/2021/06/how-to-make-better-decisions" }
+          { name: "Outcome Analysis Framework (Article)", url: "https://hbr.org/2021/06/how-to-learn-from-your-mistakes", type: "article" },
+          { name: "Lessons Learned Template (Tool)", url: "https://www.atlassian.com/software/confluence/templates/lessons-learned", type: "template" },
+          { name: "Decision Improvement Plan (Article)", url: "https://hbr.org/2021/06/how-to-make-better-decisions", type: "article" },
+          { name: "Decision Outcome Analysis Worksheet", url: "#", type: "exercise", downloadable: true, content: "Decision Outcome Analysis Worksheet\n\nDecision: __________________\n\nExpected Outcome: __________________\n\nActual Outcome: __________________\n\nGap Analysis:\n- What went as expected: ___________\n- What didn't go as expected: ___________\n- Why the gap occurred: ___________\n\nSuccess Factors:\n- What contributed to success: ___________\n- What could have been better: ___________\n\nLessons Learned:\n- What I would do differently: ___________\n- What I would repeat: ___________\n- Key insight: ___________\n\nApplication to Future Decisions:\n- How this changes my approach: ___________\n- New decision rule: ___________" },
+          { name: "Decision Pattern Tracker", url: "#", type: "exercise", downloadable: true, content: "Decision Pattern Tracker\n\nTrack your decisions for 2 weeks to identify patterns:\n\nDate | Decision | Type | Process Used | Outcome | Confidence | Learning\n-----|----------|------|--------------|---------|------------|--------\n     |          |      |              |         |            |        \n     |          |      |              |         |            |        \n     |          |      |              |         |            |        \n     |          |      |              |         |            |        \n     |          |      |              |         |            |        \n     |          |      |              |         |            |        \n     |          |      |              |         |            |        \n\nPattern Analysis:\n- Best decision types for me: ___________\n- Processes that work best: ___________\n- Common mistakes: ___________\n- Confidence vs. outcome correlation: ___________\n\nImprovement Plan:\n- Process to adopt: ___________\n- Process to avoid: ___________\n- New habit to build: ___________" }
         ],
         estimatedTime: "45 minutes"
       },
@@ -636,12 +668,15 @@ These advanced techniques prepare you for the most demanding decision situations
         activities: [
           "Develop scenarios for a major life decision",
           "Apply game theory to a competitive situation",
-          "Practice crisis decision-making simulation"
+          "Practice crisis decision-making simulation",
+          "Complete the advanced techniques exercise"
         ],
         resources: [
-          { name: "Scenario Planning Guide (Article)", url: "https://hbr.org/2021/06/scenario-planning" },
-          { name: "Game Theory Explained (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk" },
-          { name: "Ethical Decision Framework (Article)", url: "https://www.markkulacenter.org/ethics/ethics-decision-making-model" }
+          { name: "Scenario Planning Guide (Article)", url: "https://hbr.org/2021/06/scenario-planning", type: "article" },
+          { name: "Game Theory Explained (Video)", url: "https://www.youtube.com/watch?v=7TJn5k4X5gk", type: "video" },
+          { name: "Ethical Decision Framework (Article)", url: "https://www.markkulacenter.org/ethics/ethics-decision-making-model", type: "article" },
+          { name: "Scenario Planning Worksheet", url: "#", type: "exercise", downloadable: true, content: "Scenario Planning Worksheet\n\nDecision: __________________\n\nTime Horizon: 6 months / 1 year / 3 years / 5 years\n\nKey Uncertainties:\n1. ___________\n2. ___________\n3. ___________\n\nScenarios:\nScenario A (Best Case):\n- Assumptions: ___________\n- Probability: ___%\n- Strategy: ___________\n\nScenario B (Base Case):\n- Assumptions: ___________\n- Probability: ___%\n- Strategy: ___________\n\nScenario C (Worst Case):\n- Assumptions: ___________\n- Probability: ___%\n- Strategy: ___________\n\nSignposts to Monitor:\n- Signpost 1: ___________\n- Signpost 2: ___________\n- Signpost 3: ___________\n\nContingency Actions:\nIf Scenario A occurs: ___________\nIf Scenario B occurs: ___________\nIf Scenario C occurs: ___________" },
+          { name: "Ethical Decision Framework", url: "#", type: "template", downloadable: true, content: "Ethical Decision Framework\n\nDecision: __________________\n\nStakeholders:\n1. ___________ (Impact: ___/10)\n2. ___________ (Impact: ___/10)\n3. ___________ (Impact: ___/10)\n\nEthical Principles:\n- Fairness: ___/10\n- Honesty: ___/10\n- Respect: ___/10\n- Responsibility: ___/10\n- Integrity: ___/10\n\nQuestions to Ask:\n1. Is this legal? Yes/No\n2. Is this fair to all stakeholders? Yes/No\n3. Would I be proud if this were public? Yes/No\n4. Would I want this done to me? Yes/No\n5. Does this align with my values? Yes/No\n\nDecision Score: ___/50\n\nDecision: Proceed / Modify / Reject\n\nRationale: ___________" }
         ],
         estimatedTime: "60 minutes"
       }
@@ -649,7 +684,7 @@ These advanced techniques prepare you for the most demanding decision situations
   },
   {
     id: "team-person",
-    title: "Team Person",
+    title: "8 Ways to Excel as a Team Person",
     description: "Learn the fundamentals of teamwork: communication, trust, accountability, and collaboration—skills that work in school, life, and work.",
     fullDescription: "Teamwork is a life skill. In this course, you’ll learn how to communicate clearly, collaborate effectively, handle conflict, and build trust—so you can perform well in any group setting from age 10 to 45.",
     ageRange: "10-45",
@@ -697,8 +732,8 @@ These advanced techniques prepare you for the most demanding decision situations
         content: "A team works when people know the goal, know their role, and do what they said they would do.\n\nIn this module you’ll learn how to clarify responsibilities, communicate expectations, and become dependable.",
         activities: ["Write a team role you’ve played before and what success looked like", "Create a simple responsibility checklist for a group task"],
         resources: [
-          { name: "Team Roles Guide (Article)", url: "https://www.mindtools.com/pages/article/role-clarity.htm" },
-          { name: "Accountability Framework (Article)", url: "https://hbr.org/2021/06/building-accountability" }
+          { name: "Team Roles Guide (Article)", url: "https://www.mindtools.com/pages/article/role-clarity.htm", type: "article" },
+          { name: "Accountability Framework (Article)", url: "https://hbr.org/2021/06/building-accountability", type: "article" }
         ],
         estimatedTime: "35 minutes"
       },
@@ -787,7 +822,7 @@ These advanced techniques prepare you for the most demanding decision situations
   },
   {
     id: "personal-adaptability",
-    title: "Personal Adaptability",
+    title: "8 Ways to Build Personal Adaptability",
     description: "Learn the fundamentals of adapting to change: resilience, flexible thinking, and steady progress.",
     fullDescription: "Change is guaranteed. This course teaches the fundamentals of adaptability—how to stay calm, adjust quickly, and keep moving forward in school, life, and work (ages 10–45).",
     ageRange: "10-45",
@@ -989,7 +1024,7 @@ These advanced techniques prepare you for the most demanding decision situations
   },
   {
     id: "self-image",
-    title: "Self-Image",
+    title: "8 Ways to Strengthen Self-Image",
     description: "Build a strong self-image: confidence, identity, and the fundamentals of self-belief.",
     fullDescription: "Self-image shapes decisions, habits, and outcomes. This course teaches the fundamentals of self-image, confidence, and self-belief for ages 10–45.",
     ageRange: "10-45",
@@ -1192,7 +1227,7 @@ These advanced techniques prepare you for the most demanding decision situations
   },
   {
     id: "communication",
-    title: "Communication",
+    title: "8 Ways to Improve Communication",
     description: "Learn communication fundamentals: clarity, listening, confidence, and influence.",
     fullDescription: "Communication is the universal skill. This course teaches fundamentals—speaking clearly, listening deeply, and expressing ideas with confidence—for ages 10–45.",
     ageRange: "10-45",
@@ -1397,3 +1432,7 @@ These advanced techniques prepare you for the most demanding decision situations
 export function getCourseById(id: string): Course | undefined {
   return courses.find(course => course.id === id);
 }
+
+
+
+

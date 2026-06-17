@@ -15,12 +15,13 @@ import { supabase } from "../../../lib/supabase";
 export default function Sidebar() {
   const pathname = usePathname();
   const { currentUser, enrolledCourses } = useUser();
-  const { pendingRequests } = useSocial();
+  const { pendingRequests, acceptFriendRequest, declineFriendRequest } = useSocial();
   const { cartCount, mounted } = useCart();
   const [activeFilter, setActiveFilter] = useState<string>("All");
   const [notificationCount, setNotificationCount] = useState(0);
   const [friendRequestCount, setFriendRequestCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showFriendRequests, setShowFriendRequests] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showCreateMenu, setShowCreateMenu] = useState(false);
 
@@ -107,8 +108,9 @@ export default function Sidebar() {
 
   const mainLinks = [
     { href: "/", label: "Home", icon: <Home className="w-6 h-6" /> },
-    { href: "/#courses", label: "Search", icon: <Search className="w-6 h-6" /> },
+    { href: "/search", label: "Search", icon: <Search className="w-6 h-6" /> },
     { href: "/cart", label: "Cart", icon: <ShoppingBag className="w-6 h-6" />, badge: mounted ? cartCount : 0 },
+    { href: "/purchases", label: "Purchases", icon: <BookOpen className="w-6 h-6" /> },
   ];
 
   // Get actually enrolled course objects
@@ -138,7 +140,10 @@ export default function Sidebar() {
               )}
             </button>
             {/* Friends Button */}
-            <button className="relative p-2 hover:bg-[#282828] rounded-full transition-colors">
+            <button
+              onClick={() => setShowFriendRequests(!showFriendRequests)}
+              className="relative p-2 hover:bg-[#282828] rounded-full transition-colors"
+            >
               <Users className="w-5 h-5 text-[#b3b3b3] hover:text-white" />
               {friendRequestCount > 0 && (
                 <span className="absolute top-0 right-0 w-4 h-4 bg-[#1ed760] text-black text-xs font-bold rounded-full flex items-center justify-center">
@@ -182,6 +187,56 @@ export default function Sidebar() {
                               </Link>
                             )}
                           </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Friend Requests Dropdown */}
+            {showFriendRequests && (
+              <div className="absolute top-12 right-0 w-80 bg-[#181818] border border-[#282828] rounded-xl shadow-2xl z-50 max-h-96 overflow-y-auto">
+                <div className="p-4 border-b border-[#282828]">
+                  <h3 className="text-sm font-bold text-white">Friend Requests</h3>
+                </div>
+                {pendingRequests.length === 0 ? (
+                  <div className="p-4 text-center text-[#b3b3b3] text-sm">
+                    No pending requests
+                  </div>
+                ) : (
+                  <div className="divide-y divide-[#282828]">
+                    {pendingRequests.map((request) => (
+                      <div key={request.id} className="p-4 hover:bg-[#282828] transition-colors">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-10 h-10 rounded-full bg-[#282828] flex items-center justify-center">
+                            <User className="text-[#b3b3b3] w-5 h-5" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-white truncate">{request.name}</p>
+                            <p className="text-xs text-[#b3b3b3]">Level {request.level}</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={async () => {
+                              await acceptFriendRequest(request.id);
+                              setShowFriendRequests(false);
+                            }}
+                            className="flex-1 py-2 bg-[#1ed760] text-black text-xs font-bold rounded-lg hover:bg-[#1db954] transition-colors"
+                          >
+                            Accept
+                          </button>
+                          <button
+                            onClick={async () => {
+                              await declineFriendRequest(request.id);
+                              setShowFriendRequests(false);
+                            }}
+                            className="flex-1 py-2 bg-[#282828] text-white text-xs font-bold rounded-lg hover:bg-[#333] transition-colors"
+                          >
+                            Decline
+                          </button>
                         </div>
                       </div>
                     ))}
