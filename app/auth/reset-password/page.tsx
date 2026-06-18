@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "../../../lib/supabase";
 import { Lock, Eye, EyeOff, CheckCircle, XCircle } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
