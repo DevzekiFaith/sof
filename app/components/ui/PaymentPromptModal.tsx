@@ -20,8 +20,8 @@ export default function PaymentPromptModal({ isOpen, onClose, featureName, cours
       <div className="relative z-10 w-full max-w-md bg-[#181818] rounded-2xl p-8 shadow-2xl border border-[#282828]">
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-gradient-to-br from-[#1ed760]/30 to-[#1ed760]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-8 h-8 text-[#1ed760]" />
+          <div className="w-16 h-16 bg-gradient-to-br from-[#60a5fa]/30 to-[#60a5fa]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-8 h-8 text-[#60a5fa]" />
           </div>
           <h2 className="text-2xl font-bold text-white mb-2">Purchase Course</h2>
           <p className="text-sm text-[#b3b3b3]">
@@ -32,7 +32,7 @@ export default function PaymentPromptModal({ isOpen, onClose, featureName, cours
         {/* Features */}
         <div className="bg-[#282828] rounded-xl p-4 mb-6">
           <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#1ed760]" />
+            <Sparkles className="w-4 h-4 text-[#60a5fa]" />
             Course includes:
           </h3>
           <ul className="space-y-2">
@@ -44,7 +44,7 @@ export default function PaymentPromptModal({ isOpen, onClose, featureName, cours
               "Certificate of completion"
             ].map((feature, idx) => (
               <li key={idx} className="flex items-center gap-2 text-sm text-[#b3b3b3]">
-                <Check className="w-4 h-4 text-[#1ed760] flex-shrink-0" />
+                <Check className="w-4 h-4 text-[#60a5fa] flex-shrink-0" />
                 <span>{feature}</span>
               </li>
             ))}
@@ -55,14 +55,14 @@ export default function PaymentPromptModal({ isOpen, onClose, featureName, cours
         <div className="space-y-3">
           {courseId ? (
             <Link href={`/checkout?course=${courseId}`} className="block w-full" onClick={onClose}>
-              <button className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2">
+              <button className="w-full py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2">
                 <ShoppingBag className="w-5 h-5" />
                 Purchase Course
               </button>
             </Link>
           ) : (
             <Link href="/courses" className="block w-full" onClick={onClose}>
-              <button className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2">
+              <button className="w-full py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2">
                 <ShoppingBag className="w-5 h-5" />
                 Browse Courses
               </button>

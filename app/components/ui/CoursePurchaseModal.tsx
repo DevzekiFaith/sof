@@ -80,14 +80,14 @@ export default function CoursePurchaseModal({ course, isOpen, onClose }: CourseP
             </div>
             <div className="bg-[#121212] rounded-lg p-3 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
-                <Clock className="w-4 h-4 text-[#1ed760]" />
+                <Clock className="w-4 h-4 text-[#60a5fa]" />
                 <span className="text-white font-bold">{course.duration || "8h"}</span>
               </div>
               <p className="text-xs text-[#b3b3b3]">Duration</p>
             </div>
             <div className="bg-[#121212] rounded-lg p-3 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
-                <Award className="w-4 h-4 text-[#1ed760]" />
+                <Award className="w-4 h-4 text-[#60a5fa]" />
                 <span className="text-white font-bold">{course.level || "All"}</span>
               </div>
               <p className="text-xs text-[#b3b3b3]">Level</p>
@@ -97,11 +97,11 @@ export default function CoursePurchaseModal({ course, isOpen, onClose }: CourseP
           {/* What you'll learn */}
           {course.outcomes && course.outcomes.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-white font-bold mb-3">What you'll learn</h3>
+              <h3 className="text-white font-bold mb-3">What you&apos;ll learn</h3>
               <ul className="space-y-2">
                 {course.outcomes.slice(0, 4).map((outcome, index) => (
                   <li key={index} className="flex items-start gap-2 text-sm text-[#b3b3b3]">
-                    <Check className="w-4 h-4 text-[#1ed760] flex-shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-[#60a5fa] flex-shrink-0 mt-0.5" />
                     <span>{outcome}</span>
                   </li>
                 ))}
@@ -129,7 +129,7 @@ export default function CoursePurchaseModal({ course, isOpen, onClose }: CourseP
             <button
               onClick={handleAddToCart}
               disabled={isAdding}
-              className="w-full bg-[#1ed760] hover:bg-[#1db954] text-black font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#60a5fa] hover:bg-[#1db954] text-black font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isAdding ? (
                 <>

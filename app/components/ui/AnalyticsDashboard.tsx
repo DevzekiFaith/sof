@@ -66,7 +66,7 @@ export default function AnalyticsDashboard() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-[#1ed760]" />
+          <TrendingUp className="w-5 h-5 text-[#60a5fa]" />
           Your Progress
         </h3>
       </div>
@@ -91,7 +91,7 @@ export default function AnalyticsDashboard() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-[#282828] p-4 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <Clock className="w-4 h-4 text-[#1ed760]" />
+            <Clock className="w-4 h-4 text-[#60a5fa]" />
             <span className="text-xs text-[#b3b3b3]">Total Time</span>
           </div>
           <p className="text-xl font-bold text-white">{formatTime(totalLearningTime)}</p>
@@ -99,7 +99,7 @@ export default function AnalyticsDashboard() {
 
         <div className="bg-[#282828] p-4 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <BookOpen className="w-4 h-4 text-[#1ed760]" />
+            <BookOpen className="w-4 h-4 text-[#60a5fa]" />
             <span className="text-xs text-[#b3b3b3]">Courses</span>
           </div>
           <p className="text-xl font-bold text-white">{coursesCompleted}</p>
@@ -107,7 +107,7 @@ export default function AnalyticsDashboard() {
 
         <div className="bg-[#282828] p-4 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <Award className="w-4 h-4 text-[#1ed760]" />
+            <Award className="w-4 h-4 text-[#60a5fa]" />
             <span className="text-xs text-[#b3b3b3]">Level</span>
           </div>
           <p className="text-xl font-bold text-white">{userGamification.level}</p>
@@ -115,7 +115,7 @@ export default function AnalyticsDashboard() {
 
         <div className="bg-[#282828] p-4 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <Target className="w-4 h-4 text-[#1ed760]" />
+            <Target className="w-4 h-4 text-[#60a5fa]" />
             <span className="text-xs text-[#b3b3b3]">XP</span>
           </div>
           <p className="text-xl font-bold text-white">{userGamification.totalXP.toLocaleString()}</p>
@@ -125,7 +125,7 @@ export default function AnalyticsDashboard() {
       {/* Weekly Stats */}
       <div className="bg-[#282828] p-4 rounded-lg mb-6">
             <div className="flex items-center gap-2 mb-3">
-              <Calendar className="w-4 h-4 text-[#1ed760]" />
+              <Calendar className="w-4 h-4 text-[#60a5fa]" />
               <span className="text-sm font-bold text-white">This Week</span>
             </div>
             <div className="grid grid-cols-3 gap-4">
@@ -163,7 +163,7 @@ export default function AnalyticsDashboard() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-xs font-medium text-white">{skill.skillName}</span>
-                        <span className="text-xs text-[#1ed760]">+{Math.floor(skill.progress / 10)}%</span>
+                        <span className="text-xs text-[#60a5fa]">+{Math.floor(skill.progress / 10)}%</span>
                       </div>
                       <div className="w-full bg-[#181818] rounded-full h-1">
                         <div
@@ -186,12 +186,12 @@ export default function AnalyticsDashboard() {
             </div>
             <div className="grid grid-cols-13 gap-1">
               {Array.from({ length: 90 }).map((_, i) => {
-                const activityLevel = Math.random();
+                const activityLevel = ((i * 13) % 97) / 100;
                 let colorClass = 'bg-[#181818]';
-                if (activityLevel > 0.8) colorClass = 'bg-[#1ed760]';
-                else if (activityLevel > 0.6) colorClass = 'bg-[#1ed760]/60';
-                else if (activityLevel > 0.4) colorClass = 'bg-[#1ed760]/30';
-                else if (activityLevel > 0.2) colorClass = 'bg-[#1ed760]/10';
+                if (activityLevel > 0.8) colorClass = 'bg-[#60a5fa]';
+                else if (activityLevel > 0.6) colorClass = 'bg-[#60a5fa]/60';
+                else if (activityLevel > 0.4) colorClass = 'bg-[#60a5fa]/30';
+                else if (activityLevel > 0.2) colorClass = 'bg-[#60a5fa]/10';
                 
                 return (
                   <div
@@ -206,10 +206,10 @@ export default function AnalyticsDashboard() {
               <span>Less</span>
               <div className="flex gap-1">
                 <div className="w-3 h-3 rounded-sm bg-[#181818]" />
-                <div className="w-3 h-3 rounded-sm bg-[#1ed760]/10" />
-                <div className="w-3 h-3 rounded-sm bg-[#1ed760]/30" />
-                <div className="w-3 h-3 rounded-sm bg-[#1ed760]/60" />
-                <div className="w-3 h-3 rounded-sm bg-[#1ed760]" />
+                <div className="w-3 h-3 rounded-sm bg-[#60a5fa]/10" />
+                <div className="w-3 h-3 rounded-sm bg-[#60a5fa]/30" />
+                <div className="w-3 h-3 rounded-sm bg-[#60a5fa]/60" />
+                <div className="w-3 h-3 rounded-sm bg-[#60a5fa]" />
               </div>
               <span>More</span>
             </div>
@@ -227,8 +227,8 @@ export default function AnalyticsDashboard() {
                 return (
                   <div 
                     key={skill.skillName}
-                    className={`bg-[#282828] p-4 rounded-xl border border-transparent hover:border-[#1ed760]/20 transition-all group cursor-pointer ${
-                      selectedSkill === skill.skillName ? 'border-[#1ed760] shadow-lg shadow-[#1ed760]/10' : ''
+                    className={`bg-[#282828] p-4 rounded-xl border border-transparent hover:border-[#60a5fa]/20 transition-all group cursor-pointer ${
+                      selectedSkill === skill.skillName ? 'border-[#60a5fa] shadow-lg shadow-[#60a5fa]/10' : ''
                     }`}
                     onClick={() => setSelectedSkill(selectedSkill === skill.skillName ? null : skill.skillName)}
                   >
@@ -243,7 +243,7 @@ export default function AnalyticsDashboard() {
                     <h5 className="text-sm font-bold text-white mb-1">{skill.skillName}</h5>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-[#b3b3b3]">Level {skill.level}</span>
-                      <span className="text-xs text-[#1ed760] font-semibold">{skill.progress}%</span>
+                      <span className="text-xs text-[#60a5fa] font-semibold">{skill.progress}%</span>
                     </div>
                     <div className="mt-2 w-full bg-[#181818] rounded-full h-1.5">
                       <div
@@ -263,7 +263,7 @@ export default function AnalyticsDashboard() {
                         </div>
                         <div className="flex justify-between text-xs">
                           <span className="text-[#b3b3b3]">Quiz Score</span>
-                          <span className="text-[#1ed760] font-medium">{85 + Math.floor(Math.random() * 10)}%</span>
+                          <span className="text-[#60a5fa] font-medium">{85 + (skill.progress % 15)}%</span>
                         </div>
                       </div>
                     )}

@@ -57,13 +57,14 @@ export default function Statistics() {
       { threshold: 0.3 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const node = sectionRef.current;
+    if (node) {
+      observer.observe(node);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (node) {
+        observer.unobserve(node);
       }
     };
   }, [hasAnimated]);
@@ -79,10 +80,10 @@ export default function Statistics() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {countedStats.map((stat, index) => (
                 <AnimatedSection key={index} delay={index * 100}>
-                  <div className="text-center p-6 sm:p-8 bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-100 dark:border-gray-700 hover:border-[#1ed760] dark:hover:border-[#1ed760] hover:shadow-[0_8px_30px_rgba(30,215,96,0.15)] transition-all duration-300 transform hover:-translate-y-2 group relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#1ed760]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-2 relative z-10 group-hover:text-[#1ed760] transition-colors">
-                      {stat.number}<span className="text-[#1ed760]">{stat.suffix}</span>
+                  <div className="text-center p-6 sm:p-8 bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-100 dark:border-gray-700 hover:border-[#60a5fa] dark:hover:border-[#60a5fa] hover:shadow-[0_8px_30px_rgba(30,215,96,0.15)] transition-all duration-300 transform hover:-translate-y-2 group relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#60a5fa]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-2 relative z-10 group-hover:text-[#60a5fa] transition-colors">
+                      {stat.number}<span className="text-[#60a5fa]">{stat.suffix}</span>
                     </div>
                     <div className="text-base sm:text-lg text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider relative z-10">
                       {stat.label}

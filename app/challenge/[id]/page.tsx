@@ -211,6 +211,7 @@ export default function ChallengePage() {
   const selectedCourse = challengeCourses.find(c => c.id === params.id);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -223,7 +224,7 @@ export default function ChallengePage() {
         .select('challenge_id')
         .eq('user_id', currentUser.id);
       if (data) {
-        setEnrolledChallenges(data.map((e: any) => e.challenge_id));
+        setEnrolledChallenges(data.map((e: { challenge_id: string }) => e.challenge_id));
       }
     };
 
@@ -231,7 +232,7 @@ export default function ChallengePage() {
 
     const subscription = supabase
       .channel('challenge_enrollments_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload: any) => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload: { eventType: string; new: { challenge_id: string }; old: { challenge_id: string } }) => {
         if (payload.eventType === 'INSERT') {
           setEnrolledChallenges(prev => [...prev, payload.new.challenge_id]);
         } else if (payload.eventType === 'DELETE') {
@@ -247,7 +248,7 @@ export default function ChallengePage() {
 
   const isEnrolled = (courseId: string) => enrolledChallenges.includes(courseId);
 
-  const handleEnroll = async (course: any) => {
+  const handleEnroll = async (course: { id: string; title: string; priceUSD: number; description: string; }) => {
     if (!currentUser) {
       showToast("Please sign in to enroll in this challenge", "error");
       return;
@@ -292,7 +293,7 @@ export default function ChallengePage() {
       <div className="min-h-screen bg-[#121212] text-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Challenge not found</h1>
-          <button onClick={() => router.push('/')} className="text-[#1ed760] hover:underline">
+          <button onClick={() => router.push('/')} className="text-[#60a5fa] hover:underline">
             Go back home
           </button>
         </div>
@@ -314,7 +315,7 @@ export default function ChallengePage() {
         <div className="mb-6">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-12 flex items-center justify-center">
-              <selectedCourse.icon className="w-12 h-12 text-[#1ed760]" />
+              <selectedCourse.icon className="w-12 h-12 text-[#60a5fa]" />
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -344,16 +345,16 @@ export default function ChallengePage() {
         </div>
 
         <div className="space-y-3">
-          {selectedCourse.lessons.map((lesson: any, index: number) => (
+          {selectedCourse.lessons.map((lesson: { id: number; title: string; description: string; duration: string; type: string; objectives?: string[] }, index: number) => (
             <div
               key={lesson.id}
-              className={`p-4 bg-[#282828] rounded-lg border border-[#3a3a3a] hover:border-[#1ed760]/30 transition-all cursor-pointer ${
+              className={`p-4 bg-[#282828] rounded-lg border border-[#3a3a3a] hover:border-[#60a5fa]/30 transition-all cursor-pointer ${
                 isEnrolled(selectedCourse.id) ? '' : 'opacity-50'
               }`}
               onClick={() => isEnrolled(selectedCourse.id) && handleStartLesson(lesson.id)}
             >
               <div className="flex items-start gap-4">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
                   lesson.type === 'video' ? 'bg-blue-500/20' :
                   lesson.type === 'interactive' ? 'bg-green-500/20' :
                   lesson.type === 'quiz' ? 'bg-purple-500/20' : 'bg-orange-500/20'
@@ -389,7 +390,7 @@ export default function ChallengePage() {
                       <ul className="space-y-1">
                         {lesson.objectives.map((obj: string, i: number) => (
                           <li key={i} className="text-xs text-[#b3b3b3] flex items-start gap-2">
-                            <span className="text-[#1ed760]">•</span>
+                            <span className="text-[#60a5fa]">•</span>
                             {obj}
                           </li>
                         ))}
@@ -403,7 +404,7 @@ export default function ChallengePage() {
         </div>
 
         {!isEnrolled(selectedCourse.id) && (
-          <div className="mt-6 p-4 bg-gradient-to-r from-[#1ed760]/10 to-[#1ed760]/5 rounded-xl border border-[#1ed760]/20">
+          <div className="mt-6 p-4 bg-linear-to-r from-[#60a5fa]/10 to-[#60a5fa]/5 rounded-xl border border-[#60a5fa]/20">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-[#b3b3b3] mb-1">Course Price</p>
@@ -412,7 +413,7 @@ export default function ChallengePage() {
               </div>
               <button
                 onClick={() => handleEnroll(selectedCourse)}
-                className="px-6 py-3 bg-[#1ed760] text-black rounded-full font-bold hover:scale-105 transition-all"
+                className="px-6 py-3 bg-[#60a5fa] text-black rounded-full font-bold hover:scale-105 transition-all"
               >
                 Enroll Now
               </button>

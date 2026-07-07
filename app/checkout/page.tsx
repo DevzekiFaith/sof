@@ -164,49 +164,49 @@ function CheckoutContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#121212] flex flex-col font-sans text-white selection:bg-[#1ed760]/30 selection:text-white">
+    <div className="min-h-screen bg-[#0f1724] flex flex-col font-sans text-white selection:bg-[#60a5fa]/30 selection:text-white">
       {/* Simple Header */}
-      <header className="h-16 flex-shrink-0 bg-[#000000] flex items-center justify-between px-4 sm:px-6 z-30 border-b border-[#282828]">
+      <div className="h-16 shrink-0 bg-[#0b1220] flex items-center justify-between px-4 sm:px-6 z-30 border-b border-white/5">
         <div className="flex items-center gap-4">
           <button 
             onClick={() => router.back()}
-            className="hover:bg-[#282828] transition-colors flex items-center gap-2 px-3 py-1.5 rounded-full text-[#b3b3b3] hover:text-white group"
+            className="hover:bg-[#0f1724] transition-colors flex items-center gap-2 px-3 py-1.5 rounded-full text-[#9aa4b2] hover:text-white group"
           >
             <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             <span className="text-sm font-bold">Back</span>
           </button>
-          <div className="h-6 w-[1px] bg-[#282828]"></div>
+          <div className="h-6 w-px bg-[#282828]"></div>
           <div className="font-bold text-lg text-white">Secure Checkout</div>
         </div>
         <Link href="/" className="text-xs font-black text-[#b3b3b3] hover:text-white uppercase tracking-tighter">
           Origin
         </Link>
-      </header>
+      </div>
 
-      <main className="flex-grow container mx-auto px-4 py-10 sm:py-16 max-w-4xl relative">
+      <main className="grow container mx-auto px-4 py-10 sm:py-16 max-w-4xl relative">
         <div className="relative z-10 flex flex-col md:flex-row gap-8 sm:gap-12">
 
           {/* ── Order Summary ── */}
           <div className="w-full md:w-1/3 order-2 md:order-1">
             <h2 className="text-2xl font-bold text-white mb-6">Order Summary</h2>
-            <div className={`rounded-xl p-6 sm:p-8 shadow-xl bg-[#181818] border border-[#282828] text-white relative`}>
+            <div className={`rounded-xl p-6 sm:p-8 shadow-xl bg-[#0b1220] border border-white/5 text-white relative`}>
               {cart.length > 0 ? (
                 <div className="mb-5 space-y-3">
                   {cart.map((item) => (
                     <div key={item.id} className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          {item.isGift && <Gift className="w-4 h-4 text-[#1ed760]" />}
+                          {item.isGift && <Gift className="w-4 h-4 text-[#60a5fa]" />}
                           <h3 className="text-sm font-bold">{item.title}</h3>
                         </div>
                         {item.isGift && (
-                          <p className="text-xs text-[#b3b3b3] mb-1">
+                          <p className="text-xs text-[#9aa4b2] mb-1">
                             Gift to: {item.recipientEmail}
                           </p>
                         )}
-                        <p className={`text-xs text-[#b3b3b3] line-clamp-1`}>{item.description}</p>
+                        <p className={`text-xs text-[#9aa4b2] line-clamp-1`}>{item.description}</p>
                       </div>
                       <span className="text-sm font-bold text-[#D4AF37]">${item.priceUSD}</span>
                     </div>
@@ -227,8 +227,8 @@ function CheckoutContent() {
                     onClick={() => setCurrency(cur)}
                     className={`flex-1 py-2 rounded-full text-sm font-bold transition-all ${
                       currency === cur
-                        ? "bg-[#1ed760] text-black"
-                        : "bg-[#282828] text-[#b3b3b3] hover:bg-[#333]"
+                        ? "bg-[#60a5fa] text-black"
+                        : "bg-[#0f1724] text-[#9aa4b2] hover:bg-[#0e1624]"
                     }`}
                   >
                     {cur === "USD" ? "$ USD" : "₦ NGN"}
@@ -243,7 +243,7 @@ function CheckoutContent() {
 
               <div className="flex justify-between items-center mb-1">
                 <span className="font-bold">Due Today</span>
-                <span className="font-black text-2xl text-[#1ed760]">{displayPrice}</span>
+                <span className="font-black text-2xl text-[#60a5fa]">{displayPrice}</span>
               </div>
               <p className={`text-xs text-right text-[#a7a7a7]`}>
                 Lifetime access to this course.
@@ -251,10 +251,10 @@ function CheckoutContent() {
             </div>
 
             {/* Payment methods note */}
-            <div className="mt-4 p-4 bg-[#181818] rounded-xl border border-[#282828] shadow-sm">
-              <p className="text-xs font-bold text-[#b3b3b3] uppercase tracking-wider mb-2">Accepted Payments</p>
+            <div className="mt-4 p-4 bg-[#0b1220] rounded-xl border border-white/5 shadow-sm">
+              <p className="text-xs font-bold text-[#9aa4b2] uppercase tracking-wider mb-2">Accepted Payments</p>
               <div className="flex flex-wrap gap-2 text-xs text-[#a7a7a7]">
-                <span className="px-2 py-1 bg-[#282828] rounded-md flex items-center gap-1">
+                <span className="px-2 py-1 bg-[#0f1724] rounded-md flex items-center gap-1">
                   <CreditCard size={12} /> Card
                 </span>
                 {currency === "NGN" && (
@@ -265,7 +265,7 @@ function CheckoutContent() {
                   </>
                 )}
               </div>
-              <p className="text-xs text-[#535353] mt-2">Secured by Flutterwave</p>
+              <p className="text-xs text-[#6b7280] mt-2">Secured by Flutterwave</p>
             </div>
           </div>
 
@@ -275,18 +275,18 @@ function CheckoutContent() {
 
             {/* Auth block */}
             {currentUser ? (
-              <div className="bg-[#181818] rounded-xl p-6 sm:p-8 shadow-md border border-[#282828] mb-6">
+              <div className="bg-[#0b1220] rounded-xl p-6 sm:p-8 shadow-md border border-white/5 mb-6">
                 <h2 className="text-xl font-bold text-white mb-2">Account</h2>
-                <p className="text-[#b3b3b3] mb-3">
+                <p className="text-[#9aa4b2] mb-3">
                   Signed in as <span className="font-bold text-white">{currentUser.name}</span>
                   <span className="text-[#a7a7a7]"> ({currentUser.email})</span>
                 </p>
-                <button onClick={logout} className="text-sm text-[#1ed760] hover:text-white underline">
+                <button onClick={logout} className="text-sm text-[#60a5fa] hover:text-white underline">
                   Not you? Sign out
                 </button>
               </div>
             ) : (
-              <div className="bg-[#181818] rounded-xl p-6 sm:p-8 shadow-md border border-[#282828] mb-6">
+              <div className="bg-[#0b1220] rounded-xl p-6 sm:p-8 shadow-md border border-white/5 mb-6">
                 <h2 className="text-xl font-bold text-white mb-4">
                   {isSignUp ? "Create an Account" : "Sign In to Continue"}
                 </h2>
@@ -304,7 +304,7 @@ function CheckoutContent() {
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#121212] rounded-md border border-[#282828] focus:border-[#1ed760] outline-none transition-all text-white"
+                        className="w-full px-4 py-3 bg-[#0f1724] rounded-md border border-white/5 focus:border-[#60a5fa] outline-none transition-all text-white"
                       />
                     </div>
                   )}
@@ -315,7 +315,7 @@ function CheckoutContent() {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#121212] rounded-md border border-[#282828] focus:border-[#1ed760] outline-none transition-all text-white"
+                      className="w-full px-4 py-3 bg-[#0f1724] rounded-md border border-white/5 focus:border-[#60a5fa] outline-none transition-all text-white"
                     />
                   </div>
                   <div>
@@ -326,7 +326,7 @@ function CheckoutContent() {
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       placeholder={isSignUp ? "Min. 6 characters" : "Enter your password"}
-                      className="w-full px-4 py-3 bg-[#121212] rounded-md border border-[#282828] focus:border-[#1ed760] outline-none transition-all text-white"
+                        className="w-full px-4 py-3 bg-[#0f1724] rounded-md border border-white/5 focus:border-[#60a5fa] outline-none transition-all text-white"
                     />
                   </div>
                   <button
@@ -352,7 +352,7 @@ function CheckoutContent() {
             <button
               disabled={!currentUser}
               onClick={handlePay}
-              className="w-full py-4 px-6 bg-[#1ed760] hover:scale-[1.02] text-black font-bold text-lg rounded-full shadow-lg shadow-[#1ed760]/20 transition-transform flex justify-center items-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 px-6 bg-[#60a5fa] hover:scale-[1.02] text-black font-bold text-lg rounded-full shadow-lg shadow-[#60a5fa]/15 transition-transform flex justify-center items-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {`Pay ${displayPrice} via Flutterwave`}
               <span className="transform group-hover:translate-x-1 transition-transform">→</span>
@@ -372,7 +372,7 @@ function CheckoutContent() {
             </p>
 
             <div className="mt-6 text-center">
-              <Link href="/#courses" className="text-sm text-[#b3b3b3] hover:text-white transition-colors">
+              <Link href="/#courses" className="text-sm text-[#9aa4b2] hover:text-white transition-colors">
                 ← View all plans
               </Link>
             </div>
@@ -387,7 +387,7 @@ export default function CheckoutPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-[#121212] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1ed760]" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#60a5fa]" />
       </div>
     }>
       <CheckoutContent />

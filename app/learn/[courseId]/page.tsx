@@ -99,6 +99,14 @@ export default function CoursePlayerPage() {
   // Non-hook calls after all hooks
   const course = getCourseById(courseId);
 
+  // Paywall: redirect if user doesn't have access
+  const unlocked = currentUser ? hasCourseAccess(courseId) : false;
+  useEffect(() => {
+    if (!unlocked && !isLoading) {
+      router.push(`/courses/${courseId}`);
+    }
+  }, [unlocked, isLoading, courseId, router]);
+
   const modules = course?.modules ?? [];
   const totalModules = modules.length;
   const detailedModules = course?.detailedModules ?? [];
@@ -139,7 +147,7 @@ export default function CoursePlayerPage() {
       particleCount: 50,
       spread: 60,
       origin: { y: 0.8 },
-      colors: ['#1ed760', '#1db954', '#1fdf64']
+      colors: ['#60a5fa', '#1db954', '#1fdf64']
     });
 
     setTimeout(() => setJustCompleted(false), 1800);
@@ -258,7 +266,7 @@ export default function CoursePlayerPage() {
                 <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#181818] to-black z-10">
                   <button
                     onClick={() => setVideoStarted(true)}
-                    className="w-20 h-20 bg-[#1ed760] rounded-full flex items-center justify-center text-black pl-2 hover:scale-110 transition-all shadow-[0_0_40px_rgba(30,215,96,0.4)] animate-pulse-slow"
+                    className="w-20 h-20 bg-[#60a5fa] rounded-full flex items-center justify-center text-black pl-2 hover:scale-110 transition-all shadow-[0_0_40px_rgba(30,215,96,0.4)] animate-pulse-slow"
                   >
                     <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M4 4l12 6-12 6z" />
@@ -282,8 +290,8 @@ export default function CoursePlayerPage() {
             <div className="mb-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
               {currentModuleData.topics.map((topic: string, i: number) => (
                 <div key={i} className="flex items-center gap-4 bg-[#181818] p-4 rounded-xl border border-[#282828] hover:bg-[#282828] transition-all group">
-                  <div className="w-10 h-10 rounded-full bg-[#1ed760]/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <Check size={18} className="text-[#1ed760]" />
+                  <div className="w-10 h-10 rounded-full bg-[#60a5fa]/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Check size={18} className="text-[#60a5fa]" />
                   </div>
                   <span className="text-sm font-bold text-white leading-tight">{topic}</span>
                 </div>
@@ -303,7 +311,7 @@ export default function CoursePlayerPage() {
               <ul className="space-y-2">
                 {currentModuleData.objectives.map((obj: string, i: number) => (
                   <li key={i} className="flex items-start gap-2 text-[#b3b3b3]">
-                    <span className="text-[#1ed760] mt-0.5">→</span>
+                    <span className="text-[#60a5fa] mt-0.5">→</span>
                     <span>{obj}</span>
                   </li>
                 ))}
@@ -317,7 +325,7 @@ export default function CoursePlayerPage() {
 
           {currentModuleData.estimatedTime && (
             <p className="mt-6 text-sm text-[#a7a7a7] font-medium flex items-center gap-1.5">
-              <Clock size={14} className="text-[#1ed760]" />
+              <Clock size={14} className="text-[#60a5fa]" />
               Estimated time: {currentModuleData.estimatedTime}
             </p>
           )}
@@ -346,11 +354,11 @@ export default function CoursePlayerPage() {
                     key={i}
                     onClick={() => toggleActivity(i)}
                     className={`flex items-start gap-4 p-5 rounded-xl border transition-all cursor-pointer select-none ${isChecked
-                      ? 'bg-[#1ed760]/10 border-[#1ed760]'
+                      ? 'bg-[#60a5fa]/10 border-[#60a5fa]'
                       : 'bg-[#181818] border-[#282828] hover:bg-[#282828]'
                       }`}
                   >
-                    <div className={`w-6 h-6 mt-0.5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${isChecked ? 'bg-[#1ed760] border-[#1ed760] text-black' : 'border-[#b3b3b3]'
+                    <div className={`w-6 h-6 mt-0.5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${isChecked ? 'bg-[#60a5fa] border-[#60a5fa] text-black' : 'border-[#b3b3b3]'
                       }`}>
                       {isChecked && <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                     </div>
@@ -398,11 +406,11 @@ export default function CoursePlayerPage() {
               onChange={(e) => setNoteText(e.target.value)}
               placeholder="Start typing your thoughts here... This is for you only."
               rows={6}
-              className="w-full px-4 py-4 bg-[#181818] border border-[#282828] rounded-xl focus:border-[#1ed760] outline-none transition-all text-white resize-none text-lg leading-relaxed shadow-inner"
+              className="w-full px-4 py-4 bg-[#181818] border border-[#282828] rounded-xl focus:border-[#60a5fa] outline-none transition-all text-white resize-none text-lg leading-relaxed shadow-inner"
             />
           </div>
-          <div className="bg-[#1ed760]/10 rounded-xl p-5 border border-[#1ed760]/20">
-            <p className="text-sm font-semibold text-[#b3b3b3]">The Jesuit method asks: <em className="text-[#1ed760]">"What moved you? What challenged you? What will you do about it?"</em></p>
+          <div className="bg-[#60a5fa]/10 rounded-xl p-5 border border-[#60a5fa]/20">
+            <p className="text-sm font-semibold text-[#b3b3b3]">The Jesuit method asks: <em className="text-[#60a5fa]">"What moved you? What challenged you? What will you do about it?"</em></p>
           </div>
         </div>
       );
@@ -418,10 +426,10 @@ export default function CoursePlayerPage() {
             </p>
           </div>
 
-          <div className="bg-[#181818] border border-[#1ed760] rounded-xl p-6 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 h-full bg-[#1ed760]" />
+          <div className="bg-[#181818] border border-[#60a5fa] rounded-xl p-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-1 h-full bg-[#60a5fa]" />
             <h4 className="font-bold text-white mb-3 text-lg flex items-center gap-2">
-              <Target size={20} className="text-[#1ed760]" /> This week&apos;s challenge:
+              <Target size={20} className="text-[#60a5fa]" /> This week&apos;s challenge:
             </h4>
             <p className="text-[#b3b3b3] leading-relaxed text-lg pl-1">
               Pick one concept from <strong className="text-white">{modules[activeModuleIndex]}</strong> and deliberately apply it in a real situation —
@@ -439,7 +447,7 @@ export default function CoursePlayerPage() {
                 "I have committed to an Application plan"
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm text-white bg-[#282828] p-3 rounded-md border border-[#282828]">
-                  <div className="w-5 h-5 rounded-full bg-[#1ed760] text-black flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-[#60a5fa] text-black flex items-center justify-center flex-shrink-0">
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                   </div>
                   <span className="font-medium">{item}</span>
@@ -462,7 +470,7 @@ export default function CoursePlayerPage() {
       {isLoading && (
         <div className="min-h-screen bg-[#121212] flex items-center justify-center">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-[#1ed760] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-12 h-12 border-4 border-[#60a5fa] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-[#b3b3b3]">Loading course...</p>
           </div>
         </div>
@@ -473,13 +481,13 @@ export default function CoursePlayerPage() {
         <div className="min-h-screen bg-[#121212] text-white flex items-center justify-center p-6">
           <div className="max-w-lg text-center">
             <div className="flex justify-center mb-6">
-              <GraduationCap size={100} className="text-[#1ed760]" />
+              <GraduationCap size={100} className="text-[#60a5fa]" />
             </div>
             <h1 className="text-4xl font-extrabold mb-4">Formation Complete!</h1>
             <p className="text-xl text-[#b3b3b3] mb-2">You&apos;ve finished <strong>{course?.title}</strong>.</p>
             <p className="text-[#535353] mb-10">The work doesn&apos;t stop here.</p>
             <Link href="/">
-              <button className="px-8 py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform">
+              <button className="px-8 py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform">
                 Explore More Courses →
               </button>
             </Link>
@@ -491,7 +499,7 @@ export default function CoursePlayerPage() {
       {!isLoading && !courseComplete && (
         <>
           {/* ── Top Bar ──────────────────────────────────────────────────────── */}
-          <header className="h-16 flex-shrink-0 bg-[#000000] flex items-center justify-between px-4 sm:px-6 z-30 border-b border-[#282828]">
+          <div className="h-16 flex-shrink-0 bg-[#000000] flex items-center justify-between px-4 sm:px-6 z-30 border-b border-[#282828]">
             <Link
               href="/"
               onClick={(e) => handleExitAttempt(e, "/")}
@@ -504,7 +512,7 @@ export default function CoursePlayerPage() {
               <div className="flex items-center justify-center gap-3 mt-1.5">
                 <div className="w-48 h-1.5 bg-[#282828] rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#1ed760] rounded-full transition-all duration-500"
+                    className="h-full bg-[#60a5fa] rounded-full transition-all duration-500"
                     style={{ width: `${progressPct}%` }}
                   />
                 </div>
@@ -514,14 +522,14 @@ export default function CoursePlayerPage() {
             <div className="flex items-center gap-4">
               {currentUser?.stats && (
                 <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-[#282828] rounded-full">
-                  <span className="text-sm font-black text-[#1ed760]">{currentUser.stats.xp} XP</span>
+                  <span className="text-sm font-black text-[#60a5fa]">{currentUser.stats.xp} XP</span>
                   <span className="text-sm text-white flex items-center gap-1">
                     <Flame size={14} className="text-orange-500" /> {currentUser.stats.streakDays}
                   </span>
                 </div>
               )}
             </div>
-          </header>
+          </div>
 
           {/* ── Main 3-Panel Area ─────────────────────────────────────────────── */}
           <div className="flex flex-1 overflow-hidden">
@@ -547,7 +555,7 @@ export default function CoursePlayerPage() {
                           : "hover:bg-[#1a1a1a] text-[#b3b3b3]"
                         }`}
                     >
-                      <span className={`w-7 h-7 flex-shrink-0 rounded flex items-center justify-center text-xs font-bold mt-0.5 ${status === "complete" ? "bg-[#1ed760]/20 text-[#1ed760]" :
+                      <span className={`w-7 h-7 flex-shrink-0 rounded flex items-center justify-center text-xs font-bold mt-0.5 ${status === "complete" ? "bg-[#60a5fa]/20 text-[#60a5fa]" :
                         status === "in-progress" ? "bg-blue-500/20 text-blue-400" :
                           status === "unlocked" ? "bg-white/10 text-white" :
                             "bg-white/5 text-gray-500"
@@ -555,12 +563,12 @@ export default function CoursePlayerPage() {
                         {status === "complete" ? <Check size={14} /> : status === "locked" ? <Lock size={14} /> : mi + 1}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-bold leading-tight truncate ${isActive ? "text-[#1ed760]" : ""}`}>{mod}</p>
+                        <p className={`text-sm font-bold leading-tight truncate ${isActive ? "text-[#60a5fa]" : ""}`}>{mod}</p>
                         {isActive && (
                           <div className="flex gap-1 mt-1.5 flex-wrap">
                             {STAGES.map((s) => (
                               <span key={s.key} className={`text-xs px-1.5 py-0.5 rounded font-medium ${isStageComplete(courseId, mi, s.key)
-                                ? "bg-[#1ed760]/20 text-[#1ed760]"
+                                ? "bg-[#60a5fa]/20 text-[#60a5fa]"
                                 : "bg-white/10 text-gray-400"
                                 }`}>
                                 <s.icon size={12} />
@@ -590,9 +598,9 @@ export default function CoursePlayerPage() {
                         disabled={!unlocked}
                         onClick={() => unlocked && setActiveStage(stage.key)}
                         className={`flex items-center gap-2 px-4 py-3 rounded-t-md text-sm font-bold transition-all duration-200 whitespace-nowrap flex-shrink-0 border-b-2 ${active
-                          ? "bg-[#282828] border-[#1ed760] text-white"
+                          ? "bg-[#282828] border-[#60a5fa] text-white"
                           : done
-                            ? "border-[#1ed760]/50 text-[#1ed760] hover:bg-white/5"
+                            ? "border-[#60a5fa]/50 text-[#60a5fa] hover:bg-white/5"
                             : unlocked
                               ? "border-transparent text-[#b3b3b3] hover:text-white hover:bg-white/5"
                               : "border-transparent text-[#a7a7a7] cursor-not-allowed opacity-50"
@@ -624,13 +632,13 @@ export default function CoursePlayerPage() {
                   {/* Auth gate */}
                   {!currentUser && (
                     <div className="mb-6 p-5 bg-[#181818] border border-[#282828] rounded-xl flex items-center gap-4">
-                      <Lock size={24} className="text-[#1ed760]" />
+                      <Lock size={24} className="text-[#60a5fa]" />
                       <div>
                         <p className="font-bold text-white">Sign in to track your progress</p>
                         <p className="text-sm text-[#b3b3b3]">Your stage completions are saved per account.</p>
                       </div>
                       <Link href="/checkout?plan=pro" className="ml-auto flex-shrink-0">
-                        <button className="px-4 py-2 bg-[#1ed760] text-black font-bold rounded-full text-sm hover:scale-105 transition-transform">
+                        <button className="px-4 py-2 bg-[#60a5fa] text-black font-bold rounded-full text-sm hover:scale-105 transition-transform">
                           Get Access
                         </button>
                       </Link>
@@ -656,7 +664,7 @@ export default function CoursePlayerPage() {
                           onClick={handleMarkComplete}
                           className={`px-8 py-3.5 font-bold rounded-full transition-all duration-200 uppercase tracking-wide ${justCompleted
                             ? "bg-transparent border-2 border-white text-white"
-                            : "bg-[#1ed760] text-black hover:scale-105"
+                            : "bg-[#60a5fa] text-black hover:scale-105"
                             }`}
                         >
                           {justCompleted ? "✓ Marked Complete" : `Complete ${STAGES.find(s => s.key === activeStage)?.label}`}
@@ -684,7 +692,7 @@ export default function CoursePlayerPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <div className="flex-1 h-1.5 bg-[#282828] rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-[#1ed760] rounded-full transition-all duration-500"
+                      className="h-full bg-[#60a5fa] rounded-full transition-all duration-500"
                       style={{ width: `${progressPct}%` }}
                     />
                   </div>
@@ -699,7 +707,7 @@ export default function CoursePlayerPage() {
                   value={noteText}
                   onChange={(e) => setNoteText(e.target.value)}
                   placeholder="Jot down thoughts as you go..."
-                  className="flex-1 w-full px-3 py-2 text-sm bg-[#181818] border border-[#282828] rounded-md resize-none focus:border-[#1ed760] outline-none transition-colors text-white placeholder-gray-500"
+                  className="flex-1 w-full px-3 py-2 text-sm bg-[#181818] border border-[#282828] rounded-md resize-none focus:border-[#60a5fa] outline-none transition-colors text-white placeholder-gray-500"
                 />
               </div>
             </aside>
@@ -722,7 +730,7 @@ export default function CoursePlayerPage() {
               <span>Module {activeModuleIndex + 1} / {totalModules}</span>
             </button>
             {currentModuleAllDone && activeModuleIndex < totalModules - 1 ? (
-              <button onClick={handleNextModule} className="p-2 text-[#1ed760] font-bold text-sm">
+              <button onClick={handleNextModule} className="p-2 text-[#60a5fa] font-bold text-sm">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </button>
             ) : (
@@ -760,14 +768,14 @@ export default function CoursePlayerPage() {
                             "border-transparent hover:bg-[#1a1a1a] text-[#b3b3b3]"
                           }`}
                       >
-                        <span className={`w-8 h-8 flex-shrink-0 rounded flex items-center justify-center text-sm font-bold ${status === "complete" ? "bg-[#1ed760]/20 text-[#1ed760]" :
+                        <span className={`w-8 h-8 flex-shrink-0 rounded flex items-center justify-center text-sm font-bold ${status === "complete" ? "bg-[#60a5fa]/20 text-[#60a5fa]" :
                           status === "in-progress" ? "bg-blue-500/20 text-blue-400" :
                             "bg-white/5 text-gray-500"
                           }`}>
                           {status === "complete" ? "✓" : status === "locked" ? "🔒" : mi + 1}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <p className={`text-sm font-bold leading-tight ${isActive ? "text-[#1ed760]" : ""}`}>{mod}</p>
+                          <p className={`text-sm font-bold leading-tight ${isActive ? "text-[#60a5fa]" : ""}`}>{mod}</p>
                         </div>
                         <div className="flex gap-1">
                           {STAGES.map(s => (
@@ -788,8 +796,8 @@ export default function CoursePlayerPage() {
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
               <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setShowExitConfirm(false)} />
               <div className="bg-[#181818] border border-[#282828] rounded-2xl p-8 max-w-md w-full relative z-10 shadow-2xl animate-fade-in text-center">
-                <div className="w-20 h-20 bg-[#1ed760]/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Zap size={40} className="text-[#1ed760]" />
+                <div className="w-20 h-20 bg-[#60a5fa]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Zap size={40} className="text-[#60a5fa]" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Unfinished Business!</h3>
                 <p className="text-[#b3b3b3] mb-8 leading-relaxed">
@@ -799,7 +807,7 @@ export default function CoursePlayerPage() {
                 <div className="flex flex-col gap-3">
                   <button
                     onClick={() => setShowExitConfirm(false)}
-                    className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform"
+                    className="w-full py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform"
                   >
                     Keep Learning
                   </button>

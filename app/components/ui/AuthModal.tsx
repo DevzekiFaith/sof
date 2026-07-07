@@ -90,7 +90,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
   return (
     <div className="bg-[#181818] rounded-2xl p-8 shadow-2xl border border-white/5 animate-fade-in relative overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#1ed760]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#60a5fa]/10 rounded-full blur-3xl pointer-events-none" />
       
       <button 
         onClick={onClose}
@@ -100,8 +100,8 @@ export default function AuthModal({ onClose }: AuthModalProps) {
       </button>
 
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-[#1ed760]/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-[#1ed760]/20">
-          <User className="text-[#1ed760]" size={32} />
+        <div className="w-16 h-16 bg-[#60a5fa]/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-[#60a5fa]/20">
+          <User className="text-[#60a5fa]" size={32} />
         </div>
         <h2 className="text-3xl font-black text-white tracking-tighter mb-2">
           {isResetPassword ? "Reset Password" : (isSignUp ? "Join Origin" : "Welcome Back")}
@@ -127,7 +127,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
       )}
 
       {success && (
-        <div className="mb-6 p-4 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-xl text-[#1ed760] text-sm text-center">
+        <div className="mb-6 p-4 bg-[#60a5fa]/10 border border-[#60a5fa]/20 rounded-xl text-[#60a5fa] text-sm text-center">
           {success}
         </div>
       )}
@@ -136,12 +136,12 @@ export default function AuthModal({ onClose }: AuthModalProps) {
       {isResetPassword ? (
         <form onSubmit={handleResetPassword} className="space-y-4">
           <div className="relative group">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#60a5fa] transition-colors" size={18} />
             <input
               type="email"
               required
               placeholder="Email Address"
-              className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
+              className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#60a5fa]/50 rounded-xl outline-none text-white transition-all"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
@@ -150,7 +150,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-all flex items-center justify-center gap-2 mt-6 disabled:opacity-50 disabled:scale-100"
+            className="w-full py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-all flex items-center justify-center gap-2 mt-6 disabled:opacity-50 disabled:scale-100"
           >
             {isLoading ? "Sending..." : "Send Reset Email"}
             {!isLoading && <ArrowRight size={18} />}
@@ -160,35 +160,35 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {isSignUp && (
             <div className="relative group">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#60a5fa] transition-colors" size={18} />
               <input
                 type="text"
                 required
                 placeholder="Full Name"
-                className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
+                className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#60a5fa]/50 rounded-xl outline-none text-white transition-all"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
           )}
           <div className="relative group">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#60a5fa] transition-colors" size={18} />
             <input
               type="email"
               required
               placeholder="Email Address"
-              className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
+              className="w-full pl-12 pr-4 py-4 bg-[#282828] border border-transparent focus:border-[#60a5fa]/50 rounded-xl outline-none text-white transition-all"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
           <div className="relative group">
-            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#1ed760] transition-colors" size={18} />
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#60a5fa] transition-colors" size={18} />
             <input
               type={showPassword ? "text" : "password"}
               required
               placeholder="Password"
-              className="w-full pl-12 pr-12 py-4 bg-[#282828] border border-transparent focus:border-[#1ed760]/50 rounded-xl outline-none text-white transition-all"
+              className="w-full pl-12 pr-12 py-4 bg-[#282828] border border-transparent focus:border-[#60a5fa]/50 rounded-xl outline-none text-white transition-all"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
@@ -209,7 +209,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
                 setIsEmailNotConfirmed(false);
                 setError("");
               }}
-              className="text-sm text-[#1ed760] hover:underline"
+              className="text-sm text-[#60a5fa] hover:underline"
             >
               Forgot password?
             </button>
@@ -218,7 +218,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-all flex items-center justify-center gap-2 mt-6 disabled:opacity-50 disabled:scale-100"
+            className="w-full py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-all flex items-center justify-center gap-2 mt-6 disabled:opacity-50 disabled:scale-100"
           >
             {isLoading ? "Processing..." : (isSignUp ? "Create Account" : "Sign In")}
             {!isLoading && <ArrowRight size={18} />}

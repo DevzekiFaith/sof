@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Session, User as SupabaseUser } from '@supabase/supabase-js';
+import { Session, AuthChangeEvent } from '@supabase/supabase-js';
 
 export interface User {
   id: string;
@@ -85,7 +85,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }: any) => {
+    supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
       setSession(session);
       if (session?.user) {
         loadUserProfile(session.user.id);
@@ -97,7 +97,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
+    } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
       setSession(session);
       if (session?.user) {
         loadUserProfile(session.user.id);
@@ -154,7 +154,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Login error:', error.message);
       throw new Error(error.message);
     }
 
@@ -168,7 +167,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Resend confirmation error:', error.message);
       return false;
     }
 
@@ -181,7 +179,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Reset password error:', error.message);
       return false;
     }
 
@@ -216,7 +213,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     if (error) {
-      console.error('Registration error:', error.message);
       throw new Error(`Registration failed: ${error.message}`);
     }
 
@@ -232,7 +228,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         });
 
       if (profileError) {
-        console.error('Profile creation failed:', profileError);
+        // Profile creation failed
       }
 
       // Create gamification stats
@@ -247,7 +243,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         });
 
       if (gamificationError) {
-        console.error('Gamification stats creation failed:', gamificationError);
+        // Gamification stats creation failed
       }
     }
 

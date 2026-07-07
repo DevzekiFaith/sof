@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "../contexts/UserContext";
-import Link from "next/link";
 
 
 export default function ProfilePage() {
@@ -19,7 +18,7 @@ export default function ProfilePage() {
   if (!currentUser) {
     return (
       <div className="min-h-screen bg-[#121212] flex items-center justify-center text-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1ed760] mb-4"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#60a5fa] mb-4"></div>
       </div>
     );
   }
@@ -31,7 +30,7 @@ export default function ProfilePage() {
       {/* ARTIST HEADER - like Spotify */}
       <div className="relative pt-32 pb-10 px-6 sm:px-10 bg-gradient-to-b from-gray-700 to-[#121212]">
         <div className="flex flex-col md:flex-row items-end gap-6 max-w-7xl mx-auto relative z-10">
-          <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-gradient-to-br from-gray-800 to-[#1ed760]/30 shadow-2xl flex items-center justify-center text-7xl flex-shrink-0 border-4 border-[#282828] overflow-hidden">
+          <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-gradient-to-br from-gray-800 to-[#60a5fa]/30 shadow-2xl flex items-center justify-center text-7xl flex-shrink-0 border-4 border-[#282828] overflow-hidden">
             {currentUser.name.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 pb-2">
@@ -54,7 +53,7 @@ export default function ProfilePage() {
 
       {/* Action Buttons */}
       <div className="px-6 sm:px-10 py-6 max-w-7xl mx-auto flex items-center gap-6">
-        <button className="w-14 h-14 rounded-full bg-[#1ed760] flex items-center justify-center text-black hover:scale-105 transition-transform shadow-lg">
+        <button className="w-14 h-14 rounded-full bg-[#60a5fa] flex items-center justify-center text-black hover:scale-105 transition-transform shadow-lg">
           <svg className="w-7 h-7 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4l12 6-12 6z" /></svg>
         </button>
         <button onClick={logout} className="px-4 py-2 rounded-full border border-gray-500 text-sm font-bold hover:border-white transition-colors">

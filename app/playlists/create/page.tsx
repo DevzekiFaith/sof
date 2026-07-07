@@ -36,7 +36,7 @@ export default function CreatePlaylistPage() {
         <div className="mb-8">
           <Link
             href="/playlists"
-            className="inline-flex items-center gap-2 text-sm text-[#1ed760] hover:underline mb-6"
+            className="inline-flex items-center gap-2 text-sm text-[#60a5fa] hover:underline mb-6"
           >
             <ArrowLeft size={16} /> Back to Playlists
           </Link>
@@ -49,7 +49,7 @@ export default function CreatePlaylistPage() {
         <div className="bg-[#181818] rounded-xl border border-[#282828] p-6 space-y-6">
           {/* Playlist Icon */}
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#1ed760] to-[#1db954] rounded-lg flex items-center justify-center">
+            <div className="w-20 h-20 bg-gradient-to-br from-[#60a5fa] to-[#1db954] rounded-lg flex items-center justify-center">
               <Music className="text-black w-10 h-10" />
             </div>
             <div className="flex-1">
@@ -58,7 +58,7 @@ export default function CreatePlaylistPage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Playlist name"
-                className="w-full bg-[#282828] border border-[#3a3a3a] rounded-lg px-4 py-3 text-white placeholder-[#b3b3b3] focus:outline-none focus:border-[#1ed760] transition-colors"
+                className="w-full bg-[#282828] border border-[#3a3a3a] rounded-lg px-4 py-3 text-white placeholder-[#b3b3b3] focus:outline-none focus:border-[#60a5fa] transition-colors"
               />
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function CreatePlaylistPage() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add a description for your playlist..."
               rows={3}
-              className="w-full bg-[#282828] border border-[#3a3a3a] rounded-lg px-4 py-3 text-white placeholder-[#b3b3b3] focus:outline-none focus:border-[#1ed760] transition-colors resize-none"
+              className="w-full bg-[#282828] border border-[#3a3a3a] rounded-lg px-4 py-3 text-white placeholder-[#b3b3b3] focus:outline-none focus:border-[#60a5fa] transition-colors resize-none"
             />
           </div>
 
@@ -89,11 +89,11 @@ export default function CreatePlaylistPage() {
                 onChange={(e) => setNewTrack(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleAddTrack()}
                 placeholder="Enter track name"
-                className="flex-1 bg-[#282828] border border-[#3a3a3a] rounded-lg px-4 py-3 text-white placeholder-[#b3b3b3] focus:outline-none focus:border-[#1ed760] transition-colors"
+                className="flex-1 bg-[#282828] border border-[#3a3a3a] rounded-lg px-4 py-3 text-white placeholder-[#b3b3b3] focus:outline-none focus:border-[#60a5fa] transition-colors"
               />
               <button
                 onClick={handleAddTrack}
-                className="px-4 py-3 bg-[#1ed760] text-black font-bold rounded-lg hover:scale-105 transition-transform flex items-center gap-2"
+                className="px-4 py-3 bg-[#60a5fa] text-black font-bold rounded-lg hover:scale-105 transition-transform flex items-center gap-2"
               >
                 <Plus className="w-5 h-5" />
               </button>
@@ -129,7 +129,7 @@ export default function CreatePlaylistPage() {
           <button
             onClick={handleCreatePlaylist}
             disabled={!title.trim() || tracks.length === 0}
-            className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="w-full py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             Create Playlist
           </button>

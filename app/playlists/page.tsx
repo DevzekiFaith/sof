@@ -1,56 +1,68 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useUser } from "../contexts/UserContext";
-import { Music, Play, Clock, BookOpen, CheckCircle } from "lucide-react";
+import { useState } from "react";
+import { Music, Play, Clock, BookOpen } from "lucide-react";
 import Link from "next/link";
 
-export default function PlaylistsPage() {
-  const { currentUser } = useUser();
-  const [playlists, setPlaylists] = useState<any[]>([]);
+interface PlaylistTrack {
+  id: number;
+  title: string;
+  duration: string;
+  completed: boolean;
+}
 
-  useEffect(() => {
-    // Sample playlists data - in production this would come from database
-    setPlaylists([
-      {
-        id: "origin-intro",
-        title: "Origin Intro",
-        description: "Welcome to Origin - your journey to elite education starts here",
-        type: "Official",
-        icon: Music,
-        color: "from-[#1ed760] to-[#1db954]",
-        itemCount: 5,
-        duration: "25 min",
-        tracks: [
-          { id: 1, title: "Welcome to Origin", duration: "5 min", completed: true },
-          { id: 2, title: "Our Mission", duration: "4 min", completed: true },
-          { id: 3, title: "How It Works", duration: "6 min", completed: false },
-          { id: 4, title: "Getting Started", duration: "5 min", completed: false },
-          { id: 5, title: "Next Steps", duration: "5 min", completed: false },
-        ]
-      },
-      {
-        id: "leadership-fundamentals",
-        title: "Leadership Fundamentals",
-        description: "Core leadership principles and practices",
-        type: "Course",
-        icon: BookOpen,
-        color: "from-[#F97316] to-[#ea580c]",
-        itemCount: 8,
-        duration: "45 min",
-        tracks: [
-          { id: 1, title: "Leadership Styles", duration: "8 min", completed: false },
-          { id: 2, title: "Communication Skills", duration: "7 min", completed: false },
-          { id: 3, title: "Team Building", duration: "6 min", completed: false },
-          { id: 4, title: "Decision Making", duration: "8 min", completed: false },
-          { id: 5, title: "Conflict Resolution", duration: "6 min", completed: false },
-          { id: 6, title: "Motivation Techniques", duration: "5 min", completed: false },
-          { id: 7, title: "Strategic Thinking", duration: "5 min", completed: false },
-          { id: 8, title: "Leadership Project", duration: "10 min", completed: false },
-        ]
-      }
-    ]);
-  }, []);
+interface Playlist {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  itemCount: number;
+  duration: string;
+  tracks: PlaylistTrack[];
+}
+
+export default function PlaylistsPage() {
+  const [playlists] = useState<Playlist[]>([
+    {
+      id: "origin-intro",
+      title: "Origin Intro",
+      description: "Welcome to Origin - your journey to elite education starts here",
+      type: "Official",
+      icon: Music,
+      color: "from-[#60a5fa] to-[#1db954]",
+      itemCount: 5,
+      duration: "25 min",
+      tracks: [
+        { id: 1, title: "Welcome to Origin", duration: "5 min", completed: true },
+        { id: 2, title: "Our Mission", duration: "4 min", completed: true },
+        { id: 3, title: "How It Works", duration: "6 min", completed: false },
+        { id: 4, title: "Getting Started", duration: "5 min", completed: false },
+        { id: 5, title: "Next Steps", duration: "5 min", completed: false },
+      ]
+    },
+    {
+      id: "leadership-fundamentals",
+      title: "Leadership Fundamentals",
+      description: "Core leadership principles and practices",
+      type: "Course",
+      icon: BookOpen,
+      color: "from-[#F97316] to-[#ea580c]",
+      itemCount: 8,
+      duration: "45 min",
+      tracks: [
+        { id: 1, title: "Leadership Styles", duration: "8 min", completed: false },
+        { id: 2, title: "Communication Skills", duration: "7 min", completed: false },
+        { id: 3, title: "Team Building", duration: "6 min", completed: false },
+        { id: 4, title: "Decision Making", duration: "8 min", completed: false },
+        { id: 5, title: "Conflict Resolution", duration: "6 min", completed: false },
+        { id: 6, title: "Motivation Techniques", duration: "5 min", completed: false },
+        { id: 7, title: "Strategic Thinking", duration: "5 min", completed: false },
+        { id: 8, title: "Leadership Project", duration: "10 min", completed: false },
+      ]
+    }
+  ]);
 
   return (
     <div className="min-h-screen bg-[#121212] text-white">
@@ -65,13 +77,13 @@ export default function PlaylistsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {playlists.map((playlist) => {
             const Icon = playlist.icon;
-            const completedCount = playlist.tracks.filter((t: any) => t.completed).length;
+            const completedCount = playlist.tracks.filter((t: PlaylistTrack) => t.completed).length;
             const progress = (completedCount / playlist.tracks.length) * 100;
 
             return (
               <div
                 key={playlist.id}
-                className="bg-[#181818] rounded-xl border border-[#282828] hover:border-[#1ed760]/30 transition-all duration-300 overflow-hidden group"
+                className="bg-[#181818] rounded-xl border border-[#282828] hover:border-[#60a5fa]/30 transition-all duration-300 overflow-hidden group"
               >
                 <div className={`h-32 bg-gradient-to-br ${playlist.color} flex items-center justify-center relative`}>
                   <Icon className="text-white w-16 h-16 opacity-80" />
@@ -93,7 +105,7 @@ export default function PlaylistsPage() {
                     </div>
                     <div className="w-full bg-[#282828] rounded-full h-2">
                       <div 
-                        className="bg-[#1ed760] h-2 rounded-full transition-all duration-300"
+                        className="bg-[#60a5fa] h-2 rounded-full transition-all duration-300"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -106,7 +118,7 @@ export default function PlaylistsPage() {
                     </div>
                     <Link
                       href={`/playlists/${playlist.id}`}
-                      className="px-4 py-2 bg-[#1ed760] text-black text-xs font-bold rounded-full hover:scale-105 transition-transform flex items-center gap-2"
+                      className="px-4 py-2 bg-[#60a5fa] text-black text-xs font-bold rounded-full hover:scale-105 transition-transform flex items-center gap-2"
                     >
                       <Play className="w-4 h-4" />
                       Continue
@@ -124,7 +136,7 @@ export default function PlaylistsPage() {
             <p className="text-[#b3b3b3] mb-4">No playlists yet</p>
             <Link
               href="/#courses"
-              className="px-6 py-3 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform inline-block"
+              className="px-6 py-3 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform inline-block"
             >
               Browse Courses
             </Link>

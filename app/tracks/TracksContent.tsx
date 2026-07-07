@@ -21,7 +21,7 @@ export default function TracksContent() {
             <div className="mb-8">
               <h1 className="text-3xl font-black mb-2">4 Elite Learning Tracks</h1>
               <p className="text-sm text-[#b3b3b3]">
-                Mapped to Eton & Harrow's world-class curriculum
+                Mapped to Eton &amp; Harrow&apos;s world-class curriculum
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -29,13 +29,13 @@ export default function TracksContent() {
                 <Link
                   key={t.id}
                   href={`/tracks?track=${t.id}`}
-                  className="group p-6 rounded-xl border border-[#282828] hover:border-[#1ed760]/30 transition-all duration-300 bg-[#181818] hover:bg-[#1e1e1e]"
+                  className="group p-6 rounded-xl border border-[#282828] hover:border-[#60a5fa]/30 transition-all duration-300 bg-[#181818] hover:bg-[#1e1e1e]"
                 >
                   <div className="text-4xl mb-4">{t.emoji}</div>
                   <h3 className="font-bold text-white text-lg mb-2">{t.title}</h3>
                   <p className="text-xs text-[#b3b3b3] mb-4 line-clamp-2">{t.tagline}</p>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold rounded-full px-2 py-1 bg-[#282828] text-[#1ed760]">
+                    <span className="text-xs font-bold rounded-full px-2 py-1 bg-[#282828] text-[#60a5fa]">
                       {t.curriculum?.length || 0} modules
                     </span>
                     <span className="text-xs text-[#b3b3b3]">{t.ageRange}</span>
@@ -45,7 +45,7 @@ export default function TracksContent() {
                       <p className="text-lg font-bold text-white">${t.priceUSD}</p>
                       <p className="text-xs text-[#b3b3b3]">₦{t.priceNGN?.toLocaleString()}</p>
                     </div>
-                    <span className="text-xs text-[#1ed760] font-bold">View Track</span>
+                    <span className="text-xs text-[#60a5fa] font-bold">View Track</span>
                   </div>
                 </Link>
               ))}
@@ -56,7 +56,7 @@ export default function TracksContent() {
           <div>
             <Link
               href="/tracks"
-              className="inline-flex items-center gap-2 text-sm text-[#1ed760] hover:underline mb-6"
+              className="inline-flex items-center gap-2 text-sm text-[#60a5fa] hover:underline mb-6"
             >
               <ArrowLeft size={16} /> Back to all tracks
             </Link>
@@ -75,10 +75,10 @@ export default function TracksContent() {
                 <span className="bg-[#282828] px-3 py-1 rounded-full">{track.ageRange}</span>
                 <span>{track.subjects.length} subjects</span>
               </div>
-              <div className="flex items-center gap-4 mb-8 p-4 bg-[#1ed760]/10 rounded-xl border border-[#1ed760]/20">
+              <div className="flex items-center gap-4 mb-8 p-4 bg-[#60a5fa]/10 rounded-xl border border-[#60a5fa]/20">
                 <div>
                   <p className="text-xs text-[#b3b3b3] mb-1">One-time Purchase</p>
-                  <p className="text-2xl font-bold text-[#1ed760]">${track.priceUSD}</p>
+                  <p className="text-2xl font-bold text-[#60a5fa]">${track.priceUSD}</p>
                   <p className="text-sm text-[#b3b3b3]">₦{track.priceNGN?.toLocaleString()}</p>
                 </div>
                 <div className="flex-1 text-right">
@@ -96,8 +96,8 @@ export default function TracksContent() {
                     key={index}
                     className="p-4 rounded-lg border border-[#282828] bg-[#181818] flex items-start gap-3"
                   >
-                    <div className="w-8 h-8 rounded-full bg-[#1ed760]/10 flex items-center justify-center flex-shrink-0">
-                      <CheckCircle size={16} className="text-[#1ed760]" />
+                    <div className="w-8 h-8 rounded-full bg-[#60a5fa]/10 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle size={16} className="text-[#60a5fa]" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-white">{module}</p>

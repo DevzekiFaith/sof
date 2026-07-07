@@ -29,25 +29,25 @@ export default function Header({
   // Simple header for pages like About and Contact
   if (variant === "simple") {
     return (
-      <header className="border-b-2 border-gray-200">
+      <header className="border-b border-white/5 bg-transparent">
         <nav className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link href="/" className="transition-transform hover:scale-105 duration-300">
             <Logo />
           </Link>
           <div className="hidden sm:flex items-center gap-4 sm:gap-6">
-            <Link href="/" className="text-gray-700 hover:text-black font-bold transition-colors text-base sm:text-lg">
+            <Link href="/" className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold transition-colors text-base sm:text-lg">
               Home
             </Link>
-            <Link href="/#courses" className="text-gray-700 hover:text-black font-bold transition-colors text-base sm:text-lg">
+            <Link href="/#courses" className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold transition-colors text-base sm:text-lg">
               Courses
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-black font-bold transition-colors text-base sm:text-lg">
+            <Link href="/about" className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold transition-colors text-base sm:text-lg">
               About
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white font-bold transition-colors text-base sm:text-lg">
+            <Link href="/contact" className="text-[#9aa4b2] hover:text-white font-semibold transition-colors text-base sm:text-lg">
               Contact
             </Link>
-            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/5 transition-colors">
               {isDark ? "🌙" : "☀️"}
             </button>
           </div>
@@ -59,18 +59,18 @@ export default function Header({
   // Course detail page header
   if (variant === "course" && backLink) {
     return (
-      <header className="border-b-2 border-gray-200">
+      <header className="border-b border-white/5 bg-transparent">
         <nav className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link href="/" className="transition-transform hover:scale-105 duration-300">
             <Logo />
           </Link>
           <div className="flex items-center gap-4">
-            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/5 transition-colors">
               {isDark ? "🌙" : "☀️"}
             </button>
             <Link
               href={backLink.href}
-              className="text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white font-bold transition-colors text-sm sm:text-base"
+              className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold transition-colors text-sm sm:text-base"
             >
               {backLink.text}
             </Link>
@@ -82,7 +82,7 @@ export default function Header({
 
   // Default header with mobile menu and auth (for home page)
   return (
-    <header className="sticky top-0 z-50 bg-white border-b-2 border-gray-200">
+    <header className="sticky top-0 z-50 bg-transparent border-b border-white/5 backdrop-blur-sm">
       <nav className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 flex items-center justify-between">
         <Link href="/" className="transition-transform hover:scale-105 duration-300">
           <Logo />
@@ -90,19 +90,19 @@ export default function Header({
         <div className="hidden md:flex items-center gap-6 sm:gap-8">
           <Link
             href="/#courses"
-            className="text-gray-700 hover:text-black font-bold transition-colors text-base sm:text-lg"
+            className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold transition-colors text-base sm:text-lg"
           >
             Courses
           </Link>
           <Link
             href="/about"
-            className="text-gray-700 hover:text-black font-bold transition-colors text-base sm:text-lg"
+            className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold transition-colors text-base sm:text-lg"
           >
             About
           </Link>
           <Link
             href="/contact"
-            className="text-gray-700 hover:text-black font-bold transition-colors text-base sm:text-lg"
+            className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold transition-colors text-base sm:text-lg"
           >
             Contact
           </Link>
@@ -119,38 +119,38 @@ export default function Header({
               <AuthButton />
             </>
           )}
-          <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors hidden md:block">
+          <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/5 transition-colors hidden md:block">
             {isDark ? "🌙" : "☀️"}
           </button>
         </div>
         <div className="md:hidden flex items-center gap-3">
-          <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/5 transition-colors">
             {isDark ? "🌙" : "☀️"}
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
+            className="text-[#e6eef6] dark:text-[#e6eef6] hover:text-[#60a5fa] transition-colors"
           >
             <MenuIcon />
           </button>
         </div>
       </nav>
       {mobileMenuOpen && (
-        <div className="md:hidden border-t-2 border-gray-200 bg-white">
+        <div className="md:hidden border-t border-white/5 bg-[#0b1220]">
           <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 flex flex-col gap-4">
-            <Link href="/#courses" className="text-gray-700 hover:text-black font-bold text-base sm:text-lg">
+            <Link href="/#courses" className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold text-base sm:text-lg">
               Courses
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-black font-bold text-base sm:text-lg">
+            <Link href="/about" className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold text-base sm:text-lg">
               About
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-black font-bold text-base sm:text-lg">
+            <Link href="/contact" className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold text-base sm:text-lg">
               Contact
             </Link>
             {showAuth && (
               <>
                 {currentUser && (
-                  <Link href="/profile" className="text-gray-700 hover:text-black font-bold text-base sm:text-lg">
+                  <Link href="/profile" className="text-[#e6eef6] hover:text-[#60a5fa] font-semibold text-base sm:text-lg">
                     Profile
                   </Link>
                 )}

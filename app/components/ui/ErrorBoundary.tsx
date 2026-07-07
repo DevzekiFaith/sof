@@ -38,7 +38,7 @@ export default class ErrorBoundary extends Component<
       return (
         <div className="min-h-screen bg-[#121212] flex items-center justify-center p-6">
           <div className="max-w-md text-center">
-            <div className="w-16 h-16 bg-[#1ed760]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-[#60a5fa]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-3xl">⚠️</span>
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">Something went wrong</h2>
@@ -47,7 +47,7 @@ export default class ErrorBoundary extends Component<
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform"
+              className="px-6 py-3 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform"
             >
               Reload Page
             </button>

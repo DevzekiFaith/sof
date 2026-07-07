@@ -16,7 +16,7 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
   const getReasonColor = (type: string) => {
     switch (type) {
       case 'popular':
-        return 'text-[#1ed760]';
+        return 'text-[#60a5fa]';
       case 'similar':
         return 'text-blue-400';
       case 'streak_preserver':
@@ -30,7 +30,7 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-[#1ed760]" />
+          <Sparkles className="w-5 h-5 text-[#60a5fa]" />
           Made For You
         </h3>
         <button
@@ -81,7 +81,7 @@ export default function WeeklyRecommendations({ onCourseSelect }: WeeklyRecommen
 
             {/* Play Button */}
             <div className="opacity-0 group-hover:opacity-100 transition-all">
-              <div className="w-10 h-10 rounded-full bg-[#1ed760] flex items-center justify-center text-black hover:scale-105 transition-transform cursor-pointer" onClick={(e) => { e.stopPropagation(); onCourseSelect?.(rec.course); }}>
+              <div className="w-10 h-10 rounded-full bg-[#60a5fa] flex items-center justify-center text-black hover:scale-105 transition-transform cursor-pointer" onClick={(e) => { e.stopPropagation(); onCourseSelect?.(rec.course); }}>
                 <Play size={16} fill="currentColor" className="ml-0.5" />
               </div>
             </div>

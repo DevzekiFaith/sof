@@ -30,7 +30,7 @@ export default function AchievementBadges() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Trophy className="w-5 h-5 text-[#1ed760]" />
+          <Trophy className="w-5 h-5 text-[#60a5fa]" />
           Achievements
         </h3>
         <button
@@ -66,7 +66,7 @@ export default function AchievementBadges() {
                   <div className="mt-2">
                     <div className="w-full bg-[#121212] rounded-full h-1">
                       <div
-                        className="h-full bg-[#1ed760] rounded-full transition-all"
+                        className="h-full bg-[#60a5fa] rounded-full transition-all"
                         style={{ width: `${progressPercent}%` }}
                       />
                     </div>
@@ -79,7 +79,7 @@ export default function AchievementBadges() {
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-3 bg-[#282828] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
                 <p className="text-xs font-bold text-white mb-1">{achievement.title}</p>
                 <p className="text-[10px] text-[#b3b3b3] mb-2">{achievement.description}</p>
-                <p className="text-[10px] text-[#1ed760]">+{achievement.xpReward} XP</p>
+                <p className="text-[10px] text-[#60a5fa]">+{achievement.xpReward} XP</p>
                 {isUnlocked && achievement.unlockedAt && (
                   <p className="text-[9px] text-[#b3b3b3] mt-1">
                     Unlocked {achievement.unlockedAt.toLocaleDateString()}

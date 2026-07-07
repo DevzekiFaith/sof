@@ -22,7 +22,7 @@ const ageGroups = [
     label: "Ages 16-25",
     description: "Teens & Young Adults",
     emoji: "🚀",
-    color: "from-[#1ed760] to-[#1db954]"
+    color: "from-[#60a5fa] to-[#1db954]"
   },
   {
     value: "26-35",
@@ -36,11 +36,11 @@ const ageGroups = [
     label: "Ages 36-45",
     description: "Experienced Adults",
     emoji: "🌟",
-    color: "from-[#1ed760] to-green-800"
+    color: "from-[#60a5fa] to-green-800"
   }
 ];
 
-export default function AgeSelection({ isOpen, onSelectAge, onClose }: AgeSelectionProps) {
+export default function AgeSelection({ isOpen, onSelectAge, onClose: _onClose }: AgeSelectionProps) {
   const [selectedAge, setSelectedAge] = useState<string>("");
 
   if (!isOpen) return null;
@@ -76,8 +76,8 @@ export default function AgeSelection({ isOpen, onSelectAge, onClose }: AgeSelect
                   <button
                     onClick={() => handleSelectAge(ageGroup.value)}
                     className={`w-full p-6 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 hover:shadow-lg group ${selectedAge === ageGroup.value
-                        ? "border-[#1ed760] bg-[#1ed760]/5 shadow-lg shadow-[#1ed760]/10"
-                        : "border-[#282828] hover:border-[#1ed760]/50 bg-[#121212]"
+                        ? "border-[#60a5fa] bg-[#60a5fa]/5 shadow-lg shadow-[#60a5fa]/10"
+                        : "border-[#282828] hover:border-[#60a5fa]/50 bg-[#121212]"
                       }`}
                   >
                     <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${ageGroup.color} flex items-center justify-center mb-4 mx-auto text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-black/20`}>
@@ -91,7 +91,7 @@ export default function AgeSelection({ isOpen, onSelectAge, onClose }: AgeSelect
                     </p>
                     {selectedAge === ageGroup.value && (
                       <div className="mt-4 flex justify-center">
-                        <div className="w-6 h-6 bg-[#1ed760] rounded-full flex items-center justify-center">
+                        <div className="w-6 h-6 bg-[#60a5fa] rounded-full flex items-center justify-center">
                           <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
                         </div>
                       </div>

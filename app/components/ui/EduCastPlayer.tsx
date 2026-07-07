@@ -29,7 +29,7 @@ export default function EduCastPlayer() {
           <div className="flex items-center gap-3 flex-1">
             <button
               onClick={playbackState.isPlaying ? pausePlayback : resumePlayback}
-              className="w-10 h-10 rounded-full bg-[#1ed760] text-black flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0"
+              className="w-10 h-10 rounded-full bg-[#60a5fa] text-black flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0"
             >
               {playbackState.isPlaying ? (
                 <Pause size={18} fill="currentColor" />
@@ -63,8 +63,8 @@ export default function EduCastPlayer() {
         {/* Header with minimize button */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-4 flex-1">
-            <div className="w-12 h-12 rounded bg-gradient-to-br from-[#1ed760]/30 to-[#121212] flex items-center justify-center flex-shrink-0">
-              <Mic className="w-6 h-6 text-[#1ed760]" />
+            <div className="w-12 h-12 rounded bg-gradient-to-br from-[#60a5fa]/30 to-[#121212] flex items-center justify-center flex-shrink-0">
+              <Mic className="w-6 h-6 text-[#60a5fa]" />
             </div>
             <div className="flex-1 min-w-0">
               <h4 className="text-sm font-bold text-white truncate">{playbackState.currentEduCast.title}</h4>
@@ -95,7 +95,7 @@ export default function EduCastPlayer() {
             }}
           >
             <div 
-              className="h-full bg-[#1ed760] rounded-full transition-all group-hover:bg-[#1ed760]/80"
+              className="h-full bg-[#60a5fa] rounded-full transition-all group-hover:bg-[#60a5fa]/80"
               style={{ width: `${progressPercent}%` }}
             />
             <div 
@@ -152,7 +152,7 @@ export default function EduCastPlayer() {
                     step="0.1"
                     value={playbackState.volume}
                     onChange={(e) => setVolume(parseFloat(e.target.value))}
-                    className="w-20 accent-[#1ed760]"
+                    className="w-20 accent-[#60a5fa]"
                   />
                 </div>
               )}
@@ -175,7 +175,7 @@ export default function EduCastPlayer() {
                         setPlaybackRate(rate);
                         setShowSpeed(false);
                       }}
-                      className={`px-3 py-1 text-xs rounded ${playbackState.playbackRate === rate ? 'bg-[#1ed760] text-black' : 'hover:bg-[#333]'}`}
+                      className={`px-3 py-1 text-xs rounded ${playbackState.playbackRate === rate ? 'bg-[#60a5fa] text-black' : 'hover:bg-[#333]'}`}
                     >
                       {rate}x
                     </button>

@@ -57,15 +57,15 @@ export default function PurchaseModal({
 
           <div className="p-6 sm:p-8 space-y-5">
             {!currentUser ? (
-              <div className="p-4 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-xl">
-                <p className="text-[#1ed760] font-semibold">Please sign in first.</p>
+              <div className="p-4 bg-[#60a5fa]/10 border border-[#60a5fa]/20 rounded-xl">
+                <p className="text-[#60a5fa] font-semibold">Please sign in first.</p>
                 <p className="text-[#b3b3b3] text-sm mt-1">
                   Purchases are tied to your account (stored locally on this device).
                 </p>
               </div>
             ) : alreadyHasAccess ? (
-              <div className="p-4 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-xl">
-                <p className="text-[#1ed760] font-semibold">You already have access.</p>
+              <div className="p-4 bg-[#60a5fa]/10 border border-[#60a5fa]/20 rounded-xl">
+                <p className="text-[#60a5fa] font-semibold">You already have access.</p>
                 <p className="text-[#b3b3b3] text-sm mt-1">
                   {pass.isActive
                     ? `Your School Pass is active until ${new Date(pass.expiresAt!).toLocaleDateString()}.`
@@ -79,7 +79,7 @@ export default function PurchaseModal({
                     <span className="font-bold text-white">
                       {mode === "course" ? courseTitle : "School Pass (Quarterly)"}
                     </span>
-                    <span className="font-bold text-[#1ed760]">
+                    <span className="font-bold text-[#60a5fa]">
                       ${mode === "course" ? coursePriceUSD.toFixed(2) : quarterlyPriceUSD.toFixed(2)}
                     </span>
                   </div>

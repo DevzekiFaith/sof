@@ -39,7 +39,7 @@ export default function Leaderboard() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Trophy className="w-5 h-5 text-[#1ed760]" />
+          <Trophy className="w-5 h-5 text-[#60a5fa]" />
           Leaderboard
         </h3>
       </div>
@@ -50,7 +50,7 @@ export default function Leaderboard() {
           onClick={() => setActiveTab('global')}
           className={`flex-1 py-2 px-4 rounded-full text-sm font-bold transition-all ${
             activeTab === 'global'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-[#b3b3b3] hover:bg-[#333]'
           }`}
         >
@@ -60,7 +60,7 @@ export default function Leaderboard() {
           onClick={() => setActiveTab('friends')}
           className={`flex-1 py-2 px-4 rounded-full text-sm font-bold transition-all ${
             activeTab === 'friends'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-[#b3b3b3] hover:bg-[#333]'
           }`}
         >
@@ -70,7 +70,7 @@ export default function Leaderboard() {
           onClick={() => setActiveTab('weekly')}
           className={`flex-1 py-2 px-4 rounded-full text-sm font-bold transition-all ${
             activeTab === 'weekly'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-[#b3b3b3] hover:bg-[#333]'
           }`}
         >
@@ -82,7 +82,7 @@ export default function Leaderboard() {
       <div className="space-y-2">
         {loading ? (
           <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1ed760] mx-auto mb-2" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#60a5fa] mx-auto mb-2" />
             <p className="text-sm text-[#b3b3b3]">Loading leaderboard...</p>
           </div>
         ) : leaderboard.length === 0 ? (
@@ -95,7 +95,7 @@ export default function Leaderboard() {
             <div
               key={entry.userId}
               className={`flex items-center gap-4 p-3 rounded-lg transition-all ${getRankStyle(entry.rank)} ${
-                entry.isCurrentUser ? 'ring-1 ring-[#1ed760]/50' : ''
+                entry.isCurrentUser ? 'ring-1 ring-[#60a5fa]/50' : ''
               }`}
             >
               {/* Rank */}
@@ -116,7 +116,7 @@ export default function Leaderboard() {
 
               {/* Stats */}
               <div className="flex items-center gap-4 text-xs">
-                <div className="flex items-center gap-1 text-[#1ed760]">
+                <div className="flex items-center gap-1 text-[#60a5fa]">
                   <TrendingUp size={12} />
                   <span className="font-bold">{entry.totalXP.toLocaleString()} XP</span>
                 </div>

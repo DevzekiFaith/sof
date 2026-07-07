@@ -7,14 +7,32 @@ import { useState, useEffect } from "react";
 import PaymentPromptModal from "./PaymentPromptModal";
 import { supabase } from "../../../lib/supabase";
 
+interface LiveSession {
+  id: string;
+  is_live: boolean;
+  title: string;
+  host_name: string;
+  viewer_count: number;
+}
+
+interface EduCast {
+  id: string;
+  title: string;
+  description: string;
+  host: string;
+  duration: number;
+  topics: string[];
+}
+
 export default function EduCastList() {
   const { eduCasts, playEduCast, playbackState } = usePodcast();
   const { currentUser } = useUser();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<any[]>([]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -37,7 +55,7 @@ export default function EduCastList() {
     // Set up real-time subscription for live sessions
     const subscription = supabase
       .channel('live_edu_sessions_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'live_edu_sessions' }, (payload: any) => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'live_edu_sessions' }, (payload: { eventType: string; new: LiveSession; old: { id: string } }) => {
         if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
           setLiveSessions(prev => {
             const existing = prev.find(s => s.id === payload.new.id);
@@ -73,7 +91,7 @@ export default function EduCastList() {
 
   const isLoggedIn = currentUser !== null;
 
-  const handlePlayEduCast = (eduCast: any) => {
+  const handlePlayEduCast = (eduCast: EduCast) => {
     if (!isLoggedIn) {
       setShowPaymentModal(true);
       return;
@@ -85,7 +103,7 @@ export default function EduCastList() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Radio className="w-5 h-5 text-[#1ed760]" />
+          <Radio className="w-5 h-5 text-[#60a5fa]" />
           EduCast Live
         </h3>
         <span className="text-sm text-[#b3b3b3]">{eduCasts.length} episodes</span>
@@ -105,14 +123,14 @@ export default function EduCastList() {
                 className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
                   session.is_live
                     ? 'border-red-500 bg-red-500/10'
-                    : 'border-[#282828] bg-[#282828] hover:border-[#1ed760]/30'
+                    : 'border-[#282828] bg-[#282828] hover:border-[#60a5fa]/30'
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                    session.is_live ? 'bg-red-500' : 'bg-[#1ed760]/20'
+                    session.is_live ? 'bg-red-500' : 'bg-[#60a5fa]/20'
                   }`}>
-                    <Radio className={`w-6 h-6 ${session.is_live ? 'text-white' : 'text-[#1ed760]'}`} />
+                    <Radio className={`w-6 h-6 ${session.is_live ? 'text-white' : 'text-[#60a5fa]'}`} />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-2">
@@ -161,7 +179,7 @@ export default function EduCastList() {
               {/* Play Button */}
               <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
                 isPlaying(eduCast.id) 
-                  ? 'bg-[#1ed760] text-black' 
+                  ? 'bg-[#60a5fa] text-black' 
                   : 'bg-[#121212] text-white group-hover:bg-[#282828]'
               }`}>
                 {isPlaying(eduCast.id) ? (
@@ -205,12 +223,12 @@ export default function EduCastList() {
               {isPlaying(eduCast.id) && (
                 <div className="flex flex-col items-center gap-1">
                   <div className="flex gap-0.5">
-                    <div className="w-0.5 h-3 bg-[#1ed760] animate-pulse" />
-                    <div className="w-0.5 h-5 bg-[#1ed760] animate-pulse" style={{ animationDelay: '0.1s' }} />
-                    <div className="w-0.5 h-4 bg-[#1ed760] animate-pulse" style={{ animationDelay: '0.2s' }} />
-                    <div className="w-0.5 h-3 bg-[#1ed760] animate-pulse" style={{ animationDelay: '0.3s' }} />
+                    <div className="w-0.5 h-3 bg-[#60a5fa] animate-pulse" />
+                    <div className="w-0.5 h-5 bg-[#60a5fa] animate-pulse" style={{ animationDelay: '0.1s' }} />
+                    <div className="w-0.5 h-4 bg-[#60a5fa] animate-pulse" style={{ animationDelay: '0.2s' }} />
+                    <div className="w-0.5 h-3 bg-[#60a5fa] animate-pulse" style={{ animationDelay: '0.3s' }} />
                   </div>
-                  <span className="text-[10px] text-[#1ed760] font-bold">NOW PLAYING</span>
+                  <span className="text-[10px] text-[#60a5fa] font-bold">NOW PLAYING</span>
                 </div>
               )}
             </div>

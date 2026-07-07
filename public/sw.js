@@ -1,5 +1,5 @@
 // Service Worker for offline support
-const CACHE_NAME = 'sof-cache-v2'; // Bump version to force update
+const CACHE_NAME = 'sof-cache-v3'; // Bump version to force update
 const urlsToCache = [
   '/',
   '/courses',
@@ -33,6 +33,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Skip caching for API routes and dynamic routes
+  if (event.request.url.includes('/api/') || event.request.url.includes('/women-hub') || event.request.url.includes('/community') || event.request.url.includes('/teacher') || event.request.url.includes('/recommendations') || event.request.url.includes('/settings/')) {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
@@ -47,7 +52,13 @@ self.addEventListener('fetch', (event) => {
       })
       .catch(() => {
         // Fallback to cache if network fails
-        return caches.match(event.request);
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // Return a basic fallback response if nothing in cache
+          return new Response('Offline - No cached version available', { status: 503 });
+        });
       })
   );
 });

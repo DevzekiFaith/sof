@@ -41,7 +41,7 @@ export default function AuthButton() {
 
       setShowModal(false);
       setFormData({ email: "", password: "", name: "" });
-    } catch (err) {
+    } catch (_err) {
       setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);

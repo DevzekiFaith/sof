@@ -1,26 +1,39 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { getCourseById } from "../../data/courses";
 import { QUARTERLY_PASS_PRICE_USD } from "../../data/courses";
-import Header from "../../components/layout/Header";
-import Footer from "../../components/layout/Footer";
 import Button from "../../components/ui/Button";
 import AnimatedSection from "../../components/ui/AnimatedSection";
 import { ChevronRightIcon } from "../../components/Icons";
 import Link from "next/link";
 import { useUser } from "../../contexts/UserContext";
-import { Rocket, Play, BookOpen } from "lucide-react";
+import { useCart } from "../../contexts/CartContext";
+import { useToast } from "../../contexts/ToastContext";
+import { Rocket, Play, BookOpen, Plus, Minus, ShoppingCart } from "lucide-react";
 import Logo from "../../components/Logo";
 
 export default function CourseDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
   const course = getCourseById(params.id as string);
   const { currentUser, hasCourseAccess, getQuarterlyPass } = useUser();
+  const { addToCart } = useCart();
+  const { showToast } = useToast();
+
+  const handleAddToCart = () => {
+    if (!course) return;
+    
+    for (let i = 0; i < quantity; i++) {
+      addToCart(course);
+    }
+    
+    showToast(`${quantity} course${quantity > 1 ? 's' : ''} added to cart`, "success");
+    setQuantity(1);
+  };
 
   useEffect(() => {
     // Simulate loading state for better UX
@@ -32,7 +45,7 @@ export default function CourseDetailPage() {
     return (
       <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#1ed760] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#60a5fa] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-[#b3b3b3]">Loading course...</p>
         </div>
       </div>
@@ -44,7 +57,7 @@ export default function CourseDetailPage() {
       <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Course Not Found</h1>
-          <Link href="/" className="text-[#1ed760] hover:text-white font-semibold transition-colors">
+          <Link href="/" className="text-[#60a5fa] hover:text-white font-semibold transition-colors">
             Return to Home
           </Link>
         </div>
@@ -61,18 +74,6 @@ export default function CourseDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#121212] text-white">
-      <header className="h-16 flex-shrink-0 bg-[#000000] flex items-center justify-between px-4 sm:px-6 z-30 border-b border-[#282828]">
-        <Link href="/" className="transition-transform hover:scale-105">
-          <Logo />
-        </Link>
-        <Link 
-          href="/" 
-          className="text-sm font-bold text-[#b3b3b3] hover:text-white transition-colors"
-        >
-          ← Back to Courses
-        </Link>
-      </header>
-
       {/* Course Detail */}
       <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
         <div className="max-w-4xl mx-auto">
@@ -109,9 +110,9 @@ export default function CourseDetailPage() {
                   <span className="text-base sm:text-lg font-bold text-white">{course.duration}</span>
                 </div>
               )}
-              <Link href="/#pricing" className="px-4 sm:px-6 py-2 sm:py-3 bg-[#1ed760]/10 border border-[#1ed760]/20 rounded-lg hover:bg-[#1ed760]/20 transition-colors duration-300 transform hover:scale-105 group">
-                <span className="text-xs sm:text-sm text-[#1ed760] font-semibold">Price: </span>
-                <span className="text-base sm:text-lg font-bold text-[#1ed760] group-hover:underline">${coursePrice}</span>
+              <Link href="/#pricing" className="px-4 sm:px-6 py-2 sm:py-3 bg-[#60a5fa]/10 border border-[#60a5fa]/20 rounded-lg hover:bg-[#60a5fa]/20 transition-colors duration-300 transform hover:scale-105 group">
+                <span className="text-xs sm:text-sm text-[#60a5fa] font-semibold">Price: </span>
+                <span className="text-base sm:text-lg font-bold text-[#60a5fa] group-hover:underline">${coursePrice}</span>
               </Link>
             </div>
           </AnimatedSection>
@@ -154,26 +155,56 @@ export default function CourseDetailPage() {
                       Get lifetime access to modules, activities, and expert-curated resources.
                     </p>
                     {pass.isActive && (
-                      <div className="text-sm text-[#1ed760] font-semibold">
+                      <div className="text-sm text-[#60a5fa] font-semibold">
                         Pro Pass active until {new Date(pass.expiresAt!).toLocaleDateString()}.
                       </div>
                     )}
                     {unlocked && !pass.isActive && (
-                      <div className="text-sm text-[#1ed760] font-semibold">
+                      <div className="text-sm text-[#60a5fa] font-semibold">
                         You already have access to this course.
                       </div>
                     )}
                     {!currentUser && (
-                      <div className="text-sm text-[#1ed760] font-semibold">
+                      <div className="text-sm text-[#60a5fa] font-semibold">
                         Sign in to unlock permanent access.
                       </div>
                     )}
                   </div>
 
                   <div className="flex flex-col gap-3 sm:min-w-[280px]">
-                    <Link href={`/checkout?courseId=${course.id}`} className="w-full">
-                      <button className="w-full py-4 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform shadow-lg shadow-[#1ed760]/20">
-                        Buy Course — ${coursePrice}
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="flex items-center border border-[#333] rounded-full bg-[#282828]">
+                        <button
+                          onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                          className="w-10 h-10 flex items-center justify-center text-white hover:bg-[#333] transition-colors rounded-l-full"
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <span className="w-12 text-center font-bold text-white">{quantity}</span>
+                        <button
+                          onClick={() => setQuantity(quantity + 1)}
+                          className="w-10 h-10 flex items-center justify-center text-white hover:bg-[#333] transition-colors rounded-r-full"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <span className="text-sm text-[#b3b3b3]">copies</span>
+                    </div>
+                    <button
+                      onClick={handleAddToCart}
+                      className="w-full py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform shadow-lg shadow-[#60a5fa]/20 flex items-center justify-center gap-2"
+                    >
+                      <ShoppingCart className="w-5 h-5" />
+                      Add to Cart — ${(coursePrice * quantity).toFixed(2)}
+                    </button>
+                    <Link href="/cart" className="w-full">
+                      <button className="w-full py-3 bg-[#282828] text-white font-bold rounded-full border border-[#333] hover:bg-[#333] transition-colors">
+                        View Cart
+                      </button>
+                    </Link>
+                    <Link href={`/checkout?course=${course.id}`} className="w-full">
+                      <button className="w-full py-3 bg-[#1db954] text-white font-bold rounded-full hover:bg-[#1db954]/80 transition-colors">
+                        Buy Now — ${coursePrice}
                       </button>
                     </Link>
                     <Link href="/courses" className="w-full">
@@ -206,18 +237,18 @@ export default function CourseDetailPage() {
                             <div className="w-8 text-center text-[#b3b3b3] text-sm font-medium group-hover:hidden">
                               {index + 1}
                             </div>
-                            <div className="w-8 text-center text-[#1ed760] hidden group-hover:block">
+                            <div className="w-8 text-center text-[#60a5fa] hidden group-hover:block">
                               <Play size={16} fill="currentColor" />
                             </div>
                             <div className="w-10 h-10 bg-[#282828] rounded flex items-center justify-center flex-shrink-0 border border-[#333]">
                                {isValidIcon ? (
-                                 <ModuleIcon className="w-5 h-5 text-[#1ed760]" />
+                                 <ModuleIcon className="w-5 h-5 text-[#60a5fa]" />
                                ) : (
                                  <BookOpen className="w-5 h-5 text-[#b3b3b3]" />
                                )}
                             </div>
                             <div className="flex-1 truncate">
-                              <h3 className="text-base font-bold text-white truncate group-hover:text-[#1ed760] transition-colors">{moduleName}</h3>
+                              <h3 className="text-base font-bold text-white truncate group-hover:text-[#60a5fa] transition-colors">{moduleName}</h3>
                               <p className="text-xs text-[#b3b3b3] truncate">{moduleDetail?.description || "Master this module's core concepts"}</p>
                             </div>
                             <div className="hidden sm:block text-xs text-[#b3b3b3] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
@@ -270,8 +301,8 @@ export default function CourseDetailPage() {
                   {outcomes.map((outcome: string, index: number) => (
                     <AnimatedSection key={index} delay={index * 50}>
                       <li className="flex items-start gap-4 bg-[#181818] p-5 rounded-xl border border-[#282828] group hover:border-[#535353] transition-colors">
-                        <div className="w-8 h-8 bg-[#1ed760]/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <ChevronRightIcon className="w-4 h-4 text-[#1ed760] transition-transform duration-300 group-hover:translate-x-1" />
+                        <div className="w-8 h-8 bg-[#60a5fa]/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <ChevronRightIcon className="w-4 h-4 text-[#60a5fa] transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
                         <p className="text-lg text-[#b3b3b3] font-medium group-hover:text-white transition-colors">{outcome}</p>
                       </li>
@@ -283,8 +314,6 @@ export default function CourseDetailPage() {
           )}
         </div>
       </section>
-
-    <Footer />
     </div>
   );
 }

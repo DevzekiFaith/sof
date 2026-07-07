@@ -7,78 +7,85 @@ import Link from "next/link";
 
 export default function SkillsPage() {
   const { currentUser } = useUser();
-  const [skills, setSkills] = useState<any[]>([]);
-
-  useEffect(() => {
-    // Sample skills data - in production this would come from database
-    setSkills([
-      {
-        id: "leadership",
-        title: "Leadership",
-        level: 3,
-        maxLevel: 5,
-        icon: Star,
-        color: "#F97316",
-        description: "Ability to guide and inspire others",
-        progress: 60,
-        achievements: ["First Team Lead", "Conflict Resolver"],
-        nextAchievement: "Strategic Visionary",
-        unlocked: true
-      },
-      {
-        id: "communication",
-        title: "Communication",
-        level: 2,
-        maxLevel: 5,
-        icon: BookOpen,
-        color: "#3B82F6",
-        description: "Effective verbal and written expression",
-        progress: 40,
-        achievements: ["Public Speaker"],
-        nextAchievement: "Master Debater",
-        unlocked: true
-      },
-      {
-        id: "critical-thinking",
-        title: "Critical Thinking",
-        level: 1,
-        maxLevel: 5,
-        icon: Target,
-        color: "#10B981",
-        description: "Analytical reasoning and problem solving",
-        progress: 20,
-        achievements: [],
-        nextAchievement: "Logic Master",
-        unlocked: true
-      },
-      {
-        id: "emotional-intelligence",
-        title: "Emotional Intelligence",
-        level: 0,
-        maxLevel: 5,
-        icon: Award,
-        color: "#8B5CF6",
-        description: "Self-awareness and empathy",
-        progress: 0,
-        achievements: [],
-        nextAchievement: "Empathy Builder",
-        unlocked: false
-      },
-      {
-        id: "strategic-planning",
-        title: "Strategic Planning",
-        level: 0,
-        maxLevel: 5,
-        icon: TrendingUp,
-        color: "#EC4899",
-        description: "Long-term vision and execution",
-        progress: 0,
-        achievements: [],
-        nextAchievement: "Visionary Leader",
-        unlocked: false
-      }
-    ]);
-  }, []);
+  const [skills] = useState<Array<{
+    id: string;
+    title: string;
+    level: number;
+    maxLevel: number;
+    icon: React.ComponentType<{ className?: string }>;
+    color: string;
+    description: string;
+    progress: number;
+    achievements: string[];
+    nextAchievement: string;
+    unlocked: boolean;
+  }>>([
+    {
+      id: "leadership",
+      title: "Leadership",
+      level: 3,
+      maxLevel: 5,
+      icon: Star,
+      color: "#F97316",
+      description: "Ability to guide and inspire others",
+      progress: 60,
+      achievements: ["First Team Lead", "Conflict Resolver"],
+      nextAchievement: "Strategic Visionary",
+      unlocked: true
+    },
+    {
+      id: "communication",
+      title: "Communication",
+      level: 2,
+      maxLevel: 5,
+      icon: BookOpen,
+      color: "#3B82F6",
+      description: "Effective verbal and written expression",
+      progress: 40,
+      achievements: ["Public Speaker"],
+      nextAchievement: "Master Debater",
+      unlocked: true
+    },
+    {
+      id: "critical-thinking",
+      title: "Critical Thinking",
+      level: 1,
+      maxLevel: 5,
+      icon: Target,
+      color: "#10B981",
+      description: "Analytical reasoning and problem solving",
+      progress: 20,
+      achievements: [],
+      nextAchievement: "Logic Master",
+      unlocked: true
+    },
+    {
+      id: "emotional-intelligence",
+      title: "Emotional Intelligence",
+      level: 0,
+      maxLevel: 5,
+      icon: Award,
+      color: "#8B5CF6",
+      description: "Self-awareness and empathy",
+      progress: 0,
+      achievements: [],
+      nextAchievement: "Empathy Builder",
+      unlocked: false
+    },
+    {
+      id: "strategic-planning",
+      title: "Strategic Planning",
+      level: 0,
+      maxLevel: 5,
+      icon: TrendingUp,
+      color: "#EC4899",
+      description: "Long-term vision and execution",
+      progress: 0,
+      achievements: [],
+      nextAchievement: "Visionary Leader",
+      unlocked: false
+    }
+  ]);
 
   return (
     <div className="min-h-screen bg-[#121212] text-white">
@@ -98,7 +105,7 @@ export default function SkillsPage() {
               <div
                 key={skill.id}
                 className={`bg-[#181818] rounded-xl border ${
-                  skill.unlocked ? 'border-[#282828] hover:border-[#1ed760]/30' : 'border-[#282828] opacity-60'
+                  skill.unlocked ? 'border-[#282828] hover:border-[#60a5fa]/30' : 'border-[#282828] opacity-60'
                 } transition-all duration-300 overflow-hidden group`}
               >
                 <div className="p-6">
@@ -140,7 +147,7 @@ export default function SkillsPage() {
                         {skill.achievements.map((achievement: string, index: number) => (
                           <span
                             key={index}
-                            className="px-2 py-1 bg-[#282828] rounded-full text-xs text-[#1ed760] flex items-center gap-1"
+                            className="px-2 py-1 bg-[#282828] rounded-full text-xs text-[#60a5fa] flex items-center gap-1"
                           >
                             <CheckCircle className="w-3 h-3" />
                             {achievement}
@@ -161,7 +168,7 @@ export default function SkillsPage() {
                   <div className="px-6 pb-6">
                     <Link
                       href={`/tracks?track=${skill.id}`}
-                      className="w-full py-2 bg-[#1ed760] text-black text-xs font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2"
+                      className="w-full py-2 bg-[#60a5fa] text-black text-xs font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2"
                     >
                       Continue Learning
                     </Link>
@@ -176,8 +183,8 @@ export default function SkillsPage() {
           <h2 className="text-xl font-black mb-4">How Skills Work</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#1ed760]/10 flex items-center justify-center flex-shrink-0">
-                <BookOpen className="w-5 h-5 text-[#1ed760]" />
+              <div className="w-10 h-10 rounded-full bg-[#60a5fa]/10 flex items-center justify-center flex-shrink-0">
+                <BookOpen className="w-5 h-5 text-[#60a5fa]" />
               </div>
               <div>
                 <h3 className="font-bold text-white text-sm mb-1">Complete Courses</h3>
@@ -185,8 +192,8 @@ export default function SkillsPage() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#1ed760]/10 flex items-center justify-center flex-shrink-0">
-                <Target className="w-5 h-5 text-[#1ed760]" />
+              <div className="w-10 h-10 rounded-full bg-[#60a5fa]/10 flex items-center justify-center flex-shrink-0">
+                <Target className="w-5 h-5 text-[#60a5fa]" />
               </div>
               <div>
                 <h3 className="font-bold text-white text-sm mb-1">Unlock Levels</h3>
@@ -194,8 +201,8 @@ export default function SkillsPage() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#1ed760]/10 flex items-center justify-center flex-shrink-0">
-                <Award className="w-5 h-5 text-[#1ed760]" />
+              <div className="w-10 h-10 rounded-full bg-[#60a5fa]/10 flex items-center justify-center flex-shrink-0">
+                <Award className="w-5 h-5 text-[#60a5fa]" />
               </div>
               <div>
                 <h3 className="font-bold text-white text-sm mb-1">Earn Badges</h3>

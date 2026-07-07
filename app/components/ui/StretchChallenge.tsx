@@ -8,17 +8,41 @@ import { useToast } from "../../contexts/ToastContext";
 import { supabase } from "../../../lib/supabase";
 import { useRouter } from "next/navigation";
 
+interface Lesson {
+  id: number;
+  title: string;
+  description: string;
+  duration: string;
+  type: string;
+  objectives: string[];
+}
+
+interface ChallengeCourse {
+  id: string;
+  title: string;
+  description: string;
+  level: string;
+  levelColor: string;
+  duration: string;
+  ageRange: string;
+  priceUSD: number;
+  priceNGN: number;
+  icon: string;
+  lessons: Lesson[];
+}
+
 export default function StretchChallenge() {
   const { currentUser } = useUser();
   const { addToCart } = useCart();
   const { showToast } = useToast();
   const router = useRouter();
   const [enrolledChallenges, setEnrolledChallenges] = useState<string[]>([]);
-  const [selectedCourse, setSelectedCourse] = useState<any>(null);
+  const [selectedCourse, setSelectedCourse] = useState<ChallengeCourse | null>(null);
   const [showCourseDetail, setShowCourseDetail] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -31,7 +55,7 @@ export default function StretchChallenge() {
         .select('challenge_id')
         .eq('user_id', currentUser.id);
       if (data) {
-        setEnrolledChallenges(data.map((e: any) => e.challenge_id));
+        setEnrolledChallenges(data.map((e: { challenge_id: string }) => e.challenge_id));
       }
     };
 
@@ -39,7 +63,7 @@ export default function StretchChallenge() {
 
     const subscription = supabase
       .channel('challenge_enrollments_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload: any) => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload: { eventType: string; new: { challenge_id: string }; old: { challenge_id: string } }) => {
         if (payload.eventType === 'INSERT') {
           setEnrolledChallenges(prev => [...prev, payload.new.challenge_id]);
         } else if (payload.eventType === 'DELETE') {
@@ -363,7 +387,7 @@ export default function StretchChallenge() {
           {selectedCourse.lessons.map((lesson: any, index: number) => (
             <div
               key={lesson.id}
-              className={`p-4 bg-[#282828] rounded-lg border border-[#3a3a3a] hover:border-[#1ed760]/30 transition-all cursor-pointer ${
+              className={`p-4 bg-[#282828] rounded-lg border border-[#3a3a3a] hover:border-[#60a5fa]/30 transition-all cursor-pointer ${
                 isEnrolled(selectedCourse.id) ? '' : 'opacity-50'
               }`}
               onClick={() => isEnrolled(selectedCourse.id) && handleStartLesson(lesson.id)}
@@ -405,7 +429,7 @@ export default function StretchChallenge() {
                       <ul className="space-y-1">
                         {lesson.objectives.map((obj: string, i: number) => (
                           <li key={i} className="text-xs text-[#b3b3b3] flex items-start gap-2">
-                            <span className="text-[#1ed760]">•</span>
+                            <span className="text-[#60a5fa]">•</span>
                             {obj}
                           </li>
                         ))}
@@ -419,7 +443,7 @@ export default function StretchChallenge() {
         </div>
 
         {!isEnrolled(selectedCourse.id) && (
-          <div className="mt-6 p-4 bg-gradient-to-r from-[#1ed760]/10 to-[#1ed760]/5 rounded-xl border border-[#1ed760]/20">
+          <div className="mt-6 p-4 bg-gradient-to-r from-[#60a5fa]/10 to-[#60a5fa]/5 rounded-xl border border-[#60a5fa]/20">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-[#b3b3b3] mb-1">Course Price</p>
@@ -428,7 +452,7 @@ export default function StretchChallenge() {
               </div>
               <button
                 onClick={() => handleEnroll(selectedCourse)}
-                className="px-6 py-3 bg-[#1ed760] text-black rounded-full font-bold hover:scale-105 transition-all"
+                className="px-6 py-3 bg-[#60a5fa] text-black rounded-full font-bold hover:scale-105 transition-all"
               >
                 Enroll Now
               </button>
@@ -443,7 +467,7 @@ export default function StretchChallenge() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-2">
-          <Sparkles className="w-5 h-5 text-[#1ed760]" />
+          <Sparkles className="w-5 h-5 text-[#60a5fa]" />
           Stretch & Challenge
         </h3>
         <p className="text-sm text-[#b3b3b3]">
@@ -455,7 +479,7 @@ export default function StretchChallenge() {
         {challengeCourses.map((course) => (
           <div
             key={course.id}
-            className="p-5 bg-[#282828] rounded-xl border border-[#3a3a3a] hover:border-[#1ed760]/30 transition-all cursor-pointer"
+            className="p-5 bg-[#282828] rounded-xl border border-[#3a3a3a] hover:border-[#60a5fa]/30 transition-all cursor-pointer"
             onClick={() => handleStart(course)}
           >
             <div className="flex items-start gap-4">
@@ -499,8 +523,8 @@ export default function StretchChallenge() {
                     }}
                     className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
                       isEnrolled(course.id)
-                        ? 'bg-[#1ed760]/20 text-[#1ed760]'
-                        : 'bg-[#1ed760] text-black hover:scale-105'
+                        ? 'bg-[#60a5fa]/20 text-[#60a5fa]'
+                        : 'bg-[#60a5fa] text-black hover:scale-105'
                     }`}
                   >
                     {isEnrolled(course.id) ? (
@@ -528,7 +552,7 @@ export default function StretchChallenge() {
           {parentCourses.map((course) => (
             <div
               key={course.id}
-              className="p-4 bg-[#282828] rounded-lg border border-[#3a3a3a] hover:border-[#1ed760]/30 transition-all cursor-pointer"
+              className="p-4 bg-[#282828] rounded-lg border border-[#3a3a3a] hover:border-[#60a5fa]/30 transition-all cursor-pointer"
               onClick={() => handleStart(course)}
             >
               <div className="flex items-start gap-3">

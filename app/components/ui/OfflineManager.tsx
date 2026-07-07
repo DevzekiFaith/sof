@@ -31,12 +31,12 @@ export default function OfflineManager() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Download className="w-5 h-5 text-[#1ed760]" />
+          <Download className="w-5 h-5 text-[#60a5fa]" />
           Offline Content
         </h3>
         <div className="flex items-center gap-2">
           {isOnline ? (
-            <div className="flex items-center gap-1 text-xs text-[#1ed760]">
+            <div className="flex items-center gap-1 text-xs text-[#60a5fa]">
               <Wifi size={14} />
               <span>Online</span>
             </div>
@@ -59,14 +59,14 @@ export default function OfflineManager() {
       <div className="bg-[#282828] p-4 rounded-lg mb-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <HardDrive className="w-4 h-4 text-[#1ed760]" />
+            <HardDrive className="w-4 h-4 text-[#60a5fa]" />
             <span className="text-sm text-white">Storage Used</span>
           </div>
           <span className="text-sm text-[#b3b3b3]">{formatStorage(usedStorage)} / {settings.maxStorage} MB</span>
         </div>
         <div className="w-full bg-[#121212] rounded-full h-2">
           <div
-            className={`h-full rounded-full transition-all ${storagePercent > 90 ? 'bg-red-500' : storagePercent > 70 ? 'bg-yellow-500' : 'bg-[#1ed760]'}`}
+            className={`h-full rounded-full transition-all ${storagePercent > 90 ? 'bg-red-500' : storagePercent > 70 ? 'bg-yellow-500' : 'bg-[#60a5fa]'}`}
             style={{ width: `${Math.min(storagePercent, 100)}%` }}
           />
         </div>
@@ -83,7 +83,7 @@ export default function OfflineManager() {
                 type="checkbox"
                 checked={settings.autoDownload}
                 onChange={(e) => updateSettings({ autoDownload: e.target.checked })}
-                className="w-4 h-4 accent-[#1ed760]"
+                className="w-4 h-4 accent-[#60a5fa]"
               />
             </label>
             <label className="flex items-center justify-between">
@@ -92,7 +92,7 @@ export default function OfflineManager() {
                 type="checkbox"
                 checked={settings.wifiOnly}
                 onChange={(e) => updateSettings({ wifiOnly: e.target.checked })}
-                className="w-4 h-4 accent-[#1ed760]"
+                className="w-4 h-4 accent-[#60a5fa]"
               />
             </label>
             <div>
@@ -149,8 +149,8 @@ export default function OfflineManager() {
               key={content.id}
               className="flex items-center gap-3 p-3 bg-[#282828] rounded-lg group"
             >
-              <div className="w-10 h-10 rounded bg-[#1ed760]/20 flex items-center justify-center">
-                <Download className="w-5 h-5 text-[#1ed760]" />
+              <div className="w-10 h-10 rounded bg-[#60a5fa]/20 flex items-center justify-center">
+                <Download className="w-5 h-5 text-[#60a5fa]" />
               </div>
               
               <div className="flex-1 min-w-0">
@@ -162,14 +162,14 @@ export default function OfflineManager() {
                   {!content.isFullyDownloaded && (
                     <>
                       <span>•</span>
-                      <span className="text-[#1ed760]">{Math.round(content.progress)}%</span>
+                      <span className="text-[#60a5fa]">{Math.round(content.progress)}%</span>
                     </>
                   )}
                 </div>
                 {!content.isFullyDownloaded && (
                   <div className="w-full bg-[#121212] rounded-full h-1 mt-1">
                     <div
-                      className="h-full bg-[#1ed760] rounded-full transition-all"
+                      className="h-full bg-[#60a5fa] rounded-full transition-all"
                       style={{ width: `${content.progress}%` }}
                     />
                   </div>

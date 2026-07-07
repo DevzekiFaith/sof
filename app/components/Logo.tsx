@@ -23,13 +23,13 @@ export default function Logo() {
           />
           <defs>
             <linearGradient id="origin_gradient" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#1ed760" />
+              <stop stopColor="#60a5fa" />
               <stop offset="1" stopColor="#1db954" />
             </linearGradient>
           </defs>
         </svg>
       </div>
-      <span className="text-xl sm:text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1ed760] to-[#1db954] tracking-tight">
+      <span className="text-xl sm:text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#60a5fa] to-[#1db954] tracking-tight">
         Origin
       </span>
     </div>

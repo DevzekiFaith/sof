@@ -20,7 +20,7 @@ export default function PlaylistDetailPage() {
         description: "Welcome to Origin - your journey to elite education starts here",
         type: "Official",
         icon: Music,
-        color: "from-[#1ed760] to-[#1db954]",
+        color: "from-[#60a5fa] to-[#1db954]",
         duration: "25 min",
         tracks: [
           { id: 1, title: "Welcome to Origin", duration: "5 min", completed: true, description: "Introduction to our mission and values" },
@@ -59,7 +59,7 @@ export default function PlaylistDetailPage() {
       <div className="min-h-screen bg-[#121212] text-white flex items-center justify-center">
         <div className="text-center">
           <p className="text-[#b3b3b3]">Playlist not found</p>
-          <Link href="/playlists" className="text-[#1ed760] hover:underline mt-2 inline-block">
+          <Link href="/playlists" className="text-[#60a5fa] hover:underline mt-2 inline-block">
             Back to Playlists
           </Link>
         </div>
@@ -105,11 +105,11 @@ export default function PlaylistDetailPage() {
         <div className="container mx-auto px-4 sm:px-8">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-[#b3b3b3]">Overall Progress</span>
-            <span className="text-sm font-bold text-[#1ed760]">{Math.round(progress)}%</span>
+            <span className="text-sm font-bold text-[#60a5fa]">{Math.round(progress)}%</span>
           </div>
           <div className="w-full bg-[#282828] rounded-full h-2">
             <div 
-              className="bg-[#1ed760] h-2 rounded-full transition-all duration-300"
+              className="bg-[#60a5fa] h-2 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -125,13 +125,13 @@ export default function PlaylistDetailPage() {
               key={track.id}
               className={`bg-[#181818] rounded-xl border ${
                 track.completed 
-                  ? 'border-[#1ed760]/30' 
-                  : 'border-[#282828] hover:border-[#1ed760]/30'
+                  ? 'border-[#60a5fa]/30' 
+                  : 'border-[#282828] hover:border-[#60a5fa]/30'
               } transition-all duration-300 p-4 group`}
             >
               <div className="flex items-center gap-4">
                 <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                  track.completed ? 'bg-[#1ed760]' : 'bg-[#282828] group-hover:bg-[#1ed760]/20'
+                  track.completed ? 'bg-[#60a5fa]' : 'bg-[#282828] group-hover:bg-[#60a5fa]/20'
                 } transition-colors`}>
                   {track.completed ? (
                     <CheckCircle className="w-6 h-6 text-black" />
@@ -143,7 +143,7 @@ export default function PlaylistDetailPage() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-bold text-white">{track.title}</span>
                     {track.completed && (
-                      <span className="px-2 py-0.5 bg-[#1ed760]/20 text-[#1ed760] text-xs font-bold rounded-full">
+                      <span className="px-2 py-0.5 bg-[#60a5fa]/20 text-[#60a5fa] text-xs font-bold rounded-full">
                         Completed
                       </span>
                     )}
@@ -156,7 +156,7 @@ export default function PlaylistDetailPage() {
                     <span>{track.duration}</span>
                   </div>
                   {!track.completed && (
-                    <button className="px-4 py-2 bg-[#1ed760] text-black text-xs font-bold rounded-full hover:scale-105 transition-transform">
+                    <button className="px-4 py-2 bg-[#60a5fa] text-black text-xs font-bold rounded-full hover:scale-105 transition-transform">
                       Play
                     </button>
                   )}
@@ -176,7 +176,7 @@ export default function PlaylistDetailPage() {
                   Next: {playlist.tracks.find((t: any) => !t.completed)?.title}
                 </p>
               </div>
-              <button className="px-6 py-3 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center gap-2">
+              <button className="px-6 py-3 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center gap-2">
                 <Play className="w-5 h-5" />
                 Resume
               </button>

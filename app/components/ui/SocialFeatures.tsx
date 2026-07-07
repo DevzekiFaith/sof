@@ -6,21 +6,47 @@ import { supabase } from "../../../lib/supabase";
 import { useUser } from "../../contexts/UserContext";
 import { useToast } from "../../contexts/ToastContext";
 
+interface LeaderboardUser {
+  id: string;
+  full_name: string | null;
+  xp: number;
+  avatar_url?: string | null;
+}
+
+interface StudyGroup {
+  id: string;
+  name: string;
+  skill: string;
+  member_count: number;
+  is_active: boolean;
+}
+
+interface Mentor {
+  id: string;
+  profiles?: { full_name: string | null } | null;
+  expertise: string;
+}
+
+interface GroupMembership {
+  study_group_id: string;
+}
+
 export default function SocialFeatures() {
   const { currentUser } = useUser();
   const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState<'leaderboard' | 'study-groups' | 'mentorship'>('leaderboard');
-  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
-  const [studyGroups, setStudyGroups] = useState<any[]>([]);
-  const [mentors, setMentors] = useState<any[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
+  const [studyGroups, setStudyGroups] = useState<StudyGroup[]>([]);
+  const [mentors, setMentors] = useState<Mentor[]>([]);
   const [mounted, setMounted] = useState(false);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [newGroupName, setNewGroupName] = useState('');
   const [newGroupSkill, setNewGroupSkill] = useState('general');
   const [newGroupDescription, setNewGroupDescription] = useState('');
-  const [userGroupMemberships, setUserGroupMemberships] = useState<any[]>([]);
+  const [userGroupMemberships, setUserGroupMemberships] = useState<GroupMembership[]>([]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -190,7 +216,7 @@ export default function SocialFeatures() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Users className="w-5 h-5 text-[#1ed760]" />
+          <Users className="w-5 h-5 text-[#60a5fa]" />
           Community
         </h3>
       </div>
@@ -201,7 +227,7 @@ export default function SocialFeatures() {
           onClick={() => setActiveTab('leaderboard')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'leaderboard'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -211,7 +237,7 @@ export default function SocialFeatures() {
           onClick={() => setActiveTab('study-groups')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'study-groups'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -221,7 +247,7 @@ export default function SocialFeatures() {
           onClick={() => setActiveTab('mentorship')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'mentorship'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -249,14 +275,14 @@ export default function SocialFeatures() {
                 }`}>
                   {index + 1}
                 </div>
-                <div className="w-10 h-10 rounded-full bg-[#1ed760] flex items-center justify-center text-black font-bold">
+                <div className="w-10 h-10 rounded-full bg-[#60a5fa] flex items-center justify-center text-black font-bold">
                   {user.full_name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-white">{user.full_name || 'Anonymous'}</p>
                   <p className="text-xs text-[#b3b3b3]">{user.xp?.toLocaleString() || 0} XP</p>
                 </div>
-                <Trophy className="w-5 h-5 text-[#1ed760]" />
+                <Trophy className="w-5 h-5 text-[#60a5fa]" />
               </div>
             ))
           ) : (
@@ -286,7 +312,7 @@ export default function SocialFeatures() {
                     <p className="text-xs text-[#b3b3b3]">Focus: {group.skill}</p>
                   </div>
                   {group.is_active && (
-                    <div className="w-2 h-2 rounded-full bg-[#1ed760]" />
+                    <div className="w-2 h-2 rounded-full bg-[#60a5fa]" />
                   )}
                 </div>
                 <div className="flex items-center justify-between">
@@ -299,7 +325,7 @@ export default function SocialFeatures() {
                     className={`px-3 py-1 rounded-full text-xs font-bold hover:scale-105 transition-transform ${
                       userGroupMemberships.some(m => m.study_group_id === group.id)
                         ? 'bg-[#282828] text-[#b3b3b3] cursor-not-allowed'
-                        : 'bg-[#1ed760] text-black'
+                        : 'bg-[#60a5fa] text-black'
                     }`}
                     disabled={userGroupMemberships.some(m => m.study_group_id === group.id)}
                   >
@@ -311,7 +337,7 @@ export default function SocialFeatures() {
           ) : (
             <p className="text-sm text-[#b3b3b3] text-center py-8">No study groups available</p>
           )}
-          <button onClick={() => setShowCreateGroup(true)} className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#1ed760] hover:text-[#1ed760] transition-colors flex items-center justify-center gap-2">
+          <button onClick={() => setShowCreateGroup(true)} className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors flex items-center justify-center gap-2">
             <Plus className="w-4 h-4" />
             Create Study Group
           </button>
@@ -333,7 +359,7 @@ export default function SocialFeatures() {
                       type="text"
                       value={newGroupName}
                       onChange={(e) => setNewGroupName(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                       placeholder="Enter group name"
                     />
                   </div>
@@ -342,7 +368,7 @@ export default function SocialFeatures() {
                     <select
                       value={newGroupSkill}
                       onChange={(e) => setNewGroupSkill(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                     >
                       <option value="general">General</option>
                       <option value="programming">Programming</option>
@@ -357,13 +383,13 @@ export default function SocialFeatures() {
                     <textarea
                       value={newGroupDescription}
                       onChange={(e) => setNewGroupDescription(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none min-h-[80px]"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none min-h-[80px]"
                       placeholder="Describe your study group"
                     />
                   </div>
                   <button
                     onClick={handleCreateGroup}
-                    className="w-full py-3 bg-[#1ed760] text-black font-bold rounded-lg hover:scale-105 transition-transform"
+                    className="w-full py-3 bg-[#60a5fa] text-black font-bold rounded-lg hover:scale-105 transition-transform"
                   >
                     Create Group
                   </button>
@@ -390,7 +416,7 @@ export default function SocialFeatures() {
                 className="p-4 bg-[#282828] rounded-lg hover:bg-[#333] transition-colors cursor-pointer"
               >
                 <div className="flex items-start gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#1ed760] to-[#1ed760]/60 flex items-center justify-center text-black font-bold">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#60a5fa] to-[#60a5fa]/60 flex items-center justify-center text-black font-bold">
                     {mentor.profiles?.full_name?.split(' ').map((n: string) => n[0]).join('') || 'M'}
                   </div>
                   <div className="flex-1">
@@ -408,7 +434,7 @@ export default function SocialFeatures() {
                     </div>
                   </div>
                 </div>
-                <button className="w-full py-2 rounded-full bg-[#1ed760] text-black text-sm font-bold hover:scale-105 transition-transform">
+                <button className="w-full py-2 rounded-full bg-[#60a5fa] text-black text-sm font-bold hover:scale-105 transition-transform">
                   Request Mentorship
                 </button>
               </div>

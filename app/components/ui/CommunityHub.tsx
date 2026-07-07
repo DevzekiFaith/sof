@@ -6,13 +6,40 @@ import { supabase } from "../../../lib/supabase";
 import { useUser } from "../../contexts/UserContext";
 import { useToast } from "../../contexts/ToastContext";
 
+interface ForumPost {
+  id: string;
+  title: string;
+  category: string;
+  created_at: string;
+  reply_count: number;
+  view_count: number;
+}
+
+interface PeerReview {
+  id: string;
+  title: string;
+  profiles?: { full_name: string | null } | null;
+  status: string;
+  submission_count: number;
+  deadline?: string;
+}
+
+interface QASession {
+  id: string;
+  title: string;
+  instructor: string;
+  status: string;
+  session_date: string;
+  attendee_count: number;
+}
+
 export default function CommunityHub() {
   const { currentUser } = useUser();
   const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState<'forums' | 'peer-review' | 'qa-sessions'>('forums');
-  const [forumPosts, setForumPosts] = useState<any[]>([]);
-  const [peerReviews, setPeerReviews] = useState<any[]>([]);
-  const [qaSessions, setQaSessions] = useState<any[]>([]);
+  const [forumPosts, setForumPosts] = useState<ForumPost[]>([]);
+  const [peerReviews, setPeerReviews] = useState<PeerReview[]>([]);
+  const [qaSessions, setQaSessions] = useState<QASession[]>([]);
   const [mounted, setMounted] = useState(false);
   const [showCreateDiscussion, setShowCreateDiscussion] = useState(false);
   const [newDiscussionTitle, setNewDiscussionTitle] = useState('');
@@ -20,6 +47,7 @@ export default function CommunityHub() {
   const [newDiscussionContent, setNewDiscussionContent] = useState('');
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -111,7 +139,7 @@ export default function CommunityHub() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Users className="w-5 h-5 text-[#1ed760]" />
+          <Users className="w-5 h-5 text-[#60a5fa]" />
           Community Hub
         </h3>
       </div>
@@ -122,7 +150,7 @@ export default function CommunityHub() {
           onClick={() => setActiveTab('forums')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'forums'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -132,7 +160,7 @@ export default function CommunityHub() {
           onClick={() => setActiveTab('peer-review')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'peer-review'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -142,7 +170,7 @@ export default function CommunityHub() {
           onClick={() => setActiveTab('qa-sessions')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'qa-sessions'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -169,7 +197,7 @@ export default function CommunityHub() {
                   <div className="flex-1">
                     <h4 className="text-sm font-bold text-white mb-1">{forum.title}</h4>
                     <div className="flex items-center gap-3 text-xs text-[#b3b3b3]">
-                      <span className="px-2 py-0.5 rounded-full bg-[#1ed760]/20 text-[#1ed760]">{forum.category}</span>
+                      <span className="px-2 py-0.5 rounded-full bg-[#60a5fa]/20 text-[#60a5fa]">{forum.category}</span>
                       <span className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {new Date(forum.created_at).toLocaleDateString()}
@@ -192,7 +220,7 @@ export default function CommunityHub() {
           ) : (
             <p className="text-sm text-[#b3b3b3] text-center py-8">No forum posts available</p>
           )}
-          <button onClick={() => setShowCreateDiscussion(true)} className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#1ed760] hover:text-[#1ed760] transition-colors flex items-center justify-center gap-2">
+          <button onClick={() => setShowCreateDiscussion(true)} className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors flex items-center justify-center gap-2">
             <Plus className="w-4 h-4" />
             Create New Discussion
           </button>
@@ -214,7 +242,7 @@ export default function CommunityHub() {
                       type="text"
                       value={newDiscussionTitle}
                       onChange={(e) => setNewDiscussionTitle(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                       placeholder="Enter discussion title"
                     />
                   </div>
@@ -223,7 +251,7 @@ export default function CommunityHub() {
                     <select
                       value={newDiscussionCategory}
                       onChange={(e) => setNewDiscussionCategory(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                     >
                       <option value="general">General</option>
                       <option value="course">Course</option>
@@ -237,13 +265,13 @@ export default function CommunityHub() {
                     <textarea
                       value={newDiscussionContent}
                       onChange={(e) => setNewDiscussionContent(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none min-h-[100px]"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none min-h-[100px]"
                       placeholder="Enter your discussion content"
                     />
                   </div>
                   <button
                     onClick={handleCreateDiscussion}
-                    className="w-full py-3 bg-[#1ed760] text-black font-bold rounded-lg hover:scale-105 transition-transform"
+                    className="w-full py-3 bg-[#60a5fa] text-black font-bold rounded-lg hover:scale-105 transition-transform"
                   >
                     Create Discussion
                   </button>
@@ -275,7 +303,7 @@ export default function CommunityHub() {
                     <p className="text-xs text-[#b3b3b3]">by {review.profiles?.full_name || 'Anonymous'}</p>
                   </div>
                   <span className={`px-2 py-1 rounded-full text-[10px] font-bold ${
-                    review.status === 'urgent' ? 'bg-red-500 text-white' : 'bg-[#1ed760]/20 text-[#1ed760]'
+                    review.status === 'urgent' ? 'bg-red-500 text-white' : 'bg-[#60a5fa]/20 text-[#60a5fa]'
                   }`}>
                     {review.status}
                   </span>
@@ -291,7 +319,7 @@ export default function CommunityHub() {
                       {review.deadline ? new Date(review.deadline).toLocaleDateString() : 'No deadline'}
                     </span>
                   </div>
-                  <button className="px-3 py-1 rounded-full bg-[#1ed760] text-black text-xs font-bold hover:scale-105 transition-transform">
+                  <button className="px-3 py-1 rounded-full bg-[#60a5fa] text-black text-xs font-bold hover:scale-105 transition-transform">
                     Review
                   </button>
                 </div>
@@ -300,7 +328,7 @@ export default function CommunityHub() {
           ) : (
             <p className="text-sm text-[#b3b3b3] text-center py-8">No peer reviews available</p>
           )}
-          <button className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#1ed760] hover:text-[#1ed760] transition-colors flex items-center justify-center gap-2">
+          <button className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors flex items-center justify-center gap-2">
             <Plus className="w-4 h-4" />
             Submit for Review
           </button>
@@ -327,7 +355,7 @@ export default function CommunityHub() {
                     <h4 className="text-sm font-bold text-white mb-1">{session.title}</h4>
                     <p className="text-xs text-[#b3b3b3]">by {session.instructor}</p>
                   </div>
-                  <span className="px-2 py-1 rounded-full bg-[#1ed760]/20 text-[#1ed760] text-[10px] font-bold">
+                  <span className="px-2 py-1 rounded-full bg-[#60a5fa]/20 text-[#60a5fa] text-[10px] font-bold">
                     {session.status}
                   </span>
                 </div>
@@ -346,7 +374,7 @@ export default function CommunityHub() {
                       {session.attendee_count} attending
                     </span>
                   </div>
-                  <button className="px-3 py-1 rounded-full bg-[#1ed760] text-black text-xs font-bold hover:scale-105 transition-transform">
+                  <button className="px-3 py-1 rounded-full bg-[#60a5fa] text-black text-xs font-bold hover:scale-105 transition-transform">
                     Register
                   </button>
                 </div>
@@ -355,7 +383,7 @@ export default function CommunityHub() {
           ) : (
             <p className="text-sm text-[#b3b3b3] text-center py-8">No Q&A sessions available</p>
           )}
-          <button className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#1ed760] hover:text-[#1ed760] transition-colors flex items-center justify-center gap-2">
+          <button className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors flex items-center justify-center gap-2">
             <Plus className="w-4 h-4" />
             Request Q&A Session
           </button>

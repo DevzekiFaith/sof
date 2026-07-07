@@ -25,7 +25,7 @@ const toastIcons = {
 };
 
 const toastColors = {
-  success: "bg-[#1ed760] text-black",
+  success: "bg-[#60a5fa] text-black",
   error: "bg-[#ef4444] text-white",
   info: "bg-[#3b82f6] text-white",
   warning: "bg-[#f59e0b] text-black",

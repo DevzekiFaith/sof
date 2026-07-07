@@ -223,7 +223,7 @@ export default function ProductivityTools() {
     <div className="bg-[#181818] p-6 rounded-lg">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
-          <Target className="w-5 h-5 text-[#1ed760]" />
+          <Target className="w-5 h-5 text-[#60a5fa]" />
           Productivity Tools
         </h3>
       </div>
@@ -234,7 +234,7 @@ export default function ProductivityTools() {
           onClick={() => setActiveTab('calendar')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'calendar'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -244,7 +244,7 @@ export default function ProductivityTools() {
           onClick={() => setActiveTab('focus')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'focus'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -254,7 +254,7 @@ export default function ProductivityTools() {
           onClick={() => setActiveTab('stats')}
           className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
             activeTab === 'stats'
-              ? 'bg-[#1ed760] text-black'
+              ? 'bg-[#60a5fa] text-black'
               : 'bg-[#282828] text-white hover:bg-[#333]'
           }`}
         >
@@ -281,7 +281,7 @@ export default function ProductivityTools() {
                   onClick={() => setCurrentMonth(new Date())}
                   className="p-1 hover:bg-[#333] rounded transition-colors"
                 >
-                  <div className="w-4 h-4 rounded-full bg-[#1ed760]" />
+                  <div className="w-4 h-4 rounded-full bg-[#60a5fa]" />
                 </button>
                 <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
@@ -346,7 +346,7 @@ export default function ProductivityTools() {
                       }}
                       className={`p-2 rounded-lg cursor-pointer transition-colors ${
                         hasEvent
-                          ? 'bg-[#1ed760]/20 text-[#1ed760] hover:bg-[#1ed760]/30'
+                          ? 'bg-[#60a5fa]/20 text-[#60a5fa] hover:bg-[#60a5fa]/30'
                           : 'text-white hover:bg-[#333]'
                       }`}
                     >
@@ -376,7 +376,7 @@ export default function ProductivityTools() {
                   className="p-3 bg-[#282828] rounded-lg flex items-center gap-3 hover:bg-[#333] transition-colors cursor-pointer"
                 >
                   <div className={`w-2 h-2 rounded-full ${
-                    event.event_type === 'course' ? 'bg-[#1ed760]' : event.event_type === 'qa' ? 'bg-blue-500' : 'bg-red-500'
+                    event.event_type === 'course' ? 'bg-[#60a5fa]' : event.event_type === 'qa' ? 'bg-blue-500' : 'bg-red-500'
                   }`} />
                   <div className="flex-1">
                     <p className="text-sm font-bold text-white">{event.title}</p>
@@ -406,7 +406,7 @@ export default function ProductivityTools() {
                       type="text"
                       value={newEventTitle}
                       onChange={(e) => setNewEventTitle(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                       placeholder="Enter event title"
                     />
                   </div>
@@ -416,7 +416,7 @@ export default function ProductivityTools() {
                       type="datetime-local"
                       value={newEventDate}
                       onChange={(e) => setNewEventDate(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                     />
                   </div>
                   <div>
@@ -424,7 +424,7 @@ export default function ProductivityTools() {
                     <select
                       value={newEventType}
                       onChange={(e) => setNewEventType(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                     >
                       <option value="course">Course</option>
                       <option value="qa">Q&A Session</option>
@@ -434,7 +434,7 @@ export default function ProductivityTools() {
                   </div>
                   <button
                     onClick={handleAddEvent}
-                    className="w-full py-3 bg-[#1ed760] text-black font-bold rounded-lg hover:scale-105 transition-transform"
+                    className="w-full py-3 bg-[#60a5fa] text-black font-bold rounded-lg hover:scale-105 transition-transform"
                   >
                     Add Event
                   </button>
@@ -443,7 +443,7 @@ export default function ProductivityTools() {
             </div>
           )}
 
-          <button onClick={() => setShowAddEvent(true)} className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#1ed760] hover:text-[#1ed760] transition-colors flex items-center justify-center gap-2">
+          <button onClick={() => setShowAddEvent(true)} className="w-full py-3 border-2 border-dashed border-[#282828] rounded-lg text-[#b3b3b3] text-sm font-bold hover:border-[#60a5fa] hover:text-[#60a5fa] transition-colors flex items-center justify-center gap-2">
             <Plus className="w-4 h-4" />
             Add Event
           </button>
@@ -498,19 +498,19 @@ export default function ProductivityTools() {
         <div className="space-y-4">
           {!focusMode ? (
             <div className="text-center py-8">
-              <Timer className="w-16 h-16 text-[#1ed760] mx-auto mb-4" />
+              <Timer className="w-16 h-16 text-[#60a5fa] mx-auto mb-4" />
               <h4 className="text-lg font-bold text-white mb-2">Focus Mode</h4>
               <p className="text-sm text-[#b3b3b3] mb-6">Use Pomodoro technique to boost productivity</p>
               <button
                 onClick={() => setFocusMode(true)}
-                className="px-6 py-3 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform"
+                className="px-6 py-3 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform"
               >
                 Start Focus Session
               </button>
             </div>
           ) : (
             <div className="text-center py-8">
-              <div className="w-32 h-32 rounded-full bg-[#282828] mx-auto mb-6 flex items-center justify-center border-4 border-[#1ed760]">
+              <div className="w-32 h-32 rounded-full bg-[#282828] mx-auto mb-6 flex items-center justify-center border-4 border-[#60a5fa]">
                 <span className="text-3xl font-bold text-white">
                   {Math.floor(focusTimer / 60)}:{(focusTimer % 60).toString().padStart(2, '0')}
                 </span>
@@ -524,7 +524,7 @@ export default function ProductivityTools() {
                 >
                   End Session
                 </button>
-                <button className="px-4 py-2 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform">
+                <button className="px-4 py-2 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform">
                   Take Break
                 </button>
               </div>
@@ -533,10 +533,10 @@ export default function ProductivityTools() {
 
           {/* Focus Stats */}
           <div className="bg-[#282828] p-4 rounded-lg">
-            <h4 className="text-sm font-bold text-white mb-3">Today's Focus</h4>
+            <h4 className="text-sm font-bold text-white mb-3">Today&apos;s Focus</h4>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <p className="text-2xl font-bold text-[#1ed760]">{focusSessions.length}</p>
+                <p className="text-2xl font-bold text-[#60a5fa]">{focusSessions.length}</p>
                 <p className="text-xs text-[#b3b3b3]">Sessions</p>
               </div>
               <div>
@@ -558,23 +558,23 @@ export default function ProductivityTools() {
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-[#282828] p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <Clock className="w-4 h-4 text-[#1ed760]" />
+                <Clock className="w-4 h-4 text-[#60a5fa]" />
                 <span className="text-xs text-[#b3b3b3]">Total Time</span>
               </div>
               <p className="text-xl font-bold text-white">{totalFocusTime}m</p>
-              <p className="text-xs text-[#1ed760]">{focusSessions.length} sessions</p>
+              <p className="text-xs text-[#60a5fa]">{focusSessions.length} sessions</p>
             </div>
             <div className="bg-[#282828] p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <CheckCircle2 className="w-4 h-4 text-[#1ed760]" />
+                <CheckCircle2 className="w-4 h-4 text-[#60a5fa]" />
                 <span className="text-xs text-[#b3b3b3]">Completed</span>
               </div>
               <p className="text-xl font-bold text-white">{completedGoals} Tasks</p>
-              <p className="text-xs text-[#1ed760]">{totalGoals} total goals</p>
+              <p className="text-xs text-[#60a5fa]">{totalGoals} total goals</p>
             </div>
             <div className="bg-[#282828] p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <Target className="w-4 h-4 text-[#1ed760]" />
+                <Target className="w-4 h-4 text-[#60a5fa]" />
                 <span className="text-xs text-[#b3b3b3]">Goals Met</span>
               </div>
               <p className="text-xl font-bold text-white">{completedGoals}/{totalGoals}</p>
@@ -582,11 +582,11 @@ export default function ProductivityTools() {
             </div>
             <div className="bg-[#282828] p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <BarChart3 className="w-4 h-4 text-[#1ed760]" />
+                <BarChart3 className="w-4 h-4 text-[#60a5fa]" />
                 <span className="text-xs text-[#b3b3b3]">Events</span>
               </div>
               <p className="text-xl font-bold text-white">{calendarEvents.length}</p>
-              <p className="text-xs text-[#1ed760]">Upcoming</p>
+              <p className="text-xs text-[#60a5fa]">Upcoming</p>
             </div>
           </div>
 
@@ -594,7 +594,7 @@ export default function ProductivityTools() {
           <div className="bg-[#282828] p-4 rounded-lg">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-sm font-bold text-white">Learning Goals</h4>
-              <button onClick={() => setShowAddGoal(true)} className="text-xs text-[#1ed760] hover:underline">+ Add Goal</button>
+              <button onClick={() => setShowAddGoal(true)} className="text-xs text-[#60a5fa] hover:underline">+ Add Goal</button>
             </div>
             <div className="space-y-2">
               {!mounted ? (
@@ -612,7 +612,7 @@ export default function ProductivityTools() {
                     </div>
                     <div className="w-full bg-[#282828] rounded-full h-1.5 mb-2">
                       <div
-                        className="h-full bg-gradient-to-r from-[#1ed760] to-[#1ed760]/80 rounded-full"
+                        className="h-full bg-gradient-to-r from-[#60a5fa] to-[#60a5fa]/80 rounded-full"
                         style={{ width: `${goal.progress}%` }}
                       />
                     </div>
@@ -623,7 +623,7 @@ export default function ProductivityTools() {
                           onClick={() => handleUpdateGoalProgress(goal.id, progress)}
                           className={`flex-1 py-1 text-xs rounded ${
                             goal.progress >= progress
-                              ? 'bg-[#1ed760] text-black'
+                              ? 'bg-[#60a5fa] text-black'
                               : 'bg-[#282828] text-[#b3b3b3] hover:bg-[#333]'
                           }`}
                         >
@@ -656,7 +656,7 @@ export default function ProductivityTools() {
                       type="text"
                       value={newGoalTitle}
                       onChange={(e) => setNewGoalTitle(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                       placeholder="Enter your learning goal"
                     />
                   </div>
@@ -666,12 +666,12 @@ export default function ProductivityTools() {
                       type="date"
                       value={newGoalDeadline}
                       onChange={(e) => setNewGoalDeadline(e.target.value)}
-                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#1ed760] outline-none"
+                      className="w-full bg-[#181818] text-white px-3 py-2 rounded-lg border border-[#3a3a3a] focus:border-[#60a5fa] outline-none"
                     />
                   </div>
                   <button
                     onClick={handleAddGoal}
-                    className="w-full py-3 bg-[#1ed760] text-black font-bold rounded-lg hover:scale-105 transition-transform"
+                    className="w-full py-3 bg-[#60a5fa] text-black font-bold rounded-lg hover:scale-105 transition-transform"
                   >
                     Add Goal
                   </button>

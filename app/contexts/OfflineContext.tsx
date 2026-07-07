@@ -20,6 +20,9 @@ export interface OfflineSettings {
   wifiOnly: boolean;
   maxStorage: number; // in MB
   downloadQuality: 'low' | 'medium' | 'high';
+  dataSaverMode: boolean;
+  audioOnlyMode: boolean;
+  textOnlyMode: boolean;
 }
 
 interface OfflineContextType {
@@ -45,7 +48,10 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
     autoDownload: false,
     wifiOnly: true,
     maxStorage: 500, // 500 MB default
-    downloadQuality: 'medium'
+    downloadQuality: 'medium',
+    dataSaverMode: false,
+    audioOnlyMode: false,
+    textOnlyMode: false
   });
 
   // Load offline settings from Supabase

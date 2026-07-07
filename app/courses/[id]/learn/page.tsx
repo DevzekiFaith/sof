@@ -25,7 +25,7 @@ export default function CourseLearnPage() {
       <div className="min-h-screen bg-[#121212] text-white flex items-center justify-center">
         <div className="text-center">
           <p className="text-[#b3b3b3]">Course not found</p>
-          <Link href="/courses" className="text-[#1ed760] hover:underline mt-2 inline-block">
+          <Link href="/courses" className="text-[#60a5fa] hover:underline mt-2 inline-block">
             Back to Courses
           </Link>
         </div>
@@ -68,10 +68,10 @@ export default function CourseLearnPage() {
             </Link>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-[#1ed760]">{Math.round(progress)}%</span>
+                <span className="text-sm font-bold text-[#60a5fa]">{Math.round(progress)}%</span>
                 <div className="w-24 bg-[#282828] rounded-full h-2">
                   <div 
-                    className="bg-[#1ed760] h-2 rounded-full transition-all duration-300"
+                    className="bg-[#60a5fa] h-2 rounded-full transition-all duration-300"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -103,7 +103,7 @@ export default function CourseLearnPage() {
                       onClick={() => setCurrentModule(index)}
                       className={`w-full text-left p-3 rounded-lg transition-all ${
                         isCurrent 
-                          ? 'bg-[#1ed760] text-black' 
+                          ? 'bg-[#60a5fa] text-black' 
                           : isCompleted 
                             ? 'bg-[#282828] text-white' 
                             : 'bg-[#181818] text-[#b3b3b3] hover:bg-[#282828]'
@@ -152,7 +152,7 @@ export default function CourseLearnPage() {
                 
                 <h1 className="text-2xl font-black mb-4">{currentModuleData?.title}</h1>
                 
-                <button className="flex items-center gap-2 bg-[#1ed760] text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform">
+                <button className="flex items-center gap-2 bg-[#60a5fa] text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform">
                   <Play className="w-5 h-5" fill="currentColor" />
                   Tap to Watch
                 </button>
@@ -165,7 +165,7 @@ export default function CourseLearnPage() {
                   <div className="space-y-3">
                     {currentModuleData.topics.map((topic, index) => (
                       <div key={index} className="flex items-start gap-3 p-3 bg-[#282828] rounded-lg">
-                        <div className="w-6 h-6 rounded-full bg-[#1ed760] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="w-6 h-6 rounded-full bg-[#60a5fa] flex items-center justify-center flex-shrink-0 mt-0.5">
                           <span className="text-xs font-bold text-black">{index + 1}</span>
                         </div>
                         <p className="text-sm text-white">{topic}</p>
@@ -178,13 +178,13 @@ export default function CourseLearnPage() {
               {/* Learning Objectives */}
               <div className="p-6 border-b border-[#282828]">
                 <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-                  <Target className="w-5 h-5 text-[#1ed760]" />
+                  <Target className="w-5 h-5 text-[#60a5fa]" />
                   Learning Objectives
                 </h3>
                 <div className="space-y-3">
                   {currentModuleData?.objectives.map((objective, index) => (
                     <div key={index} className="flex items-start gap-3">
-                      <ArrowRight className="w-4 h-4 text-[#1ed760] mt-1 flex-shrink-0" />
+                      <ArrowRight className="w-4 h-4 text-[#60a5fa] mt-1 flex-shrink-0" />
                       <p className="text-sm text-white">{objective}</p>
                     </div>
                   ))}
@@ -194,7 +194,7 @@ export default function CourseLearnPage() {
               {/* Description */}
               <div className="p-6 border-b border-[#282828]">
                 <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-[#1ed760]" />
+                  <BookOpen className="w-5 h-5 text-[#60a5fa]" />
                   Overview
                 </h3>
                 <p className="text-sm text-[#b3b3b3] leading-relaxed whitespace-pre-line">
@@ -205,13 +205,13 @@ export default function CourseLearnPage() {
               {/* Activities */}
               <div className="p-6 border-b border-[#282828]">
                 <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-                  <Award className="w-5 h-5 text-[#1ed760]" />
+                  <Award className="w-5 h-5 text-[#60a5fa]" />
                   Activities
                 </h3>
                 <div className="space-y-3">
                   {currentModuleData?.activities.map((activity, index) => (
                     <div key={index} className="flex items-start gap-3 p-3 bg-[#282828] rounded-lg">
-                      <CheckCircle className="w-4 h-4 text-[#1ed760] mt-1 flex-shrink-0" />
+                      <CheckCircle className="w-4 h-4 text-[#60a5fa] mt-1 flex-shrink-0" />
                       <p className="text-sm text-white">{activity}</p>
                     </div>
                   ))}
@@ -231,7 +231,7 @@ export default function CourseLearnPage() {
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 p-3 bg-[#282828] rounded-lg hover:bg-[#3a3a3a] transition-colors"
                       >
-                        <BookOpen className="w-4 h-4 text-[#1ed760]" />
+                        <BookOpen className="w-4 h-4 text-[#60a5fa]" />
                         <span className="text-sm text-white">{resource.name}</span>
                         <ArrowRight className="w-4 h-4 text-[#b3b3b3] ml-auto" />
                       </a>
@@ -255,7 +255,7 @@ export default function CourseLearnPage() {
                   <button
                     onClick={handleCompleteModule}
                     disabled={completedModules.includes(currentModule)}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#1ed760] text-black font-bold rounded-full hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="flex items-center gap-2 px-6 py-3 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     {completedModules.includes(currentModule) ? 'Completed' : 'Complete Learn'}
                     {!completedModules.includes(currentModule) && <ChevronRight size={16} />}
@@ -273,7 +273,7 @@ export default function CourseLearnPage() {
               </div>
               <div className="w-full bg-[#282828] rounded-full h-3">
                 <div 
-                  className="bg-[#1ed760] h-3 rounded-full transition-all duration-300"
+                  className="bg-[#60a5fa] h-3 rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -283,12 +283,12 @@ export default function CourseLearnPage() {
             <div className="mt-6 bg-[#181818] rounded-xl border border-[#282828] p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-bold text-white flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-[#1ed760]" />
+                  <BookOpen className="w-5 h-5 text-[#60a5fa]" />
                   Notes
                 </h3>
                 <button
                   onClick={() => setShowNotes(!showNotes)}
-                  className="text-sm text-[#1ed760] hover:underline"
+                  className="text-sm text-[#60a5fa] hover:underline"
                 >
                   {showNotes ? 'Hide' : 'Show'}
                 </button>
@@ -301,7 +301,7 @@ export default function CourseLearnPage() {
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Take notes for this module..."
                     rows={6}
-                    className="w-full bg-[#282828] border border-[#3a3a3a] rounded-lg px-4 py-3 text-white placeholder-[#b3b3b3] focus:outline-none focus:border-[#1ed760] transition-colors resize-none"
+                    className="w-full bg-[#282828] border border-[#3a3a3a] rounded-lg px-4 py-3 text-white placeholder-[#b3b3b3] focus:outline-none focus:border-[#60a5fa] transition-colors resize-none"
                   />
                   <div className="flex justify-end gap-2">
                     <button
@@ -310,7 +310,7 @@ export default function CourseLearnPage() {
                     >
                       Clear
                     </button>
-                    <button className="px-4 py-2 bg-[#1ed760] text-black font-bold rounded-lg hover:scale-105 transition-transform">
+                    <button className="px-4 py-2 bg-[#60a5fa] text-black font-bold rounded-lg hover:scale-105 transition-transform">
                       Save Notes
                     </button>
                   </div>

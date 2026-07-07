@@ -36,7 +36,7 @@ export default function SearchPage() {
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               placeholder="Search for courses..."
-              className="w-full pl-12 pr-4 py-4 bg-[#181818] border border-[#282828] rounded-lg focus:border-[#1ed760] focus:outline-none text-lg"
+              className="w-full pl-12 pr-4 py-4 bg-[#181818] border border-[#282828] rounded-lg focus:border-[#60a5fa] focus:outline-none text-lg"
             />
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function SearchPage() {
               <Link
                 key={course.id}
                 href={`/courses/${course.id}`}
-                className="block bg-[#181818] rounded-lg p-6 border border-[#282828] hover:border-[#1ed760] transition-colors"
+                className="block bg-[#181818] rounded-lg p-6 border border-[#282828] hover:border-[#60a5fa] transition-colors"
               >
                 <div className="flex items-start gap-4">
                   <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${course.bgGradient}`}>
@@ -61,7 +61,7 @@ export default function SearchPage() {
                     <h3 className="font-bold text-lg mb-2">{course.title}</h3>
                     <p className="text-sm text-[#b3b3b3] line-clamp-2">{course.description}</p>
                     <div className="mt-3 flex items-center justify-between">
-                      <span className="text-[#1ed760] font-bold">${course.priceUSD}</span>
+                      <span className="text-[#60a5fa] font-bold">${course.priceUSD}</span>
                       <span className="text-xs text-[#a7a7a7]">{course.duration}</span>
                     </div>
                   </div>

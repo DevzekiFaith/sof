@@ -14,7 +14,7 @@ export class Cache {
     return `${CACHE_PREFIX}${CACHE_VERSION}_${key}`;
   }
 
-  static set<T>(key: string, data: T, ttl: number = 30 * 60 * 1000): void {
+  static set<T>(key: string, data: T, _ttl: number = 30 * 60 * 1000): void {
     if (typeof window === 'undefined') return;
     
     try {

@@ -63,16 +63,16 @@ export default function DownloadableResource({ resource, onDownload }: Downloada
   };
 
   return (
-    <div className="group bg-[#282828] hover:bg-[#333] rounded-lg p-4 transition-all duration-300 border border-transparent hover:border-[#1ed760]/30">
+    <div className="group bg-[#282828] hover:bg-[#333] rounded-lg p-4 transition-all duration-300 border border-transparent hover:border-[#60a5fa]/30">
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-lg bg-[#1ed760]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#1ed760]/20 transition-colors">
+        <div className="w-10 h-10 rounded-lg bg-[#60a5fa]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#60a5fa]/20 transition-colors">
           {getIcon()}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <h4 className="text-white font-semibold text-sm truncate">{resource.name}</h4>
             {resource.downloadable && (
-              <span className="px-2 py-0.5 bg-[#1ed760]/20 text-[#1ed760] text-xs font-bold rounded-full">
+              <span className="px-2 py-0.5 bg-[#60a5fa]/20 text-[#60a5fa] text-xs font-bold rounded-full">
                 Downloadable
               </span>
             )}
@@ -80,7 +80,7 @@ export default function DownloadableResource({ resource, onDownload }: Downloada
           <p className="text-xs text-[#b3b3b3] mb-2">{getTypeLabel()}</p>
           <button
             onClick={handleDownload}
-            className="flex items-center gap-2 text-xs text-[#1ed760] hover:text-white transition-colors font-medium"
+            className="flex items-center gap-2 text-xs text-[#60a5fa] hover:text-white transition-colors font-medium"
           >
             {resource.downloadable ? (
               <>
