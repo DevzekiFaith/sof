@@ -20,7 +20,7 @@ function CheckoutContent() {
   const { cart, clearCart, cartTotal, cartTotalNGN } = useCart();
   const { showToast } = useToast();
 
-  const { currentUser, login, register, logout } = useUser();
+  const { currentUser, login, register, logout, updateUserPreferences, getOwnedCourses } = useUser();
 
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "", name: "" });
@@ -73,80 +73,101 @@ function CheckoutContent() {
       callback: async (response) => {
         closePaymentModal();
         if (response.status === "successful" || response.status === "completed") {
-          // Process gift orders
-          const giftItems = cart.filter(item => item.isGift);
-          if (giftItems.length > 0) {
-            for (const item of giftItems) {
-              await supabase.from('gift_orders').insert({
+          try {
+            // Process gift orders
+            const giftItems = cart.filter(item => item.isGift);
+            if (giftItems.length > 0) {
+              const giftPurchases = giftItems.map(item => ({
                 purchaser_id: currentUser.id,
-                recipient_email: item.recipientEmail,
-                recipient_name: item.recipientName,
+                recipient_email: item.recipientEmail || '',
+                recipient_name: item.recipientName || '',
                 course_id: item.id,
-                amount: item.priceUSD,
+                amount: item.priceUSD || 14,
                 currency: 'USD',
                 status: 'completed',
-                gift_message: item.giftMessage,
-              });
+                gift_message: item.giftMessage || '',
+              }));
+              const { error: giftError } = await supabase.from('gift_orders').insert(giftPurchases);
+              if (giftError) {
+                console.error('Error inserting gift orders:', giftError);
+              }
             }
-          }
 
-          // Clear cart after successful payment
-          if (cart.length > 0) {
-            clearCart();
-          }
-          showToast("Payment successful!", "success");
-          
-          // Save purchase to database
-          const purchaseData = {
-            user_id: currentUser.id,
-            course_id: course?.id || '',
-            course_title: course?.title || '',
-            amount: currency === "NGN" ? priceNGN : priceUSD,
-            currency: currency,
-            payment_method: 'flutterwave',
-            transaction_id: response.transaction_id || response.tx_ref,
-            status: 'completed',
-            purchased_at: new Date().toISOString(),
-          };
-
-          try {
+            // Save purchase(s) to database (non-gifts only for course_purchases)
             if (course) {
+              const purchaseData = {
+                user_id: currentUser.id,
+                course_id: course.id,
+                course_title: course.title,
+                amount: currency === "NGN" ? priceNGN : priceUSD,
+                currency: currency,
+                payment_method: 'flutterwave',
+                transaction_id: response.transaction_id || response.tx_ref,
+                status: 'completed',
+                purchased_at: new Date().toISOString(),
+              };
               const { error: insertError } = await supabase.from('course_purchases').insert(purchaseData);
               if (insertError) {
                 console.error('Error inserting purchase:', insertError);
                 showToast('Payment successful but failed to record purchase. Please contact support.', 'error');
               }
             } else {
-              // Handle cart purchases
-              for (const item of cart) {
-                const itemAmount = currency === "NGN" ? (item.priceUSD * CURRENCY_CONFIG.NGN_TO_USD_RATE) : item.priceUSD;
-                const { error: insertError } = await supabase.from('course_purchases').insert({
-                  user_id: currentUser.id,
-                  course_id: item.id,
-                  course_title: item.title,
-                  amount: itemAmount,
-                  currency: currency,
-                  payment_method: 'flutterwave',
-                  transaction_id: response.transaction_id || response.tx_ref,
-                  status: 'completed',
-                  purchased_at: new Date().toISOString(),
+              const nonGiftItems = cart.filter(item => !item.isGift);
+              if (nonGiftItems.length > 0) {
+                const purchasesToInsert = nonGiftItems.map(item => {
+                  const itemAmount = currency === "NGN" ? ((item.priceUSD ?? 14) * CURRENCY_CONFIG.NGN_TO_USD_RATE) : (item.priceUSD ?? 14);
+                  return {
+                    user_id: currentUser.id,
+                    course_id: item.id,
+                    course_title: item.title,
+                    amount: itemAmount,
+                    currency: currency,
+                    payment_method: 'flutterwave',
+                    transaction_id: response.transaction_id || response.tx_ref,
+                    status: 'completed',
+                    purchased_at: new Date().toISOString(),
+                  };
                 });
+                const { error: insertError } = await supabase.from('course_purchases').insert(purchasesToInsert);
                 if (insertError) {
-                  console.error('Error inserting cart purchase:', insertError);
+                  console.error('Error inserting cart purchases:', insertError);
                   showToast('Payment successful but failed to record some purchases. Please contact support.', 'error');
                 }
               }
             }
-          } catch (dbError) {
-            console.error('Database error:', dbError);
-            showToast('Payment successful but failed to record purchase. Please contact support.', 'error');
-          }
 
-          // Add courses to user's purchased courses
-          if (course) {
-            router.push(`/courses/${course.id}?purchased=true`);
-          } else {
-            router.push("/courses?purchase_history=true");
+            // Add courses to user's purchased courses in profile preferences
+            const currentOwned = getOwnedCourses();
+            const newOwned = [...currentOwned];
+            if (course) {
+              if (!newOwned.includes(course.id)) {
+                newOwned.push(course.id);
+              }
+            } else {
+              const nonGiftItems = cart.filter(item => !item.isGift);
+              for (const item of nonGiftItems) {
+                if (!newOwned.includes(item.id)) {
+                  newOwned.push(item.id);
+                }
+              }
+            }
+            await updateUserPreferences({ ownedCourseIds: newOwned });
+
+            // Clear cart after successful payment and DB recording
+            if (cart.length > 0) {
+              clearCart();
+            }
+            showToast("Payment successful!", "success");
+
+            // Redirect user
+            if (course) {
+              router.push(`/courses/${course.id}?purchased=true`);
+            } else {
+              router.push("/courses?purchase_history=true");
+            }
+          } catch (dbError) {
+            console.error('Error handling post-payment logic:', dbError);
+            showToast('Payment successful but failed to record purchase. Please contact support.', 'error');
           }
         }
       },
