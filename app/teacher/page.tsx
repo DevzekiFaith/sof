@@ -8,6 +8,7 @@ export default function TeacherDashboard() {
   const { isTeacher, students, classStats, assignments, loading, createAssignment } = useTeacher();
   const [activeTab, setActiveTab] = useState<'overview' | 'students' | 'assignments'>('overview');
   const [showCreateAssignment, setShowCreateAssignment] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
 
   if (!isTeacher) {
     return (

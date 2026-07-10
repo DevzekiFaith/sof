@@ -229,26 +229,11 @@ export default function ChallengePage() {
     };
 
     fetchEnrollments();
-
-    const subscription = supabase
-      .channel('challenge_enrollments_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload: { eventType: string; new: { challenge_id: string }; old: { challenge_id: string } }) => {
-        if (payload.eventType === 'INSERT') {
-          setEnrolledChallenges(prev => [...prev, payload.new.challenge_id]);
-        } else if (payload.eventType === 'DELETE') {
-          setEnrolledChallenges(prev => prev.filter(id => id !== payload.old.challenge_id));
-        }
-      })
-      .subscribe();
-
-    return () => {
-      subscription.unsubscribe();
-    };
   }, [mounted, currentUser]);
 
   const isEnrolled = (courseId: string) => enrolledChallenges.includes(courseId);
 
-  const handleEnroll = async (course: { id: string; title: string; priceUSD: number; description: string; }) => {
+  const handleEnroll = async (course: any) => {
     if (!currentUser) {
       showToast("Please sign in to enroll in this challenge", "error");
       return;
@@ -388,7 +373,7 @@ export default function ChallengePage() {
                     <div className="mt-3 pt-3 border-t border-[#3a3a3a]">
                       <p className="text-xs text-[#b3b3b3] mb-2">Learning Objectives:</p>
                       <ul className="space-y-1">
-                        {lesson.objectives.map((obj: string, i: number) => (
+                        {lesson.objectives?.map((obj: string, i: number) => (
                           <li key={i} className="text-xs text-[#b3b3b3] flex items-start gap-2">
                             <span className="text-[#60a5fa]">•</span>
                             {obj}

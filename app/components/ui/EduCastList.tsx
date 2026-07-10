@@ -1,6 +1,6 @@
 "use client";
 
-import { usePodcast } from "../../contexts/PodcastContext";
+import { usePodcast, EduCast } from "../../contexts/PodcastContext";
 import { useUser } from "../../contexts/UserContext";
 import { Mic, Play, Clock, User, Lock, Crown, Radio, Users, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -13,15 +13,6 @@ interface LiveSession {
   title: string;
   host_name: string;
   viewer_count: number;
-}
-
-interface EduCast {
-  id: string;
-  title: string;
-  description: string;
-  host: string;
-  duration: number;
-  topics: string[];
 }
 
 export default function EduCastList() {
@@ -51,28 +42,6 @@ export default function EduCastList() {
     };
 
     fetchLiveSessions();
-
-    // Set up real-time subscription for live sessions
-    const subscription = supabase
-      .channel('live_edu_sessions_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'live_edu_sessions' }, (payload: { eventType: string; new: LiveSession; old: { id: string } }) => {
-        if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
-          setLiveSessions(prev => {
-            const existing = prev.find(s => s.id === payload.new.id);
-            if (existing) {
-              return prev.map(s => s.id === payload.new.id ? payload.new : s);
-            }
-            return [...prev, payload.new].slice(0, 5);
-          });
-        } else if (payload.eventType === 'DELETE') {
-          setLiveSessions(prev => prev.filter(s => s.id !== payload.old.id));
-        }
-      })
-      .subscribe();
-
-    return () => {
-      subscription.unsubscribe();
-    };
   }, [mounted, currentUser]);
 
   const formatDuration = (seconds: number): string => {

@@ -4,8 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Book, Package, Shirt, PenTool, ShoppingBag, Star } from "lucide-react";
+import { useCart } from "../contexts/CartContext";
+import { useToast } from "../contexts/ToastContext";
 
 export default function StorePage() {
+  const { addToCart } = useCart();
+  const { showToast } = useToast();
+
   const categories = [
     { id: "all", name: "All Products", icon: ShoppingBag },
     { id: "ebooks", name: "eBooks", icon: Book },
@@ -173,9 +178,26 @@ export default function StorePage() {
                     <span className="text-[#666] text-sm">({product.reviews})</span>
                   </div>
 
-                  <Link href="/cart" className="w-full bg-[#60a5fa] text-black py-3 rounded-full font-semibold hover:bg-[#1db954] transition-colors text-center block">
+                  <button
+                    onClick={() => {
+                      addToCart({
+                        id: `store-${product.id}`,
+                        title: product.name,
+                        description: product.description,
+                        fullDescription: product.description,
+                        priceUSD: product.price,
+                        imageUrl: product.imageUrl,
+                        bgGradient: product.gradient,
+                        icon: product.icon,
+                        iconColor: "text-[#60a5fa]",
+                        ageRange: "All Ages",
+                      });
+                      showToast(`${product.name} added to cart!`, "success");
+                    }}
+                    className="w-full bg-[#60a5fa] text-black py-3 rounded-full font-semibold hover:bg-[#60a5fa]/80 transition-colors text-center block"
+                  >
                     Add to Cart
-                  </Link>
+                  </button>
                 </div>
               </div>
             );

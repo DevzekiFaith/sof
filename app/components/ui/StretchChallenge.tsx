@@ -60,21 +60,6 @@ export default function StretchChallenge() {
     };
 
     fetchEnrollments();
-
-    const subscription = supabase
-      .channel('challenge_enrollments_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'challenge_enrollments', filter: `user_id=eq.${currentUser.id}` }, (payload: { eventType: string; new: { challenge_id: string }; old: { challenge_id: string } }) => {
-        if (payload.eventType === 'INSERT') {
-          setEnrolledChallenges(prev => [...prev, payload.new.challenge_id]);
-        } else if (payload.eventType === 'DELETE') {
-          setEnrolledChallenges(prev => prev.filter(id => id !== payload.old.challenge_id));
-        }
-      })
-      .subscribe();
-
-    return () => {
-      subscription.unsubscribe();
-    };
   }, [mounted, currentUser]);
 
   const challengeCourses = [
@@ -338,6 +323,7 @@ export default function StretchChallenge() {
   };
 
   const handleStartLesson = (lessonId: number) => {
+    if (!selectedCourse) return;
     // Navigate to lesson page
     router.push(`/challenge/${selectedCourse.id}/lesson/${lessonId}`);
   };

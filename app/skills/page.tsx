@@ -112,9 +112,9 @@ export default function SkillsPage() {
                   <div className="flex items-start justify-between mb-4">
                     <div 
                       className="w-14 h-14 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: `${skill.color}20` }}
+                      style={{ backgroundColor: `${skill.color}20`, color: skill.color }}
                     >
-                      <Icon className="w-7 h-7" style={{ color: skill.color }} />
+                      <Icon className="w-7 h-7" />
                     </div>
                     {!skill.unlocked && (
                       <Lock className="w-5 h-5 text-[#b3b3b3]" />

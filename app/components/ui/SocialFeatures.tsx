@@ -23,8 +23,10 @@ interface StudyGroup {
 
 interface Mentor {
   id: string;
-  profiles?: { full_name: string | null } | null;
+  profiles?: { full_name: string | null; avatar_url?: string | null } | null;
   expertise: string;
+  rating?: number;
+  student_count?: number;
 }
 
 interface GroupMembership {
@@ -95,28 +97,6 @@ export default function SocialFeatures() {
     fetchStudyGroups();
     fetchUserGroupMemberships();
     fetchMentors();
-
-    // Set up real-time subscriptions
-    const groupsSubscription = supabase
-      .channel('study_groups_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'study_groups' }, () => {
-        fetchStudyGroups();
-        fetchUserGroupMemberships();
-      })
-      .subscribe();
-
-    const membersSubscription = supabase
-      .channel('study_group_members_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'study_group_members' }, () => {
-        fetchStudyGroups();
-        fetchUserGroupMemberships();
-      })
-      .subscribe();
-
-    return () => {
-      groupsSubscription.unsubscribe();
-      membersSubscription.unsubscribe();
-    };
   }, [mounted, currentUser]);
 
   const handleCreateGroup = async () => {
