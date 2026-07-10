@@ -26,7 +26,7 @@ export default function StorePage() {
       // Try to save to Supabase. If the newsletter table doesn't exist, handle it gracefully.
       const { error } = await supabase.from('newsletter_subscribers').insert({ email });
       if (error && error.code !== '42P01') {
-        console.error("Subscription error:", error);
+        console.error("Subscription database error:", error.message, "Code:", error.code);
       }
       localStorage.setItem("newsletter_subscribed", "true");
       localStorage.setItem("subscribed_email", email);
