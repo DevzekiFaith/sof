@@ -101,29 +101,45 @@ function CheckoutContent() {
             user_id: currentUser.id,
             course_id: course?.id || '',
             course_title: course?.title || '',
-            amount: priceUSD,
+            amount: currency === "NGN" ? priceNGN : priceUSD,
             currency: currency,
             payment_method: 'flutterwave',
             transaction_id: response.transaction_id || response.tx_ref,
             status: 'completed',
+            purchased_at: new Date().toISOString(),
           };
 
-          if (course) {
-            await supabase.from('course_purchases').insert(purchaseData);
-          } else {
-            // Handle cart purchases
-            for (const item of cart) {
-              await supabase.from('course_purchases').insert({
-                user_id: currentUser.id,
-                course_id: item.id,
-                course_title: item.title,
-                amount: item.priceUSD,
-                currency: currency,
-                payment_method: 'flutterwave',
-                transaction_id: response.transaction_id || response.tx_ref,
-                status: 'completed',
-              });
+          try {
+            if (course) {
+              const { error: insertError } = await supabase.from('course_purchases').insert(purchaseData);
+              if (insertError) {
+                console.error('Error inserting purchase:', insertError);
+                showToast('Payment successful but failed to record purchase. Please contact support.', 'error');
+              }
+            } else {
+              // Handle cart purchases
+              for (const item of cart) {
+                const itemAmount = currency === "NGN" ? (item.priceUSD * CURRENCY_CONFIG.NGN_TO_USD_RATE) : item.priceUSD;
+                const { error: insertError } = await supabase.from('course_purchases').insert({
+                  user_id: currentUser.id,
+                  course_id: item.id,
+                  course_title: item.title,
+                  amount: itemAmount,
+                  currency: currency,
+                  payment_method: 'flutterwave',
+                  transaction_id: response.transaction_id || response.tx_ref,
+                  status: 'completed',
+                  purchased_at: new Date().toISOString(),
+                });
+                if (insertError) {
+                  console.error('Error inserting cart purchase:', insertError);
+                  showToast('Payment successful but failed to record some purchases. Please contact support.', 'error');
+                }
+              }
             }
+          } catch (dbError) {
+            console.error('Database error:', dbError);
+            showToast('Payment successful but failed to record purchase. Please contact support.', 'error');
           }
 
           // Add courses to user's purchased courses

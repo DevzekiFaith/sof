@@ -214,6 +214,7 @@ CREATE POLICY "Users can view own podcast state" ON podcast_playback_state
 DROP POLICY IF EXISTS "Users can update own podcast state" ON podcast_playback_state;
 CREATE POLICY "Users can update own podcast state" ON podcast_playback_state
   FOR INSERT WITH CHECK (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can update own podcast state update" ON podcast_playback_state;
 CREATE POLICY "Users can update own podcast state update" ON podcast_playback_state
   FOR UPDATE USING (auth.uid() = user_id);
 
