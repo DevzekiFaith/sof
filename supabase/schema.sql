@@ -316,3 +316,10 @@ BEGIN
 EXCEPTION WHEN OTHERS THEN
   RAISE NOTICE 'Error adding tables to realtime publication (may already exist): %', SQLERRM;
 END $$;
+
+-- Newsletter subscribers table
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  subscribed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);

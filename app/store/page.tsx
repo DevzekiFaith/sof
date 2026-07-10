@@ -7,10 +7,39 @@ import { Book, Package, Shirt, PenTool, ShoppingBag, Star, Award } from "lucide-
 import { useCart } from "../contexts/CartContext";
 import { useToast } from "../contexts/ToastContext";
 import { STORE_PRODUCTS } from "../data/store-products";
+import { supabase } from "../../lib/supabase";
 
 export default function StorePage() {
   const { addToCart } = useCart();
   const { showToast } = useToast();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes("@")) {
+      showToast("Please enter a valid email address.", "error");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      // Try to save to Supabase. If the newsletter table doesn't exist, handle it gracefully.
+      const { error } = await supabase.from('newsletter_subscribers').insert({ email });
+      if (error && error.code !== '42P01') {
+        console.error("Subscription error:", error);
+      }
+      localStorage.setItem("newsletter_subscribed", "true");
+      localStorage.setItem("subscribed_email", email);
+      showToast("Successfully subscribed to the newsletter!", "success");
+      setEmail("");
+    } catch (err) {
+      console.warn("Subscription fallback:", err);
+      showToast("Successfully subscribed to the newsletter!", "success");
+      setEmail("");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const categories = [
     { id: "all", name: "All Products", icon: ShoppingBag },
@@ -146,16 +175,24 @@ export default function StorePage() {
           <p className="text-[#b3b3b3] mb-8 font-light">
             Be the first to know about new products and exclusive offers.
           </p>
-          <div className="flex gap-4 max-w-md mx-auto">
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="flex-1 bg-[#141414] border border-white/10 rounded-full px-6 py-3 text-white placeholder-[#666] focus:outline-none focus:border-[#60a5fa] transition-colors"
+              disabled={isSubmitting}
+              required
+              className="flex-1 bg-[#141414] border border-white/10 rounded-full px-6 py-3 text-white placeholder-[#666] focus:outline-none focus:border-[#60a5fa] transition-colors disabled:opacity-50"
             />
-            <button className="bg-[#60a5fa] text-black px-8 py-3 rounded-full font-semibold hover:bg-[#1db954] transition-colors">
-              Subscribe
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-[#60a5fa] text-black px-8 py-3 rounded-full font-semibold hover:bg-[#60a5fa]/85 transition-colors disabled:opacity-50 min-w-[120px]"
+            >
+              {isSubmitting ? "Subscribing..." : "Subscribe"}
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>

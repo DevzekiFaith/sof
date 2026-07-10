@@ -269,13 +269,13 @@ export default function HomePage() {
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80"
-                  alt="Excellence Journal"
+                  alt="Origin Journal"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-white font-bold mb-3">The Excellence Journal</h3>
+                <h3 className="text-white font-bold mb-3">Origin Journal</h3>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold text-xl">$24.99</span>
                   <Link href="/store" className="bg-[#60a5fa] text-black px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">

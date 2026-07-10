@@ -18,7 +18,7 @@ export interface StoreProduct {
 export const STORE_PRODUCTS: StoreProduct[] = [
   {
     id: 1,
-    name: "The Excellence Journal",
+    name: "Origin Journal",
     category: "journals",
     price: 24.99,
     rating: 4.8,
@@ -27,7 +27,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
     imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80",
     description: "Daily journal for personal growth and reflection",
-    rawDescription: "<h3>Daily journal for personal growth and reflection</h3><p>Optimize your daily routines, track your progress, and develop high-performance habits with The Excellence Journal. Built for thinkers, builders, and high achievers.</p>"
+    rawDescription: "<h3>Daily journal for personal growth and reflection</h3><p>Optimize your daily routines, track your progress, and develop high-performance habits with Origin Journal. Built for thinkers, builders, and high achievers.</p>"
   },
   {
     id: 3,

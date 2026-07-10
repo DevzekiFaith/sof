@@ -303,13 +303,13 @@ export default function SimplifiedHomePage() {
               <div className="relative h-40">
                 <Image
                   src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&q=80"
-                  alt="Excellence Journal"
+                  alt="Origin Journal"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <div className="p-4">
-                <h4 className="text-white font-bold mb-2 text-sm">The Excellence Journal</h4>
+                <h4 className="text-white font-bold mb-2 text-sm">Origin Journal</h4>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold">$24.99</span>
                   <button className="bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold hover:bg-[#1db954] transition-colors">
