@@ -37,12 +37,12 @@ function CheckoutContent() {
 
   // Use cart items if available, otherwise use single course
   const itemsToCheckout = cart.length > 0 ? cart : (course ? [course] : []);
-  const priceUSD = cart.length > 0 ? cartTotal : (course?.priceUSD || 14);
-  const priceNGN = cart.length > 0 ? cartTotalNGN : priceUSD * CURRENCY_CONFIG.NGN_TO_USD_RATE;
+  const priceUSD = parseFloat((cart.length > 0 ? cartTotal : (course?.priceUSD || 14)).toFixed(2));
+  const priceNGN = parseFloat((cart.length > 0 ? cartTotalNGN : priceUSD * CURRENCY_CONFIG.NGN_TO_USD_RATE).toFixed(2));
 
   const displayPrice = currency === "NGN"
-    ? `₦${priceNGN.toLocaleString()}`
-    : `$${priceUSD}`;
+    ? `₦${priceNGN.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    : `$${priceUSD.toFixed(2)}`;
 
   const flwConfig = {
     public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY ?? "",
