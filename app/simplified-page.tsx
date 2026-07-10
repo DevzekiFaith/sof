@@ -322,16 +322,16 @@ export default function SimplifiedHomePage() {
             <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:bg-[#242424] transition-all group">
               <div className="relative h-40">
                 <Image
-                  src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=400&q=80"
-                  alt="Mindset eBook"
+                  src="/poi1-2.png"
+                  alt="MONEY FARMING eBook"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <div className="p-4">
-                <h4 className="text-white font-bold mb-2 text-sm">Mindset Mastery eBook</h4>
+                <h4 className="text-white font-bold mb-2 text-sm">MONEY FARMING</h4>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#60a5fa] font-bold">$19.99</span>
+                  <span className="text-[#60a5fa] font-bold">$4.06</span>
                   <button className="bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold hover:bg-[#1db954] transition-colors">
                     Add
                   </button>

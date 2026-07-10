@@ -6,6 +6,7 @@ import { useToast } from "../contexts/ToastContext";
 import { supabase } from "../../lib/supabase";
 import { Download, Calendar, DollarSign, FileText, Trash2 } from "lucide-react";
 import { getCourseById } from "../data/courses";
+import { getProductById } from "../data/store-products";
 
 interface Purchase {
   id: string;
@@ -280,6 +281,22 @@ export default function PurchaseHistoryPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    {(() => {
+                      const prod = getProductById(purchase.course_id);
+                      if (prod && prod.pdfUrl) {
+                        return (
+                          <a
+                            href={prod.pdfUrl}
+                            download
+                            className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-full transition-colors"
+                          >
+                            <Download className="w-4 h-4" />
+                            <span>Download PDF</span>
+                          </a>
+                        );
+                      }
+                      return null;
+                    })()}
                     <button
                       onClick={() => generateReceipt(purchase)}
                       className="flex items-center gap-2 px-4 py-2 bg-[#60a5fa] hover:bg-[#60a5fa]/80 text-black font-bold rounded-full transition-colors"

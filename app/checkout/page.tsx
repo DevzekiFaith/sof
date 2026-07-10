@@ -153,6 +153,9 @@ function CheckoutContent() {
             }
             await updateUserPreferences({ ownedCourseIds: newOwned });
 
+            const hasStoreItems = cart.some(item => item.id.startsWith("store-"));
+            const storeItems = cart.filter(item => item.id.startsWith("store-"));
+
             // Clear cart after successful payment and DB recording
             if (cart.length > 0) {
               clearCart();
@@ -162,6 +165,13 @@ function CheckoutContent() {
             // Redirect user
             if (course) {
               router.push(`/courses/${course.id}?purchased=true`);
+            } else if (hasStoreItems) {
+              if (storeItems.length === 1) {
+                const prodId = storeItems[0].id.replace("store-", "");
+                router.push(`/store/${prodId}?purchased=true`);
+              } else {
+                router.push("/purchases");
+              }
             } else {
               router.push("/courses?purchase_history=true");
             }

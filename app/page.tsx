@@ -288,16 +288,16 @@ export default function HomePage() {
             <div className="bg-[#0b1220] rounded-2xl overflow-hidden hover:bg-[#0e1624] transition-all group border border-white/5 hover:border-[#60a5fa]/20">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=800&q=80"
-                  alt="Mindset eBook"
+                  src="/poi1-2.png"
+                  alt="MONEY FARMING eBook"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-white font-bold mb-3">Mindset Mastery eBook</h3>
+                <h3 className="text-white font-bold mb-3">MONEY FARMING</h3>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#60a5fa] font-bold text-xl">$19.99</span>
+                  <span className="text-[#60a5fa] font-bold text-xl">$4.06</span>
                   <Link href="/store" className="bg-[#60a5fa] text-black px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
                     Add
                   </Link>
