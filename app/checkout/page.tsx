@@ -27,6 +27,7 @@ function CheckoutContent() {
   const [error, setError] = useState("");
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [currency, setCurrency] = useState<"USD" | "NGN">("USD");
+  const [isConfirming, setIsConfirming] = useState(false);
 
   // Redirect if no course selected and cart is empty
   useEffect(() => {
@@ -73,6 +74,7 @@ function CheckoutContent() {
       callback: async (response) => {
         closePaymentModal();
         if (response.status === "successful" || response.status === "completed") {
+          setIsConfirming(true);
           try {
             // Process gift orders
             const giftItems = cart.filter(item => item.isGift);
@@ -178,6 +180,7 @@ function CheckoutContent() {
           } catch (dbError) {
             console.error('Error handling post-payment logic:', dbError);
             showToast('Payment successful but failed to record purchase. Please contact support.', 'error');
+            setIsConfirming(false);
           }
         }
       },
@@ -211,7 +214,27 @@ function CheckoutContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f1724] flex flex-col font-sans text-white selection:bg-[#60a5fa]/30 selection:text-white">
+    <div className="min-h-screen bg-[#0f1724] flex flex-col font-sans text-white selection:bg-[#60a5fa]/30 selection:text-white relative">
+      {isConfirming && (
+        <div className="absolute inset-0 bg-[#0f1724]/90 backdrop-blur-md flex flex-col items-center justify-center z-50 transition-all duration-300">
+          <div className="flex flex-col items-center gap-6 max-w-sm text-center px-4">
+            <div className="relative">
+              <div className="w-16 h-16 rounded-full border-4 border-zinc-800 border-t-[#60a5fa] animate-spin" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <svg className="w-6 h-6 text-[#60a5fa]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-xl font-extrabold text-white tracking-tight">Confirming Your Purchase</h3>
+              <p className="text-sm text-[#9aa4b2] leading-relaxed">
+                We are securing your transaction, enrolling you in your profile, and generating your download links. This will only take a moment...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Simple Header */}
       <div className="h-16 shrink-0 bg-[#0b1220] flex items-center justify-between px-4 sm:px-6 z-30 border-b border-white/5">
         <div className="flex items-center gap-4">

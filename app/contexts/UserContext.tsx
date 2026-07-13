@@ -129,11 +129,27 @@ export function UserProvider({ children }: { children: ReactNode }) {
         .eq('user_id', userId)
         .single();
 
+      // Fallback preferences loading from localStorage
+      let preferences = {};
+      try {
+        const saved = localStorage.getItem(`user_preferences_${userId}`);
+        if (saved) {
+          preferences = JSON.parse(saved);
+        }
+      } catch (e) {
+        console.error("Failed to parse local preferences:", e);
+      }
+
+      if (data && (data as any).preferences) {
+        preferences = { ...preferences, ...(data as any).preferences };
+      }
+
       const user: User = {
         id: data.id,
         name: data.name || '',
         email: data.email || '',
         createdAt: data.created_at,
+        preferences: preferences,
         stats: gamificationData ? {
           xp: gamificationData.total_xp,
           level: gamificationData.level,
@@ -262,31 +278,41 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   const updateUserPreferences = async (newPreferences: { [key: string]: unknown }) => {
-    if (!currentUser) return;
+    if (!currentUser) return false;
 
+    const currentPrefs = currentUser.preferences || {};
+    const updatedPrefs = { ...currentPrefs, ...newPreferences };
+
+    // 1. Save to local storage immediately
     try {
-      const { error, data } = await supabase
+      localStorage.setItem(`user_preferences_${currentUser.id}`, JSON.stringify(updatedPrefs));
+    } catch (e) {
+      console.error("Local storage preferences error:", e);
+    }
+
+    // 2. Update state immediately so UI updates instantly
+    setCurrentUser(prev => prev ? {
+      ...prev,
+      preferences: updatedPrefs
+    } : null);
+
+    // 3. Attempt DB update, log warnings but do not fail checkout/routing if missing
+    try {
+      const { error } = await supabase
         .from('profiles')
         .update({ 
-          preferences: { ...(currentUser.preferences || {}), ...newPreferences }
-        })
-        .eq('id', currentUser.id)
-        .select();
+          preferences: updatedPrefs
+        } as any)
+        .eq('id', currentUser.id);
 
       if (error) {
-        return false;
+        console.warn("Preferences DB update warning (column might be missing or blocked by RLS):", error.message);
       }
-
-      // Update local state
-      setCurrentUser(prev => prev ? {
-        ...prev,
-        preferences: { ...(prev.preferences || {}), ...newPreferences }
-      } : null);
-
-      return true;
     } catch (err) {
-      return false;
+      console.warn("Preferences DB update exception warning:", err);
     }
+
+    return true;
   };
 
   const getOwnedCourses = (): string[] => {

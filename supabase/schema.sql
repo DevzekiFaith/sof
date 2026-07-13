@@ -323,3 +323,11 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
   email TEXT UNIQUE NOT NULL,
   subscribed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Enable RLS and add insert policy for anonymous/public signups
+ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public inserts to newsletter_subscribers" 
+ON newsletter_subscribers 
+FOR INSERT 
+WITH CHECK (true);
