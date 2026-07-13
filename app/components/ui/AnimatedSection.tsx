@@ -13,10 +13,11 @@ export default function AnimatedSection({ children, delay = 0, className = "" }:
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let timerId: any = null;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), delay);
+          timerId = setTimeout(() => setIsVisible(true), delay);
         }
       },
       { threshold: 0.1 }
@@ -30,6 +31,9 @@ export default function AnimatedSection({ children, delay = 0, className = "" }:
     return () => {
       if (node) {
         observer.unobserve(node);
+      }
+      if (timerId) {
+        clearTimeout(timerId);
       }
     };
   }, [delay]);

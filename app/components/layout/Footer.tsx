@@ -48,13 +48,12 @@ export default function Footer() {
               <li><Link href="/contact" className="text-[#9aa4b2] hover:text-white transition-colors font-medium">Support</Link></li>
             </ul>
           </div>
-
           <div>
             <h3 className="text-sm font-black text-white uppercase tracking-widest mb-6">Legal</h3>
             <ul className="space-y-4">
-              <li><a href="#" className="text-[#9aa4b2] hover:text-white transition-colors font-medium">Privacy Policy</a></li>
-              <li><a href="#" className="text-[#9aa4b2] hover:text-white transition-colors font-medium">Terms of Service</a></li>
-              <li><a href="#" className="text-[#9aa4b2] hover:text-white transition-colors font-medium">Cookie Policy</a></li>
+              <li><Link href="/privacy" className="text-[#9aa4b2] hover:text-white transition-colors font-medium">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="text-[#9aa4b2] hover:text-white transition-colors font-medium">Terms of Service</Link></li>
+              <li><Link href="/refund" className="text-[#9aa4b2] hover:text-white transition-colors font-medium">Refund Policy</Link></li>
             </ul>
           </div>
         </div>

@@ -77,9 +77,10 @@ function ScannerContent() {
   // Handle URL Auto-Scan parameters for instant testing
   useEffect(() => {
     if (autoScanCode) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         handleCodeDecoded(autoScanCode);
       }, 600);
+      return () => clearTimeout(timer);
     }
   }, [autoScanCode]);
 
