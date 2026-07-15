@@ -21,6 +21,7 @@ import { ToastProvider } from "./contexts/ToastContext";
 import { CartProvider } from "./contexts/CartContext";
 import SimplifiedHeader from "./components/layout/SimplifiedHeader";
 import SimplifiedFooter from "./components/layout/SimplifiedFooter";
+import WhatsAppWidget from "./components/ui/WhatsAppWidget";
 
 const geistSans = { variable: "font-sans" };
 const geistMono = { variable: "font-mono" };
@@ -80,6 +81,7 @@ export default function RootLayout({
                                                   {children}
                                                 </main>
                                                 <SimplifiedFooter />
+                                                <WhatsAppWidget />
                                               </div>
                                             </CartProvider>
                                           </ToastProvider>
