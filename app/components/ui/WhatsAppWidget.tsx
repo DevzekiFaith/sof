@@ -94,7 +94,7 @@ export default function WhatsAppWidget() {
         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
           
           {/* Main Card Container */}
-          <div className="relative w-full max-w-[360px] bg-[#0c0d10] rounded-[2rem] border-4 border-zinc-800 overflow-hidden shadow-2xl flex flex-col justify-between select-none">
+          <div className="relative w-full max-w-[360px] bg-[#0c0d10]/75 backdrop-blur-xl rounded-[2rem] border-4 border-zinc-800/80 overflow-hidden shadow-2xl flex flex-col justify-between select-none">
             
             {/* Close Button top-right over image */}
             <button
@@ -115,7 +115,7 @@ export default function WhatsAppWidget() {
               />
               
               {/* Subtle dark gradient overlay to blend into body */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-transparent to-black/10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10]/95 via-transparent to-black/10" />
 
               {/* Float WhatsApp icon on top left of image */}
               <div className="absolute bottom-4 left-4 bg-[#25d366] text-white p-2 rounded-full border-2 border-black shadow-[2px_2px_0_rgba(0,0,0,1)] scale-90">
@@ -142,7 +142,7 @@ export default function WhatsAppWidget() {
               </div>
 
               {/* Interactive QR Section Box */}
-              <div className="bg-[#16181d] p-4 rounded-2xl border border-white/5 flex items-center gap-4">
+              <div className="bg-white/[0.04] backdrop-blur-md p-4 rounded-2xl border border-white/5 flex items-center gap-4">
                 
                 {/* QR Code */}
                 <div className="bg-white p-1 rounded-xl w-20 h-20 flex items-center justify-center shrink-0 shadow-lg border border-black/20">

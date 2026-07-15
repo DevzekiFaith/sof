@@ -63,6 +63,22 @@ function CheckoutContent() {
       description: cart.length > 0 ? `${cart.length} course${cart.length > 1 ? 's' : ''} — One-time purchase` : `${course?.title} — One-time purchase`,
       logo: "/origin.png",
     },
+    meta: {
+      userId: currentUser?.id ?? "",
+      cartItems: JSON.stringify(
+        course
+          ? [{ id: course.id, title: course.title, priceUSD: course.priceUSD || 14, isGift: false }]
+          : cart.map(item => ({
+              id: item.id,
+              title: item.title,
+              priceUSD: item.priceUSD || 14,
+              isGift: !!item.isGift,
+              recipientEmail: item.recipientEmail || "",
+              recipientName: item.recipientName || "",
+              giftMessage: item.giftMessage || ""
+            }))
+      )
+    },
   };
 
   const handleFlutterPayment = useFlutterwave(flwConfig);
