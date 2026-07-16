@@ -472,18 +472,18 @@ export default function HomePage() {
             <div className="bg-[#0b1220] rounded-2xl overflow-hidden hover:bg-[#0e1624] transition-all group border border-white/5 hover:border-[#60a5fa]/20">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&q=80"
-                  alt="Origin Hoodie"
+                  src="/origin_merch_collection.png"
+                  alt="Origin Apparel & Gifts"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-white font-bold mb-3">Origin Hoodie</h3>
+                <h3 className="text-white font-bold mb-3">Origin Apparel & Gifts</h3>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#60a5fa] font-bold text-xl">$49.99</span>
-                  <Link href="/store" className="bg-[#60a5fa] text-black px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
-                    Add
+                  <span className="text-[#60a5fa] font-bold text-xl">From $14.99</span>
+                  <Link href="/store?category=merch" className="bg-[#60a5fa] text-black px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
+                    Explore
                   </Link>
                 </div>
               </div>

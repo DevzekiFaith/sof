@@ -342,19 +342,19 @@ export default function SimplifiedHomePage() {
             <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:bg-[#242424] transition-all group">
               <div className="relative h-40">
                 <Image
-                  src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80"
-                  alt="Origin Hoodie"
+                  src="/origin_merch_collection.png"
+                  alt="Origin Apparel & Gifts"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <div className="p-4">
-                <h4 className="text-white font-bold mb-2 text-sm">Origin Hoodie</h4>
+                <h4 className="text-white font-bold mb-2 text-sm">Origin Apparel & Gifts</h4>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#60a5fa] font-bold">$49.99</span>
-                  <button className="bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold hover:bg-[#1db954] transition-colors">
-                    Add
-                  </button>
+                  <span className="text-[#60a5fa] font-bold">From $14.99</span>
+                  <Link href="/store?category=merch" className="bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold hover:bg-[#3b82f6] transition-colors">
+                    Explore
+                  </Link>
                 </div>
               </div>
             </div>

@@ -38,7 +38,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     reviews: 189,
     icon: Shirt,
     gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
-    imageUrl: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&q=80",
+    imageUrl: "/origin_hoodie_mockup.png",
     description: "Premium quality hoodie with Origin branding",
     rawDescription: "<h3>Premium quality hoodie with Origin branding</h3><p>Comfort meets purpose. This premium heavyweight hoodie features minimalist design with high-quality embroidery. Perfect for work, study, or travel.</p>"
   },
@@ -150,6 +150,45 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     imageUrl: "/poi1-3.png",
     description: "Stop Blending In. Start Architecting Your Influence. GoogleMeet LIVE intensive 3-hour masterclass by Zeki Ubor.",
     rawDescription: `<h1>Stop Blending In. Start Architecting Your Influence.</h1><p>If your brand could speak right now... <em>what would it be saying?</em></p><p>Is it <strong>clear or confusing</strong>? Is it <strong>intentional or random</strong>? Is it <strong>premium or basic</strong>?</p><p>In a crowded professional landscape, talent alone is no longer enough. You can be the most skilled architect, engineer, or professional in your field, but if your structural design—your personal brand and professional strategy—is flawed, your career will inevitably stall.</p><p>You don’t have a lack of skill. You have a lack of strategic architecture.</p><p><strong>Secure Your Seat for June 27th</strong></p><br><h2>Introducing the Concept of Human Architecture</h2><p>This is not a motivational talk filled with generic cliches. This is a <strong>structural audit</strong> for your professional life.</p><p>As an architect and frontend engineer with over a decade of experience optimizing systems and designing spaces that stand the test of time, I am bringing those exact blueprint principles to your personal capital development.</p><p>We are going to treat your reputation, your visibility, and your income potential like a high-end monument: built with precision, engineered for scale, and designed to last.</p><br><h2>What You Will Master in This 3-Hour Live Intensive</h2><p>Inside this systematic masterclass, we will deep-dive into three critical phases:</p><ul><li><strong>Phase 1: Audit Your Foundation:</strong> Identify the hidden structural flaws in your current positioning that are actively preventing you from being recognized as a premium authority.</li><li><strong>Phase 2: Refactor Your Professional 'UI/UX':</strong> Optimize how you package your skills, communicate your high ticket value, and organically attract premium clients and global networks.</li><li><strong>Phase 3: Launch Your Growth Sprint:</strong> Walk away with an actionable execution blueprint for your first 21-day \"Refactor\" and 21-day \"Optimization\" cycles so you can maintain long-term momentum.</li></ul><br><h2>Who This Is For</h2><ul><li><strong>Professionals, Architects, and Engineers</strong> who know they are under-leveraging their potential and leaving money on the table.</li><li><strong>Corporate & Creative Experts</strong> ready to transition from being invisible, hard-working employees to highly sought-after industry assets.</li><li><strong>Anyone Tired of Guessing</strong> how to grow and ready for a predictable, engineering-based framework for personal transformation.</li></ul><br><h2>Your Limited-Time Investment</h2><p>We are opening the doors for our upcoming cohort with exclusive tiered pricing. Once slots are full, registration closes automatically to ensure a high-quality workshop experience.</p><ul><li><strong>Standard Pass:</strong> ~~₦65,000~~</li><li><strong>Live Stream Discount:</strong> <strong>₦25,000</strong></li><li><strong>Early-Bird Special:</strong> <strong>₦15,000</strong> <em>(Available for a limited time only)</em></li></ul><br><h3><strong>Event Details</strong></h3><ul><li><strong>Platform:</strong> GoogleMeet LIVE</li><li><strong>Date:</strong> Last Saturday of the Month — <strong>June 27, 2026</strong></li><li><strong>Host:</strong> Zeki Ubor (<em>Founder, The Becoming Institute</em>)</li></ul><br><h3><strong>The Blueprint Is Ready. Are You?</strong></h3><p>Stop leaving your professional success to chance. Start building with intention.</p><p><strong>REGISTER NOW FOR THE MASTERCLASS</strong></p>`
+  },
+  {
+    id: 13,
+    name: "Origin Classic Tee",
+    category: "merch",
+    price: 24.99,
+    rating: 4.8,
+    reviews: 95,
+    icon: Shirt,
+    gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
+    imageUrl: "/origin_tee_mockup.png",
+    description: "Premium cotton t-shirt with minimalist Origin branding",
+    rawDescription: "<h3>Premium cotton t-shirt with minimalist Origin branding</h3><p>Crafted from 100% organic cotton, this classic tee combines everyday comfort with professional styling. Features a clean, embroidered Origin logo on the chest.</p>"
+  },
+  {
+    id: 14,
+    name: "Origin Ceramic Mug",
+    category: "merch",
+    price: 14.99,
+    rating: 4.9,
+    reviews: 64,
+    icon: Shirt,
+    gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
+    imageUrl: "/origin_mug_mockup.png",
+    description: "Matte black ceramic mug with engraved Origin logo",
+    rawDescription: "<h3>Matte black ceramic mug with engraved Origin logo</h3><p>Start your mornings with purpose. This premium double-walled ceramic mug keeps your favorite beverage hot while maintaining a cool exterior touch.</p>"
+  },
+  {
+    id: 15,
+    name: "Origin Tote Bag",
+    category: "merch",
+    price: 19.99,
+    rating: 4.7,
+    reviews: 78,
+    icon: Shirt,
+    gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
+    imageUrl: "/origin_tote_mockup.png",
+    description: "Heavy-duty canvas tote bag for your everyday essentials",
+    rawDescription: "<h3>Heavy-duty canvas tote bag for your everyday essentials</h3><p>Designed for builders and creators on the move. Crafted from premium 12oz cotton canvas, with internal pockets and reinforced stitching to securely carry your laptop, books, and journals.</p>"
   },
 ];
 
