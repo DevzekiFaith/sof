@@ -26,7 +26,7 @@ function CheckoutContent() {
   const [formData, setFormData] = useState({ email: "", password: "", name: "" });
   const [error, setError] = useState("");
   const [isAuthLoading, setIsAuthLoading] = useState(false);
-  const [currency, setCurrency] = useState<"USD" | "NGN">("USD");
+  const [currency, setCurrency] = useState<"USD" | "NGN" | "EUR" | "GBP">("USD");
   const [isConfirming, setIsConfirming] = useState(false);
 
   // Redirect if no course selected and cart is empty
@@ -39,16 +39,28 @@ function CheckoutContent() {
   // Use cart items if available, otherwise use single course
   const itemsToCheckout = cart.length > 0 ? cart : (course ? [course] : []);
   const priceUSD = parseFloat((cart.length > 0 ? cartTotal : (course?.priceUSD || 14)).toFixed(2));
-  const priceNGN = parseFloat((cart.length > 0 ? cartTotalNGN : priceUSD * CURRENCY_CONFIG.NGN_TO_USD_RATE).toFixed(2));
+  const priceNGN = parseFloat((cart.length > 0 ? cartTotal * CURRENCY_CONFIG.NGN_TO_USD_RATE : priceUSD * CURRENCY_CONFIG.NGN_TO_USD_RATE).toFixed(2));
+  const priceEUR = parseFloat((cart.length > 0 ? cartTotal * CURRENCY_CONFIG.EUR_TO_USD_RATE : priceUSD * CURRENCY_CONFIG.EUR_TO_USD_RATE).toFixed(2));
+  const priceGBP = parseFloat((cart.length > 0 ? cartTotal * CURRENCY_CONFIG.GBP_TO_USD_RATE : priceUSD * CURRENCY_CONFIG.GBP_TO_USD_RATE).toFixed(2));
 
   const displayPrice = currency === "NGN"
     ? `₦${priceNGN.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    : currency === "EUR"
+    ? `€${priceEUR.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    : currency === "GBP"
+    ? `£${priceGBP.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
     : `$${priceUSD.toFixed(2)}`;
 
   const flwConfig = {
     public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY ?? "",
     tx_ref: `origin-cart-${Date.now()}`,
-    amount: currency === "NGN" ? priceNGN : priceUSD,
+    amount: currency === "NGN"
+      ? priceNGN
+      : currency === "EUR"
+      ? priceEUR
+      : currency === "GBP"
+      ? priceGBP
+      : priceUSD,
     currency,
     payment_options: currency === "NGN"
       ? "card,banktransfer,ussd,mobilemoney"
@@ -95,16 +107,27 @@ function CheckoutContent() {
             // Process gift orders
             const giftItems = cart.filter(item => item.isGift);
             if (giftItems.length > 0) {
-              const giftPurchases = giftItems.map(item => ({
-                purchaser_id: currentUser.id,
-                recipient_email: item.recipientEmail || '',
-                recipient_name: item.recipientName || '',
-                course_id: item.id,
-                amount: item.priceUSD || 14,
-                currency: 'USD',
-                status: 'completed',
-                gift_message: item.giftMessage || '',
-              }));
+              const giftPurchases = giftItems.map(item => {
+                const basePrice = item.priceUSD || 14;
+                const itemAmount = currency === "NGN"
+                  ? basePrice * CURRENCY_CONFIG.NGN_TO_USD_RATE
+                  : currency === "EUR"
+                  ? basePrice * CURRENCY_CONFIG.EUR_TO_USD_RATE
+                  : currency === "GBP"
+                  ? basePrice * CURRENCY_CONFIG.GBP_TO_USD_RATE
+                  : basePrice;
+                
+                return {
+                  purchaser_id: currentUser.id,
+                  recipient_email: item.recipientEmail || '',
+                  recipient_name: item.recipientName || '',
+                  course_id: item.id,
+                  amount: parseFloat(itemAmount.toFixed(2)),
+                  currency: currency,
+                  status: 'completed',
+                  gift_message: item.giftMessage || '',
+                };
+              });
               const { error: giftError } = await supabase.from('gift_orders').insert(giftPurchases);
               if (giftError) {
                 console.error('Error inserting gift orders:', giftError);
@@ -117,7 +140,13 @@ function CheckoutContent() {
                 user_id: currentUser.id,
                 course_id: course.id,
                 course_title: course.title,
-                amount: currency === "NGN" ? priceNGN : priceUSD,
+                amount: currency === "NGN"
+                  ? priceNGN
+                  : currency === "EUR"
+                  ? priceEUR
+                  : currency === "GBP"
+                  ? priceGBP
+                  : priceUSD,
                 currency: currency,
                 payment_method: 'flutterwave',
                 transaction_id: response.transaction_id || response.tx_ref,
@@ -133,12 +162,18 @@ function CheckoutContent() {
               const nonGiftItems = cart.filter(item => !item.isGift);
               if (nonGiftItems.length > 0) {
                 const purchasesToInsert = nonGiftItems.map(item => {
-                  const itemAmount = currency === "NGN" ? ((item.priceUSD ?? 14) * CURRENCY_CONFIG.NGN_TO_USD_RATE) : (item.priceUSD ?? 14);
+                  const itemAmount = currency === "NGN"
+                    ? ((item.priceUSD ?? 14) * CURRENCY_CONFIG.NGN_TO_USD_RATE)
+                    : currency === "EUR"
+                    ? ((item.priceUSD ?? 14) * CURRENCY_CONFIG.EUR_TO_USD_RATE)
+                    : currency === "GBP"
+                    ? ((item.priceUSD ?? 14) * CURRENCY_CONFIG.GBP_TO_USD_RATE)
+                    : (item.priceUSD ?? 14);
                   return {
                     user_id: currentUser.id,
                     course_id: item.id,
                     course_title: item.title,
-                    amount: itemAmount,
+                    amount: parseFloat(itemAmount.toFixed(2)),
                     currency: currency,
                     payment_method: 'flutterwave',
                     transaction_id: response.transaction_id || response.tx_ref,
@@ -306,18 +341,18 @@ function CheckoutContent() {
               ) : null}
 
               {/* Currency switcher */}
-              <div className="flex gap-2 mb-5">
-                {(["USD", "NGN"] as const).map((cur) => (
+              <div className="flex flex-wrap gap-2 mb-5">
+                {(["USD", "NGN", "EUR", "GBP"] as const).map((cur) => (
                   <button
                     key={cur}
                     onClick={() => setCurrency(cur)}
-                    className={`flex-1 py-2 rounded-full text-sm font-bold transition-all ${
+                    className={`flex-1 min-w-[70px] py-2 rounded-full text-sm font-bold transition-all ${
                       currency === cur
                         ? "bg-[#60a5fa] text-black"
                         : "bg-[#0f1724] text-[#9aa4b2] hover:bg-[#0e1624]"
                     }`}
                   >
-                    {cur === "USD" ? "$ USD" : "₦ NGN"}
+                    {cur === "USD" ? "$ USD" : cur === "NGN" ? "₦ NGN" : cur === "EUR" ? "€ EUR" : "£ GBP"}
                   </button>
                 ))}
               </div>

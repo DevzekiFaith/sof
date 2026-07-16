@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseServer } from "../../../../lib/supabaseServer";
+import { CURRENCY_CONFIG } from "../../../../lib/config";
 
 export async function POST(request: NextRequest) {
   try {
@@ -107,16 +108,27 @@ export async function POST(request: NextRequest) {
 
     // Insert gift orders
     if (giftItems.length > 0) {
-      const giftPurchases = giftItems.map((item: any) => ({
-        purchaser_id: userId,
-        recipient_email: item.recipientEmail || "",
-        recipient_name: item.recipientName || "",
-        course_id: item.id,
-        amount: item.priceUSD || 14,
-        currency: data.currency,
-        status: "completed",
-        gift_message: item.giftMessage || "",
-      }));
+      const giftPurchases = giftItems.map((item: any) => {
+        const basePrice = item.priceUSD || 14;
+        const itemAmount = data.currency === "NGN"
+          ? basePrice * CURRENCY_CONFIG.NGN_TO_USD_RATE
+          : data.currency === "EUR"
+          ? basePrice * CURRENCY_CONFIG.EUR_TO_USD_RATE
+          : data.currency === "GBP"
+          ? basePrice * CURRENCY_CONFIG.GBP_TO_USD_RATE
+          : basePrice;
+
+        return {
+          purchaser_id: userId,
+          recipient_email: item.recipientEmail || "",
+          recipient_name: item.recipientName || "",
+          course_id: item.id,
+          amount: parseFloat(itemAmount.toFixed(2)),
+          currency: data.currency,
+          status: "completed",
+          gift_message: item.giftMessage || "",
+        };
+      });
 
       const { error: giftError } = await supabaseServer.from("gift_orders").insert(giftPurchases);
       if (giftError) {
@@ -128,17 +140,28 @@ export async function POST(request: NextRequest) {
 
     // Insert course purchases
     if (nonGiftItems.length > 0) {
-      const purchasesToInsert = nonGiftItems.map((item: any) => ({
-        user_id: userId,
-        course_id: item.id,
-        course_title: item.title,
-        amount: item.priceUSD || 14,
-        currency: data.currency,
-        payment_method: "flutterwave",
-        transaction_id: String(transactionId),
-        status: "completed",
-        purchased_at: new Date().toISOString(),
-      }));
+      const purchasesToInsert = nonGiftItems.map((item: any) => {
+        const basePrice = item.priceUSD || 14;
+        const itemAmount = data.currency === "NGN"
+          ? basePrice * CURRENCY_CONFIG.NGN_TO_USD_RATE
+          : data.currency === "EUR"
+          ? basePrice * CURRENCY_CONFIG.EUR_TO_USD_RATE
+          : data.currency === "GBP"
+          ? basePrice * CURRENCY_CONFIG.GBP_TO_USD_RATE
+          : basePrice;
+
+        return {
+          user_id: userId,
+          course_id: item.id,
+          course_title: item.title,
+          amount: parseFloat(itemAmount.toFixed(2)),
+          currency: data.currency,
+          payment_method: "flutterwave",
+          transaction_id: String(transactionId),
+          status: "completed",
+          purchased_at: new Date().toISOString(),
+        };
+      });
 
       const { error: insertError } = await supabaseServer.from("course_purchases").insert(purchasesToInsert);
       if (insertError) {

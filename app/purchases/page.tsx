@@ -189,7 +189,7 @@ export default function PurchaseHistoryPage() {
       </div>
       <div class="row">
         <span class="label">Amount</span>
-        <span class="value total">${purchase.currency === 'NGN' ? '₦' : '$'}${purchase.amount.toFixed(2)}</span>
+        <span class="value total">${purchase.currency === 'NGN' ? '₦' : purchase.currency === 'EUR' ? '€' : purchase.currency === 'GBP' ? '£' : '$'}${purchase.amount.toFixed(2)}</span>
       </div>
       <div class="row">
         <span class="label">Payment Method</span>
@@ -268,7 +268,7 @@ export default function PurchaseHistoryPage() {
                     <div className="flex flex-wrap gap-4 text-sm text-[#b3b3b3]">
                       <div className="flex items-center gap-2">
                         <DollarSign className="w-4 h-4" />
-                        <span>{purchase.currency === 'NGN' ? '₦' : '$'}{purchase.amount.toFixed(2)}</span>
+                        <span>{purchase.currency === 'NGN' ? '₦' : purchase.currency === 'EUR' ? '€' : purchase.currency === 'GBP' ? '£' : '$'}{purchase.amount.toFixed(2)}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
