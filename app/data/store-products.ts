@@ -5,6 +5,7 @@ export interface StoreProduct {
   name: string;
   category: "journals" | "ebooks" | "merch" | "hardcopy" | "courses";
   price: number;
+  originalPrice?: number;
   rating: number;
   reviews: number;
   icon: LucideIcon;
@@ -189,6 +190,20 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     imageUrl: "/origin_tote_mockup.png",
     description: "Heavy-duty canvas tote bag for your everyday essentials",
     rawDescription: "<h3>Heavy-duty canvas tote bag for your everyday essentials</h3><p>Designed for builders and creators on the move. Crafted from premium 12oz cotton canvas, with internal pockets and reinforced stitching to securely carry your laptop, books, and journals.</p>"
+  },
+  {
+    id: 16,
+    name: "Fit-For-Profit Workshop",
+    category: "courses",
+    price: 8.00,
+    originalPrice: 39.248,
+    rating: 4.9,
+    reviews: 215,
+    icon: Award,
+    gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
+    imageUrl: "/fit_for_profit.jpg",
+    description: "Prepare for profit in your career, work, ministry, and significance. Staged monthly in different states, featuring a volunteer community service arm for schools, education platforms, and local communities.",
+    rawDescription: "<h1>Fit-For-Profit Workshop</h1><p><strong>Prepare for profit in your career, work, ministry, and significance.</strong></p><p>Fit-For-Profit is a monthly regional workshop designed to structurally audit and build personal and professional capacity. In a changing economy, outstanding contribution requires both commercial proficiency and deep value alignment.</p><br><h3>Key Workshop Focus Areas</h3><ul><li><strong>Career & Work:</strong> Positioning your professional assets for elite demand and command premium scale.</li><li><strong>Ministry & Significance:</strong> Aligning your unique calling with highly impactful execution structures.</li><li><strong>Monthly Regional Targets:</strong> Staged in different states every month to build localized networks of founders and intrapreneurs.</li><li><strong>Volunteering Service Arm:</strong> Join our community service programs and volunteer for schools, education platforms, and local communities.</li></ul><br><h3>Early-Founders & Intrapreneurs Discount</h3><p>Standard Ticket: <del>₦58,872</del></p><p>Early-Founder / Early-Business Owner / Intrapreneur Ticket: <strong>₦12,000</strong></p>"
   },
 ];
 

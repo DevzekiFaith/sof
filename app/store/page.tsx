@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Book, Package, Shirt, PenTool, ShoppingBag, Star, Award, Heart } from "lucide-react";
 import { useCart } from "../contexts/CartContext";
 import { useToast } from "../contexts/ToastContext";
-import { STORE_PRODUCTS } from "../data/store-products";
+import { STORE_PRODUCTS, StoreProduct } from "../data/store-products";
 import { supabase } from "../../lib/supabase";
 
 function StoreContent() {
@@ -62,7 +62,7 @@ function StoreContent() {
     }
   }, [urlCategory]);
 
-  const merchCategoryCard = {
+  const merchCategoryCard: StoreProduct & { isCategoryCard?: boolean } = {
     id: 9999,
     name: "Origin Apparel & Gifts",
     description: "Browse our premium collection of branded hoodies, tees, mugs, and travel essentials.",
@@ -244,15 +244,24 @@ function StoreContent() {
                     )}
 
                     {/* Category or Price Badge */}
-                    <div className="absolute top-3 left-3">
+                    <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5 z-10">
                       {isCategory ? (
                         <span className="bg-zinc-900 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1">
                           Collection
                         </span>
                       ) : product.price > 0 ? (
-                        <span className="bg-white text-zinc-900 text-xs font-semibold border border-zinc-200/80 px-2.5 py-1 shadow-sm">
-                          ${product.price}
-                        </span>
+                        <div className="flex flex-col gap-1 items-start">
+                          <span className="bg-white text-zinc-900 text-xs font-bold border border-zinc-200/80 px-2.5 py-1 shadow-sm flex items-center gap-1.5">
+                            <span>${product.price}</span>
+                            <span className="text-zinc-400 font-normal">|</span>
+                            <span className="text-[#1db954] font-bold">₦{(product.price * 1500).toLocaleString()}</span>
+                          </span>
+                          {product.originalPrice && (
+                            <span className="bg-zinc-900 text-zinc-300 text-[10px] font-medium line-through px-2 py-1 shadow-sm">
+                              ₦{Math.round(product.originalPrice * 1500).toLocaleString()}
+                            </span>
+                          )}
+                        </div>
                       ) : (
                         <span className="bg-emerald-500 text-white text-xs font-bold px-2.5 py-1 shadow-sm">
                           FREE
