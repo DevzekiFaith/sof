@@ -25,9 +25,14 @@ function StoreContent() {
     }
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from('newsletter_subscribers').insert({ email });
-      if (error && error.code !== '42P01') {
-        console.error("Subscription database error:", error.message, "Code:", error.code);
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) {
+        const errData = await res.json();
+        console.warn("Subscription database error:", errData.error || res.statusText);
       }
       localStorage.setItem("newsletter_subscribed", "true");
       localStorage.setItem("subscribed_email", email);

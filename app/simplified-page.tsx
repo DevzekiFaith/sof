@@ -363,13 +363,13 @@ export default function SimplifiedHomePage() {
               <div className="relative h-40">
                 <Image
                   src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=400&q=80"
-                  alt="Goal Planner"
+                  alt="Life Design Planner"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <div className="p-4">
-                <h4 className="text-white font-bold mb-2 text-sm">Goal Setting Planner</h4>
+                <h4 className="text-white font-bold mb-2 text-sm">Life Design Planner</h4>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold">$29.99</span>
                   <button className="bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold hover:bg-[#1db954] transition-colors">

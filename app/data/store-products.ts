@@ -58,7 +58,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
   },
   {
     id: 5,
-    name: "Goal Setting Planner",
+    name: "Life Design Planner",
     category: "journals",
     price: 29.99,
     rating: 4.6,
