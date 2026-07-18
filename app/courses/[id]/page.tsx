@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { getCourseById } from "../../data/courses";
 import { QUARTERLY_PASS_PRICE_USD } from "../../data/courses";
@@ -12,17 +12,22 @@ import Link from "next/link";
 import { useUser } from "../../contexts/UserContext";
 import { useCart } from "../../contexts/CartContext";
 import { useToast } from "../../contexts/ToastContext";
-import { Rocket, Play, BookOpen, Plus, Minus, ShoppingCart } from "lucide-react";
+import { Rocket, Play, BookOpen, Plus, Minus, ShoppingCart, Star } from "lucide-react";
 import Logo from "../../components/Logo";
+import { getCompanionProductForCourse } from "../../data/course-ebook-mapping";
 
 export default function CourseDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [includeEbook, setIncludeEbook] = useState(false);
   const course = getCourseById(params.id as string);
   const { currentUser, hasCourseAccess, getQuarterlyPass } = useUser();
   const { addToCart } = useCart();
   const { showToast } = useToast();
+
+  const ebook = course ? getCompanionProductForCourse(course.id) : null;
 
   const handleAddToCart = () => {
     if (!course) return;
@@ -31,8 +36,47 @@ export default function CourseDetailPage() {
       addToCart(course);
     }
     
-    showToast(`${quantity} course${quantity > 1 ? 's' : ''} added to cart`, "success");
+    let message = `${quantity} course${quantity > 1 ? 's' : ''} added to cart`;
+
+    if (includeEbook && ebook) {
+      addToCart({
+        id: `store-${ebook.id}`,
+        title: ebook.name,
+        description: ebook.description,
+        fullDescription: ebook.description,
+        priceUSD: ebook.price,
+        imageUrl: ebook.imageUrl,
+        bgGradient: ebook.gradient,
+        icon: ebook.icon,
+        iconColor: "text-[#60a5fa]",
+        ageRange: "All Ages",
+      });
+      message += ` and "${ebook.name}" companion eBook added to cart`;
+    }
+    
+    showToast(message, "success");
     setQuantity(1);
+    setIncludeEbook(false);
+  };
+
+  const handleBuyNow = () => {
+    if (!course) return;
+    addToCart(course);
+    if (includeEbook && ebook) {
+      addToCart({
+        id: `store-${ebook.id}`,
+        title: ebook.name,
+        description: ebook.description,
+        fullDescription: ebook.description,
+        priceUSD: ebook.price,
+        imageUrl: ebook.imageUrl,
+        bgGradient: ebook.gradient,
+        icon: ebook.icon,
+        iconColor: "text-[#60a5fa]",
+        ageRange: "All Ages",
+      });
+    }
+    router.push("/checkout");
   };
 
   useEffect(() => {
@@ -195,16 +239,33 @@ export default function CourseDetailPage() {
                       className="w-full py-4 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform shadow-lg shadow-[#60a5fa]/20 flex items-center justify-center gap-2"
                     >
                       <ShoppingCart className="w-5 h-5" />
-                      Add to Cart — ${(coursePrice * quantity).toFixed(2)}
+                      Add to Cart — ${((coursePrice * quantity) + (includeEbook && ebook ? ebook.price : 0)).toFixed(2)}
                     </button>
+                    <button
+                      onClick={handleBuyNow}
+                      className="w-full py-3 bg-[#1db954] text-white font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2"
+                    >
+                      Buy Now — ${((coursePrice) + (includeEbook && ebook ? ebook.price : 0)).toFixed(2)}
+                    </button>
+                    {ebook && (
+                      <div className="mt-3 pt-3 border-t border-white/5 flex items-start gap-2.5">
+                        <input
+                          type="checkbox"
+                          id="include-ebook"
+                          checked={includeEbook}
+                          onChange={(e) => setIncludeEbook(e.target.checked)}
+                          className="mt-1 accent-[#60a5fa] rounded border-white/10 bg-[#282828] h-4 w-4 cursor-pointer"
+                        />
+                        <label htmlFor="include-ebook" className="text-xs text-[#b3b3b3] cursor-pointer leading-tight select-none">
+                          Add companion {ebook.category === "ebooks" ? "eBook" : "journal"}{" "}
+                          <span className="text-white font-bold">"{ebook.name}"</span> for{" "}
+                          <span className="text-[#60a5fa] font-bold">${ebook.price}</span>
+                        </label>
+                      </div>
+                    )}
                     <Link href="/cart" className="w-full">
                       <button className="w-full py-3 bg-[#282828] text-white font-bold rounded-full border border-[#333] hover:bg-[#333] transition-colors">
                         View Cart
-                      </button>
-                    </Link>
-                    <Link href={`/checkout?course=${course.id}`} className="w-full">
-                      <button className="w-full py-3 bg-[#1db954] text-white font-bold rounded-full hover:bg-[#1db954]/80 transition-colors">
-                        Buy Now — ${coursePrice}
                       </button>
                     </Link>
                     <Link href="/courses" className="w-full">
@@ -291,9 +352,103 @@ export default function CourseDetailPage() {
             </AnimatedSection>
           )}
 
-          {outcomes.length > 0 && (
-            <AnimatedSection delay={500}>
-              <div className="mt-16">
+            {ebook && (
+              <AnimatedSection delay={450}>
+                <div className="mt-16 pt-16 border-t border-[#282828]">
+                  <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
+                    Recommended Study Companion
+                  </h2>
+                  <p className="text-[#b3b3b3] text-base font-light mb-8">
+                    Deepen your learning experience and accelerate growth with our hand-picked companion guide.
+                  </p>
+                  
+                  {/* Origin Store Style card layout */}
+                  <div className="bg-[#181818] border border-[#282828] rounded-2xl p-6 sm:p-8 shadow-2xl flex flex-col md:flex-row items-center gap-8">
+                    {/* Visual mockup of the ebook */}
+                    <div className="relative w-40 aspect-[3/4] rounded-xl overflow-hidden shadow-xl border border-white/5 bg-[#f6f6f6] flex items-center justify-center p-3 group flex-shrink-0">
+                      {ebook.imageUrl ? (
+                        <Image
+                          src={ebook.imageUrl}
+                          alt={ebook.name}
+                          fill
+                          className="object-cover p-1 group-hover:scale-105 transition-transform duration-[1000ms]"
+                          sizes="160px"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-zinc-100">
+                          <BookOpen className="w-16 h-16 text-zinc-400" />
+                        </div>
+                      )}
+                      <div className="absolute top-2 right-2 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                        <span className="text-[#60a5fa] font-bold text-xs">${ebook.price}</span>
+                      </div>
+                    </div>
+
+                    {/* Detailed info */}
+                    <div className="flex-1 text-center md:text-left space-y-4">
+                      <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                        <span className="px-3 py-0.5 bg-[#1db954]/15 border border-[#1db954]/30 text-[#1db954] text-[10px] font-black uppercase rounded-full tracking-wider">
+                          {ebook.badgeText}
+                        </span>
+                        <span className="text-zinc-600 text-xs hidden sm:inline">|</span>
+                        <div className="flex items-center gap-1 text-yellow-400">
+                          <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400 stroke-none" />
+                          <span className="text-sm font-bold">{ebook.rating}</span>
+                          <span className="text-zinc-500 text-xs">({ebook.reviews} reviews)</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                          {ebook.name}
+                        </h3>
+                        <p className="text-[#60a5fa] font-bold text-sm sm:text-base mt-1">
+                          {ebook.hookText}
+                        </p>
+                      </div>
+
+                      <p className="text-[#b3b3b3] text-sm sm:text-base font-light leading-relaxed max-w-2xl">
+                        {ebook.description}
+                      </p>
+
+                      <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center gap-4">
+                        <button
+                          onClick={() => {
+                            addToCart({
+                              id: `store-${ebook.id}`,
+                              title: ebook.name,
+                              description: ebook.description,
+                              fullDescription: ebook.description,
+                              priceUSD: ebook.price,
+                              imageUrl: ebook.imageUrl,
+                              bgGradient: ebook.gradient,
+                              icon: ebook.icon,
+                              iconColor: "text-[#60a5fa]",
+                              ageRange: "All Ages",
+                            });
+                            showToast(`"${ebook.name}" added to cart!`, "success");
+                          }}
+                          className="w-full sm:w-auto px-6 py-3.5 bg-[#60a5fa] text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center justify-center gap-2 text-sm"
+                        >
+                          <ShoppingCart className="w-4 h-4" />
+                          Add eBook — ${ebook.price}
+                        </button>
+                        
+                        <Link href={`/store/${ebook.id}`} className="w-full sm:w-auto text-center">
+                          <button className="w-full sm:w-auto px-6 py-3 text-white font-bold rounded-full border border-white/10 hover:bg-white/5 hover:border-white/20 transition-all text-sm">
+                            View Book Details
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </AnimatedSection>
+            )}
+
+            {outcomes.length > 0 && (
+              <AnimatedSection delay={500}>
+                <div className="mt-16">
                 <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
                   What You&apos;ll Master
                 </h2>
