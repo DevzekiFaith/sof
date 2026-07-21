@@ -72,12 +72,162 @@ function QRCodeSVG({ code, className = "w-32 h-32" }: { code: string; className?
 
   return (
     <svg className={className} viewBox="0 0 29 29" shapeRendering="crispEdges">
+      <defs>
+        <clipPath id="qrCircleView">
+          <circle cx="14.5" cy="14.5" r="3" />
+        </clipPath>
+      </defs>
       <rect x="0" y="0" width="29" height="29" fill="white" />
       {corners}
       {pixels.map(([x, y], idx) => (
         <rect key={idx} x={x} y={y} width="1.1" height="1.1" fill="black" />
       ))}
+      {/* Circle mask to clear center pixels */}
+      <circle cx="14.5" cy="14.5" r="4.2" fill="white" />
+      {/* Circular Logo overlay */}
+      <image href="/origin.png" x="11.5" y="11.5" width="6" height="6" clipPath="url(#qrCircleView)" />
     </svg>
+  );
+}
+
+// Reusable elegant QR card component rendering a smartphone mockup based on the new white screen design
+function QRCard({ label = "Scan to Register" }: { code?: string; label?: string }) {
+  return (
+    <div className="relative w-[260px] aspect-[9/18.5] bg-zinc-950 border-[6px] border-zinc-800 rounded-[2.5rem] p-2 flex flex-col justify-between overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)] hover:scale-[1.03] transition-all duration-300 select-none group">
+      
+      {/* Speaker and Camera notch at top */}
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-4 bg-zinc-800 rounded-full flex items-center justify-center z-50">
+        <div className="w-1.5 h-1.5 rounded-full bg-zinc-950" />
+      </div>
+
+      {/* Screen Area */}
+      <div className="flex-1 bg-white rounded-[2rem] flex flex-col justify-between p-3.5 relative overflow-hidden text-zinc-800">
+        
+        {/* Top Status Bar & Header */}
+        <div className="space-y-1.5 pt-2">
+          {/* Signal & battery status */}
+          <div className="flex justify-between items-center text-[8px] text-zinc-400 font-bold px-1">
+            <span>12:30</span>
+            <div className="flex items-center gap-1">
+              {/* Wifi Icon */}
+              <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 21a2 2 0 1 1-2-2 2 2 0 0 1 2 2zm1-5.32a10.93 10.93 0 0 0-14 0l1.42 1.42a8.94 8.94 0 0 1 11.16 0zM12 2a19.92 19.92 0 0 0-20 0l1.42 1.42a17.92 17.92 0 0 1 37.16 0z" />
+              </svg>
+              {/* Battery Icon */}
+              <svg className="w-3.5 h-2 fill-current" viewBox="0 0 24 12">
+                <rect x="0" y="0" width="20" height="12" rx="2" fill="currentColor" />
+                <rect x="21" y="3" width="3" height="6" rx="1" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Navigation Title Bar */}
+          <div className="flex items-center gap-1.5 border-b border-zinc-100 pb-1.5">
+            {/* Cyan Chevron Left */}
+            <svg className="w-3.5 h-3.5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="text-[10px] font-bold text-zinc-700 truncate w-full">
+              {label}
+            </span>
+          </div>
+
+          {/* Green Status Banner */}
+          <div className="bg-[#10b981] text-white py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 text-[9px] font-black tracking-wide shadow-sm">
+            {/* White Check Circle */}
+            <svg className="w-3 h-3 bg-white text-[#10b981] rounded-full p-0.5 fill-current shrink-0" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            </svg>
+            <span>Successfully Checked!</span>
+          </div>
+        </div>
+
+        {/* Middle QR Code inside Cyan Corner Brackets */}
+        <div className="flex-1 flex items-center justify-center my-3">
+          <div className="relative p-4 flex items-center justify-center">
+            
+            {/* Cyan Corner Brackets */}
+            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-400 rounded-tl-sm" />
+            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyan-400 rounded-tr-sm" />
+            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyan-400 rounded-bl-sm" />
+            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400 rounded-br-sm" />
+
+            {/* REAL Scannable QR Code encoding https://sof-beta.vercel.app/ */}
+            <div className="relative w-28 h-28 bg-white flex items-center justify-center p-1.5">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://sof-beta.vercel.app/"
+                alt="Scannable Vercel Link QR"
+                className="w-full h-full object-contain"
+              />
+              
+              {/* Circular Logo overlay in the center */}
+              <div className="absolute w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-md p-0.5 border border-zinc-200/50">
+                <img
+                  src="/origin.png"
+                  className="rounded-full w-full h-full object-cover"
+                  alt="Origin"
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Bottom Stats Section */}
+        <div className="grid grid-cols-2 gap-2 border-t border-zinc-100 pt-2 text-center">
+          <div className="border-r border-zinc-100">
+            <span className="text-[7px] text-zinc-400 font-extrabold uppercase tracking-wide block">
+              Checked-in
+            </span>
+            <span className="text-[11px] font-black text-zinc-800">
+              23 Members
+            </span>
+          </div>
+          <div>
+            <span className="text-[7px] text-zinc-400 font-extrabold uppercase tracking-wide block">
+              Total Access
+            </span>
+            <span className="text-[11px] font-black text-zinc-800">
+              Unlimited
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom Tab Bar */}
+        <div className="flex justify-between items-center border-t border-zinc-100 pt-2 px-1 text-[8px] font-bold text-zinc-400">
+          {/* Lists Tab */}
+          <div className="flex flex-col items-center gap-0.5 cursor-pointer hover:text-zinc-600">
+            <svg className="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <span>Lists</span>
+          </div>
+
+          {/* Active Scan Tab with Cyan Circle background */}
+          <div className="flex flex-col items-center gap-0.5 cursor-pointer -translate-y-1 relative z-20">
+            <div className="w-7 h-7 rounded-full bg-cyan-50 flex items-center justify-center border border-cyan-200 text-cyan-500 shadow-sm shadow-cyan-500/10">
+              <svg className="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <span className="text-cyan-500 font-black">Scan</span>
+          </div>
+
+          {/* Settings Tab */}
+          <div className="flex flex-col items-center gap-0.5 cursor-pointer hover:text-zinc-600">
+            <svg className="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>Settings</span>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Floating scanner visual overlay in mockup border */}
+      <div className="absolute inset-x-8 top-[36%] bottom-[42%] border border-cyan-500/20 pointer-events-none rounded-lg" />
+    </div>
   );
 }
 
@@ -137,75 +287,9 @@ export default function HomePage() {
             <div className="lg:col-span-5 flex flex-col items-center">
               <Link
                 href="/courses/problem-solving"
-                className="relative w-[280px] aspect-[3/4] bg-[#007eff] rounded-[2rem] border-8 border-black overflow-hidden flex flex-col justify-between shadow-2xl hover:scale-[1.02] transition-transform duration-300 block"
+                className="block"
               >
-                {/* Header cartoon details */}
-                <div className="pt-6 px-4 flex flex-col items-center text-center relative z-20">
-                  {/* Yellow Sparks */}
-                  <div className="absolute top-4 left-6 flex gap-0.5 -rotate-12">
-                    <div className="w-1.5 h-4 bg-yellow-300 rounded-full transform rotate-12" />
-                    <div className="w-1.5 h-4 bg-yellow-300 rounded-full transform -rotate-12 translate-y-1.5" />
-                  </div>
-
-                  <div className="space-y-0.5">
-                    <span className="text-yellow-300 font-black tracking-widest text-[10px] uppercase block drop-shadow-[0_1px_0_rgba(0,0,0,1)]">
-                      ORIGIN
-                    </span>
-                    <h3 className="text-xl font-black text-white tracking-tight uppercase leading-none drop-shadow-[0_2px_0_rgba(0,0,0,1)]">
-                      COMMUNITY
-                    </h3>
-                  </div>
-
-                  {/* Speech bubble */}
-                  <div className="absolute right-4 top-4 bg-white text-black border-2 border-black font-extrabold px-2 py-0.5 rounded-full text-[8px] rotate-12 shadow-[1.5px_1.5px_0_rgba(0,0,0,1)]">
-                    welcome
-                  </div>
-                </div>
-
-                {/* Center White Card QR Code */}
-                <div className="px-6 py-2 flex justify-center relative z-20">
-                  {/* Asterisk decoration left */}
-                  <div className="absolute left-2 top-1/2 -translate-y-1/2 text-black -rotate-12 scale-75">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                    </svg>
-                  </div>
-
-                  {/* Yellow open arrow pointing to QR */}
-                  <div className="absolute right-2 top-4 bg-yellow-400 text-black border-2 border-black font-black px-2.5 py-1 rounded-lg -rotate-12 flex items-center gap-0.5 shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                    <span className="text-[8px] uppercase tracking-wider">OPEN</span>
-                    <svg className="w-2.5 h-2.5 transform -rotate-90" fill="none" stroke="currentColor" strokeWidth="3.5" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 13l-7 7-7-7m14-6l-7 7-7-7" />
-                    </svg>
-                  </div>
-
-                  {/* QR Card */}
-                  <div className="bg-white p-4 rounded-[1.5rem] border-[3px] border-black shadow-[4px_4px_0_rgba(0,0,0,1)] flex items-center justify-center w-40 h-40">
-                    <QRCodeSVG code="ORIGIN-COURSE-problem-solving" className="w-full h-full" />
-                  </div>
-
-                  {/* Peeking Googly Eyes */}
-                  <div className="absolute right-2 bottom-[-6px] flex scale-75 z-30">
-                    <div className="w-10 h-12 bg-white border-2 border-black rounded-full flex items-center justify-center -rotate-6">
-                      <div className="w-3.5 h-4.5 bg-black rounded-full translate-x-0.5" />
-                    </div>
-                    <div className="w-10 h-12 bg-white border-2 border-black rounded-full flex items-center justify-center rotate-6 -ml-2">
-                      <div className="w-3.5 h-4.5 bg-black rounded-full -translate-x-0.5" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Banner Wave */}
-                <div className="relative z-10 w-full leading-none">
-                  <svg viewBox="0 0 1440 320" className="w-full h-16 fill-black translate-y-3">
-                    <path d="M0,224 C288,288 576,160 864,224 C1152,288 1296,160 1440,224 L1440,320 L0,320 Z" />
-                  </svg>
-                  <div className="absolute bottom-2 inset-x-0 text-center z-20">
-                    <span className="text-white font-extrabold text-[8px] uppercase tracking-[0.3em]">
-                      origin
-                    </span>
-                  </div>
-                </div>
+                <QRCard code="ORIGIN-COURSE-problem-solving" label="Scan to Register" />
               </Link>
             </div>
           </div>
@@ -625,76 +709,9 @@ export default function HomePage() {
               {/* Poster Container */}
               <Link
                 href={getMockCodeUrl(selectedMockCode)}
-                className="relative w-[280px] aspect-[3/4] bg-[#007eff] rounded-[2rem] border-8 border-black overflow-hidden flex flex-col justify-between shadow-2xl hover:scale-[1.02] transition-transform duration-300 block"
+                className="block"
               >
-                
-                {/* Header cartoon details */}
-                <div className="pt-6 px-4 flex flex-col items-center text-center relative z-20">
-                  {/* Yellow Sparks */}
-                  <div className="absolute top-4 left-6 flex gap-0.5 -rotate-12">
-                    <div className="w-1.5 h-4 bg-yellow-300 rounded-full transform rotate-12" />
-                    <div className="w-1.5 h-4 bg-yellow-300 rounded-full transform -rotate-12 translate-y-1.5" />
-                  </div>
-
-                  <div className="space-y-0.5">
-                    <span className="text-yellow-300 font-black tracking-widest text-[10px] uppercase block drop-shadow-[0_1px_0_rgba(0,0,0,1)]">
-                      ORIGIN
-                    </span>
-                    <h3 className="text-xl font-black text-white tracking-tight uppercase leading-none drop-shadow-[0_2px_0_rgba(0,0,0,1)]">
-                      COMMUNITY
-                    </h3>
-                  </div>
-
-                  {/* Speech bubble */}
-                  <div className="absolute right-4 top-4 bg-white text-black border-2 border-black font-extrabold px-2 py-0.5 rounded-full text-[8px] rotate-12 shadow-[1.5px_1.5px_0_rgba(0,0,0,1)]">
-                    welcome
-                  </div>
-                </div>
-
-                {/* Center White Card QR Code */}
-                <div className="px-6 py-2 flex justify-center relative z-20">
-                  {/* Asterisk decoration left */}
-                  <div className="absolute left-2 top-1/2 -translate-y-1/2 text-black -rotate-12 scale-75">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                    </svg>
-                  </div>
-
-                  {/* Yellow open arrow pointing to QR */}
-                  <div className="absolute right-2 top-4 bg-yellow-400 text-black border-2 border-black font-black px-2.5 py-1 rounded-lg -rotate-12 flex items-center gap-0.5 shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                    <span className="text-[8px] uppercase tracking-wider">OPEN</span>
-                    <svg className="w-2.5 h-2.5 transform -rotate-90" fill="none" stroke="currentColor" strokeWidth="3.5" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 13l-7 7-7-7m14-6l-7 7-7-7" />
-                    </svg>
-                  </div>
-
-                  {/* QR Card */}
-                  <div className="bg-white p-4 rounded-[1.5rem] border-[3px] border-black shadow-[4px_4px_0_rgba(0,0,0,1)] flex items-center justify-center w-40 h-40">
-                    <QRCodeSVG code={selectedMockCode} className="w-full h-full" />
-                  </div>
-
-                  {/* Peeking Googly Eyes */}
-                  <div className="absolute right-2 bottom-[-6px] flex scale-75 z-30">
-                    <div className="w-10 h-12 bg-white border-2 border-black rounded-full flex items-center justify-center -rotate-6">
-                      <div className="w-3.5 h-4.5 bg-black rounded-full translate-x-0.5" />
-                    </div>
-                    <div className="w-10 h-12 bg-white border-2 border-black rounded-full flex items-center justify-center rotate-6 -ml-2">
-                      <div className="w-3.5 h-4.5 bg-black rounded-full -translate-x-0.5" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Banner Wave */}
-                <div className="relative z-10 w-full leading-none">
-                  <svg viewBox="0 0 1440 320" className="w-full h-16 fill-black translate-y-3">
-                    <path d="M0,224 C288,288 576,160 864,224 C1152,288 1296,160 1440,224 L1440,320 L0,320 Z" />
-                  </svg>
-                  <div className="absolute bottom-2 inset-x-0 text-center z-20">
-                    <span className="text-white font-extrabold text-[8px] uppercase tracking-[0.3em]">
-                      origin
-                    </span>
-                  </div>
-                </div>
+                <QRCard code={selectedMockCode} label="Scan to Access" />
               </Link>
 
               {/* Toggle controls below the phone */}

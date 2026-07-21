@@ -135,7 +135,7 @@ export default function SimplifiedFooter() {
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[#666] text-sm">© 2024 Origin. All rights reserved.</p>
+          <p className="text-[#666] text-sm">© {new Date().getFullYear()} Origin. All rights reserved.</p>
           <div className="flex items-center gap-6 text-sm text-[#b3b3b3]">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>

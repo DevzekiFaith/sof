@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, ArrowRight, ShieldCheck, MessageCircle } from "lucide-react";
 
-// Clean static QR code SVG matrix generator for wa.me link
+// Clean static QR code SVG matrix generator for wa.me link with logo overlay
 function WhatsAppQRCode() {
   const corners = (
     <>
@@ -40,11 +40,19 @@ function WhatsAppQRCode() {
 
   return (
     <svg className="w-full h-full" viewBox="0 0 29 29" shapeRendering="crispEdges">
+      <defs>
+        <clipPath id="waCircleView">
+          <circle cx="14.5" cy="14.5" r="3" />
+        </clipPath>
+      </defs>
       <rect x="0" y="0" width="29" height="29" fill="white" />
       {corners}
       {pixels.map(([x, y], idx) => (
         <rect key={idx} x={x} y={y} width="1" height="1" fill="#000000" />
       ))}
+      {/* Circle mask and Logo overlay */}
+      <circle cx="14.5" cy="14.5" r="4.2" fill="white" />
+      <image href="/origin.png" x="11.5" y="11.5" width="6" height="6" clipPath="url(#waCircleView)" />
     </svg>
   );
 }
@@ -91,88 +99,139 @@ export default function WhatsAppWidget() {
 
       {/* Modal Popup Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
           
-          {/* Main Card Container */}
-          <div className="relative w-full max-w-[360px] bg-[#0c0d10]/75 backdrop-blur-xl rounded-[2rem] border-4 border-zinc-800/80 overflow-hidden shadow-2xl flex flex-col justify-between select-none">
-            
-            {/* Close Button top-right over image */}
+          <div className="relative flex flex-col items-center gap-3">
+            {/* External Close Button - Always visible above the phone card! */}
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 z-50 bg-black/60 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-md border border-white/10"
+              className="self-end bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors shadow-md border border-white/20"
+              title="Close Support"
             >
-              <X size={16} />
+              <X size={18} />
             </button>
 
-            {/* TOP HEADER: Smiling Woman Banner (with custom cover styling) */}
-            <div className="relative h-60 w-full overflow-hidden border-b-2 border-black/40 bg-zinc-950">
-              <Image 
-                src="/whatsapp-banner.jpg" 
-                alt="WhatsApp Live Support" 
-                fill 
-                className="object-cover object-top"
-                priority
-              />
+            {/* Smartphone Mockup matching homepage cards */}
+            <div className="relative w-[260px] aspect-[9/18.5] bg-zinc-950 border-[6px] border-zinc-800 rounded-[2.5rem] p-2 flex flex-col justify-between overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.85)] select-none">
               
-              {/* Subtle dark gradient overlay to blend into body */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10]/95 via-transparent to-black/10" />
-
-              {/* Float WhatsApp icon on top left of image */}
-              <div className="absolute bottom-4 left-4 bg-[#25d366] text-white p-2 rounded-full border-2 border-black shadow-[2px_2px_0_rgba(0,0,0,1)] scale-90">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.504-5.724-1.464L0 24zm5.75-2.03c1.64.974 3.167 1.488 4.793 1.489 5.568 0 10.099-4.528 10.1-10.1.002-2.699-1.043-5.236-2.943-7.14C15.85 4.316 13.319 3.27 10.617 3.27c-5.578 0-10.113 4.532-10.117 10.102-.001 1.79.488 3.537 1.417 5.074l-.988 3.606 3.692-.969zm13.14-7.558c-.33-.165-1.952-.963-2.251-1.072-.3-.11-.518-.165-.736.165-.218.33-.845 1.072-1.036 1.29-.19.218-.38.245-.71.08-.33-.165-1.393-.513-2.653-1.637-.98-.874-1.642-1.953-1.834-2.282-.19-.33-.02-.508.145-.671.147-.148.33-.385.495-.578.165-.192.22-.33.33-.55.11-.22.055-.412-.028-.577-.083-.165-.736-1.774-1.009-2.434-.266-.64-.537-.552-.736-.562-.19-.01-.408-.01-.626-.01s-.572.082-.872.412c-.3.33-1.145 1.118-1.145 2.724s1.172 3.16 1.336 3.38c.164.22 2.307 3.523 5.59 4.94 2.73 1.18 3.284.945 3.884.887.6-.058 1.953-.798 2.225-1.567.272-.77.272-1.43.19-1.567-.082-.137-.3-.22-.63-.385z" />
-                </svg>
-              </div>
-            </div>
-
-            {/* BODY BLOCK */}
-            <div className="p-6 space-y-5">
-              
-              {/* Text Description */}
-              <div className="space-y-2">
-                <span className="text-[#c1ea35] font-black text-[10px] tracking-wider uppercase">
-                  WhatsApp Support
-                </span>
-                <h3 className="text-white font-black text-xl uppercase tracking-tight leading-snug">
-                  Get Instant Course & Purchase Support
-                </h3>
-                <p className="text-zinc-400 text-xs leading-relaxed font-light">
-                  Have questions about our universal courses, eBook downloads, or checkout? Connect with us on WhatsApp for 24/7 direct query assistance.
-                </p>
+              {/* Speaker and Camera notch at top */}
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-4 bg-zinc-800 rounded-full flex items-center justify-center z-50">
+                <div className="w-1.5 h-1.5 rounded-full bg-zinc-950" />
               </div>
 
-              {/* Interactive QR Section Box */}
-              <div className="bg-white/[0.04] backdrop-blur-md p-4 rounded-2xl border border-white/5 flex items-center gap-4">
+              {/* Screen Area */}
+              <div className="flex-1 bg-white rounded-[2rem] flex flex-col justify-between p-3.5 relative overflow-hidden text-zinc-800">
                 
-                {/* QR Code */}
-                <div className="bg-white p-1 rounded-xl w-20 h-20 flex items-center justify-center shrink-0 shadow-lg border border-black/20">
-                  <WhatsAppQRCode />
-                </div>
-                
-                {/* Instruction */}
-                <div className="space-y-1">
-                  <span className="text-[10px] text-zinc-300 font-bold uppercase block tracking-wide">
-                    Scan with Phone
-                  </span>
-                  <span className="text-[9px] text-zinc-500 leading-tight block">
-                    Point your mobile camera at this QR code to load the support chat instantly on your phone.
-                  </span>
+                {/* Top Status Bar & Header */}
+                <div className="space-y-1.5 pt-2">
+                  {/* Signal & battery status */}
+                  <div className="flex justify-between items-center text-[8px] text-zinc-400 font-bold px-1">
+                    <span>12:30</span>
+                    <div className="flex items-center gap-1">
+                      {/* Wifi Icon */}
+                      <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 21a2 2 0 1 1-2-2 2 2 0 0 1 2 2zm1-5.32a10.93 10.93 0 0 0-14 0l1.42 1.42a8.94 8.94 0 0 1 11.16 0zM12 2a19.92 19.92 0 0 0-20 0l1.42 1.42a17.92 17.92 0 0 1 37.16 0z" />
+                      </svg>
+                      {/* Battery Icon */}
+                      <svg className="w-3.5 h-2 fill-current" viewBox="0 0 24 12">
+                        <rect x="0" y="0" width="20" height="12" rx="2" fill="currentColor" />
+                        <rect x="21" y="3" width="3" height="6" rx="1" fill="currentColor" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Navigation Title Bar */}
+                  <div className="flex items-center gap-1.5 border-b border-zinc-100 pb-1.5">
+                    {/* Cyan Chevron Left */}
+                    <svg className="w-3.5 h-3.5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span className="text-[10px] font-bold text-zinc-700 truncate w-full">
+                      WhatsApp Live Support
+                    </span>
+                  </div>
+
+                  {/* Green Status Banner */}
+                  <div className="bg-[#10b981] text-white py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 text-[9px] font-black tracking-wide shadow-sm">
+                    {/* White Check Circle */}
+                    <svg className="w-3 h-3 bg-white text-[#10b981] rounded-full p-0.5 fill-current shrink-0" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span>Agent Online & Active!</span>
+                  </div>
                 </div>
 
+                {/* Middle QR Code inside Cyan Corner Brackets */}
+                <div className="flex-1 flex flex-col items-center justify-center my-3 gap-2">
+                  <div className="relative p-3 flex items-center justify-center">
+                    
+                    {/* Cyan Corner Brackets */}
+                    <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t-2 border-l-2 border-cyan-400 rounded-tl-sm" />
+                    <div className="absolute top-0 right-0 w-3.5 h-3.5 border-t-2 border-r-2 border-cyan-400 rounded-tr-sm" />
+                    <div className="absolute bottom-0 left-0 w-3.5 h-3.5 border-b-2 border-l-2 border-cyan-400 rounded-bl-sm" />
+                    <div className="absolute bottom-0 right-0 w-3.5 h-3.5 border-b-2 border-r-2 border-cyan-400 rounded-br-sm" />
+
+                    {/* REAL Scannable WhatsApp Link QR Code encoding https://sof-beta.vercel.app/ */}
+                    <div className="relative w-24 h-24 bg-white flex items-center justify-center p-1.5">
+                      <img
+                        src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://sof-beta.vercel.app/"
+                        alt="Scannable WhatsApp Support QR"
+                        className="w-full h-full object-contain"
+                      />
+                      
+                      {/* Circular Logo overlay in the center */}
+                      <div className="absolute w-6.5 h-6.5 bg-white rounded-full flex items-center justify-center shadow-md p-0.5 border border-zinc-200/50">
+                        <img
+                          src="/origin.png"
+                          className="rounded-full w-full h-full object-cover"
+                          alt="Origin"
+                        />
+                      </div>
+                    </div>
+
+                  </div>
+                  
+                  <span className="text-[8px] text-zinc-400 text-center px-2 leading-relaxed">
+                    Scan with your mobile camera or click below to chat instantly.
+                  </span>
+                </div>
+
+                {/* Chat Action Button inside screen */}
+                <div className="space-y-2">
+                  <button
+                    onClick={handleOpenChat}
+                    className="w-full bg-[#25d366] hover:bg-[#20ba5a] text-white font-extrabold text-[10px] uppercase tracking-wider py-3 rounded-xl shadow-md transition-colors flex items-center justify-center gap-1.5 active:scale-95 duration-200"
+                  >
+                    <MessageCircle size={13} />
+                    <span>Open Live Chat</span>
+                  </button>
+
+                  {/* Bottom Stats Section */}
+                  <div className="grid grid-cols-2 gap-2 border-t border-zinc-100 pt-2 text-center">
+                    <div className="border-r border-zinc-100">
+                      <span className="text-[7px] text-zinc-400 font-extrabold uppercase tracking-wide block">
+                        Response Time
+                      </span>
+                      <span className="text-[9px] font-black text-zinc-800">
+                        &lt; 5 Minutes
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-[7px] text-zinc-400 font-extrabold uppercase tracking-wide block">
+                        Availability
+                      </span>
+                      <span className="text-[9px] font-black text-zinc-800">
+                        24/7 Live
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
-              {/* Get Support Primary Button */}
-              <button
-                onClick={handleOpenChat}
-                className="w-full bg-[#c1ea35] hover:bg-[#aacc2a] text-black font-extrabold text-xs uppercase tracking-wider py-4 rounded-full shadow-lg shadow-[#c1ea35]/10 transition-colors flex items-center justify-center gap-2 active:scale-95 duration-200"
-              >
-                <MessageCircle size={15} />
-                <span>Get Support</span>
-                <ArrowRight size={14} className="ml-0.5" />
-              </button>
-
+              {/* Floating scanner visual overlay in mockup border */}
+              <div className="absolute inset-x-8 top-[36%] bottom-[42%] border border-cyan-500/20 pointer-events-none rounded-lg" />
             </div>
-
           </div>
         </div>
       )}
