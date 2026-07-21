@@ -153,15 +153,15 @@ function QRCard({ label = "Scan to Register" }: { code?: string; label?: string 
             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400 rounded-br-sm" />
 
             {/* REAL Scannable QR Code encoding https://sof-beta.vercel.app/ */}
-            <div className="relative w-28 h-28 bg-white flex items-center justify-center p-1.5">
+            <div className="relative w-28 h-28 bg-white flex items-center justify-center p-1.5 rounded-lg shadow-sm">
               <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://sof-beta.vercel.app/"
+                src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&data=https://sof-beta.vercel.app/"
                 alt="Scannable Vercel Link QR"
                 className="w-full h-full object-contain"
               />
               
               {/* Circular Logo overlay in the center */}
-              <div className="absolute w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-md p-0.5 border border-zinc-200/50">
+              <div className="absolute w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-md p-0.5 border border-zinc-200/50">
                 <img
                   src="/origin.png"
                   className="rounded-full w-full h-full object-cover"
