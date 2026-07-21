@@ -205,6 +205,20 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     description: "Prepare for profit in your career, work, ministry, and significance. Staged monthly in different states, featuring a volunteer community service arm for schools, education platforms, and local communities.",
     rawDescription: "<h1>Fit-For-Profit Workshop</h1><p><strong>Prepare for profit in your career, work, ministry, and significance.</strong></p><p>Fit-For-Profit is a monthly regional workshop designed to structurally audit and build personal and professional capacity. In a changing economy, outstanding contribution requires both commercial proficiency and deep value alignment.</p><br><h3>Key Workshop Focus Areas</h3><ul><li><strong>Career & Work:</strong> Positioning your professional assets for elite demand and command premium scale.</li><li><strong>Ministry & Significance:</strong> Aligning your unique calling with highly impactful execution structures.</li><li><strong>Monthly Regional Targets:</strong> Staged in different states every month to build localized networks of founders and intrapreneurs.</li><li><strong>Volunteering Service Arm:</strong> Join our community service programs and volunteer for schools, education platforms, and local communities.</li></ul><br><h3>Early-Founders & Intrapreneurs Discount</h3><p>Standard Ticket: <del>₦58,872</del></p><p>Early-Founder / Early-Business Owner / Intrapreneur Ticket: <strong>₦12,000</strong></p>"
   },
+  {
+    id: 17,
+    name: "JUMPSTART: The Accelerator Program",
+    category: "courses",
+    price: 15.00,
+    originalPrice: 45.00,
+    rating: 4.9,
+    reviews: 142,
+    icon: Award,
+    gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
+    imageUrl: "/jumpstart_cover.png",
+    description: "An intensive life accelerator combining cognitive psychology, value alignment, and strategic execution blueprints to jumpstart your career and significance.",
+    rawDescription: "<h1>JUMPSTART: The Accelerator Program</h1><p><strong>For those who feel they want more out of life—and are ready to build it.</strong></p><p>Jumpstart is a high-impact accelerator program engineered to combine the cognitive training of our core courses with the live strategy of our elite masterclasses. Over 3 systematic phases, you will break default patterns and architect a life of peak output and contribution.</p><br><h3>The 3 Practical Core Points to Jumpstart Your Life</h3><ul><li><strong>1. Perception (Cognitive Reframing):</strong> Reframe how you see options, constraints, and opportunities. Combines the principles of <em>Problem Solving & Creativity</em> with <em>Self-Image & Self-Confidence</em> to rewire your identity and override self-limiting default programs.</li><li><strong>2. Value (Alignment & Standards):</strong> Audit your personal standards, standard operating procedures, and core values. Combines <em>Decision Making & Priority Control</em> and <em>Personal Adaptability</em> to make sure your energy aligns directly with high-leverage activities that command premium capital.</li><li><strong>3. Execution (Real-world Traction):</strong> Convert vision into tactical execution. Combines <em>Personal Effectiveness</em> with <em>Communication & Relationship Mastery</em> to build elite networking positioning, structure high-yield habits, and land your highest-level achievements.</li></ul><br><h3>Program Deliverables</h3><ul><li>Standard access to all 6 Core Course guides and digital worksheets.</li><li>Reserved ticket to the next live virtual Masterclass session.</li><li>Actionable 21-Day Jumpstart Implementation Blueprint.</li></ul>"
+  },
 ];
 
 export function getProductById(id: string | number): StoreProduct | null {

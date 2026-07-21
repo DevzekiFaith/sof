@@ -203,26 +203,26 @@ export default function SimplifiedHomePage() {
             <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:bg-[#242424] transition-all group">
               <div className="relative h-40">
                 <Image
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&q=80"
-                  alt="Problem Solving Masterclass"
+                  src="/jumpstart_cover.png"
+                  alt="JUMPSTART Accelerator Program"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute top-3 left-3 bg-[#60a5fa] text-black px-2 py-1 rounded-full text-xs font-bold">
-                  Masterclass
+                <div className="absolute top-3 left-3 bg-yellow-400 text-black px-2 py-1 rounded-full text-xs font-bold">
+                  Accelerator
                 </div>
               </div>
               <div className="p-4">
-                <h4 className="text-white font-bold mb-2">Problem Solving Masterclass</h4>
+                <h4 className="text-white font-bold mb-2">JUMPSTART Accelerator</h4>
                 <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-3">
                   <Calendar className="w-4 h-4" />
-                  <span>July 15, 2024</span>
+                  <span>Rolling Enrollments</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#60a5fa] font-bold">$49.99</span>
-                  <button className="bg-[#60a5fa] text-black px-4 py-1 rounded-full text-sm font-bold hover:bg-[#1db954] transition-colors">
-                    Register
-                  </button>
+                  <span className="text-[#60a5fa] font-bold">$15.00</span>
+                  <Link href="/store/17" className="bg-[#60a5fa] text-black px-4 py-1.5 rounded-full text-sm font-bold hover:bg-[#3b82f6] transition-colors">
+                    Enroll
+                  </Link>
                 </div>
               </div>
             </div>

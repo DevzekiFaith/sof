@@ -52,6 +52,24 @@ export default function EventsPage() {
 
   const events = [
     {
+      id: 7,
+      title: "JUMPSTART: The Accelerator Program",
+      type: "masterclass",
+      date: "Rolling Enrollments",
+      time: "Self-Paced / Interactive Strategy",
+      price: 15.00,
+      icon: Zap,
+      gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
+      imageUrl: "/jumpstart_cover.png",
+      instructor: "Zeki Ubor",
+      isOnline: true,
+      spots: 142,
+      totalSpots: 500,
+      rating: 4.9,
+      reviews: 142,
+      description: "An intensive life accelerator combining cognitive psychology, value alignment, and strategic execution blueprints to jumpstart your career and significance."
+    },
+    {
       id: 1,
       title: "Problem Solving Masterclass",
       type: "masterclass",
@@ -268,7 +286,7 @@ export default function EventsPage() {
                     </div>
                   </div>
 
-                  <Link href="/events" className="w-full bg-[#60a5fa] text-black py-3 rounded-full font-semibold hover:bg-[#1db954] transition-colors text-center block">
+                  <Link href={event.id === 7 ? "/store/17" : "/events"} className="w-full bg-[#60a5fa] text-black py-3 rounded-full font-semibold hover:bg-[#1db954] transition-colors text-center block">
                     Register Now
                   </Link>
                 </div>

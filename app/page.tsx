@@ -509,25 +509,25 @@ export default function HomePage() {
             <div className="bg-[#0b1220] rounded-2xl overflow-hidden hover:bg-[#0e1624] transition-all group border border-white/5 hover:border-[#60a5fa]/20">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80"
-                  alt="Problem Solving Masterclass"
+                  src="/jumpstart_cover.png"
+                  alt="JUMPSTART Accelerator Program"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                  <div className="absolute top-4 left-4 bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                  Masterclass
+                <div className="absolute top-4 left-4 bg-yellow-400 text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  Accelerator
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-lg font-bold text-white mb-3">Problem Solving Masterclass</h3>
+                <h3 className="text-lg font-bold text-white mb-3">JUMPSTART Accelerator</h3>
                 <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-4">
                   <Calendar className="w-4 h-4 text-[#60a5fa]" />
-                  <span>July 15, 2024</span>
+                  <span>Rolling Enrollments</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#60a5fa] font-bold text-xl">$49.99</span>
-                  <Link href="/events" className="bg-[#60a5fa] text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
-                    Register
+                  <span className="text-[#60a5fa] font-bold text-xl">$15.00</span>
+                  <Link href="/store/17" className="bg-[#60a5fa] text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
+                    Enroll Now
                   </Link>
                 </div>
               </div>
