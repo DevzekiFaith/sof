@@ -60,7 +60,7 @@ export default function EventsPage() {
       price: 11.06,
       icon: Zap,
       gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
-      imageUrl: "/masterclass_poi_cover_new.png",
+      imageUrl: "/masterclass_flier.png",
       instructor: "Zeki Ubor",
       isOnline: true,
       spots: 28,

@@ -607,7 +607,7 @@ export default function HomePage() {
             <div className="bg-[#0b1220] rounded-2xl overflow-hidden hover:bg-[#0e1624] transition-all group border border-white/5 hover:border-[#60a5fa]/20">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/masterclass_poi_cover_new.png"
+                  src="/masterclass_flier.png"
                   alt="Becoming a Person of Interest Masterclass"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
