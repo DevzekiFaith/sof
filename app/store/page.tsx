@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Book, Package, Shirt, PenTool, ShoppingBag, Star, Award, Heart } from "lucide-react";
+import { Book, Package, Shirt, PenTool, ShoppingBag, Star, Award, Heart, Download } from "lucide-react";
 import { useCart } from "../contexts/CartContext";
 import { useToast } from "../contexts/ToastContext";
 import { STORE_PRODUCTS, StoreProduct } from "../data/store-products";
@@ -319,6 +319,15 @@ function StoreContent() {
                     >
                       Explore Collection
                     </button>
+                  ) : product.price === 0 && product.pdfUrl ? (
+                    <a
+                      href={product.pdfUrl}
+                      download={`${product.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
+                      className="w-full bg-emerald-600 text-white py-3 text-xs font-bold hover:bg-emerald-500 transition-colors text-center uppercase tracking-wider rounded-none flex items-center justify-center gap-1.5 shadow-sm"
+                    >
+                      <Download size={14} />
+                      Download Free Guide
+                    </a>
                   ) : (
                     <button
                       onClick={() => {

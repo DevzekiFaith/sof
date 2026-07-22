@@ -138,20 +138,20 @@ export default function ProductDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {isPurchased ? (
+              {isPurchased || product.price === 0 ? (
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 p-3.5 rounded-xl text-sm font-semibold">
                     <CheckCircle size={18} />
-                    You purchased this eBook!
+                    {product.price === 0 ? "Free Mindset Blueprint Guide" : "You own this resource!"}
                   </div>
                   {product.pdfUrl ? (
                     <a
                       href={product.pdfUrl}
-                      download
-                      className="w-full bg-emerald-500 text-black py-4 rounded-full font-bold hover:bg-emerald-400 transition-colors text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/10"
+                      download={`${product.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
+                      className="w-full bg-emerald-500 text-black py-4 rounded-full font-bold hover:bg-emerald-400 transition-colors text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 text-base"
                     >
-                      <Download size={18} />
-                      Download PDF Document
+                      <Download size={20} />
+                      Download Free Guide (PDF)
                     </a>
                   ) : (
                     <div className="w-full bg-[#1e1e1e] text-[#9aa4b2] py-4 rounded-full font-bold text-center text-sm border border-white/5">
