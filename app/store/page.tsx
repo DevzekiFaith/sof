@@ -257,13 +257,13 @@ function StoreContent() {
                       ) : product.price > 0 ? (
                         <div className="flex flex-col gap-1 items-start">
                           <span className="bg-white text-zinc-900 text-xs font-bold border border-zinc-200/80 px-2.5 py-1 shadow-sm flex items-center gap-1.5">
-                            <span>${product.price}</span>
-                            <span className="text-zinc-400 font-normal">|</span>
-                            <span className="text-[#1db954] font-bold">₦{(product.price * 1500).toLocaleString()}</span>
+                            <span className="text-[#1db954] font-extrabold text-sm">₦{(product.priceNGN || Math.round(product.price * 1375)).toLocaleString()}</span>
+                            <span className="text-zinc-300 font-normal">|</span>
+                            <span className="text-zinc-500 font-medium">${product.price}</span>
                           </span>
                           {product.originalPrice && (
                             <span className="bg-zinc-900 text-zinc-300 text-[10px] font-medium line-through px-2 py-1 shadow-sm">
-                              ₦{Math.round(product.originalPrice * 1500).toLocaleString()}
+                              ₦{Math.round(product.originalPrice * 1375).toLocaleString()}
                             </span>
                           )}
                         </div>

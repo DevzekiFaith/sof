@@ -45,6 +45,7 @@ export interface Course {
   status?: string;
   duration?: string;
   priceUSD?: number;
+  priceNGN?: number;
   isFree?: boolean; // Indicates if course is available to free users
   modules?: string[];
   outcomes?: string[];

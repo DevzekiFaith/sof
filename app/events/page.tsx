@@ -52,6 +52,24 @@ export default function EventsPage() {
 
   const events = [
     {
+      id: 12,
+      title: "MASTERCLASS: Becoming a Person of Interest (POI)",
+      type: "masterclass",
+      date: "Upcoming Cohort — Coming Soon",
+      time: "GoogleMeet LIVE (3-Hour Intensive)",
+      price: 11.06,
+      icon: Zap,
+      gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
+      imageUrl: "/masterclass_poi_cover_new.png",
+      instructor: "Zeki Ubor",
+      isOnline: true,
+      spots: 28,
+      totalSpots: 100,
+      rating: 4.9,
+      reviews: 340,
+      description: "Stop Blending In. Start Architecting Your Influence. GoogleMeet LIVE intensive 3-hour masterclass on Human Architecture and strategic positioning by Zeki Ubor."
+    },
+    {
       id: 7,
       title: "JUMPSTART: The Accelerator Program",
       type: "masterclass",

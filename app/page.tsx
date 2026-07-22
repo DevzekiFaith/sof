@@ -607,6 +607,27 @@ export default function HomePage() {
             <div className="bg-[#0b1220] rounded-2xl overflow-hidden hover:bg-[#0e1624] transition-all group border border-white/5 hover:border-[#60a5fa]/20">
               <div className="relative h-48 overflow-hidden">
                 <Image
+                  src="/masterclass_poi_cover_new.png"
+                  alt="Becoming a Person of Interest Masterclass"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-white font-bold mb-1 line-clamp-1">MASTERCLASS: POI</h3>
+                <p className="text-xs text-zinc-400 mb-3">Upcoming Cohort • Coming Soon</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-[#1db954] font-bold text-lg">₦15,000</span>
+                  <Link href="/store/12" className="bg-[#60a5fa] text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-[#3b82f6] transition-colors">
+                    View
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#0b1220] rounded-2xl overflow-hidden hover:bg-[#0e1624] transition-all group border border-white/5 hover:border-[#60a5fa]/20">
+              <div className="relative h-48 overflow-hidden">
+                <Image
                   src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80"
                   alt="Origin Journal"
                   fill
@@ -616,9 +637,9 @@ export default function HomePage() {
               <div className="p-6">
                 <h3 className="text-white font-bold mb-3">Origin Journal</h3>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#60a5fa] font-bold text-xl">$24.99</span>
-                  <Link href="/store" className="bg-[#60a5fa] text-black px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
-                    Add
+                  <span className="text-[#1db954] font-bold text-lg">₦20,000</span>
+                  <Link href="/store" className="bg-[#60a5fa] text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-[#3b82f6] transition-colors">
+                    View
                   </Link>
                 </div>
               </div>
