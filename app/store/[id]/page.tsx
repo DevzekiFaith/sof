@@ -8,7 +8,7 @@ import { ArrowLeft, Star, Download, ShoppingCart, ShieldCheck, FileText, CheckCi
 import { useCart } from "../../contexts/CartContext";
 import { useToast } from "../../contexts/ToastContext";
 import { useUser } from "../../contexts/UserContext";
-import { getProductById } from "../../data/store-products";
+import { getProductById, STORE_PRODUCTS } from "../../data/store-products";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -215,6 +215,36 @@ export default function ProductDetailPage({ params }: PageProps) {
                 <p>{product.description}</p>
               )}
             </div>
+
+            {/* Related Products Recommendation */}
+            <div className="mt-12 pt-8 border-t border-white/5">
+              <h3 className="text-xl font-bold text-white mb-6">Related Programs & Resources</h3>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {STORE_PRODUCTS.filter(p => p.id !== product.id && (p.category === product.category || p.id === 17 || p.id === 16)).slice(0, 2).map((relProduct) => (
+                  <Link 
+                    key={relProduct.id} 
+                    href={`/store/${relProduct.id}`}
+                    className="flex items-center gap-4 bg-[#141414] hover:bg-[#1a1a1a] transition-all p-4 rounded-xl border border-white/5 hover:border-[#60a5fa]/20 group"
+                  >
+                    <div className="relative w-16 h-20 bg-zinc-900 rounded-lg overflow-hidden shrink-0">
+                      {relProduct.imageUrl ? (
+                        <Image src={relProduct.imageUrl} alt={relProduct.name} fill className="object-cover group-hover:scale-105 transition-transform" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-950">
+                          <relProduct.icon className="w-8 h-8 text-[#60a5fa]" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-left flex-1 min-w-0">
+                      <h4 className="text-sm font-bold text-white group-hover:text-[#60a5fa] transition-colors line-clamp-1">{relProduct.name}</h4>
+                      <p className="text-xs text-[#9aa4b2] line-clamp-2 mt-1 font-light leading-normal">{relProduct.description}</p>
+                      <span className="text-xs text-[#60a5fa] font-semibold block mt-1.5">${relProduct.price}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
           </div>
 
         </div>

@@ -752,6 +752,16 @@ function ScannerContent() {
               </span>
             </div>
 
+            {/* Sizable Centered Origin Logo with White circular background */}
+            <div className="flex items-center gap-2.5 select-none">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md p-0.5 border border-zinc-200/50">
+                <img src="/origin.png" alt="Origin Logo" className="rounded-full w-full h-full object-contain" />
+              </div>
+              <span className="text-white font-extrabold text-sm tracking-[0.2em] uppercase">
+                Origin
+              </span>
+            </div>
+
             <div className="flex items-center gap-4 text-xs text-emerald-300/80 font-bold">
               <span className="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer">
                 <Globe size={13} /> origin.com
@@ -839,9 +849,25 @@ function ScannerContent() {
                 <Eye size={11} /> Simulate Scan
               </button>
             </div>
-
-          </div>
         </div>
+      </div>
+
+      {/* Sizable, glowing, fully visible logo in the dark empty background space */}
+      <div className="flex flex-col items-center justify-center pt-24 pb-12 select-none">
+        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)] p-2 mb-4 border border-zinc-200/50 hover:scale-105 transition-transform duration-300">
+          <img
+            src="/origin.png"
+            alt="Origin Watermark Logo"
+            className="w-full h-full object-contain rounded-full"
+          />
+        </div>
+        <span className="text-sm font-black tracking-[0.3em] uppercase text-white">
+          Origin Education
+        </span>
+        <span className="text-[9px] text-[#cbfa6c] tracking-widest mt-1.5 font-bold uppercase">
+          Origin by Mindvest • Practical Education for Becoming
+        </span>
+      </div>
 
       </main>
     </div>

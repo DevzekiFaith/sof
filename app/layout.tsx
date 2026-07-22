@@ -27,22 +27,91 @@ const geistSans = { variable: "font-sans" };
 const geistMono = { variable: "font-mono" };
 
 export const metadata: Metadata = {
-  title: "Origin — The Education of Spotify",
-  description: "Master life's essential skills with our six universal courses. Personalized learning like your favorite music.",
+  metadataBase: new URL('https://sof-beta.vercel.app'),
+  title: {
+    default: "Origin by Mindvest — Practical Education for Becoming",
+    template: "%s | Origin by Mindvest",
+  },
+  description: "Master life's essential skills with human architecture, accelerator programs, and practical learning designed for personal transformation.",
+  keywords: [
+    "Origin",
+    "Mindvest",
+    "Human Architecture",
+    "Practical Education",
+    "JUMPSTART Accelerator",
+    "Personal Mastery",
+    "Solution Mindset",
+    "Decision Making",
+    "Leadership Skills",
+    "Character Development",
+  ],
+  authors: [{ name: "Mindvest Faculty", url: "https://sof-beta.vercel.app" }],
+  creator: "Mindvest",
+  publisher: "Origin by Mindvest",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: "/origin.png",
     apple: "/origin.png",
   },
   openGraph: {
-    title: "Origin — The Education of Spotify",
-    description: "Personalized learning like your favorite music. Six universal courses for life success.",
+    title: "Origin by Mindvest — Practical Education for Becoming",
+    description: "Practical education for becoming. Transformative learning designed around human architecture.",
+    url: "https://sof-beta.vercel.app",
+    siteName: "Origin by Mindvest",
+    images: [
+      {
+        url: "/jumpstart_cover.png",
+        width: 1200,
+        height: 630,
+        alt: "Origin by Mindvest — Practical Education for Becoming",
+      },
+    ],
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Origin — The Education of Spotify",
-    description: "Personalized learning like your favorite music.",
+    title: "Origin by Mindvest — Practical Education for Becoming",
+    description: "Practical education for becoming. Transformative learning designed around human architecture.",
+    images: ["/jumpstart_cover.png"],
   },
+};
+
+const jsonLdSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "EducationalOrganization",
+      "@id": "https://sof-beta.vercel.app/#organization",
+      "name": "Origin by Mindvest",
+      "url": "https://sof-beta.vercel.app",
+      "logo": "https://sof-beta.vercel.app/origin.png",
+      "description": "Practical education for becoming through human architecture and transformative learning programs.",
+      "sameAs": [
+        "https://sof-beta.vercel.app"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://sof-beta.vercel.app/#website",
+      "url": "https://sof-beta.vercel.app",
+      "name": "Origin by Mindvest",
+      "description": "Master life's essential skills with human architecture.",
+      "publisher": {
+        "@id": "https://sof-beta.vercel.app/#organization"
+      }
+    }
+  ]
 };
 
 export default function RootLayout({
@@ -52,6 +121,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning

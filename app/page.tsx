@@ -185,15 +185,15 @@ function QRCard({ label = "Scan to Register" }: { code?: string; label?: string 
         <div className="bg-zinc-50 border border-zinc-100/80 rounded-2xl p-2.5 grid grid-cols-2 gap-2 text-center shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
           <div className="border-r border-zinc-200/60">
             <span className="text-[7px] text-zinc-400 font-black uppercase tracking-widest block mb-0.5">
-              Enrolled
+              Cohort
             </span>
             <span className="text-[10px] font-black text-zinc-800">
-              2.5K+ Members
+              Founding Members
             </span>
           </div>
           <div>
             <span className="text-[7px] text-zinc-400 font-extrabold uppercase tracking-widest block mb-0.5">
-              Total Access
+              Access
             </span>
             <span className="text-[10px] font-black text-emerald-600 uppercase tracking-wider flex items-center justify-center gap-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping shrink-0" />
@@ -213,22 +213,21 @@ function QRCard({ label = "Scan to Register" }: { code?: string; label?: string 
           </div>
 
           {/* Active Scan Tab with Cyan Circle background */}
-          <div className="flex flex-col items-center gap-1 cursor-pointer -translate-y-2.5 relative z-20">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 text-white flex items-center justify-center shadow-[0_4px_14px_rgba(6,182,212,0.45)] hover:scale-105 active:scale-95 duration-200 transition-all border border-cyan-300/20">
-              <svg className="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2.8">
+          <div className="flex flex-col items-center gap-1 text-[#60a5fa]">
+            <div className="w-6 h-6 rounded-full bg-[#60a5fa]/10 flex items-center justify-center">
+              <svg className="w-3.5 h-3.5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
             </div>
-            <span className="text-cyan-500 font-extrabold">Scan</span>
+            <span className="text-[7px] font-extrabold tracking-wider">SCAN</span>
           </div>
 
-          {/* Settings Tab */}
+          {/* Library Tab */}
           <div className="flex flex-col items-center gap-1 cursor-pointer hover:text-zinc-700 transition-colors">
             <svg className="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
-            <span>Settings</span>
+            <span>Library</span>
           </div>
         </div>
 
@@ -274,11 +273,11 @@ export default function HomePage() {
                 <QrCode size={12} className="text-[#60a5fa]" /> Barcode Scanner Integrated
               </span>
               <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-[1.1]">
-                Master Life's<br />
-                <span className="text-[#60a5fa]">Essential Skills</span>
+                Practical Education<br />
+                <span className="text-[#60a5fa]">For Becoming</span>
               </h1>
               <p className="text-lg md:text-xl text-[#9aa4b2] leading-relaxed font-light max-w-xl mx-auto lg:mx-0">
-                Six universal courses designed to transform how you think, decide, communicate, and succeed.
+                Origin by Mindvest delivers human architecture masterclasses designed to transform how you think, decide, communicate, and succeed.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link href="/courses" className="bg-[#60a5fa] text-black px-8 py-4 rounded-full font-semibold text-base hover:bg-[#3b82f6] transition-all hover:scale-105 flex items-center justify-center gap-2 shadow-lg shadow-[#60a5fa]/15">
@@ -309,21 +308,21 @@ export default function HomePage() {
       <section className="py-16 px-4 border-y border-white/5">
           <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
             <div>
-            <div className="text-5xl font-bold text-white mb-2 tracking-tight">6</div>
-            <div className="text-sm text-[#9aa4b2] font-medium uppercase tracking-wider">Core Courses</div>
-          </div>
+              <div className="text-5xl font-bold text-white mb-2 tracking-tight">6</div>
+              <div className="text-sm text-[#9aa4b2] font-medium uppercase tracking-wider">Core Masterclasses</div>
+            </div>
             <div>
-            <div className="text-5xl font-bold text-white mb-2 tracking-tight">25K+</div>
-            <div className="text-sm text-[#9aa4b2] font-medium uppercase tracking-wider">Students</div>
-          </div>
+              <div className="text-5xl font-bold text-white mb-2 tracking-tight">100%</div>
+              <div className="text-sm text-[#9aa4b2] font-medium uppercase tracking-wider">Practical Frameworks</div>
+            </div>
             <div>
-            <div className="text-5xl font-bold text-white mb-2 tracking-tight">4.7</div>
-            <div className="text-sm text-[#9aa4b2] font-medium uppercase tracking-wider">Rating</div>
-          </div>
+              <div className="text-5xl font-bold text-white mb-2 tracking-tight">4.9★</div>
+              <div className="text-sm text-[#9aa4b2] font-medium uppercase tracking-wider">Cohort Rating</div>
+            </div>
             <div>
-            <div className="text-5xl font-bold text-white mb-2 tracking-tight">100%</div>
-            <div className="text-sm text-[#9aa4b2] font-medium uppercase tracking-wider">Online</div>
-          </div>
+              <div className="text-5xl font-bold text-white mb-2 tracking-tight">Self-Paced</div>
+              <div className="text-sm text-[#9aa4b2] font-medium uppercase tracking-wider">& Live Strategy</div>
+            </div>
         </div>
       </section>
 
@@ -549,7 +548,7 @@ export default function HomePage() {
                 <h3 className="text-lg font-bold text-white mb-3">Communication Skills Workshop</h3>
                 <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-4">
                   <Calendar className="w-4 h-4 text-[#60a5fa]" />
-                  <span>July 22, 2024</span>
+                  <span>August 22, 2026</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold text-xl">$29.99</span>
@@ -576,7 +575,7 @@ export default function HomePage() {
                 <h3 className="text-lg font-bold text-white mb-3">Decision Making Webinar</h3>
                 <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-4">
                   <Calendar className="w-4 h-4 text-[#60a5fa]" />
-                  <span>July 29, 2024</span>
+                  <span>August 29, 2026</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold text-xl">$19.99</span>

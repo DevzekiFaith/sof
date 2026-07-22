@@ -44,19 +44,19 @@ export default function SimplifiedHomePage() {
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
             <div className="text-4xl font-bold text-[#60a5fa]">6</div>
-            <div className="text-[#b3b3b3]">Core Courses</div>
-          </div>
-          <div>
-            <div className="text-4xl font-bold text-[#60a5fa]">25K+</div>
-            <div className="text-[#b3b3b3]">Students</div>
-          </div>
-          <div>
-            <div className="text-4xl font-bold text-[#60a5fa]">4.7</div>
-            <div className="text-[#b3b3b3]">Average Rating</div>
+            <div className="text-[#b3b3b3]">Core Masterclasses</div>
           </div>
           <div>
             <div className="text-4xl font-bold text-[#60a5fa]">100%</div>
-            <div className="text-[#b3b3b3]">Online</div>
+            <div className="text-[#b3b3b3]">Practical Frameworks</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold text-[#60a5fa]">4.9★</div>
+            <div className="text-[#b3b3b3]">Cohort Rating</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold text-[#60a5fa]">Self-Paced</div>
+            <div className="text-[#b3b3b3]">& Live Strategy</div>
           </div>
         </div>
       </section>
@@ -243,7 +243,7 @@ export default function SimplifiedHomePage() {
                 <h4 className="text-white font-bold mb-2">Communication Skills Workshop</h4>
                 <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-3">
                   <Calendar className="w-4 h-4" />
-                  <span>July 22, 2024</span>
+                  <span>August 22, 2026</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold">$29.99</span>
@@ -270,7 +270,7 @@ export default function SimplifiedHomePage() {
                 <h4 className="text-white font-bold mb-2">Decision Making Webinar</h4>
                 <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-3">
                   <Calendar className="w-4 h-4" />
-                  <span>July 29, 2024</span>
+                  <span>August 29, 2026</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold">$19.99</span>
