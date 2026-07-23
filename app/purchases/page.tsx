@@ -283,19 +283,32 @@ export default function PurchaseHistoryPage() {
                   <div className="flex items-center gap-2">
                     {(() => {
                       const prod = getProductById(purchase.course_id);
-                      if (prod && prod.pdfUrl) {
-                        return (
-                          <a
-                            href={prod.pdfUrl}
-                            download
-                            className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-full transition-colors"
-                          >
-                            <Download className="w-4 h-4" />
-                            <span>Download PDF</span>
-                          </a>
-                        );
-                      }
-                      return null;
+                      if (!prod) return null;
+                      return (
+                        <div className="flex flex-wrap items-center gap-2">
+                          {prod.pdfUrl && (
+                            <a
+                              href={prod.pdfUrl}
+                              download
+                              className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-full transition-colors text-xs"
+                            >
+                              <Download className="w-4 h-4" />
+                              <span>Download PDF</span>
+                            </a>
+                          )}
+                          {prod.bonusPdfs && prod.bonusPdfs.map((bonus, bIdx) => (
+                            <a
+                              key={bIdx}
+                              href={bonus.url}
+                              download
+                              className="flex items-center gap-2 px-4 py-2 bg-[#60a5fa]/20 border border-[#60a5fa]/40 hover:bg-[#60a5fa]/30 text-[#60a5fa] font-bold rounded-full transition-colors text-xs"
+                            >
+                              <Download className="w-4 h-4" />
+                              <span>{bonus.name}</span>
+                            </a>
+                          ))}
+                        </div>
+                      );
                     })()}
                     <button
                       onClick={() => generateReceipt(purchase)}

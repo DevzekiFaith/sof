@@ -4,7 +4,7 @@ import { use } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Star, Download, ShoppingCart, ShieldCheck, FileText, CheckCircle } from "lucide-react";
+import { ArrowLeft, Star, Download, ShoppingCart, ShieldCheck, FileText, CheckCircle, Lock } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 import { useToast } from "../../contexts/ToastContext";
 import { useUser } from "../../contexts/UserContext";
@@ -216,6 +216,54 @@ export default function ProductDetailPage({ params }: PageProps) {
                 <p>{product.description}</p>
               )}
             </div>
+
+            {/* Downloadable PDF Manuscripts & Bonus Materials Section */}
+            {product.bonusPdfs && product.bonusPdfs.length > 0 && (
+              <div className="mt-8 p-6 bg-[#121824] border border-[#60a5fa]/20 rounded-2xl space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 bg-[#60a5fa]/10 text-[#60a5fa] rounded-xl border border-[#60a5fa]/20">
+                    <FileText size={22} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">Included PDF Manuscripts & Special Guides</h3>
+                    <p className="text-xs text-[#9aa4b2]">Instant digital downloads included with this release</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 pt-2">
+                  {product.bonusPdfs.map((bonus, idx) => (
+                    <div 
+                      key={idx} 
+                      className="flex items-center justify-between gap-4 p-3.5 bg-[#0b0e17] border border-white/5 rounded-xl hover:border-[#60a5fa]/30 transition-all"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <FileText className="w-5 h-5 text-[#60a5fa] shrink-0" />
+                        <div className="min-w-0">
+                          <h4 className="text-sm font-semibold text-white truncate">{bonus.name}</h4>
+                          <span className="text-xs text-zinc-500 font-medium">{bonus.size || "PDF Document"}</span>
+                        </div>
+                      </div>
+
+                      {isPurchased || product.price === 0 ? (
+                        <a
+                          href={bonus.url}
+                          download={`${bonus.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
+                          className="px-4 py-2 bg-[#60a5fa] text-black text-xs font-bold rounded-full hover:bg-[#60a5fa]/80 transition-colors shrink-0 flex items-center gap-1.5"
+                        >
+                          <Download size={14} />
+                          Download
+                        </a>
+                      ) : (
+                        <span className="px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-medium rounded-full shrink-0 flex items-center gap-1">
+                          <Lock size={12} />
+                          Included
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Related Products Recommendation */}
             <div className="mt-12 pt-8 border-t border-white/5">
