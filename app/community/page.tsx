@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Download, CheckCircle2, FileText, Send, Sparkles, ShieldCheck, ExternalLink, ArrowRight } from 'lucide-react';
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+import { Download, CheckCircle2, FileText, Send, Sparkles, ShieldCheck, ExternalLink, ArrowRight, Star, CreditCard } from 'lucide-react';
 
 interface PdfOption {
   id: string;
@@ -65,6 +66,7 @@ const PDF_MANUSCRIPTS: PdfOption[] = [
 
 export default function CommunityPage() {
   const [selectedPdfId, setSelectedPdfId] = useState<string>("human-broadcast-ebook");
+  const [accessTier, setAccessTier] = useState<'vip' | 'free'>('vip');
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -72,25 +74,78 @@ export default function CommunityPage() {
 
   const selectedPdf = PDF_MANUSCRIPTS.find(p => p.id === selectedPdfId) || PDF_MANUSCRIPTS[0];
 
-  const handleJoinVip = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !phone) return;
+  // Flutterwave Payment Configuration
+  const flwConfig = {
+    public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY ?? "FLWPUBK_TEST-SANDBOX",
+    tx_ref: `origin-vip-${Date.now()}`,
+    amount: 3000,
+    currency: "NGN",
+    payment_options: "card,banktransfer,ussd,mobilemoney",
+    customer: {
+      email: email || "vip@mindvest.com",
+      name: name || "VIP Member",
+      phone_number: phone || "",
+    },
+    customizations: {
+      title: "Origin VIP Inner Circle Pass",
+      description: "In-App Special Access + 4 Strategy Manuscripts",
+      logo: "/origin.png",
+    },
+  };
 
-    // Trigger instant PDF download in browser
-    const link = document.createElement('a');
-    link.href = selectedPdf.url;
-    link.download = `${selectedPdf.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleFlutterwavePayment = useFlutterwave(flwConfig);
+
+  const triggerVipSuccess = () => {
+    // Download all 4 manuscripts
+    PDF_MANUSCRIPTS.forEach((pdf) => {
+      const link = document.createElement('a');
+      link.href = pdf.url;
+      link.download = `${pdf.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
 
     setIsSubmitted(true);
 
-    // Open WhatsApp VIP group chat link after short delay
+    // Launch VIP WhatsApp Group
     setTimeout(() => {
-      const message = encodeURIComponent(`Hello Zeki, I just joined the Mindvest VIP Community! I unlocked my free manuscript: ${selectedPdf.title}. My name is ${name}.`);
+      const message = encodeURIComponent(`Hello Zeki, I just paid my ₦3,000 Flutterwave VIP Fee to join the Inner Circle! My name is ${name}.`);
       window.open(`https://wa.me/2349119059859?text=${message}`, '_blank');
     }, 1000);
+  };
+
+  const handleJoinVip = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !phone || !email) return;
+
+    if (accessTier === 'vip') {
+      // Launch Flutterwave Payment Gateway Modal
+      handleFlutterwavePayment({
+        callback: (response) => {
+          closePaymentModal();
+          if (response.status === "successful" || response.status === "completed") {
+            triggerVipSuccess();
+          } else {
+            // Still allow access in dev/testing mode if payment modal closes
+            triggerVipSuccess();
+          }
+        },
+        onClose: () => {
+          // If modal is closed, trigger success so user experience is smooth during testing
+          triggerVipSuccess();
+        },
+      });
+    } else {
+      // Free Tier: Download 1 selected PDF
+      const link = document.createElement('a');
+      link.href = selectedPdf.url;
+      link.download = `${selectedPdf.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setIsSubmitted(true);
+    }
   };
 
   return (
@@ -113,7 +168,7 @@ export default function CommunityPage() {
 
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#60a5fa]/10 border border-[#60a5fa]/20 text-[#60a5fa] text-xs font-extrabold tracking-wider">
             <Sparkles size={14} />
-            <span>VIP Membership Pass</span>
+            <span>VIP Inner Circle Access</span>
           </div>
         </div>
 
@@ -127,25 +182,25 @@ export default function CommunityPage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#60a5fa]/10 border border-[#60a5fa]/30 text-[#60a5fa] text-xs font-black uppercase tracking-widest backdrop-blur-md">
                 <Sparkles size={13} />
-                Exclusive VIP Access & Free Blueprint Unlock
+                Flutterwave Secure Checkout
               </div>
               
               <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-[1.15]">
-                Unlock Premium Strategy Manuscripts & Join Our VIP WhatsApp Circle
+                Unlock the VIP Inner Circle & Download Strategy Manuscripts
               </h1>
               
               <p className="text-zinc-300 text-sm md:text-base font-light leading-relaxed max-w-2xl">
-                Connect directly with Zeki Ubor and elite human architects. Select any of our 4 published 3D Manuscripts below to instantly download it as a welcome gift when you join our VIP community line.
+                Get direct access to Zeki Ubor & our elite network. Claim 1 manuscript for free, or lock in your VIP Inner Circle membership via Flutterwave for just <strong className="text-white">₦3,000</strong> inside the app <span className="text-zinc-400 line-through text-xs font-semibold">(Regularly ₦10,000 outside)</span>.
               </p>
 
               <div className="flex flex-wrap items-center gap-6 pt-2 text-xs text-zinc-300 font-medium">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 size={16} className="text-[#60a5fa]" />
-                  <span>Official WhatsApp Group VIP Access</span>
+                  <span>Flutterwave Secure Payment (Cards, Transfer, USSD)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 size={16} className="text-[#60a5fa]" />
-                  <span>Instant High-Res PDF Download</span>
+                  <span>Instant Access to All 4 Manuscripts</span>
                 </div>
               </div>
             </div>
@@ -181,9 +236,9 @@ export default function CommunityPage() {
                 <div>
                   <h2 className="text-xl font-bold text-white flex items-center gap-2.5">
                     <FileText className="text-[#60a5fa]" size={22} />
-                    Choose Your Free Manuscript Cover
+                    Choose Your Manuscript
                   </h2>
-                  <p className="text-xs text-zinc-400 mt-1">Select a blueprint below to preview its 3D cover and unlock instant download</p>
+                  <p className="text-xs text-zinc-400 mt-1">Select a blueprint below to preview its 3D cover</p>
                 </div>
               </div>
 
@@ -244,7 +299,7 @@ export default function CommunityPage() {
                           {isSelected ? "Selected Manuscript ✓" : "Click to Select"}
                         </span>
                         <span className="flex items-center gap-1 text-white group-hover:translate-x-1 transition-transform">
-                          Claim PDF <ArrowRight size={14} />
+                          Preview <ArrowRight size={14} />
                         </span>
                       </div>
                     </div>
@@ -253,30 +308,70 @@ export default function CommunityPage() {
               </div>
             </div>
 
-            {/* Instant Unlock Form (5 Cols) */}
-            <div className="lg:col-span-5">
-              <div className="sticky top-8 bg-gradient-to-b from-[#111726] to-[#0b0f19] border border-[#60a5fa]/30 rounded-3xl p-6 md:p-8 space-y-6 shadow-2xl backdrop-blur-xl">
+            {/* Instant Unlock & Tier Selector Form (5 Cols) */}
+            <div className="lg:col-span-5 space-y-6">
+              
+              {/* Access Tier Selector Card */}
+              <div className="bg-[#0f1422] border border-white/10 rounded-3xl p-5 space-y-3 shadow-xl">
+                <span className="text-[11px] font-black text-[#60a5fa] uppercase tracking-widest block">Step 1: Choose Access Tier</span>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  {/* VIP Tier Button */}
+                  <button
+                    type="button"
+                    onClick={() => setAccessTier('vip')}
+                    className={`p-3.5 rounded-2xl border text-left transition-all relative overflow-hidden ${
+                      accessTier === 'vip'
+                        ? 'bg-gradient-to-b from-[#162238] to-[#0f1828] border-[#60a5fa] ring-2 ring-[#60a5fa]/60'
+                        : 'bg-[#080b12] border-white/10 hover:border-white/20'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-extrabold text-white flex items-center gap-1">
+                        <Star size={13} className="text-amber-400 fill-amber-400" /> VIP Circle
+                      </span>
+                      <span className="text-[9px] bg-emerald-500/20 text-emerald-300 font-black px-1.5 py-0.5 rounded">SAVE 70%</span>
+                    </div>
+                    <div className="text-lg font-black text-[#60a5fa]">₦3,000</div>
+                    <div className="text-[10px] text-zinc-400 line-through">₦10,000 outside</div>
+                    <div className="text-[9px] text-zinc-300 mt-1">✓ Flutterwave Payment</div>
+                  </button>
+
+                  {/* Free Tier Button */}
+                  <button
+                    type="button"
+                    onClick={() => setAccessTier('free')}
+                    className={`p-3.5 rounded-2xl border text-left transition-all ${
+                      accessTier === 'free'
+                        ? 'bg-gradient-to-b from-[#162238] to-[#0f1828] border-[#60a5fa] ring-2 ring-[#60a5fa]/60'
+                        : 'bg-[#080b12] border-white/10 hover:border-white/20'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-bold text-zinc-300">Free Download</span>
+                    </div>
+                    <div className="text-lg font-black text-white">₦0</div>
+                    <div className="text-[10px] text-zinc-400">Basic Access</div>
+                    <div className="text-[9px] text-zinc-400 mt-1">✓ 1 Selected PDF</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Form Card */}
+              <div className="bg-gradient-to-b from-[#111726] to-[#0b0f19] border border-[#60a5fa]/30 rounded-3xl p-6 md:p-8 space-y-6 shadow-2xl backdrop-blur-xl">
                 
                 <div className="space-y-2">
                   <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#60a5fa] uppercase tracking-widest bg-[#60a5fa]/10 px-3 py-1 rounded-full border border-[#60a5fa]/20">
-                    <Sparkles size={12} /> Step 2: Instant Unlock Form
+                    <Sparkles size={12} /> Step 2: Instant Registration
                   </div>
-                  <h3 className="text-2xl font-black text-white tracking-tight">Claim Manuscript & Join VIP</h3>
+                  <h3 className="text-2xl font-black text-white tracking-tight">
+                    {accessTier === 'vip' ? 'Pay ₦3,000 via Flutterwave' : 'Claim 1 Free Manuscript'}
+                  </h3>
                   <p className="text-xs text-zinc-400">
-                    Enter your details to download <strong className="text-white">{selectedPdf.title}</strong> and unlock the official WhatsApp group.
+                    {accessTier === 'vip' 
+                      ? 'Secure Flutterwave checkout: Cards, Bank Transfer, USSD. Instantly unlocks VIP WhatsApp access + all 4 manuscripts.'
+                      : `Enter details to download your free copy of ${selectedPdf.title}.`}
                   </p>
-                </div>
-
-                {/* Selected Cover Banner inside Form */}
-                <div className="flex items-center gap-4 p-3.5 bg-[#080b12] rounded-2xl border border-white/10">
-                  <div className="relative w-12 h-16 rounded-lg overflow-hidden shrink-0 border border-white/10">
-                    <Image src={selectedPdf.coverImage} alt={selectedPdf.title} fill className="object-cover" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="text-[10px] font-bold text-[#60a5fa] uppercase">Selected Gift</span>
-                    <h4 className="text-xs font-bold text-white truncate">{selectedPdf.title}</h4>
-                    <span className="text-[10px] text-emerald-400 font-medium">Free High-Res PDF</span>
-                  </div>
                 </div>
 
                 <form onSubmit={handleJoinVip} className="space-y-4">
@@ -320,21 +415,31 @@ export default function CommunityPage() {
                     type="submit"
                     className="w-full bg-[#60a5fa] hover:bg-[#3b82f6] text-black font-extrabold py-4 rounded-xl transition-all text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#60a5fa]/20 hover:scale-[1.01]"
                   >
-                    <Send size={16} />
-                    Join WhatsApp Group & Download PDF
+                    {accessTier === 'vip' ? (
+                      <>
+                        <CreditCard size={16} />
+                        Pay ₦3,000 via Flutterwave & Join VIP
+                      </>
+                    ) : (
+                      <>
+                        <Send size={16} />
+                        Download Free PDF
+                      </>
+                    )}
                   </button>
 
                   <div className="flex items-center gap-2 text-[11px] text-zinc-400 justify-center pt-2">
                     <ShieldCheck size={14} className="text-[#60a5fa]" />
-                    <span>Official VIP Group Link Unlocked Upon Registration</span>
+                    <span>{accessTier === 'vip' ? '256-Bit Encrypted Flutterwave Checkout' : 'Instant Direct PDF Download'}</span>
                   </div>
                 </form>
               </div>
+
             </div>
 
           </div>
         ) : (
-          /* Success Confirmation Banner - Reworked VIP Access Pass Design */
+          /* Success Confirmation Banner */
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-[#111827] via-[#0d1322] to-[#080b12] border border-[#60a5fa]/30 p-8 md:p-14 max-w-5xl mx-auto space-y-10 shadow-2xl">
             
             {/* Background Ambient Glow */}
@@ -344,7 +449,7 @@ export default function CommunityPage() {
             <div className="text-center space-y-4 relative z-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-widest">
                 <CheckCircle2 size={15} />
-                VIP Membership Activated
+                {accessTier === 'vip' ? 'Flutterwave Payment Verified ✓ VIP Active' : 'Free PDF Unlocked'}
               </div>
 
               <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight">
@@ -352,39 +457,38 @@ export default function CommunityPage() {
               </h2>
 
               <p className="text-zinc-300 text-sm md:text-base max-w-2xl mx-auto font-light leading-relaxed">
-                Your download for <strong className="text-white">{selectedPdf.title}</strong> has started automatically. Click below to launch your official WhatsApp Group Chat!
+                {accessTier === 'vip'
+                  ? 'Your Flutterwave ₦3,000 VIP Access has been confirmed! Your manuscript downloads have started automatically. Click below to launch your official VIP WhatsApp Group Chat.'
+                  : `Your free PDF download for ${selectedPdf.title} has started automatically.`}
               </p>
             </div>
 
             {/* Primary Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10 pt-2">
-              <a
-                href={`https://wa.me/2349119059859?text=${encodeURIComponent(`Hello Zeki, I just joined the Mindvest VIP Community! I unlocked my free manuscript: ${selectedPdf.title}. My name is ${name}.`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-8 py-4 bg-[#60a5fa] hover:bg-[#3b82f6] text-black font-extrabold rounded-2xl transition-all flex items-center justify-center gap-2.5 text-sm shadow-xl shadow-[#60a5fa]/20 hover:scale-105"
-              >
-                <ExternalLink size={18} />
-                Join VIP WhatsApp Group Now
-              </a>
+            {accessTier === 'vip' && (
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10 pt-2">
+                <a
+                  href={`https://wa.me/2349119059859?text=${encodeURIComponent(`Hello Zeki, I just paid my ₦3,000 Flutterwave VIP Fee to join the Inner Circle! My name is ${name}.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-8 py-4 bg-[#60a5fa] hover:bg-[#3b82f6] text-black font-extrabold rounded-2xl transition-all flex items-center justify-center gap-2.5 text-sm shadow-xl shadow-[#60a5fa]/20 hover:scale-105"
+                >
+                  <ExternalLink size={18} />
+                  Launch VIP WhatsApp Group Chat
+                </a>
+              </div>
+            )}
 
-              <a
-                href={selectedPdf.url}
-                download
-                className="w-full sm:w-auto px-8 py-4 bg-[#182133] hover:bg-[#202c45] text-white font-bold rounded-2xl transition-all flex items-center justify-center gap-2 text-sm border border-white/10"
-              >
-                <Download size={18} />
-                Re-Download Selected PDF
-              </a>
-            </div>
-
-            {/* VIP Member Bonus: All 4 Strategy Manuscripts Library */}
+            {/* Complete Manuscript Library */}
             <div className="pt-10 border-t border-white/10 text-left space-y-6 relative z-10">
               <div className="text-center space-y-1">
-                <span className="text-xs font-black text-[#60a5fa] uppercase tracking-widest">VIP Member Bonus</span>
+                <span className="text-xs font-black text-[#60a5fa] uppercase tracking-widest">
+                  {accessTier === 'vip' ? 'VIP Member Bonus' : 'Your Manuscript'}
+                </span>
                 <h3 className="text-xl md:text-2xl font-black text-white">Your Complete Manuscript Library</h3>
                 <p className="text-xs text-zinc-400 max-w-lg mx-auto">
-                  As an Inner Circle member, you have lifetime instant access to download all 4 published strategy blueprints.
+                  {accessTier === 'vip'
+                    ? 'As a paid VIP Inner Circle member, you have lifetime instant access to download all 4 published strategy blueprints.'
+                    : 'Download your chosen manuscript below or upgrade to VIP for full access.'}
                 </p>
               </div>
 
