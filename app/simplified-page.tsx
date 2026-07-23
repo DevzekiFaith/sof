@@ -322,7 +322,7 @@ export default function SimplifiedHomePage() {
             <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:bg-[#242424] transition-all group">
               <div className="relative h-40">
                 <Image
-                  src="/poi1-2.png"
+                  src="/cover_money_farming.png"
                   alt="MONEY FARMING eBook"
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
