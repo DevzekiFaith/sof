@@ -304,7 +304,10 @@ export default function EventsPage() {
                     </div>
                   </div>
 
-                  <Link href={event.id === 7 ? "/store/17" : "/events"} className="w-full bg-[#60a5fa] text-black py-3 rounded-full font-semibold hover:bg-[#1db954] transition-colors text-center block">
+                  <Link 
+                    href={event.id === 7 ? "/store/17" : event.id === 12 ? "/store/12" : `/store/${event.id}`} 
+                    className="w-full bg-[#60a5fa] text-black py-3 rounded-full font-bold hover:bg-[#3b82f6] transition-colors text-center block shadow-md"
+                  >
                     Register Now
                   </Link>
                 </div>

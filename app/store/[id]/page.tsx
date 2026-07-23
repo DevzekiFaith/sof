@@ -231,36 +231,56 @@ export default function ProductDetailPage({ params }: PageProps) {
                 </div>
 
                 <div className="space-y-3 pt-2">
-                  {product.bonusPdfs.map((bonus, idx) => (
-                    <div 
-                      key={idx} 
-                      className="flex items-center justify-between gap-4 p-3.5 bg-[#0b0e17] border border-white/5 rounded-xl hover:border-[#60a5fa]/30 transition-all"
-                    >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <FileText className="w-5 h-5 text-[#60a5fa] shrink-0" />
-                        <div className="min-w-0">
-                          <h4 className="text-sm font-semibold text-white truncate">{bonus.name}</h4>
-                          <span className="text-xs text-zinc-500 font-medium">{bonus.size || "PDF Document"}</span>
-                        </div>
-                      </div>
+                  {product.bonusPdfs.map((bonus, idx) => {
+                    const coverImg = bonus.name.includes("Human Broadcast") || bonus.name.includes("Complete E-Book")
+                      ? "/cover_human_broadcast.png"
+                      : bonus.name.includes("Intent Framework")
+                      ? "/cover_human_intent.png"
+                      : bonus.name.includes("Environment Matrix")
+                      ? "/cover_environment_matrix.png"
+                      : bonus.name.includes("Architecture of Intention")
+                      ? "/cover_intention_blueprint.png"
+                      : null;
 
-                      {isPurchased || product.price === 0 ? (
-                        <a
-                          href={bonus.url}
-                          download={`${bonus.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
-                          className="px-4 py-2 bg-[#60a5fa] text-black text-xs font-bold rounded-full hover:bg-[#60a5fa]/80 transition-colors shrink-0 flex items-center gap-1.5"
-                        >
-                          <Download size={14} />
-                          Download
-                        </a>
-                      ) : (
-                        <span className="px-3 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-medium rounded-full shrink-0 flex items-center gap-1">
-                          <Lock size={12} />
-                          Included
-                        </span>
-                      )}
-                    </div>
-                  ))}
+                    return (
+                      <div 
+                        key={idx} 
+                        className="flex items-center justify-between gap-4 p-3.5 bg-[#0b0e17] border border-white/5 rounded-2xl hover:border-[#60a5fa]/30 transition-all shadow-md"
+                      >
+                        <div className="flex items-center gap-3.5 min-w-0">
+                          {coverImg ? (
+                            <div className="relative w-12 h-16 rounded-xl overflow-hidden shrink-0 border border-white/10 shadow-md bg-zinc-950">
+                              <Image src={coverImg} alt={bonus.name} fill className="object-cover" />
+                            </div>
+                          ) : (
+                            <div className="p-2.5 bg-[#60a5fa]/10 text-[#60a5fa] rounded-xl border border-[#60a5fa]/20 shrink-0">
+                              <FileText className="w-5 h-5" />
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <h4 className="text-sm font-bold text-white leading-snug truncate">{bonus.name}</h4>
+                            <span className="text-xs text-zinc-400 font-medium">{bonus.size || "PDF Document"}</span>
+                          </div>
+                        </div>
+
+                        {isPurchased || product.price === 0 ? (
+                          <a
+                            href={bonus.url}
+                            download={`${bonus.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
+                            className="px-4 py-2 bg-[#60a5fa] text-black text-xs font-bold rounded-full hover:bg-[#60a5fa]/80 transition-colors shrink-0 flex items-center gap-1.5 shadow-md"
+                          >
+                            <Download size={14} />
+                            Download
+                          </a>
+                        ) : (
+                          <span className="px-3.5 py-1.5 bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-semibold rounded-full shrink-0 flex items-center gap-1.5">
+                            <Lock size={12} className="text-[#60a5fa]" />
+                            Included
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
