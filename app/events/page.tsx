@@ -55,8 +55,8 @@ export default function EventsPage() {
       id: 12,
       title: "MASTERCLASS: Becoming a Person of Interest (POI)",
       type: "masterclass",
-      date: "Upcoming Cohort — Coming Soon",
-      time: "GoogleMeet LIVE (3-Hour Intensive)",
+      date: "Saturday, September 12, 2026",
+      time: "GoogleMeet LIVE (5:00 PM – 8:00 PM WAT | 3-Hour Intensive)",
       price: 11.06,
       icon: Zap,
       gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
@@ -73,8 +73,8 @@ export default function EventsPage() {
       id: 7,
       title: "JUMPSTART: The Accelerator Program",
       type: "masterclass",
-      date: "Rolling Enrollments",
-      time: "Self-Paced / Interactive Strategy",
+      date: "August 15 – September 5, 2026",
+      time: "21-Day Sprint + Live Saturday Strategy Reviews (5:00 PM WAT)",
       price: 15.00,
       icon: Zap,
       gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
@@ -85,7 +85,7 @@ export default function EventsPage() {
       totalSpots: 500,
       rating: 4.9,
       reviews: 142,
-      description: "An intensive life accelerator combining cognitive psychology, value alignment, and strategic execution blueprints to jumpstart your career and significance."
+      description: "An intensive 21-day life accelerator combining cognitive psychology, value alignment, and strategic execution blueprints to jumpstart your career and significance."
     },
     {
       id: 1,

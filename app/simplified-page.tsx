@@ -216,7 +216,7 @@ export default function SimplifiedHomePage() {
                 <h4 className="text-white font-bold mb-2">JUMPSTART Accelerator</h4>
                 <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-3">
                   <Calendar className="w-4 h-4" />
-                  <span>Rolling Enrollments</span>
+                  <span>August 15 – September 5, 2026</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold">$15.00</span>

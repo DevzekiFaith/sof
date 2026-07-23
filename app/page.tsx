@@ -513,7 +513,7 @@ export default function HomePage() {
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute top-4 left-4 bg-yellow-400 text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                <div className="absolute top-4 left-4 bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                   Accelerator
                 </div>
               </div>
@@ -521,12 +521,39 @@ export default function HomePage() {
                 <h3 className="text-lg font-bold text-white mb-3">JUMPSTART Accelerator</h3>
                 <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-4">
                   <Calendar className="w-4 h-4 text-[#60a5fa]" />
-                  <span>Rolling Enrollments</span>
+                  <span>August 15 – September 5, 2026</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold text-xl">$15.00</span>
-                  <Link href="/store/17" className="bg-[#60a5fa] text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
+                  <Link href="/store/17" className="bg-[#60a5fa] text-black px-6 py-2 rounded-full text-sm font-bold hover:bg-[#3b82f6] transition-colors">
                     Enroll Now
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#0b1220] rounded-2xl overflow-hidden hover:bg-[#0e1624] transition-all group border border-white/5 hover:border-[#60a5fa]/20">
+              <div className="relative h-48 overflow-hidden">
+                <Image
+                  src="/masterclass_flier.png"
+                  alt="MASTERCLASS: Becoming a Person of Interest (POI)"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 bg-amber-400 text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  Masterclass
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-lg font-bold text-white mb-3 line-clamp-1">MASTERCLASS: Person of Interest</h3>
+                <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-4">
+                  <Calendar className="w-4 h-4 text-[#60a5fa]" />
+                  <span>Saturday, September 12, 2026</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[#60a5fa] font-bold text-xl">$11.06</span>
+                  <Link href="/store/12" className="bg-[#60a5fa] text-black px-6 py-2 rounded-full text-sm font-bold hover:bg-[#3b82f6] transition-colors">
+                    Register Now
                   </Link>
                 </div>
               </div>
@@ -552,34 +579,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#60a5fa] font-bold text-xl">$29.99</span>
-                  <Link href="/events" className="bg-[#60a5fa] text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
-                    Register
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#0b1220] rounded-2xl overflow-hidden hover:bg-[#0e1624] transition-all group border border-white/5 hover:border-[#60a5fa]/20">
-              <div className="relative h-48 overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80"
-                  alt="Decision Making Webinar"
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute top-4 left-4 bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                  Webinar
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-white mb-3">Decision Making Webinar</h3>
-                <div className="flex items-center gap-2 text-sm text-[#b3b3b3] mb-4">
-                  <Calendar className="w-4 h-4 text-[#60a5fa]" />
-                  <span>August 29, 2026</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#60a5fa] font-bold text-xl">$19.99</span>
-                  <Link href="/events" className="bg-[#60a5fa] text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#3b82f6] transition-colors">
+                  <Link href="/events" className="bg-[#60a5fa] text-black px-6 py-2 rounded-full text-sm font-bold hover:bg-[#3b82f6] transition-colors">
                     Register
                   </Link>
                 </div>
