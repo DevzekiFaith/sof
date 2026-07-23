@@ -1,14 +1,15 @@
 "use client";
 
-import { use } from "react";
+import { useState, use } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Star, Download, ShoppingCart, ShieldCheck, FileText, CheckCircle, Lock } from "lucide-react";
+import { ArrowLeft, Star, Download, ShoppingCart, ShieldCheck, FileText, CheckCircle, Lock, Heart, Users } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 import { useToast } from "../../contexts/ToastContext";
 import { useUser } from "../../contexts/UserContext";
 import { getProductById, STORE_PRODUCTS } from "../../data/store-products";
+import FitForProfitVolunteerModal from "../../components/FitForProfitVolunteerModal";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -20,6 +21,7 @@ export default function ProductDetailPage({ params }: PageProps) {
   const { addToCart, cart } = useCart();
   const { showToast } = useToast();
   const { currentUser, getOwnedCourses } = useUser();
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
 
   const product = getProductById(id);
 
@@ -285,6 +287,33 @@ export default function ProductDetailPage({ params }: PageProps) {
               </div>
             )}
 
+            {/* Fit-For-Profit Volunteer Community Outreach Movement Banner */}
+            {(product.id === 16 || product.name.includes("Fit-For-Profit")) && (
+              <div className="mt-8 relative overflow-hidden rounded-2xl border border-[#60a5fa]/40 bg-gradient-to-r from-[#0b1424] via-[#0f1d38] to-[#122444] p-6 sm:p-8 shadow-2xl shadow-blue-950/40 space-y-4">
+                <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                  <div className="space-y-2 max-w-xl">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#60a5fa]/20 border border-[#60a5fa]/40 rounded-full text-[10px] font-black text-[#60a5fa] uppercase tracking-wider">
+                      <Heart className="w-3.5 h-3.5 text-[#60a5fa] fill-[#60a5fa]/30" />
+                      <span>Free Community Outreach Movement</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                      Volunteer for Fit-For-Profit Community Service
+                    </h3>
+                    <p className="text-xs sm:text-sm text-zinc-300 font-normal leading-relaxed">
+                      We stage free regional outreaches serving schools, education platforms, and local communities across different states. Join our team of dedicated volunteers!
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsVolunteerModalOpen(true)}
+                    className="px-6 py-3.5 bg-[#60a5fa] hover:bg-[#3b82f6] text-black font-extrabold rounded-full text-sm transition-all flex items-center gap-2 shrink-0 shadow-lg shadow-[#60a5fa]/20 cursor-pointer"
+                  >
+                    <Users className="w-4 h-4" />
+                    <span>Join as Volunteer</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Related Products Recommendation */}
             <div className="mt-12 pt-8 border-t border-white/5">
               <h3 className="text-xl font-bold text-white mb-6">Related Programs & Resources</h3>
@@ -299,37 +328,37 @@ export default function ProductDetailPage({ params }: PageProps) {
                       {relProduct.imageUrl ? (
                         <Image src={relProduct.imageUrl} alt={relProduct.name} fill className="object-cover group-hover:scale-105 transition-transform" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-950">
-                          <relProduct.icon className="w-8 h-8 text-[#60a5fa]" />
+                        <div className="w-full h-full flex items-center justify-center bg-zinc-800">
+                          <relProduct.icon className="text-[#60a5fa] w-8 h-8" />
                         </div>
                       )}
                     </div>
-                    <div className="text-left flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-white group-hover:text-[#60a5fa] transition-colors line-clamp-1">{relProduct.name}</h4>
-                      <p className="text-xs text-[#9aa4b2] line-clamp-2 mt-1 font-light leading-normal">{relProduct.description}</p>
-                      <span className="text-xs text-[#60a5fa] font-semibold block mt-1.5">${relProduct.price}</span>
+                    <div className="min-w-0">
+                      <h4 className="font-bold text-white text-sm group-hover:text-[#60a5fa] transition-colors truncate">{relProduct.name}</h4>
+                      <p className="text-xs text-[#9aa4b2] line-clamp-1 mt-0.5">{relProduct.description}</p>
+                      <span className="text-xs font-bold text-[#60a5fa] block mt-2">
+                        {relProduct.price > 0 ? `₦${(relProduct.priceNGN || Math.round(relProduct.price * 1375)).toLocaleString()}` : "FREE"}
+                      </span>
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
-
           </div>
-
         </div>
       </main>
 
       {/* Styled desc formatting to match raw html styling */}
       <style jsx global>{`
         .selar-raw-desc h1 {
-          font-size: 1.8rem;
+          font-size: 1.75rem;
           font-weight: 800;
           color: white;
-          margin-top: 1.5rem;
-          margin-bottom: 0.75rem;
+          margin-bottom: 1rem;
+          line-height: 1.2;
         }
         .selar-raw-desc h2 {
-          font-size: 1.5rem;
+          font-size: 1.35rem;
           font-weight: 700;
           color: white;
           margin-top: 1.5rem;
@@ -361,6 +390,12 @@ export default function ProductDetailPage({ params }: PageProps) {
           margin: 1.5rem 0;
         }
       `}</style>
+
+      {/* Volunteer Registration Modal */}
+      <FitForProfitVolunteerModal
+        isOpen={isVolunteerModalOpen}
+        onClose={() => setIsVolunteerModalOpen(false)}
+      />
     </div>
   );
 }

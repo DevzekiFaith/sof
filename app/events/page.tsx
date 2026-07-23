@@ -3,12 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, Clock, Users, MapPin, Video, Star, ArrowRight, Zap, MessageSquare, Target, TrendingUp } from "lucide-react";
+import { Calendar, Clock, Users, MapPin, Video, Star, ArrowRight, Zap, MessageSquare, Target, TrendingUp, Heart, Award } from "lucide-react";
 import { useToast } from "../contexts/ToastContext";
 import { supabase } from "../../lib/supabase";
+import FitForProfitVolunteerModal from "../components/FitForProfitVolunteerModal";
 
 export default function EventsPage() {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const { showToast } = useToast();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,6 +53,24 @@ export default function EventsPage() {
   ];
 
   const events = [
+    {
+      id: 16,
+      title: "Fit-For-Profit Regional Workshop & Community Outreach",
+      type: "workshop",
+      date: "Monthly Regional Sessions (Multi-State)",
+      time: "Full-Day Workshop & Community Service Arm",
+      price: 8.00,
+      icon: Award,
+      gradient: "from-[#60a5fa]/10 to-[#60a5fa]/5",
+      imageUrl: "/fit_for_profit.jpg",
+      instructor: "Zeki Ubor & Mindvest Faculty",
+      isOnline: false,
+      spots: 50,
+      totalSpots: 200,
+      rating: 4.9,
+      reviews: 215,
+      description: "Prepare for profit in your career, work, ministry, and significance. Staged monthly in different states, featuring a volunteer community service arm for schools, education platforms, and local communities."
+    },
     {
       id: 12,
       title: "MASTERCLASS: Becoming a Person of Interest (POI)",
@@ -317,8 +337,35 @@ export default function EventsPage() {
         </div>
       </div>
 
+      {/* Fit-For-Profit Volunteer Community Outreach Banner */}
+      <div className="max-w-7xl mx-auto mt-16">
+        <div className="relative overflow-hidden rounded-3xl border border-[#60a5fa]/40 bg-gradient-to-r from-[#0b1424] via-[#0f1d38] to-[#122444] p-8 sm:p-12 shadow-2xl shadow-blue-950/40">
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#60a5fa]/20 border border-[#60a5fa]/40 rounded-full text-xs font-black text-[#60a5fa] uppercase tracking-wider">
+                <Heart className="w-4 h-4 text-[#60a5fa] fill-[#60a5fa]/30 animate-pulse" />
+                <span>Free Outreaches Movement & Community Service</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                Join the Fit-For-Profit Volunteer Movement
+              </h2>
+              <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed">
+                Fit-For-Profit features a dedicated volunteer community service arm staging free outreaches for schools, education platforms, and local communities across different states. Step up and make a difference today!
+              </p>
+            </div>
+            <button
+              onClick={() => setIsVolunteerModalOpen(true)}
+              className="px-8 py-4 bg-[#60a5fa] hover:bg-[#3b82f6] text-black font-extrabold rounded-full text-base transition-all flex items-center gap-2.5 shrink-0 shadow-lg shadow-[#60a5fa]/20 cursor-pointer"
+            >
+              <Users className="w-5 h-5" />
+              <span>Join as a Volunteer</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Newsletter */}
-      <div className="max-w-7xl mx-auto mt-24">
+      <div className="max-w-7xl mx-auto mt-16">
         <div className="py-16 px-6 bg-[#0d0d0d] rounded-2xl border border-white/5 text-center">
           <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Get Event Notifications</h2>
           <p className="text-[#b3b3b3] mb-8 font-light">
@@ -344,6 +391,12 @@ export default function EventsPage() {
           </form>
         </div>
       </div>
+
+      {/* Volunteer Modal */}
+      <FitForProfitVolunteerModal
+        isOpen={isVolunteerModalOpen}
+        onClose={() => setIsVolunteerModalOpen(false)}
+      />
     </div>
   );
 }

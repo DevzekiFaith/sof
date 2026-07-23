@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Zap, Target, Users, TrendingUp, Heart, MessageSquare, Play, ArrowRight, BookOpen, Award, Clock, Star, Calendar, ShoppingBag, QrCode, Camera, Smartphone, Plus } from "lucide-react";
+import { Zap, Target, Users, TrendingUp, Heart, MessageSquare, Play, ArrowRight, BookOpen, Award, Clock, Star, Calendar, ShoppingBag, QrCode, Camera, Smartphone, Plus, Sparkles } from "lucide-react";
 import { simplifiedCourses } from "./data/simplified-courses";
 import { useCart } from "./contexts/CartContext";
 import { useToast } from "./contexts/ToastContext";
 import { getCompanionProductForCourse } from "./data/course-ebook-mapping";
+import FitForProfitVolunteerModal from "./components/FitForProfitVolunteerModal";
 
 function QRCodeSVG({ code, className = "w-32 h-32" }: { code: string; className?: string }) {
   const corners = (
@@ -242,8 +243,21 @@ function QRCard({ label = "Scan to Register" }: { code?: string; label?: string 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("all");
   const [selectedMockCode, setSelectedMockCode] = useState("ORIGIN-STORE-7");
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const { addToCart } = useCart();
   const { showToast } = useToast();
+
+  // Interval Pop-up Display for Fit-For-Profit Volunteer Movement (triggers 6.5 seconds after homepage load)
+  useEffect(() => {
+    const hasSeenModal = sessionStorage.getItem("fitforprofit_volunteer_modal_seen");
+    if (!hasSeenModal) {
+      const timer = setTimeout(() => {
+        setIsVolunteerModalOpen(true);
+        sessionStorage.setItem("fitforprofit_volunteer_modal_seen", "true");
+      }, 6500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const getMockCodeUrl = (code: string) => {
     if (code === "ORIGIN-STORE-7") return "/store/7";
@@ -589,6 +603,40 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Fit-For-Profit Volunteer Community Outreach Compact Pill Card - Right Aligned */}
+      <section className="py-4 px-4 bg-[#080c16] border-b border-white/5">
+        <div className="max-w-7xl mx-auto flex justify-end">
+          <div className="w-full max-w-xl relative overflow-hidden rounded-full border border-[#60a5fa]/30 bg-gradient-to-r from-[#0b1329] via-[#0e1a38] to-[#122244] py-2.5 px-4 sm:px-5 shadow-xl shadow-blue-950/20 backdrop-blur-md transition-all hover:border-[#60a5fa]/50">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-7 h-7 rounded-full bg-[#60a5fa]/15 border border-[#60a5fa]/30 flex items-center justify-center shrink-0">
+                  <Heart className="w-3.5 h-3.5 text-[#60a5fa] fill-[#60a5fa]/30 animate-pulse" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-black text-white tracking-tight truncate">Fit-For-Profit Volunteer Corps</span>
+                    <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[9px] font-bold text-emerald-400 rounded-full uppercase tracking-wider hidden sm:inline">
+                      Free Outreach
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-zinc-400 font-light truncate max-w-sm">
+                    Staging free community outreaches for schools, education platforms & local communities.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setIsVolunteerModalOpen(true)}
+                className="px-5 py-1.5 bg-[#60a5fa] hover:bg-[#3b82f6] text-black font-black rounded-full text-xs transition-all flex items-center gap-1.5 shrink-0 shadow-md shadow-[#60a5fa]/20 cursor-pointer hover:scale-105"
+              >
+                <Users className="w-3.5 h-3.5" />
+                <span>Join Volunteer</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Store Section */}
       <section className="py-24 px-4">
         <div className="max-w-7xl mx-auto">
@@ -808,6 +856,12 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* Volunteer Registration Modal */}
+      <FitForProfitVolunteerModal
+        isOpen={isVolunteerModalOpen}
+        onClose={() => setIsVolunteerModalOpen(false)}
+      />
     </div>
   );
 }
