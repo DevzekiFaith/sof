@@ -4,12 +4,13 @@ import { useState, use } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Star, Download, ShoppingCart, ShieldCheck, FileText, CheckCircle, Lock, Heart, Users } from "lucide-react";
+import { ArrowLeft, Star, Download, ShoppingCart, ShieldCheck, FileText, CheckCircle, Lock, Heart, Users, BookOpen, Sparkles } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 import { useToast } from "../../contexts/ToastContext";
 import { useUser } from "../../contexts/UserContext";
 import { getProductById, STORE_PRODUCTS } from "../../data/store-products";
 import FitForProfitVolunteerModal from "../../components/FitForProfitVolunteerModal";
+import EBookReaderModal from "../../components/EBookReaderModal";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -22,6 +23,7 @@ export default function ProductDetailPage({ params }: PageProps) {
   const { showToast } = useToast();
   const { currentUser, getOwnedCourses } = useUser();
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
+  const [isReaderOpen, setIsReaderOpen] = useState(false);
 
   const product = getProductById(id);
 
@@ -181,6 +183,19 @@ export default function ProductDetailPage({ params }: PageProps) {
                     className="bg-[#60a5fa] text-black py-3.5 rounded-full font-bold hover:bg-[#60a5fa]/80 transition-colors text-center text-sm shadow-lg shadow-[#60a5fa]/10"
                   >
                     Buy Now
+                  </button>
+                </div>
+              )}
+
+              {/* Interactive E-Book Reader Button for Money Farming */}
+              {product.id === 7 && (
+                <div className="pt-2">
+                  <button
+                    onClick={() => setIsReaderOpen(true)}
+                    className="w-full py-3.5 px-4 bg-gradient-to-r from-[#0d172e] via-[#101f3e] to-[#172d5a] border border-[#60a5fa]/40 hover:border-[#60a5fa] text-white font-extrabold rounded-full text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-950/40 hover:scale-[1.02] cursor-pointer"
+                  >
+                    <BookOpen className="w-4 h-4 text-[#60a5fa]" />
+                    <span>Read Sample E-Book / Interactive Reader</span>
                   </button>
                 </div>
               )}
@@ -395,6 +410,12 @@ export default function ProductDetailPage({ params }: PageProps) {
       <FitForProfitVolunteerModal
         isOpen={isVolunteerModalOpen}
         onClose={() => setIsVolunteerModalOpen(false)}
+      />
+
+      {/* Interactive E-Book Reader Modal */}
+      <EBookReaderModal
+        isOpen={isReaderOpen}
+        onClose={() => setIsReaderOpen(false)}
       />
     </div>
   );
