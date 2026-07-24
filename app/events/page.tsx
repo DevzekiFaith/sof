@@ -3,9 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, Clock, Users, MapPin, Video, Star, ArrowRight, Zap, MessageSquare, Target, TrendingUp, Heart, Award } from "lucide-react";
+import { Calendar, Clock, Users, MapPin, Video, Star, ArrowRight, Zap, MessageSquare, Target, TrendingUp, Heart, Award, Sparkles } from "lucide-react";
 import { useToast } from "../contexts/ToastContext";
-import { supabase } from "../../lib/supabase";
 import FitForProfitVolunteerModal from "../components/FitForProfitVolunteerModal";
 
 export default function EventsPage() {
@@ -222,26 +221,32 @@ export default function EventsPage() {
     : events.filter(e => e.type === activeFilter);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] py-12 px-4">
-      {/* Header */}
-      <div className="max-w-7xl mx-auto text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Live Events</h1>
-        <p className="text-[#b3b3b3] text-lg font-light">
-          Join our webinars, workshops, and masterclasses to learn directly from experts.
+    <div className="min-h-screen bg-[#070a12] py-8 sm:py-16 px-4 sm:px-6 lg:px-8">
+      {/* Hero Header */}
+      <div className="max-w-7xl mx-auto text-center mb-8 sm:mb-14 space-y-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#60a5fa]/10 border border-[#60a5fa]/30 rounded-full text-xs font-extrabold text-[#60a5fa] uppercase tracking-wider">
+          <Calendar className="w-3.5 h-3.5" />
+          <span>Interactive Sessions & Masterclasses</span>
+        </div>
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight">
+          Live Events & Cohorts
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
+          Join live masterclasses, regional workshops, and interactive sprints led by Zeki Ubor and Mindvest faculty.
         </p>
       </div>
 
-      {/* Filters */}
-      <div className="max-w-7xl mx-auto mb-12">
-        <div className="flex flex-wrap gap-3 justify-center">
+      {/* Filter Tabs - Horizontally Scrollable on Mobile */}
+      <div className="max-w-7xl mx-auto mb-8 sm:mb-12">
+        <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
           {filters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => setActiveFilter(filter.id)}
-              className={`px-6 py-3 rounded-full font-medium transition-all ${
+              className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer ${
                 activeFilter === filter.id
-                  ? "bg-[#60a5fa] text-black"
-                  : "bg-[#141414] text-[#b3b3b3] hover:bg-[#1a1a1a] hover:text-white border border-white/5"
+                  ? "bg-[#60a5fa] text-black shadow-lg shadow-[#60a5fa]/20 scale-105"
+                  : "bg-[#0d1424] text-zinc-400 hover:bg-[#141e34] hover:text-white border border-white/10"
               }`}
             >
               {filter.name}
@@ -250,83 +255,93 @@ export default function EventsPage() {
         </div>
       </div>
 
-      {/* Events Grid */}
+      {/* Responsive Events Grid */}
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
           {filteredEvents.map((event) => {
             const Icon = event.icon;
             return (
               <div
                 key={event.id}
-                className="bg-[#141414] rounded-2xl overflow-hidden hover:bg-[#1a1a1a] transition-all border border-white/5 hover:border-[#60a5fa]/20"
+                className="bg-[#0b1220] rounded-3xl overflow-hidden hover:bg-[#0e172a] transition-all border border-white/10 hover:border-[#60a5fa]/40 flex flex-col group shadow-xl"
               >
-                <div className="relative h-48 overflow-hidden">
+                {/* Image Container */}
+                <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden bg-gradient-to-br from-[#10192e] to-[#080d1a] shrink-0">
                   {event.imageUrl ? (
                     <Image
                       src={event.imageUrl}
                       alt={event.title}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a]">
+                    <div className="w-full h-full bg-gradient-to-br from-[#1a243a] to-[#0b1220] flex items-center justify-center">
                       <div className={`absolute inset-0 bg-gradient-to-br ${event.gradient}`} />
-                      <Icon className="text-[#60a5fa] w-20 h-20 opacity-80 relative z-10 absolute inset-0 m-auto" />
+                      <Icon className="text-[#60a5fa] w-16 h-16 opacity-80 z-10" />
                     </div>
                   )}
-                  <div className="absolute top-4 left-4 bg-[#60a5fa] text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  <div className="absolute top-3 left-3 z-10 bg-[#60a5fa] text-black px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-md">
                     {event.type}
                   </div>
-                  <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
-                    <span className="text-[#60a5fa] font-bold text-sm">${event.price}</span>
+                  <div className="absolute top-3 right-3 z-10 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 shadow-md">
+                    <span className="text-[#60a5fa] font-black text-xs sm:text-sm">${event.price.toFixed(2)}</span>
                   </div>
                 </div>
                 
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-white mb-2 leading-tight">{event.title}</h3>
-                  <p className="text-[#b3b3b3] text-sm mb-4 line-clamp-2 leading-relaxed">
-                    {event.description}
-                  </p>
-                  
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      <span className="text-white text-sm font-semibold">{event.rating}</span>
+                {/* Card Content Body */}
+                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="space-y-3">
+                    <h3 className="text-base sm:text-lg font-black text-white leading-snug line-clamp-2">
+                      {event.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-zinc-400 line-clamp-2 leading-relaxed font-light">
+                      {event.description}
+                    </p>
+
+                    <div className="flex items-center gap-2 pt-1">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                        <span className="text-white text-xs font-bold">{event.rating}</span>
+                      </div>
+                      <span className="text-zinc-500 text-xs font-medium">({event.reviews} reviews)</span>
                     </div>
-                    <span className="text-[#666] text-sm">({event.reviews})</span>
+
+                    {/* Metadata Items */}
+                    <div className="space-y-2 pt-2 border-t border-white/5 text-xs text-zinc-300">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-[#60a5fa] shrink-0" />
+                        <span className="truncate">{event.date}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-[#60a5fa] shrink-0" />
+                        <span className="truncate">{event.time}</span>
+                      </div>
+                      <div className="flex items-center justify-between gap-2 pt-1">
+                        <div className="flex items-center gap-2">
+                          {event.isOnline ? (
+                            <>
+                              <Video className="w-4 h-4 text-emerald-400 shrink-0" />
+                              <span className="text-emerald-400 font-semibold">Online Event</span>
+                            </>
+                          ) : (
+                            <>
+                              <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
+                              <span className="text-amber-400 font-semibold">In-Person Regional</span>
+                            </>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1 text-zinc-400">
+                          <Users className="w-3.5 h-3.5 text-[#60a5fa]" />
+                          <span className="font-bold text-white">{event.spots}</span> spots
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-2 text-sm text-[#b3b3b3]">
-                      <Calendar className="w-4 h-4 text-[#60a5fa]" />
-                      <span>{event.date}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-[#b3b3b3]">
-                      <Clock className="w-4 h-4 text-[#60a5fa]" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-[#b3b3b3]">
-                      {event.isOnline ? (
-                        <>
-                          <Video className="w-4 h-4 text-[#60a5fa]" />
-                          <span>Online Event</span>
-                        </>
-                      ) : (
-                        <>
-                          <MapPin className="w-4 h-4 text-[#60a5fa]" />
-                          <span>In-Person</span>
-                        </>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-[#b3b3b3]">
-                      <Users className="w-4 h-4 text-[#60a5fa]" />
-                      <span>{event.spots} spots left</span>
-                    </div>
-                  </div>
-
+                  {/* Register CTA Button */}
                   <Link 
                     href={event.id === 7 ? "/store/17" : event.id === 12 ? "/store/12" : `/store/${event.id}`} 
-                    className="w-full bg-[#60a5fa] text-black py-3 rounded-full font-bold hover:bg-[#3b82f6] transition-colors text-center block shadow-md"
+                    className="w-full bg-[#60a5fa] hover:bg-[#3b82f6] text-black py-3 px-4 rounded-full font-black text-xs sm:text-sm transition-all text-center block shadow-lg shadow-[#60a5fa]/15 hover:scale-[1.02] cursor-pointer mt-2"
                   >
                     Register Now
                   </Link>
@@ -337,41 +352,45 @@ export default function EventsPage() {
         </div>
       </div>
 
-      {/* Fit-For-Profit Volunteer Community Outreach Banner */}
-      <div className="max-w-7xl mx-auto mt-16">
-        <div className="relative overflow-hidden rounded-3xl border border-[#60a5fa]/40 bg-gradient-to-r from-[#0b1424] via-[#0f1d38] to-[#122444] p-8 sm:p-12 shadow-2xl shadow-blue-950/40">
-          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      {/* Fit-For-Profit Volunteer Movement Banner */}
+      <div className="max-w-7xl mx-auto mt-12 sm:mt-20">
+        <div className="relative overflow-hidden rounded-3xl border border-[#60a5fa]/40 bg-gradient-to-r from-[#0b1424] via-[#0f1d38] to-[#122444] p-5 sm:p-8 md:p-12 shadow-2xl shadow-blue-950/40">
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 sm:gap-8">
             <div className="space-y-3 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#60a5fa]/20 border border-[#60a5fa]/40 rounded-full text-xs font-black text-[#60a5fa] uppercase tracking-wider">
-                <Heart className="w-4 h-4 text-[#60a5fa] fill-[#60a5fa]/30 animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#60a5fa]/20 border border-[#60a5fa]/40 rounded-full text-[10px] sm:text-xs font-black text-[#60a5fa] uppercase tracking-wider backdrop-blur-md">
+                <Heart className="w-3.5 h-3.5 text-[#60a5fa] fill-[#60a5fa]/30 animate-pulse" />
                 <span>Free Outreaches Movement & Community Service</span>
               </div>
-              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+              <h2 className="text-xl sm:text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
                 Join the Fit-For-Profit Volunteer Movement
               </h2>
-              <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed">
+              <p className="text-xs sm:text-sm md:text-base text-zinc-300 font-light leading-relaxed">
                 Fit-For-Profit features a dedicated volunteer community service arm staging free outreaches for schools, education platforms, and local communities across different states. Step up and make a difference today!
               </p>
             </div>
             <button
               onClick={() => setIsVolunteerModalOpen(true)}
-              className="px-8 py-4 bg-[#60a5fa] hover:bg-[#3b82f6] text-black font-extrabold rounded-full text-base transition-all flex items-center gap-2.5 shrink-0 shadow-lg shadow-[#60a5fa]/20 cursor-pointer"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-[#60a5fa] hover:bg-[#3b82f6] text-black font-black rounded-full text-xs sm:text-sm md:text-base transition-all flex items-center justify-center gap-2 shrink-0 shadow-xl shadow-[#60a5fa]/20 cursor-pointer hover:scale-105"
             >
-              <Users className="w-5 h-5" />
+              <Users className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Join as a Volunteer</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Newsletter */}
-      <div className="max-w-7xl mx-auto mt-16">
-        <div className="py-16 px-6 bg-[#0d0d0d] rounded-2xl border border-white/5 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Get Event Notifications</h2>
-          <p className="text-[#b3b3b3] mb-8 font-light">
-            Be the first to know about new events and early bird discounts.
+      {/* Newsletter Subscription */}
+      <div className="max-w-7xl mx-auto mt-12 sm:mt-20">
+        <div className="py-10 sm:py-16 px-4 sm:px-8 bg-[#0b1120] rounded-3xl border border-white/10 text-center space-y-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-xs font-bold text-emerald-400">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Early Access & Priority Invites</span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">Get Event Notifications</h2>
+          <p className="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto font-light leading-relaxed">
+            Be the first to know when new masterclasses, cohort dates, and regional workshops are announced.
           </p>
-          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2">
             <input
               type="email"
               value={email}
@@ -379,12 +398,12 @@ export default function EventsPage() {
               placeholder="Enter your email"
               disabled={isSubmitting}
               required
-              className="flex-1 bg-[#141414] border border-white/10 rounded-full px-6 py-3 text-white placeholder-[#666] focus:outline-none focus:border-[#60a5fa] transition-colors disabled:opacity-50"
+              className="w-full bg-[#070b16] border border-white/15 rounded-full px-5 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#60a5fa] transition-colors disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-[#60a5fa] text-black px-8 py-3 rounded-full font-semibold hover:bg-[#60a5fa]/85 transition-colors disabled:opacity-50 min-w-[120px]"
+              className="w-full sm:w-auto bg-[#60a5fa] hover:bg-[#3b82f6] text-black px-7 py-3 rounded-full font-black text-xs sm:text-sm transition-all disabled:opacity-50 shrink-0 shadow-md cursor-pointer"
             >
               {isSubmitting ? "Subscribing..." : "Subscribe"}
             </button>
